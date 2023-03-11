@@ -22,12 +22,13 @@
     group: root
     mode: '0755'
     backup: true
+    validate: nft -c -f %s
   become: true
   notify:
     - Restart nftables
 
 - name: Copy nftables ssh config
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: etc/nftables-inbound.d/ssh.conf
     dest: /etc/nftables-inbound.d/ssh.conf
     owner: root
