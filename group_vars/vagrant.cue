@@ -6,7 +6,13 @@ import "mizunashi.work/pkg/roles/fail2ban"
 #Schema: nftables
 #Schema: openssh_server
 
+let ssh_port = 22
+
 #Schema & {
-  openssh_server_listen_port: 22
-  nftables_accept_tcp_ports: [22, 80, 443]
+  openssh_server_listen_port: ssh_port
+  nftables_accept_tcp_ports: [
+    ssh_port,
+    80,
+    443,
+  ]
 }

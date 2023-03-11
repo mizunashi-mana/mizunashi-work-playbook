@@ -29,8 +29,8 @@
 
 - name: Copy nftables ssh config
   ansible.builtin.template:
-    src: etc/nftables-inbound.d/ssh.conf
-    dest: /etc/nftables-inbound.d/ssh.conf
+    src: etc/nftables-inbound.d/accept_tcp_dports.conf
+    dest: /etc/nftables-inbound.d/accept_tcp_dports.conf
     owner: root
     group: root
     mode: '0644'
