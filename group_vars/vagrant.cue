@@ -1,6 +1,7 @@
-import "mizunashi-work-playbook/pkg/openssh_server"
+import "mizunashi.work/pkg/roles/openssh_server"
 
-vars: openssh_server.#Schema
-vars: {
+#Schema: openssh_server.#Schema
+
+#Schema & {
   openssh_server_listen_port: 22
 }

@@ -1,1 +1,1 @@
-module: "mizunashi-work-playbook"
+module: "mizunashi.work/pkg"
