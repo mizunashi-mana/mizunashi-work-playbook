@@ -11,18 +11,20 @@
 
 - name: Install postgresql repository
   ansible.builtin.template:
-    copy: etc/apt/sources.list.d/postgresql.list
+    src: etc/apt/sources.list.d/postgresql.list
     dest: /etc/apt/sources.list.d/postgresql.list
     owner: root
     group: root
     mode: '0644'
     backup: true
   become: true
+  register: postgresql_install_repository_result
 
 - name: Install postgresql
   ansible.builtin.apt:
-    name: 'postgresql={{ postgresql_version }}*'
+    name: 'postgresql-{{ (postgresql_version|split("."))[0] }}={{ postgresql_version }}*'
     state: present
+    update_cache: '{{ postgresql_install_repository_result.changed }}'
   become: true
 
 - name: Notify restart postgresql if not started

@@ -11,16 +11,18 @@
 
 - name: Install nodesource repository
   ansible.builtin.template:
-    copy: etc/apt/sources.list.d/nodesource.list
+    src: etc/apt/sources.list.d/nodesource.list
     dest: /etc/apt/sources.list.d/nodesource.list
     owner: root
     group: root
     mode: '0644'
     backup: true
   become: true
+  register: nodejs_install_repository_result
 
 - name: Install nodejs
   ansible.builtin.apt:
     name: 'nodejs={{ nodejs_version }}*'
     state: present
+    update_cache: '{{ nodejs_install_repository_result.changed }}'
   become: true

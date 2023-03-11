@@ -5,3 +5,6 @@
   - fail2ban
   - nftables
   - nodejs
+  - ruby
+  - redis_server
+  - postgresql
