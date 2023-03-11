@@ -1,0 +1,15 @@
+---
+- name: Install nftables
+  ansible.builtin.apt:
+    name: 'nftables={{ nftables_version }}*'
+    state: present
+  become: true
+
+- name: Notify restart nftables if not started
+  ansible.builtin.command: systemctl status nftables
+  become: true
+  register: nftables_service_status
+  changed_when: nftables_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart nftables
