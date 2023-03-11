@@ -1,0 +1,15 @@
+---
+- name: Install nginx
+  ansible.builtin.apt:
+    name: 'nginx={{ nginx_version }}*'
+    state: present
+  become: true
+
+- name: Notify restart nginx if not started
+  ansible.builtin.command: systemctl status nginx
+  become: true
+  register: nginx_service_status
+  changed_when: nginx_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart nginx
