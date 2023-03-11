@@ -3,12 +3,20 @@
   ansible.builtin.copy:
     src: usr/share/keyrings/nodesource.gpg
     dest: /usr/share/keyrings/nodesource.gpg
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
   become: true
 
 - name: Install nodesource repository
-  ansible.builtin.apt_repository:
-    repo: 'deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x {{ ansible_distribution_release }} main'
-    state: present
+  ansible.builtin.template:
+    copy: etc/apt/sources.list.d/nodesource.list
+    dest: /etc/apt/sources.list.d/nodesource.list
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
   become: true
 
 - name: Install nodejs

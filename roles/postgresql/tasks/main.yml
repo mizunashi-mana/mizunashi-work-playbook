@@ -1,0 +1,35 @@
+---
+- name: Copy postgresql gpg key
+  ansible.builtin.copy:
+    src: usr/share/keyrings/postgresql.gpg
+    dest: /usr/share/keyrings/postgresql.gpg
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Install postgresql repository
+  ansible.builtin.template:
+    copy: etc/apt/sources.list.d/postgresql.list
+    dest: /etc/apt/sources.list.d/postgresql.list
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Install postgresql
+  ansible.builtin.apt:
+    name: 'postgresql={{ postgresql_version }}*'
+    state: present
+  become: true
+
+- name: Notify restart postgresql if not started
+  ansible.builtin.command: systemctl status postgresql
+  become: true
+  register: postgresql_service_status
+  changed_when: postgresql_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart postgresql
