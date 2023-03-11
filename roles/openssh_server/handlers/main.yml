@@ -1,0 +1,5 @@
+---
+- name: Notify restart sshd
+  debug:
+    msg: Please run 'sudo systemctl restart ssh'
+  listen: Restart openssh_server

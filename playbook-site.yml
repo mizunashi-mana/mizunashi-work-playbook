@@ -2,3 +2,4 @@
 
   roles:
   - openssh_server
+  - fail2ban

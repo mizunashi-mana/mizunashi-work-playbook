@@ -14,6 +14,8 @@
     mode: '0644'
     backup: true
   become: true
+  notify:
+    - Restart openssh_server
 
 - name: Copy sshd auth config
   ansible.builtin.copy:
@@ -24,3 +26,14 @@
     mode: '0644'
     backup: true
   become: true
+  notify:
+    - Restart openssh_server
+
+- name: Notify restart openssh_server if not started
+  ansible.builtin.command: systemctl status ssh
+  become: true
+  register: openssh_server_service_status
+  changed_when: openssh_server_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart openssh_server
