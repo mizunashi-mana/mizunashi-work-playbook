@@ -5,3 +5,19 @@ nginx_worker_processes: auto
 nginx_worker_rlimit_nofile: 4096
 nginx_worker_connections: 1024
 nginx_types_hash_max_size: 2048
+
+# ref: https://ssl-config.mozilla.org/
+nginx_default_ssl_protocols:
+  - TLSv1.2
+  - TLSv1.3
+nginx_default_ssl_ciphers:
+  - ECDHE-ECDSA-AES128-GCM-SHA256
+  - ECDHE-RSA-AES128-GCM-SHA256
+  - ECDHE-ECDSA-AES256-GCM-SHA384
+  - ECDHE-RSA-AES256-GCM-SHA384
+  - ECDHE-ECDSA-CHACHA20-POLY1305
+  - ECDHE-RSA-CHACHA20-POLY1305
+  - DHE-RSA-AES128-GCM-SHA256
+  - DHE-RSA-AES256-GCM-SHA384
+nginx_default_ssl_prefer_server_ciphers: false
+nginx_default_ssl_session_timeout: 1d

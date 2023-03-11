@@ -30,7 +30,7 @@
     - Restart nginx
 
 - name: Copy gzip config
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: etc/nginx/conf.d/gzip.conf
     dest: /etc/nginx/conf.d/gzip.conf
     owner: root
@@ -42,7 +42,7 @@
     - Restart nginx
 
 - name: Copy log format config
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: etc/nginx/conf.d/log_format.conf
     dest: /etc/nginx/conf.d/log_format.conf
     owner: root
@@ -54,7 +54,7 @@
     - Restart nginx
 
 - name: Copy ssl config
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: etc/nginx/conf.d/ssl.conf
     dest: /etc/nginx/conf.d/ssl.conf
     owner: root
