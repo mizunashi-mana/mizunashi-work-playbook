@@ -5,6 +5,39 @@
     state: present
   become: true
 
+- name: Directory of nftables inbound configs is available
+  ansible.builtin.file:
+    path: /etc/nftables-inbound.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Copy nftables config
+  ansible.builtin.copy:
+    src: etc/nftables.conf
+    dest: /etc/nftables.conf
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
+  become: true
+  notify:
+    - Restart nftables
+
+- name: Copy nftables ssh config
+  ansible.builtin.copy:
+    src: etc/nftables-inbound.d/ssh.conf
+    dest: /etc/nftables-inbound.d/ssh.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart nftables
+
 - name: Notify restart nftables if not started
   ansible.builtin.command: systemctl status nftables
   become: true
