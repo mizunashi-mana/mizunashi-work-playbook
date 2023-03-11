@@ -1,0 +1,26 @@
+---
+- name: Install openssh-server
+  ansible.builtin.apt:
+    name: 'openssh-server=1:{{ openssh_server_version }}*'
+    state: present
+  become: true
+
+- name: Copy sshd server config
+  ansible.builtin.template:
+    src: etc/ssh/sshd_config.d/server.conf
+    dest: /etc/ssh/sshd_config.d/server.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Copy sshd auth config
+  ansible.builtin.copy:
+    src: etc/ssh/sshd_config.d/auth.conf
+    dest: /etc/ssh/sshd_config.d/auth.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
