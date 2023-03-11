@@ -1,2 +1,7 @@
 ---
 nginx_version: 1.18.0
+
+nginx_worker_processes: auto
+nginx_worker_rlimit_nofile: 4096
+nginx_worker_connections: 1024
+nginx_types_hash_max_size: 2048

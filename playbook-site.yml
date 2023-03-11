@@ -6,5 +6,7 @@
   - nftables
   - nodejs
   - ruby
+  - nginx
   - redis_server
   - postgresql
+  - node_exporter

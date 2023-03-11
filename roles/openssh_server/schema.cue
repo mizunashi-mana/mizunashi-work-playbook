@@ -1,4 +1,3 @@
 package openssh_server
 
-openssh_server_listen_port: uint | *12322
-
+openssh_server_listen_port: uint
