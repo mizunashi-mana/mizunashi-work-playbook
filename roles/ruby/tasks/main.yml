@@ -13,4 +13,5 @@
     name: bundler
     version: '{{ ruby_bundler_version }}'
     state: present
+    bindir: /usr/local/bin
   become: true
