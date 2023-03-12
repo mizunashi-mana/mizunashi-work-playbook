@@ -67,8 +67,8 @@
 
 - name: Install stub status site
   ansible.builtin.template:
-    src: etc/nginx/sites-available/stub_status
-    dest: /etc/nginx/sites-available/stub_status
+    src: etc/nginx/sites-available/stub_status.conf
+    dest: /etc/nginx/sites-available/stub_status.conf
     owner: root
     group: root
     mode: '0644'
@@ -79,8 +79,8 @@
 
 - name: Enable stub status site
   ansible.builtin.file:
-    src: /etc/nginx/sites-enabled/stub_status
-    dest: /etc/nginx/sites-available/stub_status
+    src: /etc/nginx/sites-available/stub_status.conf
+    dest: /etc/nginx/sites-enabled/stub_status.conf
     owner: root
     group: root
     state: link

@@ -10,3 +10,4 @@
   - redis_server
   - postgresql
   - node_exporter
+  - nginx_exporter

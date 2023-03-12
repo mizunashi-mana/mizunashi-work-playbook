@@ -5,6 +5,18 @@
     state: present
   become: true
 
+- name: Copy nginx exporter config
+  ansible.builtin.template:
+    src: etc/default/prometheus-nginx-exporter
+    dest: /etc/default/prometheus-nginx-exporter
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart nginx-exporter
+
 - name: Notify restart nginx exporter if not started
   ansible.builtin.command: systemctl status prometheus-nginx-exporter
   become: true
