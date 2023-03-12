@@ -1,2 +1,2 @@
 ---
-postgresql_version: '14.7'
+postgresql_version: '13.9'
