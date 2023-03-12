@@ -1,0 +1,15 @@
+---
+- name: Restart mastodon-sidekiq
+  ansible.builtin.debug:
+    msg: TODO
+  listen: Restart mastodon-sidekiq
+
+- name: Restart mastodon-web
+  ansible.builtin.debug:
+    msg: TODO
+  listen: Restart mastodon-web
+
+- name: Restart mastodon-streaming
+  ansible.builtin.debug:
+    msg: TODO
+  listen: Restart mastodon-streaming

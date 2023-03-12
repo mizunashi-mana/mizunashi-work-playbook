@@ -16,3 +16,75 @@
     group: mastodon
     mode: '0755'
   become: true
+
+- name: Copy config of mastodon-sidekiq
+  ansible.builtin.template:
+    src: etc/default/mastodon-sidekiq
+    dest: /etc/default/mastodon-sidekiq
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart mastodon-sidekiq
+
+- name: Copy config of mastodon-web
+  ansible.builtin.template:
+    src: etc/default/mastodon-web
+    dest: /etc/default/mastodon-web
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart mastodon-web
+
+- name: Copy config of mastodon-streaming
+  ansible.builtin.template:
+    src: etc/default/mastodon-streaming
+    dest: /etc/default/mastodon-streaming
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart mastodon-streaming
+
+- name: Install mastodon-sidekiq service
+  ansible.builtin.template:
+    src: etc/systemd/system/mastodon-sidekiq.service
+    dest: /etc/systemd/system/mastodon-sidekiq.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart mastodon-sidekiq
+
+- name: Install mastodon-web service
+  ansible.builtin.template:
+    src: etc/systemd/system/mastodon-web.service
+    dest: /etc/systemd/system/mastodon-web.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart mastodon-web
+
+- name: Install mastodon-streaming service
+  ansible.builtin.template:
+    src: etc/systemd/system/mastodon-streaming.service
+    dest: /etc/systemd/system/mastodon-streaming.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart mastodon-streaming
