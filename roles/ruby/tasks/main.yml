@@ -5,3 +5,10 @@
     name: 'ruby=1:{{ ruby_version }}*'
     state: present
   become: true
+
+- name: Install bundler
+  community.general.gem:
+    name: bundler
+    version: '{{ ruby_bundler_version }}'
+    state: present
+  become: true
