@@ -9,15 +9,15 @@
     backup: true
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx
 
-#- name: Enable mastodon site
-#  ansible.builtin.file:
-#    src: /etc/nginx/sites-available/mastodon_front.conf
-#    dest: /etc/nginx/sites-enabled/mastodon_front.conf
-#    owner: root
-#    group: root
-#    state: link
-#  become: true
-#  notify:
-#    - Restart nginx
+- name: Enable mastodon site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/mastodon_front.conf
+    dest: /etc/nginx/sites-enabled/mastodon_front.conf
+    owner: root
+    group: root
+    state: link
+  become: true
+  notify:
+    - Reload nginx

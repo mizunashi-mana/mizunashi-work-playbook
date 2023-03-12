@@ -15,7 +15,7 @@
     backup: true
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx
 
 - name: Copy dhparam
   ansible.builtin.copy:
@@ -27,7 +27,7 @@
     backup: true
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx
 
 - name: Copy gzip config
   ansible.builtin.template:
@@ -39,7 +39,7 @@
     backup: true
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx
 
 - name: Copy log format config
   ansible.builtin.template:
@@ -51,7 +51,7 @@
     backup: true
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx
 
 - name: Copy ssl config
   ansible.builtin.template:
@@ -63,7 +63,7 @@
     backup: true
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx
 
 - name: Install stub status site
   ansible.builtin.template:
@@ -75,7 +75,7 @@
     backup: true
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx
 
 - name: Enable stub status site
   ansible.builtin.file:
@@ -86,7 +86,7 @@
     state: link
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx
 
 - name: Copy nginx config
   ansible.builtin.template:
@@ -99,7 +99,7 @@
     validate: nginx -t -c %s
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx
 
 - name: Remove default server
   ansible.builtin.file:
@@ -107,7 +107,7 @@
     state: absent
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx
 
 - name: Notify restart nginx if not started
   ansible.builtin.command: systemctl status nginx

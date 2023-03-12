@@ -9,7 +9,7 @@
     backup: true
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx
 
 - name: Enable http redirector site
   ansible.builtin.file:
@@ -20,4 +20,4 @@
     state: link
   become: true
   notify:
-    - Restart nginx
+    - Reload nginx

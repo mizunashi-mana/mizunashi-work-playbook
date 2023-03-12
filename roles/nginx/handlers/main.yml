@@ -1,9 +1,23 @@
 ---
+- name: Reload nginx
+  ansible.builtin.set_fact:
+    nginx_handler_state: reloaded
+  become: true
+  listen: Reload nginx
+
 - name: Restart nginx
+  ansible.builtin.set_fact:
+    nginx_handler_state: restarted
+  become: true
+  listen: Restart nginx
+
+- name: Restart or reload nginx
   ansible.builtin.systemd:
     name: nginx
-    state: restarted
+    state: '{{ nginx_handler_state }}'
     daemon_reload: true
     enabled: true
   become: true
-  listen: Restart nginx
+  listen:
+  - Restart nginx
+  - Reload nginx
