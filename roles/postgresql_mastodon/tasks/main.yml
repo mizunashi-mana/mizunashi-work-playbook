@@ -1,0 +1,13 @@
+---
+- name: Mastodon DB is available
+  community.postgresql.postgresql_db:
+    name: '{{ postgresql_mastodon_db_name }}'
+    state: present
+
+- name: Mastodon working user for Mastodon DB is available
+  community.postgresql.postgresql_user:
+    db: '{{ postgresql_mastodon_db_name }}'
+    name: '{{ postgresql_mastodon_workuser_name }}'
+    password: '{{ postgresql_mastodon_workuser_password }}'
+    priv: ALL
+    state: present
