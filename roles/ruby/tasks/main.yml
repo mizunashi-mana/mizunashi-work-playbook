@@ -2,7 +2,9 @@
 # TODO: Use jemalloc version
 - name: Install ruby
   ansible.builtin.apt:
-    name: 'ruby=1:{{ ruby_version }}*'
+    name:
+      - 'ruby=1:{{ ruby_version }}*'
+      - 'ruby-dev=1:{{ ruby_version }}*'
     state: present
   become: true
 

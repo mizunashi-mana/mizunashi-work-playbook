@@ -1,4 +1,14 @@
 ---
+- name: Install dependencies
+  ansible.builtin.apt:
+    name:
+      - libidn11-dev
+      - libssl-dev
+      - libpq-dev
+      - libicu-dev
+    state: present
+  become: true
+
 - name: Add mastodon user
   ansible.builtin.user:
     name: mastodon
