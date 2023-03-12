@@ -65,6 +65,29 @@
   notify:
     - Restart nginx
 
+- name: Install stub status site
+  ansible.builtin.template:
+    src: etc/nginx/sites-available/stub_status
+    dest: /etc/nginx/sites-available/stub_status
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart nginx
+
+- name: Enable stub status site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-enabled/stub_status
+    dest: /etc/nginx/sites-available/stub_status
+    owner: root
+    group: root
+    state: link
+  become: true
+  notify:
+    - Restart nginx
+
 - name: Copy nginx config
   ansible.builtin.template:
     src: etc/nginx/nginx.conf

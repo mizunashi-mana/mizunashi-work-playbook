@@ -2,11 +2,13 @@ import "mizunashi.work/pkg/roles/openssh_server"
 import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/fail2ban"
 import "mizunashi.work/pkg/roles/nginx"
+import "mizunashi.work/pkg/roles/nginx_exporter"
 
 #Schema: fail2ban
 #Schema: nftables
 #Schema: openssh_server
 #Schema: nginx
+#Schema: nginx_exporter
 
 let ssh_port = 22
 

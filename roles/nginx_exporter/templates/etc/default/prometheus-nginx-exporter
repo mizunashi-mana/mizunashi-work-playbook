@@ -1,0 +1,1 @@
+ARGS="-nginx.scrape-uri http://127.0.0.1:{{ nginx_status_listen_port }}/stub_status"
