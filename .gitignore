@@ -1,3 +1,4 @@
+.stamp.*
 group_vars/*.yml
 
 # Vagrant

@@ -3,6 +3,5 @@
 ## Test on local
 
 ```
-make
-vagrant up --provision
+make vagrant-up
 ```

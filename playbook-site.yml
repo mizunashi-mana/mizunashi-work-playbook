@@ -1,9 +1,10 @@
 - hosts: all
 
   roles:
-  - openssh_server
-  - fail2ban
+  - base
   - nftables
+  - fail2ban
+  - openssh_server
   - nodejs
   - ruby
   - nginx
@@ -13,3 +14,6 @@
   - mastodon
   - node_exporter
   - nginx_exporter
+
+  - nginx_site_http_redirector
+  - nginx_site_mastodon

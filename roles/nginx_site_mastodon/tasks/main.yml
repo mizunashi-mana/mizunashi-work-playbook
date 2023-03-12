@@ -1,8 +1,8 @@
 ---
-- name: Install http redirector site
+- name: Install mastodon site
   ansible.builtin.template:
-    src: etc/nginx/sites-available/http_default.conf
-    dest: /etc/nginx/sites-available/http_default.conf
+    src: etc/nginx/sites-available/mastodon_front.conf
+    dest: /etc/nginx/sites-available/mastodon_front.conf
     owner: root
     group: root
     mode: '0644'
@@ -13,8 +13,8 @@
 
 - name: Enable http redirector site
   ansible.builtin.file:
-    src: /etc/nginx/sites-available/http_default.conf
-    dest: /etc/nginx/sites-enabled/http_default.conf
+    src: /etc/nginx/sites-available/mastodon_front.conf
+    dest: /etc/nginx/sites-enabled/mastodon_front.conf
     owner: root
     group: root
     state: link

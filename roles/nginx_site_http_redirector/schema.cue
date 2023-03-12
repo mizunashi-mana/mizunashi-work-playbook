@@ -1,0 +1,3 @@
+package nginx_site_http_redirector
+
+nginx_site_http_redirector_listen_port: uint

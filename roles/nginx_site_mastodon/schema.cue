@@ -1,0 +1,4 @@
+package nginx_site_mastodon
+
+nginx_site_mastodon_listen_port: uint
+nginx_site_mastodon_server_name: string

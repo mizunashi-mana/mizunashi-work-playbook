@@ -3,20 +3,31 @@ import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/fail2ban"
 import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/nginx_exporter"
+import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
+import "mizunashi.work/pkg/roles/nginx_site_mastodon"
 
 #Schema: fail2ban
 #Schema: nftables
 #Schema: openssh_server
 #Schema: nginx
 #Schema: nginx_exporter
+#Schema: nginx_site_http_redirector
+#Schema: nginx_site_mastodon
 
+let mastodon_domain = "mizunashi-work-primary"
 let ssh_port = 22
+let http_port = 80
+let https_port = 443
 
 #Schema & {
+  nginx_resolver: "8.8.8.8"
   openssh_server_listen_port: ssh_port
+  nginx_site_http_redirector_listen_port: http_port
+  nginx_site_mastodon_listen_port: https_port
+  nginx_site_mastodon_server_name: mastodon_domain
   nftables_accept_tcp_ports: [
     ssh_port,
-    80,
-    443,
+    http_port,
+    https_port,
   ]
 }
