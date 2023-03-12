@@ -9,5 +9,7 @@
   - nginx
   - redis_server
   - postgresql
+  - certbot
+  - mastodon
   - node_exporter
   - nginx_exporter

@@ -1,0 +1,18 @@
+---
+- name: Add mastodon user
+  ansible.builtin.user:
+    name: mastodon
+    system: true
+    home: /var/lib/mastodon
+    shell: /usr/sbin/nologin
+    state: present
+  become: true
+
+- name: Directory to work Mastodon is available
+  ansible.builtin.file:
+    path: /var/lib/mastodon
+    state: directory
+    owner: mastodon
+    group: mastodon
+    mode: '0755'
+  become: true

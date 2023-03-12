@@ -1,0 +1,6 @@
+---
+- name: Install certbot
+  ansible.builtin.apt:
+    name: 'certbot={{ certbot_version }}*'
+    state: present
+  become: true
