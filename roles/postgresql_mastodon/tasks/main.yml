@@ -2,8 +2,8 @@
 - name: Select databases
   ansible.builtin.command:
     cmd: |
-      sudo --user postgres psql \
-        --command 'SELECT datname FROM pg_database;' \
+      sudo --user postgres psql
+        --command 'SELECT datname FROM pg_database;'
         --csv
   become: true
   changed_when: false
@@ -12,7 +12,7 @@
 - name: Mastodon DB is available
   ansible.builtin.command:
     cmd: |
-      sudo --user postgres psql \
+      sudo --user postgres psql
         --command 'CREATE DATABASE "{{ postgresql_mastodon_db_name }}";'
   become: true
   when: |
@@ -21,8 +21,8 @@
 - name: Select users
   ansible.builtin.command:
     cmd: |
-      sudo --user postgres psql \
-        --command 'SELECT usename FROM pg_shadow;' \
+      sudo --user postgres psql
+        --command 'SELECT usename FROM pg_shadow;'
         --csv
   become: true
   changed_when: false
@@ -31,10 +31,10 @@
 - name: Mastodon working user for Mastodon DB is available
   ansible.builtin.command:
     cmd: |
-      sudo --user postgres psql \
-        --command '\
-          CREATE USER "{{ postgresql_mastodon_workuser_name }}" \
-          WITH ENCRYPTED PASSWORD md5{{ postgresql_mastodon_workuser_password | md5 }}; \
+      sudo --user postgres psql
+        --command '
+          CREATE USER "{{ postgresql_mastodon_workuser_name }}"
+          WITH ENCRYPTED PASSWORD md5{{ postgresql_mastodon_workuser_password | md5 }};
         '
   become: true
   when: |
@@ -43,11 +43,11 @@
 - name: Select ACLs
   ansible.builtin.command:
     cmd: |
-      sudo --user postgres psql \
-        --command '\
-          SELECT acl FROM pg_database, UNNEST(datacl) AS acl \
-          WHERE datname = "{{ postgresql_mastodon_db_name }}"; \
-        ' \
+      sudo --user postgres psql
+        --command '
+          SELECT acl FROM pg_database, UNNEST(datacl) AS acl
+          WHERE datname = "{{ postgresql_mastodon_db_name }}";
+        '
         --csv
   become: true
   changed_when: false
@@ -56,11 +56,11 @@
 - name: Grant ACL for Mastodon DB
   ansible.builtin.command:
     cmd: |
-      sudo --user postgres psql \
-        --command '\
-          GRANT ALL PRIVILEGES \
-          ON DATABASE "{{ postgresql_mastodon_db_name }}" \
-          TO "{{ postgresql_mastodon_workuser_name }} \
+      sudo --user postgres psql
+        --command '
+          GRANT ALL PRIVILEGES
+          ON DATABASE "{{ postgresql_mastodon_db_name }}"
+          TO "{{ postgresql_mastodon_workuser_name }}"
         '
   become: true
   when: |
