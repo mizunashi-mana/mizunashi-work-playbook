@@ -16,7 +16,7 @@ import "mizunashi.work/pkg/roles/postgresql_mastodon"
 #Schema: nginx_site_mastodon
 #Schema: postgresql_mastodon
 
-let mastodon_domain = "mizunashi-work-primary"
+let mastodon_domain = "primary.mizunashi-work.vagrant"
 let ssh_port = 22
 let http_port = 80
 let https_port = 443
