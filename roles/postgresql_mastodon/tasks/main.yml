@@ -32,10 +32,10 @@
   ansible.builtin.command:
     cmd: |
       sudo --user postgres psql
-        --command '
+        --command "
           CREATE USER {{ postgresql_mastodon_workuser_name }}
-          WITH ENCRYPTED PASSWORD md5{{ postgresql_mastodon_workuser_password | md5 }};
-        '
+          WITH ENCRYPTED PASSWORD 'md5{{ postgresql_mastodon_workuser_password | md5 }}';
+        "
   become: true
   when: |
     postgresql_mastodon_workuser_name not in postgresql_mastodon_users_result.stdout_lines
