@@ -27,3 +27,7 @@ all: $(STAMPS) $(GROUP_VARS_OUT)
 .PHONY: vagrant-up
 vagrant-up: all
 	$(POETRY) run vagrant up --provision
+
+.PHONY: vagrant-provision
+vagrant-provision: all
+	$(POETRY) run vagrant provision

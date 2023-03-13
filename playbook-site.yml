@@ -17,3 +17,5 @@
 
   - nginx_site_http_redirector
   - nginx_site_mastodon
+
+  - postgresql_mastodon
