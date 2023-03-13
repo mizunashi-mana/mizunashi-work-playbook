@@ -25,6 +25,7 @@ let https_port = 443
   nginx_site_mastodon_server_name: mastodon_domain
 
   postgresql_mastodon_workuser_password: "password"
+  postgresql_mastodon_adminuser_password: "admin_password"
 
   openssh_server_listen_port: ssh_port
   nginx_site_http_redirector_listen_port: http_port
