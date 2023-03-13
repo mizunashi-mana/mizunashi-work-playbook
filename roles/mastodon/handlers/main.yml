@@ -1,15 +1,27 @@
 ---
 - name: Restart mastodon-sidekiq
-  ansible.builtin.debug:
-    msg: TODO
+  ansible.builtin.systemd:
+    name: mastodon-sidekiq
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  become: true
   listen: Restart mastodon-sidekiq
 
 - name: Restart mastodon-web
-  ansible.builtin.debug:
-    msg: TODO
+  ansible.builtin.systemd:
+    name: mastodon-web
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  become: true
   listen: Restart mastodon-web
 
 - name: Restart mastodon-streaming
-  ansible.builtin.debug:
-    msg: TODO
+  ansible.builtin.systemd:
+    name: mastodon-streaming
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  become: true
   listen: Restart mastodon-streaming

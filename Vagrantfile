@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
     ansible.raw_arguments = ["--diff"]
     ansible.playbook = "playbook-site.yml"
     ansible.groups = {
-      "vagrant" => ["primary.mizunashi-work.vagrant"]
+      "vagrant" => ["primary-mizunashi-work"]
     }
   end
 end

@@ -13,7 +13,7 @@
   ansible.builtin.command:
     cmd: |
       sudo --user postgres psql
-        --command "CREATE DATABASE '{{ postgresql_mastodon_db_name }}';"
+        --command 'CREATE DATABASE {{ postgresql_mastodon_db_name }};'
   become: true
   when: |
     postgresql_mastodon_db_name not in postgresql_mastodon_databases_result.stdout_lines
@@ -32,10 +32,10 @@
   ansible.builtin.command:
     cmd: |
       sudo --user postgres psql
-        --command "
-          CREATE USER '{{ postgresql_mastodon_workuser_name }}'
+        --command '
+          CREATE USER {{ postgresql_mastodon_workuser_name }}
           WITH ENCRYPTED PASSWORD md5{{ postgresql_mastodon_workuser_password | md5 }};
-        "
+        '
   become: true
   when: |
     postgresql_mastodon_workuser_name not in postgresql_mastodon_users_result.stdout_lines
@@ -57,11 +57,11 @@
   ansible.builtin.command:
     cmd: |
       sudo --user postgres psql
-        --command "
+        --command '
           GRANT ALL PRIVILEGES
-          ON DATABASE '{{ postgresql_mastodon_db_name }}'
-          TO '{{ postgresql_mastodon_workuser_name }}';
-        "
+          ON DATABASE {{ postgresql_mastodon_db_name }}
+          TO {{ postgresql_mastodon_workuser_name }};
+        '
   become: true
   when: |
     'mastodon=CTc/postgres' not in postgresql_mastodon_acls_result.stdout_lines
