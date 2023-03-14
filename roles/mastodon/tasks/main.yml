@@ -28,21 +28,69 @@
     mode: '0755'
   become: true
 
-- name: Mastodon git repository is available
-  ansible.builtin.git:
-    repo: https://github.com/mastodon/mastodon.git
-    dest: /var/lib/mastodon/live
-    version: '{{ mastodon_git_ref }}'
-  register: mastodon_git_repository_status
+- name: Get stats of Mastodon source
+  ansible.builtin.stat:
+    path: /var/lib/mastodon/live
+    get_attributes: false
+    get_checksum: false
+    get_mime: false
+  register: mastodon_source_stats
   become: true
 
-- name: Mastodon source is available
+- name: The git repository of Mastodon is available
+  ansible.builtin.command: |
+    sudo -u mastodon git clone https://github.com/mastodon/mastodon.git /var/lib/mastodon/live
+  become: true
+  when: mastodon_source_stats.isdir
+
+- name: Get git reference of specified ref
+  ansible.builtin.command:
+    cmd: sudo -u mastodon git rev-parse '{{ mastodon_git_ref }}'
+    chdir: /var/lib/mastodon/live
+  become: true
+  register: mastodon_git_ref_rev_result
+
+- name: Get git reference
+  ansible.builtin.command:
+    cmd: sudo -u mastodon git rev-parse HEAD
+    chdir: /var/lib/mastodon/live
+  become: true
+  register: mastodon_git_head_rev_result
+
+- name: Checkout specified ref
+  ansible.builtin.command:
+    cmd: sudo -u mastodon git checkout '{{ mastodon_git_ref }}'
+    chdir: /var/lib/mastodon/live
+  become: true
+  when: mastodon_git_ref_rev_result.stdout != mastodon_git_head_rev_result.stdout
+
+- name: Directory to work bundler is available
   ansible.builtin.file:
-    path: /var/lib/mastodon/live
+    path: /var/lib/mastodon/live/.bundle
     state: directory
     owner: mastodon
     group: mastodon
-    recursive: true
+    mode: '0755'
+  become: true
+
+- name: Copy config of bundler
+  ansible.builtin.template:
+    src: var/lib/mastodon/live/.bundle/config
+    dest: /var/lib/mastodon/live/.bundle/config
+    owner: mastodon
+    group: mastodon
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Copy config of application
+  ansible.builtin.template:
+    src: var/lib/mastodon/live/.env.production
+    dest: /var/lib/mastodon/live/.env.production
+    owner: mastodon
+    group: mastodon
+    mode: '0644'
+    backup: true
   become: true
 
 - name: Copy config of mastodon-sidekiq
