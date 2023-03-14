@@ -28,6 +28,23 @@
     mode: '0755'
   become: true
 
+- name: Mastodon git repository is available
+  ansible.builtin.git:
+    repo: https://github.com/mastodon/mastodon.git
+    dest: /var/lib/mastodon/live
+    version: '{{ mastodon_git_ref }}'
+  register: mastodon_git_repository_status
+  become: true
+
+- name: Mastodon source is available
+  ansible.builtin.file:
+    path: /var/lib/mastodon/live
+    state: directory
+    owner: mastodon
+    group: mastodon
+    recursive: true
+  become: true
+
 - name: Copy config of mastodon-sidekiq
   ansible.builtin.template:
     src: etc/default/mastodon-sidekiq
