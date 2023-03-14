@@ -14,10 +14,10 @@
     cmd: |
       sudo --user postgres psql
         --command "
-          CREATE USER {{ postgresql_mastodon_workuser_name }}
-          WITH ENCRYPTED PASSWORD 'md5{{ postgresql_mastodon_workuser_password | md5 }}'
+          CREATE USER {{ mastodon_workuser_name }}
+          WITH ENCRYPTED PASSWORD 'md5{{ mastodon_workuser_password | md5 }}'
           CREATEDB;
         "
   become: true
   when: |
-    postgresql_mastodon_workuser_name not in postgresql_mastodon_users_result.stdout_lines
+    mastodon_workuser_name not in postgresql_mastodon_users_result.stdout_lines

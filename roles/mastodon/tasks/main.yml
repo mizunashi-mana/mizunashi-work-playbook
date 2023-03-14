@@ -41,7 +41,7 @@
   ansible.builtin.command: |
     sudo -u mastodon git clone https://github.com/mastodon/mastodon.git /var/lib/mastodon/live
   become: true
-  when: mastodon_source_stats.isdir
+  when: not mastodon_source_stats.stat.isdir
 
 - name: Get git reference of specified ref
   ansible.builtin.command:
