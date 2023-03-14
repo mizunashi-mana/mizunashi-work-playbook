@@ -92,6 +92,7 @@
     mode: '0644'
     backup: true
   become: true
+  diff: false
 
 - name: Copy config of mastodon-sidekiq
   ansible.builtin.template:
