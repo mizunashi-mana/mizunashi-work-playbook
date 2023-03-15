@@ -27,3 +27,24 @@
     update_cache: '{{ grafana_install_repository_result.changed }}'
   become: true
   notify: Restart grafana
+
+- name: Copy grafana config
+  ansible.builtin.template:
+    src: etc/grafana/grafana.ini
+    dest: /etc/grafana/grafana.ini
+    owner: root
+    group: grafana
+    mode: '0640'
+    backup: true
+  become: true
+  notify:
+    - Restart grafana
+
+- name: Notify restart grafana if not started
+  ansible.builtin.command: systemctl status grafana-server
+  become: true
+  register: grafana_service_status
+  changed_when: grafana_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart grafana

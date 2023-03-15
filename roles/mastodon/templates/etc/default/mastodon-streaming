@@ -1,2 +1,2 @@
-PORT=4000
+PORT={{ mastodon_streaming_listen_port }}
 STREAMING_CLUSTER_NUM=1

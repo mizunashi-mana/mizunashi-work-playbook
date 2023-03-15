@@ -14,3 +14,6 @@ mastodon_otp_secret: string
 // Generate with `rake mastodon:webpush:generate_vapid_key`
 mastodon_vapid_private_key: string
 mastodon_vapid_public_key: string
+
+mastodon_streaming_listen_port: uint | *4112
+mastodon_web_listen_port: uint | *4113

@@ -65,6 +65,15 @@
   notify:
     - Reload nginx
 
+- name: Directory of nginx cache is available
+  ansible.builtin.file:
+    path: /var/cache/nginx
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+  become: true
+
 - name: Install stub status site
   ansible.builtin.template:
     src: etc/nginx/sites-available/stub_status.conf
