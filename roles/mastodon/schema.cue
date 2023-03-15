@@ -4,8 +4,8 @@ mastodon_local_domain: string
 mastodon_single_user_mode: "true" | "false"
 
 mastodon_db_name: string | *"mastodon_production"
-mastodon_workuser_name: string | *"mastodon"
-mastodon_workuser_password: string
+mastodon_db_user_name: string | *"mastodon"
+mastodon_db_user_password: string
 
 // Use `rake secret` to generate secrets
 mastodon_secret_key_base: string

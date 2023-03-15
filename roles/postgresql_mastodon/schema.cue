@@ -1,4 +1,4 @@
 package postgresql_mastodon
 
-mastodon_workuser_name: string
-mastodon_workuser_password: string
+mastodon_db_user_name: string
+mastodon_db_user_password: string

@@ -5,7 +5,7 @@
     state: directory
     owner: root
     group: root
-    mode: '0700'
+    mode: '0755'
   become: true
 
 - name: Directory of private CA is available
@@ -14,7 +14,7 @@
     state: directory
     owner: root
     group: root
-    mode: '0700'
+    mode: '0755'
   become: true
 
 - name: Directory of private RCA is available
@@ -23,7 +23,7 @@
     state: directory
     owner: root
     group: root
-    mode: '0700'
+    mode: '0755'
   become: true
 
 - name: Directory of CRL of private RCA is available
@@ -32,7 +32,7 @@
     state: directory
     owner: root
     group: root
-    mode: '0700'
+    mode: '0755'
   become: true
 
 - name: Directory of certs of private RCA is available
@@ -41,7 +41,7 @@
     state: directory
     owner: root
     group: root
-    mode: '0700'
+    mode: '0755'
   become: true
 
 - name: Directory of keys of private RCA is available
@@ -59,7 +59,7 @@
     state: directory
     owner: root
     group: root
-    mode: '0700'
+    mode: '0755'
   become: true
 
 - name: Serial file of RCA is available
@@ -68,7 +68,7 @@
     state: file
     owner: root
     group: root
-    mode: '0600'
+    mode: '0644'
   register: private_ca_rca_serial_stats
   failed_when: false
   become: true
@@ -100,7 +100,7 @@
     dest: /etc/pki/private-local-ca/rootCA/var/crlnumber
     owner: root
     group: root
-    mode: '0600'
+    mode: '0644'
   become: true
   when: private_ca_rca_crlnumber_stats.state != 'file'
 
@@ -110,7 +110,7 @@
     state: file
     owner: root
     group: root
-    mode: '0600'
+    mode: '0644'
   register: private_ca_rca_index_stats
   failed_when: false
   become: true
@@ -121,6 +121,41 @@
     dest: /etc/pki/private-local-ca/rootCA/var/index.txt
     owner: root
     group: root
-    mode: '0600'
+    mode: '0644'
   become: true
   when: private_ca_rca_index_stats.state != 'file'
+
+- name: Copy CA cert request config
+  ansible.builtin.template:
+    src: etc/pki/private-local-ca/rootCA/cacert-req.cnf
+    dest: /etc/pki/private-local-ca/rootCA/cacert-req.cnf
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: Create CA certificate
+  ansible.builtin.command:
+    cmd: |
+      openssl req \
+        -config /etc/pki/private-local-ca/rootCA/cacert-req.cnf \
+        -x509 \
+        -nodes \
+        -newkey EC \
+        -pkeyopt ec_paramgen_curve:prime256v1 \
+        -passout {{ private_ca_root_key_password }} \
+        -days 3650 \
+        -out /etc/pki/private-local-ca/rootCA/cacert.pem \
+        -keyout /etc/pki/private-local-ca/rootCA/private/cakey.pem
+    creates: /etc/pki/private-local-ca/rootCA/cacert.pem
+  become: true
+  no_log: true
+
+- name: Copy CA config
+  ansible.builtin.template:
+    src: etc/pki/private-local-ca/rootCA/ca.cnf
+    dest: /etc/pki/private-local-ca/rootCA/ca.cnf
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
