@@ -1,4 +1,5 @@
 GROUP_VARS_SRC ?= $(wildcard ./group_vars/*.cue)
+ROLES_SCHEMAS ?= $(wildcard ./roles/*/schema.cue)
 
 CUE ?= cue
 POETRY ?= poetry
@@ -21,7 +22,7 @@ all: $(STAMPS) $(GROUP_VARS_OUT)
 	$(POETRY) run ansible-galaxy collection install -r collections/requirements.yml
 	touch $@
 
-.cue.yml:
+%.yml: %.cue $(ROLES_SCHEMAS)
 	$(CUE) export --force --outfile $@ $<
 
 .PHONY: vagrant-up
