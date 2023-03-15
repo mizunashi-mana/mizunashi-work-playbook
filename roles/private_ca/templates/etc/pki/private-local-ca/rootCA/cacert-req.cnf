@@ -10,7 +10,6 @@ L             = {{ private_ca_root_locality_name }}
 O             = {{ private_ca_root_organization_name }}
 OU            = {{ private_ca_root_organizational_unit_name }}
 CN            = {{ private_ca_root_common_name }}
-emailAddress  = {{ private_ca_root_email_address }}
 
 [ v3_ca ]
 subjectKeyIdentifier    = hash
