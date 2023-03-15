@@ -1,15 +1,15 @@
 ---
-- name: Restart nftables
+- name: Restart exim
   ansible.builtin.systemd:
-    name: nftables
+    name: exim4
     state: restarted
     daemon_reload: true
     enabled: true
   become: true
-  listen: Restart nftables
+  listen: Restart exim
 
 - name: Check systemd service
-  ansible.builtin.command: systemctl status nftables
+  ansible.builtin.command: systemctl status exim
   become: true
   changed_when: false
   listen: Check

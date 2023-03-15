@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "vv"
     ansible.raw_arguments = ["--diff"]
-    ansible.playbook = "playbook-site.yml"
+    ansible.playbook = "playbook-all.yml"
     ansible.groups = {
       "vagrant" => ["primary-mizunashi-work"]
     }

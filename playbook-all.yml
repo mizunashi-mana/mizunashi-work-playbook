@@ -10,7 +10,9 @@
   - nginx
   - redis_server
   - postgresql
+  - exim
   - certbot
+  - private_ca
   - mastodon
   - node_exporter
   - nginx_exporter

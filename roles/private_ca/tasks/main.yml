@@ -1,0 +1,126 @@
+---
+- name: Directory of PKI is available
+  ansible.builtin.file:
+    path: /etc/pki
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+  become: true
+
+- name: Directory of private CA is available
+  ansible.builtin.file:
+    path: /etc/pki/private-local-ca
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+  become: true
+
+- name: Directory of private RCA is available
+  ansible.builtin.file:
+    path: /etc/pki/private-local-ca/rootCA
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+  become: true
+
+- name: Directory of CRL of private RCA is available
+  ansible.builtin.file:
+    path: /etc/pki/private-local-ca/rootCA/crl
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+  become: true
+
+- name: Directory of certs of private RCA is available
+  ansible.builtin.file:
+    path: /etc/pki/private-local-ca/rootCA/certs
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+  become: true
+
+- name: Directory of keys of private RCA is available
+  ansible.builtin.file:
+    path: /etc/pki/private-local-ca/rootCA/private
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+  become: true
+
+- name: Directory of data of private RCA is available
+  ansible.builtin.file:
+    path: /etc/pki/private-local-ca/rootCA/var
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+  become: true
+
+- name: Serial file of RCA is available
+  ansible.builtin.file:
+    path: /etc/pki/private-local-ca/rootCA/var/serial
+    state: present
+    owner: root
+    group: root
+    mode: '0600'
+  register: private_ca_rca_serial_stats
+  failed_when: false
+  become: true
+
+- name: Initialize RCA serial number if needed
+  ansible.builtin.copy:
+    content: '01'
+    dest: /etc/pki/private-local-ca/rootCA/var/serial
+    owner: root
+    group: root
+    mode: '0600'
+  become: true
+  when: private_ca_rca_serial_stats.state != 'file'
+
+- name: CRL number file of RCA is available
+  ansible.builtin.file:
+    path: /etc/pki/private-local-ca/rootCA/var/crlnumber
+    state: present
+    owner: root
+    group: root
+    mode: '0600'
+  register: private_ca_rca_crlnumber_stats
+  failed_when: false
+  become: true
+
+- name: Initialize RCA serial number if needed
+  ansible.builtin.copy:
+    content: '01'
+    dest: /etc/pki/private-local-ca/rootCA/var/serial
+    owner: root
+    group: root
+    mode: '0600'
+  become: true
+  when: private_ca_rca_crlnumber_stats.state != 'file'
+
+- name: Index file of RCA is available
+  ansible.builtin.file:
+    path: /etc/pki/private-local-ca/rootCA/var/index.txt
+    state: present
+    owner: root
+    group: root
+    mode: '0600'
+  register: private_ca_rca_index_stats
+  failed_when: false
+  become: true
+
+- name: Initialize RCA index if needed
+  ansible.builtin.copy:
+    content: ''
+    dest: /etc/pki/private-local-ca/rootCA/var/index.txt
+    owner: root
+    group: root
+    mode: '0600'
+  become: true
+  when: private_ca_rca_index_stats.state != 'file'

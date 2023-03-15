@@ -1,0 +1,15 @@
+---
+- name: Install exim
+  ansible.builtin.apt:
+    name: 'exim4={{ exim_version }}*'
+    state: present
+  become: true
+
+- name: Notify restart exim if not started
+  ansible.builtin.command: systemctl status exim4
+  become: true
+  register: exim_service_status
+  changed_when: exim_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart exim
