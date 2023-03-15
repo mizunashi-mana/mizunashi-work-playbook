@@ -1,7 +1,7 @@
 [ req ]
 distinguished_name  = req_distinguished_name
 x509_extensions     = v3_ca
-prompt              = no
+#prompt              = no
 
 [ req_distinguished_name ]
 countryName             = {{ private_ca_root_country_name }}
@@ -9,8 +9,8 @@ stateOrProvinceName     = {{ private_ca_root_state_or_province_name }}
 localityName            = {{ private_ca_root_locality_name }}
 organizationName        = {{ private_ca_root_organization_name }}
 organizationalUnitName  = {{ private_ca_root_organizational_unit_name }}
-commonName              = {{ private_ca_root_ca_common_name }}
-emailAddress            = {{ private_ca_root_ca_email_address }}
+commonName              = {{ private_ca_root_common_name }}
+emailAddress            = {{ private_ca_root_email_address }}
 
 [ v3_ca ]
 subjectKeyIdentifier    = hash

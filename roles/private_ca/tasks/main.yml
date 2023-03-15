@@ -137,15 +137,14 @@
 - name: Create CA certificate
   ansible.builtin.command:
     cmd: |
-      openssl req \
-        -config /etc/pki/private-local-ca/rootCA/cacert-req.cnf \
-        -x509 \
-        -nodes \
-        -newkey EC \
-        -pkeyopt ec_paramgen_curve:prime256v1 \
-        -passout {{ private_ca_root_key_password }} \
-        -days 3650 \
-        -out /etc/pki/private-local-ca/rootCA/cacert.pem \
+      openssl req
+        -config /etc/pki/private-local-ca/rootCA/cacert-req.cnf
+        -x509
+        -newkey EC
+        -pkeyopt ec_paramgen_curve:prime256v1
+        -passout 'pass:{{ private_ca_root_key_password }}'
+        -days 3650
+        -out /etc/pki/private-local-ca/rootCA/cacert.pem
         -keyout /etc/pki/private-local-ca/rootCA/private/cakey.pem
     creates: /etc/pki/private-local-ca/rootCA/cacert.pem
   become: true
