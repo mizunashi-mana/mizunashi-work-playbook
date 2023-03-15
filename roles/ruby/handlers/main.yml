@@ -1,0 +1,8 @@
+---
+- name: Check ruby command
+  ansible.builtin.command: ruby --version
+  listen: Check
+
+- name: Check bundler command
+  ansible.builtin.command: bundle --version
+  listen: Check

@@ -1,2 +1,5 @@
 ---
 nginx_exporter_version: 0.8.0
+
+# Do not support changing port
+nginx_exporter_listen_port: 9113

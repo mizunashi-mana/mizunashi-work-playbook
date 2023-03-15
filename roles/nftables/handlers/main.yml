@@ -7,3 +7,8 @@
     enabled: true
   become: true
   listen: Restart nftables
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status nftables
+  become: true
+  listen: Check

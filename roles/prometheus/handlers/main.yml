@@ -7,3 +7,14 @@
     enabled: true
   become: true
   listen: Restart prometheus
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status prometheus
+  become: true
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ prometheus_listen_port }}'
+    state: started
+  listen: Check

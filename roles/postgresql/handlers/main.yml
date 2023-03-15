@@ -7,3 +7,14 @@
     enabled: true
   become: true
   listen: Restart postgresql
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status postgresql
+  become: true
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ postgresql_listen_port }}'
+    state: started
+  listen: Check

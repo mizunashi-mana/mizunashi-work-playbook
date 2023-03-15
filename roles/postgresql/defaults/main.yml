@@ -1,2 +1,5 @@
 ---
 postgresql_version: '13.9'
+
+# Do not support changing port
+postgresql_listen_port: 5432

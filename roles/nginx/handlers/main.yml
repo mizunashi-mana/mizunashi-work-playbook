@@ -21,3 +21,14 @@
   listen:
   - Restart nginx
   - Reload nginx
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status nginx
+  become: true
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ nginx_status_listen_port }}'
+    state: started
+  listen: Check

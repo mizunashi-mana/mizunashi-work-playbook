@@ -1,0 +1,5 @@
+---
+- name: Check systemd service
+  ansible.builtin.command: systemctl status certbot
+  become: true
+  listen: Check

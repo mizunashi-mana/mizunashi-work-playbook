@@ -1,2 +1,5 @@
 ---
 prometheus_version: 2.24.1
+
+# Do not support changing port
+prometheus_listen_port: 9090

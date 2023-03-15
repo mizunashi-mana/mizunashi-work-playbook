@@ -1,0 +1,12 @@
+---
+- name: Check node command
+  ansible.builtin.command: node --version
+  listen: Check
+
+- name: Check npm command
+  ansible.builtin.command: npm --version
+  listen: Check
+
+- name: Check yarn command
+  ansible.builtin.command: yarn --version
+  listen: Check

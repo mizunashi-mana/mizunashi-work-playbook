@@ -7,3 +7,14 @@
     enabled: true
   become: true
   listen: Restart redis-server
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status redis-server
+  become: true
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ redis_server_listen_port }}'
+    state: started
+  listen: Check

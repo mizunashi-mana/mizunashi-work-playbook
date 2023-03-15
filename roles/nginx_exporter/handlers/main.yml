@@ -7,3 +7,14 @@
     enabled: true
   become: true
   listen: Restart nginx-exporter
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status prometheus-nginx-exporter
+  become: true
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ nginx_exporter_listen_port }}'
+    state: started
+  listen: Check

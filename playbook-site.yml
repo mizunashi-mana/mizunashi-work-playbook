@@ -19,3 +19,8 @@
   - nginx_site_mastodon
 
   - postgresql_mastodon
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check
