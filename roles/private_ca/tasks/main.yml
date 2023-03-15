@@ -65,7 +65,7 @@
 - name: Serial file of RCA is available
   ansible.builtin.file:
     path: /etc/pki/private-local-ca/rootCA/var/serial
-    state: present
+    state: file
     owner: root
     group: root
     mode: '0600'
@@ -86,7 +86,7 @@
 - name: CRL number file of RCA is available
   ansible.builtin.file:
     path: /etc/pki/private-local-ca/rootCA/var/crlnumber
-    state: present
+    state: file
     owner: root
     group: root
     mode: '0600'
@@ -97,7 +97,7 @@
 - name: Initialize RCA serial number if needed
   ansible.builtin.copy:
     content: '01'
-    dest: /etc/pki/private-local-ca/rootCA/var/serial
+    dest: /etc/pki/private-local-ca/rootCA/var/crlnumber
     owner: root
     group: root
     mode: '0600'
@@ -107,7 +107,7 @@
 - name: Index file of RCA is available
   ansible.builtin.file:
     path: /etc/pki/private-local-ca/rootCA/var/index.txt
-    state: present
+    state: file
     owner: root
     group: root
     mode: '0600'

@@ -9,7 +9,7 @@
   listen: Restart exim
 
 - name: Check systemd service
-  ansible.builtin.command: systemctl status exim
+  ansible.builtin.command: systemctl status exim4
   become: true
   changed_when: false
   listen: Check
