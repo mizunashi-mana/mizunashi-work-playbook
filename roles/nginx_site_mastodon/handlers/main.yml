@@ -1,0 +1,7 @@
+---
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ nginx_site_mastodon_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check

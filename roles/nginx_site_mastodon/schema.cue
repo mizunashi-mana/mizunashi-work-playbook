@@ -1,6 +1,6 @@
 package nginx_site_mastodon
 
-nginx_site_mastodon_listen_port: uint | *443
+nginx_site_mastodon_listen_port: uint
 mastodon_local_domain: string
 
 mastodon_streaming_listen_port: uint
