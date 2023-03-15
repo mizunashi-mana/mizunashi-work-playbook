@@ -1,0 +1,29 @@
+---
+- name: Copy grafana gpg key
+  ansible.builtin.copy:
+    src: usr/share/keyrings/grafana.gpg
+    dest: /usr/share/keyrings/grafana.gpg
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Install grafana repository
+  ansible.builtin.template:
+    src: etc/apt/sources.list.d/grafana.list
+    dest: /etc/apt/sources.list.d/grafana.list
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  register: grafana_install_repository_result
+
+- name: Install grafana
+  ansible.builtin.apt:
+    name: 'grafana={{ grafana_version }}*'
+    state: present
+    update_cache: '{{ grafana_install_repository_result.changed }}'
+  become: true
+  notify: Restart grafana
