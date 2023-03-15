@@ -3,3 +3,16 @@
   debug:
     msg: Please run 'sudo systemctl restart ssh'
   listen: Restart openssh_server
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status ssh
+  become: true
+  changed_when: false
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ openssh_server_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check

@@ -2,4 +2,5 @@
 - name: Check systemd service
   ansible.builtin.command: systemctl status certbot
   become: true
+  changed_when: false
   listen: Check

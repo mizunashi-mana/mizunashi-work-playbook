@@ -48,6 +48,7 @@
     cmd: sudo -u mastodon git rev-parse '{{ mastodon_git_ref }}'
     chdir: /var/lib/mastodon/live
   become: true
+  changed_when: false
   register: mastodon_git_ref_rev_result
 
 - name: Get git reference
@@ -55,6 +56,7 @@
     cmd: sudo -u mastodon git rev-parse HEAD
     chdir: /var/lib/mastodon/live
   become: true
+  changed_when: false
   register: mastodon_git_head_rev_result
 
 - name: Checkout specified ref

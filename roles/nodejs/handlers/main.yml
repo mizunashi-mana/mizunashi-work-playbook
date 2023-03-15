@@ -1,12 +1,15 @@
 ---
 - name: Check node command
   ansible.builtin.command: node --version
+  changed_when: false
   listen: Check
 
 - name: Check npm command
   ansible.builtin.command: npm --version
+  changed_when: false
   listen: Check
 
 - name: Check yarn command
   ansible.builtin.command: yarn --version
+  changed_when: false
   listen: Check
