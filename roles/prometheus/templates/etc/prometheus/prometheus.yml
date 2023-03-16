@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 1m
+  scrape_timeout: 10s
+
+rule_files: []
+
+scrape_configs: {{ prometheus_scrape_configs | to_yaml }}

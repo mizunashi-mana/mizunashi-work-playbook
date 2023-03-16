@@ -1,6 +1,8 @@
 package private_ca
 
-private_ca_root_key_password: string
+import "mizunashi.work/pkg/cuetypes"
+
+private_ca_root_key_password: cuetypes.#AnsibleVault
 
 private_ca_root_country_name: string
 private_ca_root_state_or_province_name: string

@@ -5,6 +5,7 @@ import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/mastodon"
 import "mizunashi.work/pkg/roles/nginx_exporter"
 import "mizunashi.work/pkg/roles/private_ca"
+import "mizunashi.work/pkg/roles/prometheus"
 import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon"
 import "mizunashi.work/pkg/roles/postgresql_mastodon"
@@ -16,6 +17,7 @@ import "mizunashi.work/pkg/roles/postgresql_mastodon"
 #Schema: mastodon
 #Schema: nginx_exporter
 #Schema: private_ca
+#Schema: prometheus
 #Schema: nginx_site_http_redirector
 #Schema: nginx_site_mastodon
 #Schema: postgresql_mastodon
@@ -49,7 +51,16 @@ let https_port = 443
 
   nginx_resolver: "8.8.8.8"
 
-  private_ca_root_key_password: "private_ca_root_key_password"
+  private_ca_root_key_password: {
+    "__ansible_vault": """
+          $ANSIBLE_VAULT;1.1;AES256
+          65643238353263343864366637323638333530396436616162336335373931663132326163373537
+          3266356363343035653736653038346232363762653530380a326236353366333035646339343738
+          34663037653261663864623838633666306637656434373039343730306262633530313832663262
+          6361363331636461330a643332623336303566633031626132373038306331333564396538616431
+          35613564633235333638613364376533303933356364326433303162663838326238
+    """
+  }
   private_ca_root_country_name: "JP"
   private_ca_root_state_or_province_name: "Tokyo"
   private_ca_root_locality_name: "."
