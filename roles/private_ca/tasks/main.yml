@@ -132,6 +132,7 @@
     owner: root
     group: root
     mode: '0644'
+    backup: true
   become: true
 
 - name: Create CA certificate
@@ -157,22 +158,25 @@
     owner: root
     group: root
     mode: '0644'
+    backup: true
   become: true
 
 - name: Copy create CSR script
-  ansible.builtin.template:
+  ansible.builtin.copy:
     src: usr/local/bin/private-ca-create-csr
     dest: /usr/local/bin/private-ca-create-csr
     owner: root
     group: root
     mode: '0755'
+    backup: true
   become: true
 
 - name: Copy generate certificate script
-  ansible.builtin.template:
+  ansible.builtin.copy:
     src: usr/local/bin/private-ca-gen-cert
     dest: /usr/local/bin/private-ca-gen-cert
     owner: root
     group: root
     mode: '0755'
+    backup: true
   become: true
