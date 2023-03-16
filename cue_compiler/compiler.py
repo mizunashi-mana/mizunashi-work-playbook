@@ -16,6 +16,9 @@ def cue_export_to_yaml(cue_file: pathlib.Path) -> typing.Any:
     capture_output=True,
     text=True
   )
+  if proc.returncode != 0:
+    print(proc.stderr)
+    exit(1)
 
   return yaml.safe_load(proc.stdout)
 
