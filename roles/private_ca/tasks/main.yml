@@ -143,7 +143,7 @@
         -x509
         -newkey EC
         -pkeyopt ec_paramgen_curve:prime256v1
-        -passout 'pass:{{ private_ca_root_key_password.vaulted|unvault }}'
+        -passout 'pass:{{ private_ca_root_key_password }}'
         -days 3650
         -out /etc/pki/private-local-ca/rootCA/cacert.pem
         -keyout /etc/pki/private-local-ca/rootCA/private/cakey.pem

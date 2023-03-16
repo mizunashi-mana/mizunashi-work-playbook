@@ -23,7 +23,7 @@ all: $(STAMPS) $(GROUP_VARS_OUT)
 	touch $@
 
 %.yml: %.cue $(ROLES_SCHEMAS)
-	$(CUE) export --force --outfile $@ $<
+	$(POETRY) run python3 -m cue_compiler $@ $<
 
 .PHONY: vagrant-up
 vagrant-up: all

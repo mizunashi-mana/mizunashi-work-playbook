@@ -1,5 +1,5 @@
 package cue_types
 
 #Vaulted: {
-  vaulted: string
+  "__ansible_vault": string
 }

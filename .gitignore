@@ -1,5 +1,10 @@
-.stamp.*
 group_vars/*.yml
 
 # Vagrant
 .vagrant/
+
+# Makefile
+.stamp.*
+
+# Python
+__pycache__/
