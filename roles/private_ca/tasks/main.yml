@@ -35,9 +35,9 @@
     mode: '0755'
   become: true
 
-- name: Directory of certs of private RCA is available
+- name: Directory of new certs of private RCA is available
   ansible.builtin.file:
-    path: /etc/pki/private-local-ca/rootCA/certs
+    path: /etc/pki/private-local-ca/rootCA/newcerts
     state: directory
     owner: root
     group: root
