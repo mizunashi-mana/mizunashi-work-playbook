@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+[ "${TRACE:-false}" = 'true' ] && set -x
+
+CA_CONFIG_PATH=/etc/pki/private-local-ca/rootCA/ca.cnf
+
+function show_usage() {
+  echo "Usage: $0 --in-csr PATH"
+}
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    '--in-csr' )
+      IN_CSR="$2"
+      shift
+      ;;
+    '--help' )
+      show_usage
+      exit 0
+      ;;
+    * )
+      echo "Unknown option: $1"
+      show_usage
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+openssl ca -config "$CA_CONFIG_PATH" -in "$IN_CSR" -notext -batch

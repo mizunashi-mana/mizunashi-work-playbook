@@ -31,6 +31,6 @@ emailAddress            = optional
 
 [ v3_client ]
 basicConstraints        = CA:FALSE
-extendedKeyUsage        = clientAuth,digitalSignature,cRLSign
+extendedKeyUsage        = clientAuth, serverAuth
 subjectKeyIdentifier    = hash
 authorityKeyIdentifier  = keyid,issuer

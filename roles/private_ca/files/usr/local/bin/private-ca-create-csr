@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+[ "${TRACE:-false}" = 'true' ] && set -x
+
+function show_usage() {
+  echo "Usage: $0 --out-csr PATH --out-key PATH"
+}
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    '--out-csr' )
+      OUT_CSR="$2"
+      shift
+      ;;
+    '--out-key' )
+      OUT_KEY="$2"
+      shift
+      ;;
+    '--help' )
+      show_usage
+      exit 0
+      ;;
+    * )
+      echo "Unknown option: $1"
+      show_usage
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+openssl req -new -out "$OUT_CSR" -keyout "$OUT_KEY"
