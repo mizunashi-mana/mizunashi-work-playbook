@@ -5,6 +5,18 @@
     state: present
   become: true
 
+- name: Copy fail2ban config
+  ansible.builtin.template:
+    src: etc/fail2ban/jail.d/sshd.conf
+    dest: /etc/fail2ban/jail.d/sshd.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Reload fail2ban
+
 - name: Notify restart fail2ban if not started
   ansible.builtin.command: systemctl status fail2ban
   become: true
