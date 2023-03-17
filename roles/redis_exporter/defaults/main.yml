@@ -1,5 +1,5 @@
 ---
 redis_exporter_version: 1.16.0
 
-# Do not support changing port
+redis_exporter_listen_address: 127.0.0.1
 redis_exporter_listen_port: 9121

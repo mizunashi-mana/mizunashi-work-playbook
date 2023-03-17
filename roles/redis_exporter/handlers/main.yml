@@ -1,12 +1,26 @@
 ---
-- name: Restart redis-exporter
+- name: Reload redis exporter
+  ansible.builtin.set_fact:
+    redis_exporter_handler_state: reloaded
+  become: true
+  listen: Reload redis-exporter
+
+- name: Restart redis exporter
+  ansible.builtin.set_fact:
+    redis_exporter_handler_state: restarted
+  become: true
+  listen: Restart redis-exporter
+
+- name: Restart or reload redis exporter
   ansible.builtin.systemd:
     name: prometheus-redis-exporter
-    state: restarted
+    state: '{{ redis_exporter_handler_state }}'
     daemon_reload: true
     enabled: true
   become: true
-  listen: Restart redis-exporter
+  listen:
+  - Restart redis-exporter
+  - Reload redis-exporter
 
 - name: Check systemd service
   ansible.builtin.command: systemctl status prometheus-redis-exporter

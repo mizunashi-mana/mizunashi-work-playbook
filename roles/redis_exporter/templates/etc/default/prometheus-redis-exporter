@@ -1,0 +1,2 @@
+LISTEN_ADDRESS={{ redis_exporter_listen_address }}:{{ redis_exporter_listen_port }}
+EXTRA_ARGS=""
