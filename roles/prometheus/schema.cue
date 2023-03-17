@@ -11,7 +11,9 @@ package prometheus
 
 #StaticConfig: {
   targets: [...string]
-  labels: [string]: string
+  labels: {
+    [string]: string
+  }
 }
 
 prometheus_scrape_configs: [...#ScrapeConfig]

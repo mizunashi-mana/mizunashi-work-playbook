@@ -5,6 +5,30 @@
     state: present
   become: true
 
+- name: Copy redis exporter environment
+  ansible.builtin.template:
+    src: etc/default/prometheus-redis-exporter
+    dest: /etc/default/prometheus-redis-exporter
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart redis-exporter
+
+- name: Install redis exporter service
+  ansible.builtin.template:
+    src: usr/lib/systemd/system/prometheus-redis-exporter.service
+    dest: /usr/lib/systemd/system/prometheus-redis-exporter.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart redis-exporter
+
 - name: Notify restart redis exporter if not started
   ansible.builtin.command: systemctl status prometheus-redis-exporter
   become: true

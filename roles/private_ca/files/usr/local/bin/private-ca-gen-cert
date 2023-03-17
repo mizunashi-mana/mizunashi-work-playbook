@@ -28,4 +28,10 @@ while [ "$#" -gt 0 ]; do
   shift
 done
 
+if [ -z "$IN_CSR" ]; then
+  echo "Not enough arguments"
+  show_usage
+  exit 1
+fi
+
 openssl ca -config "$CA_CONFIG_PATH" -in "$IN_CSR" -notext -batch

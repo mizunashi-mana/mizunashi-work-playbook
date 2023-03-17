@@ -30,4 +30,10 @@ while [ "$#" -gt 0 ]; do
   shift
 done
 
-openssl req -new -out "$OUT_CSR" -keyout "$OUT_KEY"
+if [ -z "$OUT_CSR" ] || [ -z "$OUT_KEY" ]; then
+  echo "Not enough arguments"
+  show_usage
+  exit 1
+fi
+
+openssl req -new -nodes -out "$OUT_CSR" -keyout "$OUT_KEY"

@@ -118,4 +118,37 @@ let https_port = 443
   private_ca_root_country_name: "JP"
   private_ca_root_state_or_province_name: "Tokyo"
   private_ca_root_locality_name: "."
+
+  prometheus_scrape_configs: [
+    {
+      job_name: "node"
+      static_configs: [
+        {
+          targets: [
+            "localhost:9100"
+          ]
+          labels: {
+            "service": "vagrant"
+            "project": "primary"
+            "hostname": "localhost"
+          }
+        }
+      ]
+    },
+    {
+      job_name: "nginx"
+      static_configs: [
+        {
+          targets: [
+            "localhost:9113"
+          ]
+          labels: {
+            "service": "vagrant"
+            "project": "primary"
+            "hostname": "localhost"
+          }
+        }
+      ]
+    }
+  ]
 }
