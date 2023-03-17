@@ -1,0 +1,16 @@
+[Unit]
+Description=NGINX Prometheus Exporter
+Documentation=https://github.com/nginxinc/nginx-prometheus-exporter man:prometheus-nginx-exporter(1)
+After=network.service nginx.service
+
+[Service]
+Restart=on-failure
+User=prometheus
+EnvironmentFile=/etc/default/prometheus-nginx-exporter
+ExecStart=/usr/bin/prometheus-nginx-exporter \
+  -nginx.scrape-uri "$NGINX_SCRAPE_URI" \
+  -web.listen-address "$LISTEN_ADDRESS" \
+  $EXTRA_ARGS
+
+[Install]
+WantedBy=multi-user.target

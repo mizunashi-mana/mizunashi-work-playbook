@@ -1,0 +1,15 @@
+---
+- name: Install redis exporter
+  ansible.builtin.apt:
+    name: 'prometheus-redis-exporter={{ redis_exporter_version }}*'
+    state: present
+  become: true
+
+- name: Notify restart redis exporter if not started
+  ansible.builtin.command: systemctl status prometheus-redis-exporter
+  become: true
+  register: redis_exporter_service_status
+  changed_when: redis_exporter_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart redis-exporter

@@ -1,12 +1,26 @@
 ---
+- name: Reload prometheus
+  ansible.builtin.set_fact:
+    prometheus_handler_state: reloaded
+  become: true
+  listen: Reload prometheus
+
 - name: Restart prometheus
+  ansible.builtin.set_fact:
+    prometheus_handler_state: restarted
+  become: true
+  listen: Restart prometheus
+
+- name: Restart or reload prometheus
   ansible.builtin.systemd:
     name: prometheus
-    state: restarted
+    state: '{{ prometheus_handler_state }}'
     daemon_reload: true
     enabled: true
   become: true
-  listen: Restart prometheus
+  listen:
+  - Restart prometheus
+  - Reload prometheus
 
 - name: Check systemd service
   ansible.builtin.command: systemctl status prometheus

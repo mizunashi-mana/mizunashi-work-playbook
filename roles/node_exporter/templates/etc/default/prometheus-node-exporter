@@ -1,0 +1,2 @@
+LISTEN_ADDRESS={{ node_exporter_bind_address }}:{{ node_exporter_listen_port }}
+EXTRA_ARGS=""

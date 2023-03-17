@@ -1,12 +1,26 @@
 ---
+- name: Reload nftables
+  ansible.builtin.set_fact:
+    nftables_handler_state: reloaded
+  become: true
+  listen: Reload nftables
+
 - name: Restart nftables
+  ansible.builtin.set_fact:
+    nftables_handler_state: restarted
+  become: true
+  listen: Restart nftables
+
+- name: Restart or reload nftables
   ansible.builtin.systemd:
     name: nftables
-    state: restarted
+    state: '{{ nftables_handler_state }}'
     daemon_reload: true
     enabled: true
   become: true
-  listen: Restart nftables
+  listen:
+  - Restart nftables
+  - Reload nftables
 
 - name: Check systemd service
   ansible.builtin.command: systemctl status nftables

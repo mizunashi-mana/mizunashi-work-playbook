@@ -1,12 +1,26 @@
 ---
-- name: Restart nginx-exporter
+- name: Reload nginx exporter
+  ansible.builtin.set_fact:
+    nginx_exporter_handler_state: reloaded
+  become: true
+  listen: Reload nginx-exporter
+
+- name: Restart nginx exporter
+  ansible.builtin.set_fact:
+    nginx_exporter_handler_state: restarted
+  become: true
+  listen: Restart nginx-exporter
+
+- name: Restart or reload nginx exporter
   ansible.builtin.systemd:
     name: prometheus-nginx-exporter
-    state: restarted
+    state: '{{ nginx_exporter_handler_state }}'
     daemon_reload: true
     enabled: true
   become: true
-  listen: Restart nginx-exporter
+  listen:
+  - Restart nginx-exporter
+  - Reload nginx-exporter
 
 - name: Check systemd service
   ansible.builtin.command: systemctl status prometheus-nginx-exporter

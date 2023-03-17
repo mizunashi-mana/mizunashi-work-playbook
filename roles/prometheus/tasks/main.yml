@@ -5,6 +5,18 @@
     state: present
   become: true
 
+- name: Copy prometheus config
+  ansible.builtin.template:
+    src: etc/prometheus/prometheus.yml
+    dest: /etc/prometheus/prometheus.yml
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Reload prometheus
+
 - name: Notify restart prometheus if not started
   ansible.builtin.command: systemctl status prometheus
   become: true

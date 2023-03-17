@@ -1,1 +1,3 @@
-ARGS="-nginx.scrape-uri http://127.0.0.1:{{ nginx_status_listen_port }}/stub_status"
+NGINX_SCRAPE_URI=http://127.0.0.1:{{ nginx_status_listen_port }}/stub_status
+LISTEN_ADDRESS={{ nginx_exporter_listen_address }}:{{ nginx_exporter_listen_port }}
+EXTRA_ARGS=""

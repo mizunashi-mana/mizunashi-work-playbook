@@ -1,12 +1,26 @@
 ---
+- name: Reload node exporter
+  ansible.builtin.set_fact:
+    node_exporter_handler_state: reloaded
+  become: true
+  listen: Reload node-exporter
+
 - name: Restart node exporter
+  ansible.builtin.set_fact:
+    node_exporter_handler_state: restarted
+  become: true
+  listen: Restart node-exporter
+
+- name: Restart or reload node exporter
   ansible.builtin.systemd:
     name: prometheus-node-exporter
-    state: restarted
+    state: '{{ node_exporter_handler_state }}'
     daemon_reload: true
     enabled: true
   become: true
-  listen: Restart node-exporter
+  listen:
+  - Restart node-exporter
+  - Reload node-exporter
 
 - name: Check systemd service
   ansible.builtin.command: systemctl status prometheus-node-exporter

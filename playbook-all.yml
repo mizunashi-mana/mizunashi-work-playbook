@@ -16,6 +16,8 @@
   - mastodon
   - node_exporter
   - nginx_exporter
+  - redis_exporter
+  - postgres_exporter
   - prometheus
   - grafana
 

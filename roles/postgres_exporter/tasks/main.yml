@@ -1,0 +1,6 @@
+---
+- name: Install postgresql exporter
+  ansible.builtin.apt:
+    name: 'prometheus-postgres-exporter={{ postgres_exporter_version }}*'
+    state: present
+  become: true
