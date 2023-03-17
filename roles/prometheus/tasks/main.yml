@@ -17,6 +17,30 @@
   notify:
     - Reload prometheus
 
+- name: Copy prometheus environment
+  ansible.builtin.template:
+    src: etc/default/prometheus
+    dest: /etc/default/prometheus
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart prometheus
+
+- name: Install prometheus service
+  ansible.builtin.template:
+    src: usr/lib/systemd/system/prometheus.service
+    dest: /usr/lib/systemd/system/prometheus.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart prometheus
+
 - name: Notify restart prometheus if not started
   ansible.builtin.command: systemctl status prometheus
   become: true

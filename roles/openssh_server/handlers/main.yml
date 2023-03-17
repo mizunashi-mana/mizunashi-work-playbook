@@ -1,8 +1,23 @@
 ---
-- name: Notify restart openssh server
-  debug:
-    msg: Please run 'sudo systemctl restart ssh'
+- name: Reload openssh server
+  ansible.builtin.set_fact:
+    openssh_server_handler_command: reload
+  become: true
+  listen: Reload openssh_server
+
+- name: Restart openssh server
+  ansible.builtin.set_fact:
+    openssh_server_handler_command: restart
+  become: true
   listen: Restart openssh_server
+
+- name: Notify restart or reload sshd
+  debug:
+    msg: Please run 'sudo systemctl {{ openssh_server_handler_command }} ssh'
+  become: true
+  listen:
+  - Restart openssh_server
+  - Reload openssh_server
 
 - name: Check systemd service
   ansible.builtin.command: systemctl status ssh

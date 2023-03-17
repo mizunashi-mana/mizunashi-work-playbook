@@ -1,0 +1,2 @@
+LISTEN_ADDRESS={{ prometheus_listen_address }}:{{ prometheus_listen_port }}
+EXTRA_AGRS=""

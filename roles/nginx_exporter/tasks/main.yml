@@ -5,7 +5,7 @@
     state: present
   become: true
 
-- name: Copy nginx exporter config
+- name: Copy nginx exporter environment
   ansible.builtin.template:
     src: etc/default/prometheus-nginx-exporter
     dest: /etc/default/prometheus-nginx-exporter
@@ -15,7 +15,7 @@
     backup: true
   become: true
   notify:
-    - Reload nginx-exporter
+    - Restart nginx-exporter
 
 - name: Install nginx exporter service
   ansible.builtin.template:

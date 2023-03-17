@@ -5,7 +5,7 @@
     state: present
   become: true
 
-- name: Copy node exporter config
+- name: Copy node exporter environment
   ansible.builtin.template:
     src: etc/default/prometheus-node-exporter
     dest: /etc/default/prometheus-node-exporter
@@ -15,7 +15,7 @@
     backup: true
   become: true
   notify:
-    - Reload node-exporter
+    - Restart node-exporter
 
 - name: Install node exporter service
   ansible.builtin.template:
