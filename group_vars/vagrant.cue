@@ -149,6 +149,21 @@ let https_port = 443
           }
         }
       ]
-    }
+    },
+    {
+      job_name: "redis"
+      static_configs: [
+        {
+          targets: [
+            "localhost:9121"
+          ]
+          labels: {
+            "service": "vagrant"
+            "project": "primary"
+            "hostname": "localhost"
+          }
+        }
+      ]
+    },
   ]
 }
