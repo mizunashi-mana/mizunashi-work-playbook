@@ -3,14 +3,16 @@
 set -euo pipefail
 [ "${TRACE:-false}" = 'true' ] && set -x
 
+CA_CONFIG_PATH='{{ private_ca_root_dir }}/interServerCA/ca.cnf'
+
 function show_usage() {
-  echo "Usage: $0 --out-csr PATH --out-key PATH"
+  echo "Usage: $0 --out-cert PATH --out-key PATH"
 }
 
 while [ "$#" -gt 0 ]; do
   case "$1" in
-    '--out-csr' )
-      OUT_CSR="$2"
+    '--out-cert' )
+      OUT_CERT="$2"
       shift
       ;;
     '--out-key' )
@@ -30,10 +32,17 @@ while [ "$#" -gt 0 ]; do
   shift
 done
 
-if [ -z "$OUT_CSR" ] || [ -z "$OUT_KEY" ]; then
+if [ -z "$OUT_CERT" ] || [ -z "$OUT_KEY" ]; then
   echo "Not enough arguments"
   show_usage
   exit 1
 fi
 
-openssl req -new -nodes -out "$OUT_CSR" -keyout "$OUT_KEY"
+exec openssl req \
+  -config "$CA_CONFIG_PATH" \
+  -x509 \
+  -nodes \
+  -newkey EC \
+  -pkeyopt ec_paramgen_curve:prime256v1 \
+  -out "$OUT_CERT" \
+  -keyout "$OUT_KEY"

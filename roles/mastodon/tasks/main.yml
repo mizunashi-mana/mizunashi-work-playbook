@@ -41,7 +41,7 @@
   ansible.builtin.command: |
     sudo -u mastodon git clone https://github.com/mastodon/mastodon.git /var/lib/mastodon/live
   become: true
-  when: not mastodon_source_stats.stat.isdir
+  when: not mastodon_source_stats.stat.exists
 
 - name: Get git reference of specified ref
   ansible.builtin.command:
@@ -95,6 +95,53 @@
     backup: true
   become: true
   diff: false
+
+- name: Install bundle dependencies
+  ansible.builtin.command:
+    cmd: sudo -u mastodon bundle install
+    chdir: /var/lib/mastodon/live
+    creates: /var/lib/mastodon/live/vendor/bundle
+  become: true
+
+- name: Install yarn dependencies
+  ansible.builtin.command:
+    cmd: sudo -u mastodon yarn install --pure-lockfile
+    chdir: /var/lib/mastodon/live
+    creates: /var/lib/mastodon/live/node_modules
+  become: true
+
+- name: Precompile assets
+  ansible.builtin.command:
+    cmd: |
+      sudo -u mastodon env
+        RAILS_ENV=production
+        NODE_OPTIONS=--openssl-legacy-provider
+        bundle exec rake assets:precompile
+    chdir: /var/lib/mastodon/live
+    creates: /var/lib/mastodon/live/public/assets
+  become: true
+
+- name: Retrieve DB version
+  ansible.builtin.command:
+    cmd: |
+      sudo -u mastodon env
+        RAILS_ENV=production
+        bundle exec rake db:version
+    chdir: /var/lib/mastodon/live
+  failed_when: false
+  changed_when: false
+  become: true
+  register: mastodon_db_version_stat
+
+- name: Setup mastodon DB
+  ansible.builtin.command:
+    cmd: |
+      sudo -u mastodon env
+        RAILS_ENV=production
+        bundle exec rake db:setup
+    chdir: /var/lib/mastodon/live
+  become: true
+  when: mastodon_db_version_stat.rc != 0
 
 - name: Copy config of mastodon-sidekiq
   ansible.builtin.template:
@@ -167,3 +214,30 @@
   become: true
   notify:
     - Restart mastodon-streaming
+
+- name: Notify restart mastodon-sidekiq if not started
+  ansible.builtin.command: systemctl status mastodon-sidekiq
+  become: true
+  register: mastodon_sidekiq_service_status
+  changed_when: mastodon_sidekiq_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart mastodon-sidekiq
+
+- name: Notify restart mastodon-streaming if not started
+  ansible.builtin.command: systemctl status mastodon-streaming
+  become: true
+  register: mastodon_streaming_service_status
+  changed_when: mastodon_streaming_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart mastodon-streaming
+
+- name: Notify restart mastodon-web if not started
+  ansible.builtin.command: systemctl status mastodon-web
+  become: true
+  register: mastodon_web_service_status
+  changed_when: mastodon_web_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart mastodon-web

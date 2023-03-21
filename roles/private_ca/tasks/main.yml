@@ -8,173 +8,254 @@
     mode: '0755'
   become: true
 
+- name: Set CAs facts
+  set_fact:
+    private_ca_root_dir: /etc/pki/private-local
+    private_ca_dirs:
+    - rootCA
+    - interServerCA
+    - interClientCA
+
 - name: Directory of private CA is available
   ansible.builtin.file:
-    path: /etc/pki/private-local-ca
+    path: '{{ private_ca_root_dir }}'
     state: directory
     owner: root
     group: root
     mode: '0755'
   become: true
 
-- name: Directory of private RCA is available
+- name: Directories of private CAs are available
   ansible.builtin.file:
-    path: /etc/pki/private-local-ca/rootCA
+    path: '{{ private_ca_root_dir }}/{{ item }}'
     state: directory
     owner: root
     group: root
     mode: '0755'
   become: true
+  loop: '{{ private_ca_dirs }}'
 
-- name: Directory of CRL of private RCA is available
+- name: Directories of CRLs of private CAs are available
   ansible.builtin.file:
-    path: /etc/pki/private-local-ca/rootCA/crl
+    path: '{{ private_ca_root_dir }}/{{ item }}/crl'
     state: directory
     owner: root
     group: root
     mode: '0755'
   become: true
+  loop: '{{ private_ca_dirs }}'
 
-- name: Directory of new certs of private RCA is available
+- name: Directories of new certifications of private CAs are available
   ansible.builtin.file:
-    path: /etc/pki/private-local-ca/rootCA/newcerts
+    path: '{{ private_ca_root_dir }}/{{ item }}/newcerts'
     state: directory
     owner: root
     group: root
     mode: '0755'
   become: true
+  loop: '{{ private_ca_dirs }}'
 
-- name: Directory of keys of private RCA is available
+- name: Directories of keys of private CAs are available
   ansible.builtin.file:
-    path: /etc/pki/private-local-ca/rootCA/private
+    path: '{{ private_ca_root_dir }}/{{ item }}/private'
     state: directory
     owner: root
     group: root
     mode: '0700'
   become: true
+  loop: '{{ private_ca_dirs }}'
 
-- name: Directory of data of private RCA is available
+- name: Directories of datas of private CAs are available
   ansible.builtin.file:
-    path: /etc/pki/private-local-ca/rootCA/var
+    path: '{{ private_ca_root_dir }}/{{ item }}/var'
     state: directory
     owner: root
     group: root
     mode: '0755'
   become: true
+  loop: '{{ private_ca_dirs }}'
 
-- name: Serial file of RCA is available
+- name: Serial files of CAs are available
   ansible.builtin.file:
-    path: /etc/pki/private-local-ca/rootCA/var/serial
+    path: '{{ private_ca_root_dir }}/{{ item }}/var/serial'
     state: file
     owner: root
     group: root
     mode: '0644'
-  register: private_ca_rca_serial_stats
   failed_when: false
   become: true
+  loop: '{{ private_ca_dirs }}'
+  register: private_ca_serial_files_stats
 
-- name: Initialize RCA serial number if needed
+- name: Initialize serial numbers of CAs if needed
   ansible.builtin.copy:
     content: '01'
-    dest: /etc/pki/private-local-ca/rootCA/var/serial
+    dest: '{{ private_ca_root_dir }}/{{ item.item }}/var/serial'
     owner: root
     group: root
-    mode: '0600'
+    mode: '0644'
   become: true
-  when: private_ca_rca_serial_stats.state != 'file'
+  when: item.state != 'file'
+  loop: '{{ private_ca_serial_files_stats.results }}'
 
-- name: CRL number file of RCA is available
+- name: CRL number files of CAs are available
   ansible.builtin.file:
-    path: /etc/pki/private-local-ca/rootCA/var/crlnumber
+    path: '{{ private_ca_root_dir }}/{{ item }}/var/crlnumber'
     state: file
     owner: root
     group: root
-    mode: '0600'
-  register: private_ca_rca_crlnumber_stats
+    mode: '0644'
   failed_when: false
   become: true
+  loop: '{{ private_ca_dirs }}'
+  register: private_ca_crlnumber_files_stats
 
-- name: Initialize RCA serial number if needed
+- name: Initialize CRL numbers of CAs if needed
   ansible.builtin.copy:
     content: '01'
-    dest: /etc/pki/private-local-ca/rootCA/var/crlnumber
+    dest: '{{ private_ca_root_dir }}/{{ item.item }}/var/crlnumber'
     owner: root
     group: root
     mode: '0644'
   become: true
-  when: private_ca_rca_crlnumber_stats.state != 'file'
+  when: item.state != 'file'
+  loop: '{{ private_ca_crlnumber_files_stats.results }}'
 
-- name: Index file of RCA is available
+- name: Index files of CAs are available
   ansible.builtin.file:
-    path: /etc/pki/private-local-ca/rootCA/var/index.txt
+    path: '{{ private_ca_root_dir }}/{{ item }}/var/index.txt'
     state: file
     owner: root
     group: root
     mode: '0644'
-  register: private_ca_rca_index_stats
   failed_when: false
   become: true
+  loop: '{{ private_ca_dirs }}'
+  register: private_ca_index_files_stats
 
-- name: Initialize RCA index if needed
+- name: Initialize indexes of CAs if needed
   ansible.builtin.copy:
     content: ''
-    dest: /etc/pki/private-local-ca/rootCA/var/index.txt
+    dest: '{{ private_ca_root_dir }}/{{ item.item }}/var/index.txt'
     owner: root
     group: root
     mode: '0644'
   become: true
-  when: private_ca_rca_index_stats.state != 'file'
+  when: item.state != 'file'
+  loop: '{{ private_ca_index_files_stats.results }}'
 
-- name: Copy CA cert request config
+- name: Copy CA certificate request configs
   ansible.builtin.template:
-    src: etc/pki/private-local-ca/rootCA/cacert-req.cnf
-    dest: /etc/pki/private-local-ca/rootCA/cacert-req.cnf
+    src: 'etc/pki/private-local/{{ item }}/cacert.cnf'
+    dest: '{{ private_ca_root_dir }}/{{ item }}/cacert.cnf'
     owner: root
     group: root
     mode: '0644'
     backup: true
   become: true
+  loop: '{{ private_ca_dirs }}'
 
-- name: Create CA certificate
+- name: Copy CA configs
+  ansible.builtin.template:
+    src: 'etc/pki/private-local/{{ item }}/ca.cnf'
+    dest: '{{ private_ca_root_dir }}/{{ item }}/ca.cnf'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  loop: '{{ private_ca_dirs }}'
+
+- name: Create root CA certificate
   ansible.builtin.command:
     cmd: |
       openssl req
-        -config /etc/pki/private-local-ca/rootCA/cacert-req.cnf
+        -config '{{ private_ca_root_dir }}/rootCA/cacert.cnf'
         -x509
         -newkey EC
         -pkeyopt ec_paramgen_curve:prime256v1
         -passout 'pass:{{ private_ca_root_key_password }}'
-        -days 3650
-        -out /etc/pki/private-local-ca/rootCA/cacert.pem
-        -keyout /etc/pki/private-local-ca/rootCA/private/cakey.pem
-    creates: /etc/pki/private-local-ca/rootCA/cacert.pem
+        -days {{ private_ca_root_ca_days }}
+        -out '{{ private_ca_root_dir }}/rootCA/cacert.pem'
+        -keyout '{{ private_ca_root_dir }}/rootCA/private/cakey.pem'
+    creates: '{{ private_ca_root_dir }}/rootCA/cacert.pem'
   become: true
   no_log: true
 
-- name: Copy CA config
-  ansible.builtin.template:
-    src: etc/pki/private-local-ca/rootCA/ca.cnf
-    dest: /etc/pki/private-local-ca/rootCA/ca.cnf
-    owner: root
-    group: root
-    mode: '0644'
-    backup: true
+- name: Create intermediate CA certificate request for servers
+  ansible.builtin.command:
+    cmd: |
+      openssl req
+        -config '{{ private_ca_root_dir }}/interServerCA/cacert.cnf'
+        -newkey EC
+        -pkeyopt ec_paramgen_curve:prime256v1
+        -passout 'pass:{{ private_ca_inter_server_key_password }}'
+        -days {{ private_ca_inter_ca_days }}
+        -out '{{ private_ca_root_dir }}/interServerCA/cacert.csr'
+        -keyout '{{ private_ca_root_dir }}/interServerCA/private/cakey.pem'
+    creates: '{{ private_ca_root_dir }}/interServerCA/cacert.csr'
   become: true
+  no_log: true
 
-- name: Copy create CSR script
-  ansible.builtin.copy:
-    src: usr/local/bin/private-ca-create-csr
-    dest: /usr/local/bin/private-ca-create-csr
+- name: Create intermediate CA certificate for servers
+  ansible.builtin.command:
+    cmd: |
+      openssl ca
+        -config '{{ private_ca_root_dir }}/rootCA/ca.cnf'
+        -notext
+        -batch
+        -passin 'pass:{{ private_ca_root_key_password }}'
+        -in '{{ private_ca_root_dir }}/interServerCA/cacert.csr'
+        -days {{ private_ca_inter_ca_days }}
+        -out '{{ private_ca_root_dir }}/interServerCA/cacert.pem'
+    creates: '{{ private_ca_root_dir }}/interServerCA/cacert.pem'
+  become: true
+  no_log: true
+
+- name: Create intermediate CA certificate request for clients
+  ansible.builtin.command:
+    cmd: |
+      openssl req
+        -config '{{ private_ca_root_dir }}/interClientCA/cacert.cnf'
+        -newkey EC
+        -pkeyopt ec_paramgen_curve:prime256v1
+        -passout 'pass:{{ private_ca_inter_client_key_password }}'
+        -days {{ private_ca_inter_ca_days }}
+        -out '{{ private_ca_root_dir }}/interClientCA/cacert.csr'
+        -keyout '{{ private_ca_root_dir }}/interClientCA/private/cakey.pem'
+    creates: '{{ private_ca_root_dir }}/interClientCA/cacert.csr'
+  become: true
+  no_log: true
+
+- name: Create intermediate CA certificate for clients
+  ansible.builtin.command:
+    cmd: |
+      openssl ca
+        -config '{{ private_ca_root_dir }}/rootCA/ca.cnf'
+        -notext
+        -batch
+        -passin 'pass:{{ private_ca_root_key_password }}'
+        -in '{{ private_ca_root_dir }}/interClientCA/cacert.csr'
+        -days {{ private_ca_inter_ca_days }}
+        -out '{{ private_ca_root_dir }}/interClientCA/cacert.pem'
+    creates: '{{ private_ca_root_dir }}/interClientCA/cacert.pem'
+  become: true
+  no_log: true
+
+- name: Copy generate server certificate script
+  ansible.builtin.template:
+    src: usr/local/sbin/private-ca-gen-server-cert
+    dest: /usr/local/sbin/private-ca-gen-server-cert
     owner: root
     group: root
     mode: '0755'
     backup: true
   become: true
 
-- name: Copy generate certificate script
-  ansible.builtin.copy:
-    src: usr/local/bin/private-ca-gen-cert
-    dest: /usr/local/bin/private-ca-gen-cert
+- name: Copy generate client certificate script
+  ansible.builtin.template:
+    src: usr/local/sbin/private-ca-gen-client-cert
+    dest: /usr/local/sbin/private-ca-gen-client-cert
     owner: root
     group: root
     mode: '0755'

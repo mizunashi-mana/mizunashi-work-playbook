@@ -2,7 +2,7 @@
 default_ca      = CA_default
 
 [ CA_default ]
-dir               = /etc/pki/private-local-ca/rootCA
+dir               = {{ private_ca_root_dir }}/rootCA
 crl_dir           = $dir/crl
 database          = $dir/var/index.txt
 new_certs_dir     = $dir/newcerts
@@ -11,7 +11,6 @@ serial            = $dir/var/serial
 crlnumber         = $dir/var/crlnumber
 crl               = $dir/crl.pem
 private_key       = $dir/private/cakey.pem
-x509_extensions   = v3_client
 name_opt          = ca_default
 cert_opt          = ca_default
 default_days      = 365
@@ -28,9 +27,3 @@ organizationName        = optional
 organizationalUnitName  = optional
 commonName              = supplied
 emailAddress            = optional
-
-[ v3_client ]
-basicConstraints        = CA:FALSE
-extendedKeyUsage        = clientAuth, serverAuth
-subjectKeyIdentifier    = hash
-authorityKeyIdentifier  = keyid,issuer

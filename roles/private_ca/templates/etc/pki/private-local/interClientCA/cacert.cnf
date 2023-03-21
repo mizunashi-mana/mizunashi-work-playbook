@@ -1,0 +1,19 @@
+[ req ]
+distinguished_name  = req_distinguished_name
+x509_extensions     = v3_client
+prompt              = no
+
+[ req_distinguished_name ]
+C             = {{ private_ca_country_name }}
+ST            = {{ private_ca_state_or_province_name }}
+L             = {{ private_ca_locality_name }}
+O             = {{ private_ca_organization_name }}
+OU            = {{ private_ca_organizational_unit_name }}
+CN            = {{ private_ca_inter_client_common_name }}
+
+[ v3_client ]
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid,issuer
+basicConstraints        = CA:FALSE
+keyUsage                = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage        = clientAuth
