@@ -17,6 +17,7 @@
   - nginx_exporter
   - redis_exporter
   - postgres_exporter
+  - blackbox_exporter
   - prometheus
   - grafana
 

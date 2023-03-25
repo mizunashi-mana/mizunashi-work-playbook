@@ -1,0 +1,3 @@
+CONFIG_FILE=/etc/prometheus/blackbox.yml
+LISTEN_ADDRESS={{ blackbox_exporter_listen_address }}:{{ blackbox_exporter_listen_port }}
+EXTRA_ARGS=

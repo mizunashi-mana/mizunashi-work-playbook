@@ -5,6 +5,18 @@
     state: present
   become: true
 
+- name: Copy exim config
+  ansible.builtin.template:
+    src: etc/exim4/update-exim4.conf.conf
+    dest: /etc/exim4/update-exim4.conf.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart exim
+
 - name: Notify restart exim if not started
   ansible.builtin.command: systemctl status exim4
   become: true

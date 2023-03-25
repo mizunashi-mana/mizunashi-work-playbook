@@ -1,0 +1,25 @@
+modules:
+  tcp_connect:
+    prober: tcp
+
+  icmp:
+    prober: icmp
+
+  tls_connect:
+    prober: tcp
+    tcp:
+      tls: true
+
+  http_2xx:
+    prober: http
+
+  http_post_2xx:
+    prober: http
+    http:
+      method: POST
+
+  ssh_banner:
+    prober: tcp
+    tcp:
+      query_response:
+      - expect: "^SSH-2.0-"

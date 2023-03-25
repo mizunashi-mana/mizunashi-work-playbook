@@ -1,0 +1,51 @@
+---
+- name: Install blackbox exporter
+  ansible.builtin.apt:
+    name: 'prometheus-blackbox-exporter={{ blackbox_exporter_version }}*'
+    state: present
+  become: true
+
+- name: Copy blackbox exporter environment
+  ansible.builtin.template:
+    src: etc/default/prometheus-blackbox-exporter
+    dest: /etc/default/prometheus-blackbox-exporter
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart blackbox-exporter
+
+- name: Install blackbox exporter service
+  ansible.builtin.template:
+    src: usr/lib/systemd/system/prometheus-blackbox-exporter.service
+    dest: /usr/lib/systemd/system/prometheus-blackbox-exporter.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart blackbox-exporter
+
+- name: Copy blackbox exporter config
+  ansible.builtin.template:
+    src: etc/prometheus/blackbox.yml
+    dest: /etc/prometheus/blackbox.yml
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Reload blackbox-exporter
+
+- name: Notify restart blackbox exporter if not started
+  ansible.builtin.command: systemctl status prometheus-blackbox-exporter
+  become: true
+  register: blackbox_exporter_service_status
+  changed_when: blackbox_exporter_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart blackbox-exporter
