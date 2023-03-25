@@ -19,7 +19,7 @@
 
 - name: Install fullchain for Mastodon
   ansible.builtin.copy:
-    content: '{{ private_mastodon_certificate_fullchain }}'
+    content: "{{ private_mastodon_certificate_fullchain }}\n"
     dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
     owner: root
     group: root
@@ -29,7 +29,7 @@
 
 - name: Install chain for Mastodon
   ansible.builtin.copy:
-    content: '{{ private_mastodon_certificate_chain }}'
+    content: "{{ private_mastodon_certificate_chain }}\n"
     dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/chain.pem'
     owner: root
     group: root
@@ -39,7 +39,7 @@
 
 - name: Install private key for Mastodon
   ansible.builtin.copy:
-    content: '{{ private_mastodon_certificate_private_key }}'
+    content: "{{ private_mastodon_certificate_private_key }}\n"
     dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/privkey.pem'
     owner: root
     group: root

@@ -1,4 +1,7 @@
 ---
+- name: Request postgresql started
+  ansible.builtin.meta: flush_handlers
+
 - name: Select users
   ansible.builtin.command:
     cmd: |

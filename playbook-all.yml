@@ -13,7 +13,6 @@
   - exim
   - certbot
   - private_ca
-  - mastodon
   - node_exporter
   - nginx_exporter
   - redis_exporter
@@ -27,6 +26,7 @@
   - nginx_site_mastodon
 
   - postgresql_mastodon
+  - mastodon
 
   post_tasks:
   - name: Check
