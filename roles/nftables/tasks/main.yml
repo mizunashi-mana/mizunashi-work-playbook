@@ -14,6 +14,15 @@
     mode: '0755'
   become: true
 
+- name: Directory of nftables chain configs is available
+  ansible.builtin.file:
+    path: /etc/nftables-chain.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
 - name: Copy nftables config
   ansible.builtin.copy:
     src: etc/nftables.conf
