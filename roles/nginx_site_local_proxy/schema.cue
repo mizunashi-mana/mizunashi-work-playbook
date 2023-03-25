@@ -1,7 +1,6 @@
 package nginx_site_local_proxy
 
 #ProxyEntry: {
-  path: string
   upstream_port: uint
 }
 

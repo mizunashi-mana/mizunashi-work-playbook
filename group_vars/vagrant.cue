@@ -112,7 +112,6 @@ let local_proxy_https_port = 19100
 
   nginx_site_local_proxy_entries: {
     node_exporter: {
-      path: "/node_exporter"
       upstream_port: 9100
     }
   }
