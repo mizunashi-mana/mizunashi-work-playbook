@@ -8,7 +8,6 @@ import "mizunashi.work/pkg/roles/private_ca"
 import "mizunashi.work/pkg/roles/prometheus"
 import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
-import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
 import "mizunashi.work/pkg/roles/postgresql_mastodon"
 import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 
@@ -22,7 +21,6 @@ import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 #Schema: prometheus
 #Schema: nginx_site_http_redirector
 #Schema: nginx_site_mastodon_front
-#Schema: nginx_site_local_proxy
 #Schema: postgresql_mastodon
 #Schema: private_mastodon_certificate
 
@@ -30,7 +28,6 @@ let mastodon_domain = "mstdn-local.mizunashi.work"
 let ssh_port = 22
 let http_port = 80
 let https_port = 443
-let local_proxy_https_port = 19100
 
 #Schema & {
   mastodon_local_domain: mastodon_domain
@@ -100,7 +97,6 @@ let local_proxy_https_port = 19100
   openssh_server_listen_port: ssh_port
   nginx_site_http_redirector_listen_port: http_port
   nginx_site_mastodon_front_listen_port: https_port
-  nginx_site_local_proxy_listen_port: local_proxy_https_port
 
   nftables_accept_tcp_ports: [
     ssh_port,
@@ -109,12 +105,6 @@ let local_proxy_https_port = 19100
   ]
 
   nginx_resolver: "8.8.8.8"
-
-  nginx_site_local_proxy_entries: {
-    node_exporter: {
-      upstream_port: 9100
-    }
-  }
 
   private_ca_root_key_password: {
     "__ansible_vault":
