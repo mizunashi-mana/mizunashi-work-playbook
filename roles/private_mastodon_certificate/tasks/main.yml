@@ -1,0 +1,48 @@
+---
+- name: Directory of certificates is available
+  ansible.builtin.file:
+    path: '/etc/letsencrypt/live'
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Directory of private certificate is available
+  ansible.builtin.file:
+    path: '/etc/letsencrypt/live/{{ mastodon_local_domain }}'
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Install fullchain for Mastodon
+  ansible.builtin.copy:
+    content: '{{ private_mastodon_certificate_fullchain }}'
+    dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Install chain for Mastodon
+  ansible.builtin.copy:
+    content: '{{ private_mastodon_certificate_chain }}'
+    dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/chain.pem'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Install private key for Mastodon
+  ansible.builtin.copy:
+    content: '{{ private_mastodon_certificate_private_key }}'
+    dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/privkey.pem'
+    owner: root
+    group: root
+    mode: '0600'
+    backup: true
+  become: true

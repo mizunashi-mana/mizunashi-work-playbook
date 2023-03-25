@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+mastodon_live_dir = "/var/lib/mastodon/live"
+ENV["BUNDLE_GEMFILE"] ||= File.expand_path(mastodon_live_dir, "Gemfile")
+
+require "rubygems"
+
+load Gem.bin_path("bundler", "bundle")
+
+require "bundler/setup"
+load File.expand_path(mastodon_live_dir, "bin/tootctl")

@@ -215,6 +215,16 @@
   notify:
     - Restart mastodon-streaming
 
+- name: Install tootctl proxy
+  ansible.builtin.template:
+    src: usr/local/bin/tootctl
+    dest: /usr/local/bin/tootctl
+    owner: mastodon
+    group: mastodon
+    mode: '0744'
+    backup: true
+  become: true
+
 - name: Notify restart mastodon-sidekiq if not started
   ansible.builtin.command: systemctl status mastodon-sidekiq
   become: true

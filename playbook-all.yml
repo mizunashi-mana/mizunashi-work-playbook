@@ -21,6 +21,8 @@
   - prometheus
   - grafana
 
+  - private_mastodon_certificate
+
   - nginx_site_http_redirector
   - nginx_site_mastodon
 
