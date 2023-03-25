@@ -1,0 +1,3 @@
+DATA_SOURCE_NAME=''
+LISTEN_ADDRESS={{ postgres_exporter_listen_address }}:{{ postgres_exporter_listen_port }}
+EXTRA_ARGS=''

@@ -23,7 +23,8 @@
   - private_mastodon_certificate
 
   - nginx_site_http_redirector
-  - nginx_site_mastodon
+  - nginx_site_mastodon_front
+  - nginx_site_local_proxy
 
   - postgresql_mastodon
   - mastodon

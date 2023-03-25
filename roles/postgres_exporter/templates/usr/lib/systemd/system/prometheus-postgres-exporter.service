@@ -1,0 +1,14 @@
+[Unit]
+Description=Prometheus exporter for PostgreSQL
+Documentation=https://github.com/wrouesnel/postgres_exporter
+
+[Service]
+Restart=always
+User=prometheus
+EnvironmentFile=/etc/default/prometheus-postgres-exporter
+ExecStart=/usr/bin/prometheus-postgres-exporter \
+  -web.listen-address "$LISTEN_ADDRESS" \
+  $EXTRA_ARGS
+
+[Install]
+WantedBy=multi-user.target

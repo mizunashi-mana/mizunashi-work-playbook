@@ -1,2 +1,4 @@
 ---
 postgres_exporter_version: 0.8.0
+postgres_exporter_listen_address: 127.0.0.1
+postgres_exporter_listen_port: 9187

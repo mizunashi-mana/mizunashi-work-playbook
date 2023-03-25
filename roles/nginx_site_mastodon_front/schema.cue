@@ -1,6 +1,6 @@
-package nginx_site_mastodon
+package nginx_site_mastodon_front
 
-nginx_site_mastodon_listen_port: uint
+nginx_site_mastodon_front_listen_port: uint
 mastodon_local_domain: string
 
 mastodon_streaming_listen_port: uint

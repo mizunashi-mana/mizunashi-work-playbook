@@ -1,0 +1,36 @@
+---
+- name: Reload postgres exporter
+  ansible.builtin.set_fact:
+    postgres_exporter_handler_state: reloaded
+  become: true
+  listen: Reload postgres-exporter
+
+- name: Restart postgres exporter
+  ansible.builtin.set_fact:
+    postgres_exporter_handler_state: restarted
+  become: true
+  listen: Restart postgres-exporter
+
+- name: Restart or reload postgres exporter
+  ansible.builtin.systemd:
+    name: prometheus-postgres-exporter
+    state: '{{ postgres_exporter_handler_state }}'
+    daemon_reload: true
+    enabled: true
+  become: true
+  listen:
+  - Restart postgres-exporter
+  - Reload postgres-exporter
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status prometheus-postgres-exporter
+  become: true
+  changed_when: false
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ postgres_exporter_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check

@@ -4,3 +4,36 @@
     name: 'prometheus-postgres-exporter={{ postgres_exporter_version }}*'
     state: present
   become: true
+
+- name: Copy postgres exporter environment
+  ansible.builtin.template:
+    src: etc/default/prometheus-postgres-exporter
+    dest: /etc/default/prometheus-postgres-exporter
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart postgres-exporter
+
+- name: Install postgres exporter service
+  ansible.builtin.template:
+    src: usr/lib/systemd/system/prometheus-postgres-exporter.service
+    dest: /usr/lib/systemd/system/prometheus-postgres-exporter.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart postgres-exporter
+
+- name: Notify restart postgres exporter if not started
+  ansible.builtin.command: systemctl status prometheus-postgres-exporter
+  become: true
+  register: postgres_exporter_service_status
+  changed_when: postgres_exporter_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart postgres-exporter
