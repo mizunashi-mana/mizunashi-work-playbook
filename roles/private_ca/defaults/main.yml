@@ -1,3 +1,5 @@
 ---
 private_ca_root_ca_days: 3650
 private_ca_inter_ca_days: 1825
+
+private_ca_root_dir: /etc/pki/private-local

@@ -2,7 +2,7 @@
 default_ca      = CA_default
 
 [ CA_default ]
-dir               = {{ private_ca_root_dir }}/interServerCA
+dir               = {{ private_ca_root_dir }}/interCA_TLS
 crl_dir           = $dir/crl
 database          = $dir/var/index.txt
 new_certs_dir     = $dir/newcerts
@@ -18,6 +18,8 @@ default_crl_days  = 30
 default_md        = default
 preserve          = no
 policy            = policy_anything
+x509_extensions   = user_cert_ext
+copy_extensions   = copy
 
 [ policy_anything ]
 countryName             = optional
@@ -50,3 +52,14 @@ organizationalUnitName_default  = {{ private_ca_organizational_unit_name }}
 commonName                      = Common Name (e.g. server FQDN or your name)
 
 emailAddress                    = Email Address
+
+[ user_cert ]
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid, issuer:always
+basicConstraints        = CA:FALSE
+authorityInfoAccess     = @authority_info
+crlDistributionPoints   = URI:{{ private_ca_distribution_url_base }}/interCA_TLS.crl
+
+[ authority_info ]
+OCSP;URI.0          = {{ private_ca_ocsp_url }}
+caIssuers;URI.0     = {{ private_ca_distribution_url_base }}/interCA_TLS.crt

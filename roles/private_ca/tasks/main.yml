@@ -1,21 +1,4 @@
 ---
-- name: Directory of PKI is available
-  ansible.builtin.file:
-    path: /etc/pki
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
-  become: true
-
-- name: Set CAs facts
-  set_fact:
-    private_ca_root_dir: /etc/pki/private-local
-    private_ca_dirs:
-    - rootCA
-    - interServerCA
-    - interClientCA
-
 - name: Directory of private CA is available
   ansible.builtin.file:
     path: '{{ private_ca_root_dir }}'
@@ -23,7 +6,13 @@
     owner: root
     group: root
     mode: '0755'
+    recursive: true
   become: true
+
+- set_fact:
+    private_ca_dirs:
+    - rootCA
+    - interCA_TLS
 
 - name: Directories of private CAs are available
   ansible.builtin.file:
@@ -186,14 +175,13 @@
   ansible.builtin.command:
     cmd: |
       openssl req
-        -config '{{ private_ca_root_dir }}/interServerCA/cacert.cnf'
+        -config '{{ private_ca_root_dir }}/interCA_TLS/cacert.cnf'
         -newkey EC
         -pkeyopt ec_paramgen_curve:prime256v1
-        -passout 'pass:{{ private_ca_inter_server_key_password }}'
-        -days {{ private_ca_inter_ca_days }}
-        -out '{{ private_ca_root_dir }}/interServerCA/cacert.csr'
-        -keyout '{{ private_ca_root_dir }}/interServerCA/private/cakey.pem'
-    creates: '{{ private_ca_root_dir }}/interServerCA/cacert.csr'
+        -passout 'pass:{{ private_ca_inter_tls_key_password }}'
+        -out '{{ private_ca_root_dir }}/interCA_TLS/cacert.csr'
+        -keyout '{{ private_ca_root_dir }}/interCA_TLS/private/cakey.pem'
+    creates: '{{ private_ca_root_dir }}/interCA_TLS/cacert.csr'
   become: true
   no_log: true
 
@@ -205,57 +193,27 @@
         -notext
         -batch
         -passin 'pass:{{ private_ca_root_key_password }}'
-        -in '{{ private_ca_root_dir }}/interServerCA/cacert.csr'
+        -in '{{ private_ca_root_dir }}/interCA_TLS/cacert.csr'
         -days {{ private_ca_inter_ca_days }}
-        -out '{{ private_ca_root_dir }}/interServerCA/cacert.pem'
-    creates: '{{ private_ca_root_dir }}/interServerCA/cacert.pem'
+        -out '{{ private_ca_root_dir }}/interCA_TLS/cacert.pem'
+    creates: '{{ private_ca_root_dir }}/interCA_TLS/cacert.pem'
   become: true
   no_log: true
 
-- name: Create intermediate CA certificate request for clients
-  ansible.builtin.command:
-    cmd: |
-      openssl req
-        -config '{{ private_ca_root_dir }}/interClientCA/cacert.cnf'
-        -newkey EC
-        -pkeyopt ec_paramgen_curve:prime256v1
-        -passout 'pass:{{ private_ca_inter_client_key_password }}'
-        -days {{ private_ca_inter_ca_days }}
-        -out '{{ private_ca_root_dir }}/interClientCA/cacert.csr'
-        -keyout '{{ private_ca_root_dir }}/interClientCA/private/cakey.pem'
-    creates: '{{ private_ca_root_dir }}/interClientCA/cacert.csr'
-  become: true
-  no_log: true
-
-- name: Create intermediate CA certificate for clients
-  ansible.builtin.command:
-    cmd: |
-      openssl ca
-        -config '{{ private_ca_root_dir }}/rootCA/ca.cnf'
-        -notext
-        -batch
-        -passin 'pass:{{ private_ca_root_key_password }}'
-        -in '{{ private_ca_root_dir }}/interClientCA/cacert.csr'
-        -days {{ private_ca_inter_ca_days }}
-        -out '{{ private_ca_root_dir }}/interClientCA/cacert.pem'
-    creates: '{{ private_ca_root_dir }}/interClientCA/cacert.pem'
-  become: true
-  no_log: true
-
-- name: Copy generate server certificate script
+- name: Copy generate certificate request script
   ansible.builtin.template:
-    src: usr/local/sbin/private-ca-gen-server-cert
-    dest: /usr/local/sbin/private-ca-gen-server-cert
+    src: usr/local/sbin/private-ca-gen-csr
+    dest: /usr/local/sbin/private-ca-gen-csr
     owner: root
     group: root
     mode: '0755'
     backup: true
   become: true
 
-- name: Copy generate client certificate script
+- name: Copy generate TLS certificate script
   ansible.builtin.template:
-    src: usr/local/sbin/private-ca-gen-client-cert
-    dest: /usr/local/sbin/private-ca-gen-client-cert
+    src: usr/local/sbin/private-ca-gen-tls-cert
+    dest: /usr/local/sbin/private-ca-gen-tls-cert
     owner: root
     group: root
     mode: '0755'

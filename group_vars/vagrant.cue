@@ -117,7 +117,7 @@ let https_port = 443
       35613564633235333638613364376533303933356364326433303162663838326238
       """
   }
-  private_ca_inter_server_key_password: {
+  private_ca_inter_tls_key_password: {
     "__ansible_vault":
       """
       $ANSIBLE_VAULT;1.1;AES256
@@ -128,20 +128,11 @@ let https_port = 443
       35303261326165653930373164643166396264383436333532646439363132336334
       """
   }
-  private_ca_inter_client_key_password: {
-    "__ansible_vault":
-      """
-      $ANSIBLE_VAULT;1.1;AES256
-      62363363323366376563396638323038313433636163316662636631623137633462616662626131
-      3065353035633634373830313133353237323634313833630a313737633533346130386635613031
-      32306164366365336536643731333234346534393164326239643231363464666562356634333065
-      3837323131313335640a633665353336616565623738653932326431333730366533643864636461
-      32316461646365363664313130353965623563393461653236363231346364396538
-      """
-  }
   private_ca_country_name: "JP"
   private_ca_state_or_province_name: "Tokyo"
   private_ca_locality_name: "."
+  private_ca_distribution_url_base: "http://ca-local.mizunashi.work"
+  private_ca_ocsp_url: "http://ca-local.mizunashi.work"
 
   private_mastodon_certificate_fullchain:
     """
