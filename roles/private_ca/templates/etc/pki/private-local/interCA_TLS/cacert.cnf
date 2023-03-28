@@ -9,7 +9,7 @@ ST            = {{ private_ca_state_or_province_name }}
 L             = {{ private_ca_locality_name }}
 O             = {{ private_ca_organization_name }}
 OU            = {{ private_ca_organizational_unit_name }}
-CN            = {{ private_ca_inter_server_common_name }}
+CN            = {{ private_ca_inter_tls_common_name }}
 
 [ req_ext ]
 basicConstraints        = critical, CA:TRUE, pathlen:0

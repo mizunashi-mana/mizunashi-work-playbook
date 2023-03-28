@@ -6,7 +6,6 @@
     owner: root
     group: root
     mode: '0755'
-    recursive: true
   become: true
 
 - set_fact:

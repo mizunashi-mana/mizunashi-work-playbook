@@ -7,6 +7,7 @@ Type=simple
 User=mastodon
 WorkingDirectory=/var/lib/mastodon/live
 Environment="RAILS_ENV=production"
+Environment="LD_PRELOAD=libjemalloc.so"
 EnvironmentFile=/etc/default/mastodon-sidekiq
 ExecStart=/usr/local/bin/bundle exec sidekiq -c 25
 TimeoutSec=15

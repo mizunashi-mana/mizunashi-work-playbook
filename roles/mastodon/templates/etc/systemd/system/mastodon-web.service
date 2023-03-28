@@ -7,6 +7,7 @@ Type=simple
 User=mastodon
 WorkingDirectory=/var/lib/mastodon/live
 Environment="RAILS_ENV=production"
+Environment="LD_PRELOAD=libjemalloc.so"
 EnvironmentFile=/etc/default/mastodon-web
 ExecStart=/usr/local/bin/bundle exec puma -C config/puma.rb
 ExecReload=/bin/kill -SIGUSR1 $MAINPID
