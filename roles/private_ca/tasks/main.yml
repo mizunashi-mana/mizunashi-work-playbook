@@ -199,6 +199,17 @@
   become: true
   no_log: true
 
+- name: Generate CRLs
+  ansible.builtin.command:
+    cmd: |
+      openssl ca
+        -config '{{ private_ca_root_dir }}/{{ item }}/ca.cnf'
+        -gencrl
+        -out '{{ private_ca_root_dir }}/{{ item }}/ca.crl'
+    creates: '{{ private_ca_root_dir }}/{{ item }}/ca.crl'
+  become: true
+  loop: '{{ private_ca_dirs }}'
+
 - name: Copy generate certificate request script
   ansible.builtin.template:
     src: usr/local/sbin/private-ca-gen-csr
