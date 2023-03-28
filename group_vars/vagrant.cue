@@ -131,8 +131,8 @@ let https_port = 443
   private_ca_country_name: "JP"
   private_ca_state_or_province_name: "Tokyo"
   private_ca_locality_name: "."
-  private_ca_distribution_url_base: "http://ca-local.mizunashi.work"
-  private_ca_ocsp_url: "http://ca-local.mizunashi.work"
+  private_ca_domain: "ca-local.mizunashi.work"
+  private_ca_listen_port: 80
 
   private_mastodon_certificate_fullchain:
     """
