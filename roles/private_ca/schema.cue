@@ -14,5 +14,5 @@ private_ca_root_key_password: cue_types.#Vaulted
 private_ca_inter_tls_common_name: string | *"Private TLS CA"
 private_ca_inter_tls_key_password: cue_types.#Vaulted
 
-private_ca_distribution_url_base: string
-private_ca_ocsp_url: string
+private_ca_domain: string
+private_ca_listen_port: uint

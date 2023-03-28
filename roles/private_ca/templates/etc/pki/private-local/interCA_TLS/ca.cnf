@@ -61,5 +61,4 @@ authorityInfoAccess     = @authority_info
 crlDistributionPoints   = URI:{{ private_ca_distribution_url_base }}/interCA_TLS.crl
 
 [ authority_info ]
-OCSP;URI.0          = {{ private_ca_ocsp_url }}
 caIssuers;URI.0     = {{ private_ca_distribution_url_base }}/interCA_TLS.crt

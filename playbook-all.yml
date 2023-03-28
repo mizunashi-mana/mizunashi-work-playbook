@@ -25,6 +25,7 @@
 
   - nginx_site_http_redirector
   - nginx_site_mastodon_front
+  - nginx_site_private_ca
 
   - postgresql_mastodon
   - mastodon

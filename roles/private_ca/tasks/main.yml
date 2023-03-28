@@ -12,6 +12,8 @@
     private_ca_dirs:
     - rootCA
     - interCA_TLS
+    private_ca_distribution_url_base: |
+      http://{{ private_ca_domain }}{% if private_ca_listen_port != 80 %}:{{ private_ca_listen_port }}{% endif %}
 
 - name: Directories of private CAs are available
   ansible.builtin.file:

@@ -1,1 +1,23 @@
 ---
+- name: Install private CA site
+  ansible.builtin.template:
+    src: etc/nginx/sites-available/private_ca.conf
+    dest: /etc/nginx/sites-available/private_ca.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Reload nginx
+
+- name: Enable private CA site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/private_ca.conf
+    dest: /etc/nginx/sites-enabled/private_ca.conf
+    owner: root
+    group: root
+    state: link
+  become: true
+  notify:
+    - Reload nginx
