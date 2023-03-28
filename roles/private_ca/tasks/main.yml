@@ -170,6 +170,17 @@
   become: true
   no_log: true
 
+- name: Generate CRL certificate of root CA
+  ansible.builtin.command:
+    cmd: |
+      openssl ca
+        -config '{{ private_ca_root_dir }}/rootCA/ca.cnf'
+        -gencrl
+        -passin 'pass:{{ private_ca_root_key_password }}'
+        -out '{{ private_ca_root_dir }}/rootCA/crl.pem'
+    creates: '{{ private_ca_root_dir }}/rootCA/crl.pem'
+  become: true
+
 - name: Create intermediate CA certificate request for servers
   ansible.builtin.command:
     cmd: |
@@ -199,16 +210,16 @@
   become: true
   no_log: true
 
-- name: Generate CRLs
+- name: Generate CRL certificate of intermediate CA
   ansible.builtin.command:
     cmd: |
       openssl ca
-        -config '{{ private_ca_root_dir }}/{{ item }}/ca.cnf'
+        -config '{{ private_ca_root_dir }}/interCA_TLS/ca.cnf'
         -gencrl
-        -out '{{ private_ca_root_dir }}/{{ item }}/ca.crl'
-    creates: '{{ private_ca_root_dir }}/{{ item }}/ca.crl'
+        -passin 'pass:{{ private_ca_inter_tls_key_password }}'
+        -out '{{ private_ca_root_dir }}/interCA_TLS/crl.pem'
+    creates: '{{ private_ca_root_dir }}/interCA_TLS/crl.pem'
   become: true
-  loop: '{{ private_ca_dirs }}'
 
 - name: Copy generate certificate request script
   ansible.builtin.template:
@@ -224,6 +235,16 @@
   ansible.builtin.template:
     src: usr/local/sbin/private-ca-gen-tls-cert
     dest: /usr/local/sbin/private-ca-gen-tls-cert
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
+  become: true
+
+- name: Copy revoke TLS certificate script
+  ansible.builtin.template:
+    src: usr/local/sbin/private-ca-revoke-tls-cert
+    dest: /usr/local/sbin/private-ca-revoke-tls-cert
     owner: root
     group: root
     mode: '0755'
