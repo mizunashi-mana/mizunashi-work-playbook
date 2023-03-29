@@ -53,7 +53,7 @@ commonName                      = Common Name (e.g. server FQDN or your name)
 
 emailAddress                    = Email Address
 
-[ user_cert ]
+[ user_cert_ext ]
 subjectKeyIdentifier    = hash
 authorityKeyIdentifier  = keyid, issuer:always
 basicConstraints        = CA:FALSE
