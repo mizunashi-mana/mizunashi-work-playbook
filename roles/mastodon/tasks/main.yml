@@ -95,6 +95,10 @@
     backup: true
   become: true
   diff: false
+  notify:
+    - Restart mastodon-sidekiq
+    - Restart mastodon-web
+    - Restart mastodon-streaming
 
 - name: Install bundle dependencies
   ansible.builtin.command:
