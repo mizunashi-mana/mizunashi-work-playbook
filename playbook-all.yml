@@ -18,6 +18,7 @@
   - redis_exporter
   - postgres_exporter
   - blackbox_exporter
+  - statsd_exporter
   - prometheus
   - grafana
 

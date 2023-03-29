@@ -1,0 +1,43 @@
+---
+- name: Reload statsd exporter
+  ansible.builtin.set_fact:
+    statsd_exporter_handler_state: reloaded
+  become: true
+  listen: Reload statsd-exporter
+
+- name: Restart statsd exporter
+  ansible.builtin.set_fact:
+    statsd_exporter_handler_state: restarted
+  become: true
+  listen: Restart statsd-exporter
+
+- name: Restart or reload statsd exporter
+  ansible.builtin.systemd:
+    name: prometheus-statsd-exporter
+    state: '{{ statsd_exporter_handler_state }}'
+    daemon_reload: true
+    enabled: true
+  become: true
+  listen:
+  - Restart statsd-exporter
+  - Reload statsd-exporter
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status prometheus-statsd-exporter
+  become: true
+  changed_when: false
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ statsd_exporter_web_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ statsd_exporter_statsd_listen_tcp_port }}'
+    state: started
+    timeout: 60
+  listen: Check

@@ -1,0 +1,61 @@
+---
+- name: Share directory of statsd exporter is available
+  ansible.builtin.file:
+    path: /usr/local/share/statsd-exporter
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Install statsd exporter
+  ansible.builtin.shell:
+    cmd: |
+      wget -O- \
+        'https://github.com/prometheus/statsd_exporter/releases/download/v{{ statsd_exporter_version }}/statsd_exporter-{{ statsd_exporter_version }}.linux-amd64.tar.gz' \
+        | tar zxf - --strip-components 1 -C /usr/local/share/statsd-exporter \
+        && cp /usr/local/share/statsd-exporter/statsd_exporter /usr/bin/prometheus-statsd-exporter
+    creates: /usr/bin/prometheus-statsd-exporter
+  become: true
+
+- name: statsd exporter is executable
+  ansible.builtin.file:
+    path: /usr/bin/prometheus-statsd-exporter
+    state: file
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Copy statsd exporter environment
+  ansible.builtin.template:
+    src: etc/default/prometheus-statsd-exporter
+    dest: /etc/default/prometheus-statsd-exporter
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart statsd-exporter
+
+- name: Install statsd exporter service
+  ansible.builtin.template:
+    src: usr/lib/systemd/system/prometheus-statsd-exporter.service
+    dest: /usr/lib/systemd/system/prometheus-statsd-exporter.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart statsd-exporter
+
+- name: Notify restart statsd exporter if not started
+  ansible.builtin.command: systemctl status prometheus-statsd-exporter
+  become: true
+  register: statsd_exporter_service_status
+  changed_when: statsd_exporter_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart statsd-exporter
