@@ -1,7 +1,7 @@
 ---
 - name: Install local proxy site
   ansible.builtin.template:
-    src: 'etc/nginx/sites-available/local_proxy_{{ item.key }}.conf'
+    src: 'etc/nginx/sites-available/local_proxy_xxx.conf'
     dest: '/etc/nginx/sites-available/local_proxy_{{ item.key }}.conf'
     owner: root
     group: root
