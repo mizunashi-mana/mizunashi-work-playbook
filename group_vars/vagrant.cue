@@ -114,6 +114,9 @@ let local_proxy_https_port = 19100
 
   exim_mail_domain: "mail-local.mizunashi.work"
 
+  nginx_site_local_proxy_entries:
+
+
   private_ca_root_key_password: {
     "__ansible_vault":
       """

@@ -39,7 +39,7 @@
   become: true
 
 - name: private key is available
-  ansible.builtin.copy:
+  ansible.builtin.file:
     path: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/privkey.pem'
     state: file
     owner: root

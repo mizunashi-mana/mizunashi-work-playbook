@@ -8,7 +8,7 @@
     mode: '0644'
     backup: true
   become: true
-  loop: '{{ nginx_site_local_proxy_entries }}'
+  loop: '{{ nginx_site_local_proxy_entries|dict2items }}'
   notify:
     - Reload nginx
 
@@ -20,6 +20,6 @@
     group: root
     state: link
   become: true
-  loop: '{{ nginx_site_local_proxy_entries }}'
+  loop: '{{ nginx_site_local_proxy_entries|dict2items }}'
   notify:
     - Reload nginx
