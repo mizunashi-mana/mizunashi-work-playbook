@@ -38,10 +38,11 @@ if [ -z "$IN_CSR" ] || [ -z "$OUT_CERT" ]; then
   exit 1
 fi
 
-exec openssl ca \
+openssl ca \
   -config "$CA_CONFIG_PATH" \
   -verbose \
   -notext \
   -batch \
   -in "$IN_CSR" \
   -out "$OUT_CERT"
+cat '{{ private_ca_root_dir }}/interCA_TLS/cacert.pem' >> "$OUT_CERT"

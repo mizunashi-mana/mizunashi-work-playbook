@@ -36,7 +36,7 @@ if [ -z "$OUT_CSR" ] || [ -z "$OUT_KEY" ]; then
   exit 1
 fi
 
-exec openssl req \
+openssl req \
   -nodes \
   -newkey EC \
   -pkeyopt ec_paramgen_curve:prime256v1 \

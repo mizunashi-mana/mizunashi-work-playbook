@@ -35,7 +35,7 @@ if [ -z "$IN_CERT" ]; then
   exit 1
 fi
 
-exec openssl ca \
+openssl ca \
   -config "$CA_CONFIG_PATH" \
   -revoke "$IN_CERT" \
   -gencrl \

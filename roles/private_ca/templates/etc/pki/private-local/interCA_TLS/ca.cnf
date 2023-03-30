@@ -57,6 +57,8 @@ emailAddress                    = Email Address
 subjectKeyIdentifier    = hash
 authorityKeyIdentifier  = keyid, issuer:always
 basicConstraints        = CA:FALSE
+keyUsage                = critical, digitalSignature
+extendedKeyUsage        = serverAuth, clientAuth
 authorityInfoAccess     = @authority_info
 crlDistributionPoints   = URI:{{ private_ca_distribution_url_base }}/interCA_TLS.crl
 
