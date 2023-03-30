@@ -65,6 +65,18 @@
   notify:
     - Reload nginx
 
+- name: Copy proxy config
+  ansible.builtin.template:
+    src: etc/nginx/conf.d/proxy.conf
+    dest: /etc/nginx/conf.d/proxy.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Reload nginx
+
 - name: Directory of nginx cache is available
   ansible.builtin.file:
     path: /var/cache/nginx

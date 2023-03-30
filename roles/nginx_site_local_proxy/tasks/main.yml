@@ -1,0 +1,25 @@
+---
+- name: Install local proxy site
+  ansible.builtin.template:
+    src: 'etc/nginx/sites-available/local_proxy_{{ item.key }}.conf'
+    dest: '/etc/nginx/sites-available/local_proxy_{{ item.key }}.conf'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  loop: '{{ nginx_site_local_proxy_entries }}'
+  notify:
+    - Reload nginx
+
+- name: Enable local proxy site
+  ansible.builtin.file:
+    src: '/etc/nginx/sites-available/local_proxy_{{ item.key }}.conf'
+    dest: '/etc/nginx/sites-enabled/local_proxy_{{ item.key }}.conf'
+    owner: root
+    group: root
+    state: link
+  become: true
+  loop: '{{ nginx_site_local_proxy_entries }}'
+  notify:
+    - Reload nginx
