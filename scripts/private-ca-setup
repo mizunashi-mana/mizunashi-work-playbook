@@ -21,7 +21,7 @@ EOS
 while [ "$#" -ne 0 ]; do
   case "$1" in
     '--dist-dir' )
-      DIST_DIR="$(cd "$2" && pwd)"
+      DIST_DIR="$2"
       shift
       ;;
     '--dist-url' )
@@ -56,6 +56,7 @@ if [ -z "${DIST_DIR:-}" ]; then
 fi
 
 mkdir -p "$DIST_DIR"
+DIST_DIR="$(cd "$DIST_DIR" && pwd)"
 
 
 ROOT_CA_DIR="$DIST_DIR/rootCA"
