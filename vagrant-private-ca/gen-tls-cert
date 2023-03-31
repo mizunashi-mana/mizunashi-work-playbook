@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+[ "${TRACE:-false}" = 'true' ] && set -x
+
+CA_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+INTER_TLS_CA_DIR="$CA_DIR/interCA_TLS"
+
+function show_usage() {
+  cat <<EOS
+Usage: $0 --out-cert PATH --out-key PATH
+EOS
+}
+
+while [ "$#" -ne 0 ]; do
+  case "$1" in
+    '--out-cert' )
+      OUT_CERT="$2"
+      shift
+      ;;
+    '--out-key' )
+      OUT_KEY="$2"
+      shift
+      ;;
+    '-?' | '--help' )
+      show_usage
+      exit
+      ;;
+    * )
+      echo "Unknown option: $1" 1>&2
+      show_usage
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+if [ -z "${OUT_CERT:-}" ] || [ -z "${OUT_KEY:-}" ]; then
+  echo "Not enough arguments." 1>&2
+  show_usage
+  exit 1
+fi
+
+OUT_CERT="$(cd "$(dirname "$OUT_CERT")" && pwd)/$(basename "$OUT_CERT")"
+OUT_KEY="$(cd "$(dirname "$OUT_KEY")" && pwd)/$(basename "$OUT_KEY")"
+OUT_CSR="$OUT_CERT.csr"
+
+openssl req \
+  -config "$CA_DIR/req.cnf" \
+  -newkey EC \
+  -pkeyopt ec_paramgen_curve:prime256v1 \
+  -nodes \
+  -out "$OUT_CSR" \
+  -keyout "$OUT_KEY"
+
+cd "$CA_DIR" && openssl ca \
+  -config "$INTER_TLS_CA_DIR/ca.cnf" \
+  -notext \
+  -batch \
+  -in "$OUT_CSR" \
+  -out "$OUT_CERT"

@@ -108,3 +108,5 @@ m4 \
 
 
 cp "$PROJECT_DIR/assets/private_ca/req.cnf" "$DIST_DIR/req.cnf"
+cp "$PROJECT_DIR/assets/private_ca/gen-tls-cert" "$DIST_DIR/gen-tls-cert"
+chmod +x "$DIST_DIR/gen-tls-cert"
