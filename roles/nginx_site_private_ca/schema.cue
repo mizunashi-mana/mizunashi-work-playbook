@@ -1,0 +1,4 @@
+package nginx_site_private_ca
+
+nginx_site_private_ca_listen_port: uint
+nginx_site_private_ca_domain: string

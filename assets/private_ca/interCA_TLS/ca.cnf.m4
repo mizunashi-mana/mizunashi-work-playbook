@@ -2,7 +2,7 @@
 default_ca      = CA_default
 
 [ CA_default ]
-dir               = {{ private_ca_root_dir }}/rootCA
+dir               = ./interCA_TLS
 crl_dir           = $dir/crl
 database          = $dir/var/index.txt
 new_certs_dir     = $dir/newcerts
@@ -33,8 +33,11 @@ emailAddress            = optional
 [ user_cert_ext ]
 subjectKeyIdentifier    = hash
 authorityKeyIdentifier  = keyid, issuer:always
+basicConstraints        = CA:FALSE
+keyUsage                = critical, digitalSignature
+extendedKeyUsage        = serverAuth, clientAuth
 authorityInfoAccess     = @authority_info
-crlDistributionPoints   = URI:{{ private_ca_distribution_url_base }}/rootCA.crl
+crlDistributionPoints   = URI:__DISTRIBUTION_URL__/interCA_TLS.crl
 
 [ authority_info ]
-caIssuers;URI.0     = {{ private_ca_distribution_url_base }}/rootCA.crt
+caIssuers;URI.0     = __DISTRIBUTION_URL__/interCA_TLS.crt

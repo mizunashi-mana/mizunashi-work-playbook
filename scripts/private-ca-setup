@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+[ "${TRACE:-false}" = 'true' ] && set -x
+
+PROJECT_DIR="$(cd "$(dirname "$(dirname "$0")")" && pwd)"
+
+ROOT_CA_DAYS=3650
+INTER_TLS_CA_DAYS=1825
+
+function show_usage() {
+  cat <<EOS
+Usage: $0 --dist-dir DIR --dist-url URL [option...]
+
+Options:
+  --root-ca-days DAYS: Expired days of root CA
+  --inter-tls-ca-days DAYS: Expired days of intermediate TLS CA
+EOS
+}
+
+while [ "$#" -ne 0 ]; do
+  case "$1" in
+    '--dist-dir' )
+      DIST_DIR="$(cd "$2" && pwd)"
+      shift
+      ;;
+    '--dist-url' )
+      DISTRIBUTION_URL="$2"
+      shift
+      ;;
+    '--root-ca-days' )
+      ROOT_CA_DAYS="$2"
+      shift
+      ;;
+    '--inter-tls-ca-days' )
+      INTER_TLS_CA_DAYS="$2"
+      shift
+      ;;
+    '-?' | '--help' )
+      show_usage
+      exit
+      ;;
+    * )
+      echo "Unknown option: $1" 1>&2
+      show_usage
+      exit 1
+      ;;
+  esac
+  shift
+done
+
+if [ -z "${DIST_DIR:-}" ]; then
+  echo "Not enough arguments." 1>&2
+  show_usage
+  exit 1
+fi
+
+mkdir -p "$DIST_DIR"
+
+
+ROOT_CA_DIR="$DIST_DIR/rootCA"
+mkdir -p "$ROOT_CA_DIR/"{crl,var,newcerts,private}
+touch "$ROOT_CA_DIR/var/index.txt"
+echo '01' > "$ROOT_CA_DIR/var/serial"
+echo '01' > "$ROOT_CA_DIR/var/crlnumber"
+
+openssl req \
+  -config "$PROJECT_DIR/assets/private_ca/rootCA/cacert.cnf" \
+  -x509 \
+  -newkey EC \
+  -pkeyopt ec_paramgen_curve:prime256v1 \
+  -days "$ROOT_CA_DAYS" \
+  -out "$ROOT_CA_DIR/cacert.pem" \
+  -keyout "$ROOT_CA_DIR/private/cakey.pem"
+
+m4 \
+  "-D__DISTRIBUTION_URL__=${DISTRIBUTION_URL}" \
+  "$PROJECT_DIR/assets/private_ca/rootCA/ca.cnf.m4" \
+  >"$ROOT_CA_DIR/ca.cnf"
+
+
+INTER_TLS_CA_DIR="$DIST_DIR/interCA_TLS"
+mkdir -p "$INTER_TLS_CA_DIR/"{crl,var,newcerts,private}
+touch "$INTER_TLS_CA_DIR/var/index.txt"
+echo '01' > "$INTER_TLS_CA_DIR/var/serial"
+echo '01' > "$INTER_TLS_CA_DIR/var/crlnumber"
+
+openssl req \
+  -config "$PROJECT_DIR/assets/private_ca/interCA_TLS/cacert.cnf" \
+  -newkey EC \
+  -pkeyopt ec_paramgen_curve:prime256v1 \
+  -out "$INTER_TLS_CA_DIR/cacert.csr" \
+  -keyout "$INTER_TLS_CA_DIR/private/cakey.pem"
+
+cd "$DIST_DIR" && openssl ca \
+  -config "$ROOT_CA_DIR/ca.cnf" \
+  -notext \
+  -batch \
+  -in "$INTER_TLS_CA_DIR/cacert.csr" \
+  -days "$INTER_TLS_CA_DAYS" \
+  -out "$INTER_TLS_CA_DIR/cacert.pem"
+
+m4 \
+  "-D__DISTRIBUTION_URL__=${DISTRIBUTION_URL}" \
+  "$PROJECT_DIR/assets/private_ca/interCA_TLS/ca.cnf.m4" \
+  >"$INTER_TLS_CA_DIR/ca.cnf"
+
+
+cp "$PROJECT_DIR/assets/private_ca/req.cnf" "$DIST_DIR/req.cnf"

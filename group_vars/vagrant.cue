@@ -4,12 +4,12 @@ import "mizunashi.work/pkg/roles/fail2ban"
 import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/mastodon"
 import "mizunashi.work/pkg/roles/nginx_exporter"
-import "mizunashi.work/pkg/roles/private_ca"
 import "mizunashi.work/pkg/roles/prometheus"
 import "mizunashi.work/pkg/roles/exim"
 import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
 import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
+import "mizunashi.work/pkg/roles/nginx_site_private_ca"
 import "mizunashi.work/pkg/roles/postgresql_mastodon"
 import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 
@@ -20,11 +20,11 @@ import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 #Schema: mastodon
 #Schema: exim
 #Schema: nginx_exporter
-#Schema: private_ca
 #Schema: prometheus
 #Schema: nginx_site_http_redirector
 #Schema: nginx_site_mastodon_front
 #Schema: nginx_site_local_proxy
+#Schema: nginx_site_private_ca
 #Schema: postgresql_mastodon
 #Schema: private_mastodon_certificate
 
@@ -114,36 +114,11 @@ let local_proxy_https_port = 19100
 
   exim_mail_domain: "mail-local.mizunashi.work"
 
-  nginx_site_local_proxy_entries:
+  nginx_site_local_proxy_common_domain: "mizunashi.private"
+  nginx_site_local_proxy_entries: {}
 
-
-  private_ca_root_key_password: {
-    "__ansible_vault":
-      """
-      $ANSIBLE_VAULT;1.1;AES256
-      65643238353263343864366637323638333530396436616162336335373931663132326163373537
-      3266356363343035653736653038346232363762653530380a326236353366333035646339343738
-      34663037653261663864623838633666306637656434373039343730306262633530313832663262
-      6361363331636461330a643332623336303566633031626132373038306331333564396538616431
-      35613564633235333638613364376533303933356364326433303162663838326238
-      """
-  }
-  private_ca_inter_tls_key_password: {
-    "__ansible_vault":
-      """
-      $ANSIBLE_VAULT;1.1;AES256
-      31393465656330363763313865313065353964653732383765666363333062646337306134363736
-      6630373239353436373137303734663832653436323463360a333566386634373561383030353137
-      36623138383665333930643164666463393139643035333139383763376261306262666539326139
-      6263353737393262350a663666386337613736316431373561633938363232316163386637333065
-      35303261326165653930373164643166396264383436333532646439363132336334
-      """
-  }
-  private_ca_country_name: "JP"
-  private_ca_state_or_province_name: "Tokyo"
-  private_ca_locality_name: "."
-  private_ca_domain: "ca-local.mizunashi.work"
-  private_ca_listen_port: 80
+  nginx_site_private_ca_domain: "ca-local.mizunashi.work"
+  nginx_site_private_ca_listen_port: 80
 
   prometheus_scrape_configs: [
     {
