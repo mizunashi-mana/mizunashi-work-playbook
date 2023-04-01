@@ -1,0 +1,2 @@
+V	240331130145Z		01	unknown	/C=JP/ST=Tokyo/L=./O=Private/OU=mizunashi-work-playbook/CN=mstdn-local.mizunashi.work
+V	240331130553Z		02	unknown	/C=JP/ST=Tokyo/L=./O=Private/OU=mizunashi-work-playbook/CN=*.mizunashi.private

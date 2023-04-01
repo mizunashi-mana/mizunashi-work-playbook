@@ -65,7 +65,7 @@ REQ_ARGS=(
   -keyout "$OUT_KEY"
 )
 
-REQ_ARGS+=("${REQ_EXTRA_EXTS[@]}")
+REQ_ARGS+=("${REQ_EXTRA_EXTS[@]+"${REQ_EXTRA_EXTS[@]}"}")
 
 openssl req "${REQ_ARGS[@]}"
 
