@@ -1,4 +1,6 @@
 import "mizunashi.work/pkg/cue_vars/vagrant"
+import "mizunashi.work/pkg/vagrant_private_ca"
+
 import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/mastodon"
@@ -11,7 +13,6 @@ import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
 import "mizunashi.work/pkg/roles/nginx_site_private_ca"
 import "mizunashi.work/pkg/roles/postgresql_mastodon"
 import "mizunashi.work/pkg/roles/private_mastodon_certificate"
-import "mizunashi.work/pkg/vagrant_private_ca"
 
 #Schema: vagrant
 #Schema: nginx

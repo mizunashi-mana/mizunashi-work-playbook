@@ -1,4 +1,6 @@
 import "mizunashi.work/pkg/cue_vars/vagrant"
+import "mizunashi.work/pkg/vagrant_private_ca"
+
 import "mizunashi.work/pkg/roles/prometheus"
 
 #Schema: vagrant
