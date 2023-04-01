@@ -1,0 +1,12 @@
+- hosts: internal
+
+  roles:
+  - node_exporter
+  - blackbox_exporter
+  - prometheus
+  - grafana
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check

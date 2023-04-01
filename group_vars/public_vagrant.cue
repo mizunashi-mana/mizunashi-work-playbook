@@ -1,11 +1,8 @@
-import "mizunashi.work/pkg/roles/base"
-import "mizunashi.work/pkg/roles/openssh_server"
+import "mizunashi.work/pkg/cue_vars/vagrant"
 import "mizunashi.work/pkg/roles/nftables"
-import "mizunashi.work/pkg/roles/fail2ban"
 import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/mastodon"
 import "mizunashi.work/pkg/roles/nginx_exporter"
-import "mizunashi.work/pkg/roles/prometheus"
 import "mizunashi.work/pkg/roles/exim"
 import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
@@ -14,23 +11,20 @@ import "mizunashi.work/pkg/roles/nginx_site_private_ca"
 import "mizunashi.work/pkg/roles/postgresql_mastodon"
 import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 
-#Schema: base
-#Schema: fail2ban
-#Schema: nftables
-#Schema: openssh_server
+#Schema: vagrant
 #Schema: nginx
 #Schema: mastodon
 #Schema: exim
 #Schema: nginx_exporter
-#Schema: prometheus
 #Schema: nginx_site_http_redirector
 #Schema: nginx_site_mastodon_front
 #Schema: nginx_site_local_proxy
 #Schema: nginx_site_private_ca
 #Schema: postgresql_mastodon
 #Schema: private_mastodon_certificate
+#Schema: enable_private_mastodon_certificate: bool
 
-let ssh_port = 22
+let ssh_port = vagrant.#ssh_port
 let http_port = 80
 let https_port = 443
 let local_proxy_https_port = 19100
@@ -60,12 +54,9 @@ let private_ca_inter_tls_certificate =
   """
 
 #Schema & {
-  base_workuser_name: "vagrant"
-
   mastodon_local_domain: "mstdn-local.mizunashi.work"
   mastodon_single_user_mode: "true"
 
-  openssh_server_listen_port: ssh_port
   nginx_site_http_redirector_listen_port: http_port
   nginx_site_mastodon_front_listen_port: https_port
   nginx_site_local_proxy_listen_port: local_proxy_https_port
@@ -89,53 +80,7 @@ let private_ca_inter_tls_certificate =
       upstream_port: 9100
   }
 
-  prometheus_scrape_configs: [
-    {
-      job_name: "node"
-      static_configs: [
-        {
-          targets: [
-            "localhost:9100"
-          ]
-          labels: {
-            "service": "vagrant"
-            "project": "primary"
-            "hostname": "localhost"
-          }
-        }
-      ]
-    },
-    {
-      job_name: "nginx"
-      static_configs: [
-        {
-          targets: [
-            "localhost:9113"
-          ]
-          labels: {
-            "service": "vagrant"
-            "project": "primary"
-            "hostname": "localhost"
-          }
-        }
-      ]
-    },
-    {
-      job_name: "redis"
-      static_configs: [
-        {
-          targets: [
-            "localhost:9121"
-          ]
-          labels: {
-            "service": "vagrant"
-            "project": "primary"
-            "hostname": "localhost"
-          }
-        }
-      ]
-    },
-  ]
+  enable_private_mastodon_certificate: true
 
   mastodon_db_user_password: {
     "__ansible_vault":

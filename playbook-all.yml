@@ -5,33 +5,12 @@
   - nftables
   - fail2ban
   - openssh_server
-  - nodejs
-  - ruby
-  - nginx
-  - redis_server
-  - postgresql
-  - exim
-  - certbot
   - node_exporter
-  - nginx_exporter
-  - redis_exporter
-  - postgres_exporter
-  - blackbox_exporter
-  - statsd_exporter
-  - prometheus
-  - grafana
-
-  - private_mastodon_certificate
-
-  - nginx_site_http_redirector
-  - nginx_site_mastodon_front
-  - nginx_site_private_ca
-  - nginx_site_local_proxy
-
-  - postgresql_mastodon
-  - mastodon
 
   post_tasks:
   - name: Check
     ansible.builtin.command: echo check
     notify: Check
+
+- import_playbook: ./playbook-internal.yml
+- import_playbook: ./playbook-public.yml

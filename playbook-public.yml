@@ -1,0 +1,33 @@
+- hosts: public
+
+  roles:
+  - nodejs
+  - ruby
+  - nginx
+  - redis_server
+  - postgresql
+  - exim
+  - certbot
+  - nginx_exporter
+  - redis_exporter
+  - postgres_exporter
+  - statsd_exporter
+
+  - nginx_site_http_redirector
+  - nginx_site_mastodon_front
+  - nginx_site_private_ca
+  - nginx_site_local_proxy
+
+  - postgresql_mastodon
+  - mastodon
+
+  tasks:
+  - name: Use private certificates on developing
+    ansible.builtin.include_role:
+      name: private_mastodon_certificate
+    when: '{{ enable_private_mastodon_certificate|default(false) }}'
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check
