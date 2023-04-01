@@ -4,17 +4,20 @@ import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/mastodon"
 import "mizunashi.work/pkg/roles/nginx_exporter"
 import "mizunashi.work/pkg/roles/exim"
+import "mizunashi.work/pkg/roles/openssl_ocsp_responder"
 import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
 import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
 import "mizunashi.work/pkg/roles/nginx_site_private_ca"
 import "mizunashi.work/pkg/roles/postgresql_mastodon"
 import "mizunashi.work/pkg/roles/private_mastodon_certificate"
+import "mizunashi.work/pkg/vagrant_private_ca"
 
 #Schema: vagrant
 #Schema: nginx
 #Schema: mastodon
 #Schema: exim
+#Schema: openssl_ocsp_responder
 #Schema: nginx_exporter
 #Schema: nginx_site_http_redirector
 #Schema: nginx_site_mastodon_front
@@ -27,31 +30,9 @@ import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 let ssh_port = vagrant.#ssh_port
 let http_port = 80
 let https_port = 443
+let ocsp_responder_port_for_root = 10081
+let ocsp_responder_port_for_inter_tls = 10082
 let local_proxy_https_port = 19100
-
-let private_ca_inter_tls_certificate =
-  """
-  -----BEGIN CERTIFICATE-----
-  MIIDVjCCAtugAwIBAgIBATAKBggqhkjOPQQDBDBhMQswCQYDVQQGEwJKUDEOMAwG
-  A1UECAwFVG9reW8xCjAIBgNVBAcMAS4xEDAOBgNVBAoMB1ByaXZhdGUxCjAIBgNV
-  BAsMAS4xGDAWBgNVBAMMD1ByaXZhdGUgUm9vdCBDQTAeFw0yMzA0MDEwNjE2MDBa
-  Fw0yODAzMzAwNjE2MDBaMGAxCzAJBgNVBAYTAkpQMQ4wDAYDVQQIDAVUb2t5bzEK
-  MAgGA1UEBwwBLjEQMA4GA1UECgwHUHJpdmF0ZTEKMAgGA1UECwwBLjEXMBUGA1UE
-  AwwOUHJpdmF0ZSBUTFMgQ0EwdjAQBgcqhkjOPQIBBgUrgQQAIgNiAAQty7P5w0MH
-  ZftFTdWLCg/G+qhCgemaXR+Gbh6Ulv5CveeOaK39juLljnweMJqpBlSlW3jAwh2Z
-  wtFkQKAy3E+1uju+oIqMwES7Wory26lgshurXzZTCIMN+mBXAaPrInqjggFmMIIB
-  YjAdBgNVHQ4EFgQUAWdVO/PFWEErsdhsR8jMwbwmo2cwewYDVR0jBHQwcqFlpGMw
-  YTELMAkGA1UEBhMCSlAxDjAMBgNVBAgMBVRva3lvMQowCAYDVQQHDAEuMRAwDgYD
-  VQQKDAdQcml2YXRlMQowCAYDVQQLDAEuMRgwFgYDVQQDDA9Qcml2YXRlIFJvb3Qg
-  Q0GCCQDxU0uZPzcEODBFBggrBgEFBQcBAQQ5MDcwNQYIKwYBBQUHMAKGKWh0dHA6
-  Ly9jYS1sb2NhbC5taXp1bmFzaGkud29yay9yb290Q0EuY3J0MDoGA1UdHwQzMDEw
-  L6AtoCuGKWh0dHA6Ly9jYS1sb2NhbC5taXp1bmFzaGkud29yay9yb290Q0EuY3Js
-  MBIGA1UdEwEB/wQIMAYBAf8CAQAwDgYDVR0PAQH/BAQDAgGGMB0GA1UdJQQWMBQG
-  CCsGAQUFBwMBBggrBgEFBQcDAjAKBggqhkjOPQQDBANpADBmAjEA0ML5FB2obPMq
-  kqyBSb8aCC4+p/jCecuMPqucQ8Ot7dmbsS7cTCatcL7GT97AYagyAjEAq/XiU3sv
-  7E9F9BTu3D2iw4JaNSD+G8XhUlfV3vevcvioPTmFo01apDWupPi+zUUk
-  -----END CERTIFICATE-----
-  """
 
 #Schema & {
   mastodon_local_domain: "mstdn-local.mizunashi.work"
@@ -66,6 +47,21 @@ let private_ca_inter_tls_certificate =
     http_port,
     https_port,
   ]
+
+  openssl_ocsp_responder_entries: {
+    "rootCA": {
+      listen_port: ocsp_responder_port_for_root
+      ca_cert: vagrant_private_ca.root_ca_certificate
+      ca_privkey: vagrant_private_ca.root_ca_privkey
+      ca_database_content: vagrant_private_ca.root_ca_database
+    }
+    "interCA_TLS": {
+      listen_port: ocsp_responder_port_for_inter_tls
+      ca_cert: vagrant_private_ca.inter_tls_ca_certificate
+      ca_privkey: vagrant_private_ca.inter_tls_ca_privkey
+      ca_database_content: vagrant_private_ca.inter_tls_ca_database
+    }
+  }
 
   nginx_resolver: "8.8.8.8"
 
@@ -166,9 +162,9 @@ let private_ca_inter_tls_certificate =
     J6eUdRQMDUqXN1KXjtvmViCVlAIxAKmg7PefaQhtLa6SeENvivOlbiQdY/HO40Wn
     y+6CToRheHt66Lq+x8UL3Q5ru4nFpw==
     -----END CERTIFICATE-----
-    \(private_ca_inter_tls_certificate)
+    \(vagrant_private_ca.inter_tls_ca_certificate)
     """
-  private_mastodon_certificate_chain: private_ca_inter_tls_certificate
+  private_mastodon_certificate_chain: vagrant_private_ca.inter_tls_ca_certificate
   private_mastodon_certificate_privkey:
     "__ansible_vault":
       """
@@ -195,46 +191,11 @@ let private_ca_inter_tls_certificate =
       65393234643338313066
       """
 
-  nginx_site_private_ca_root_certificate:
-    """
-    -----BEGIN CERTIFICATE-----
-    MIIB7jCCAXUCCQDxU0uZPzcEODAKBggqhkjOPQQDBDBhMQswCQYDVQQGEwJKUDEO
-    MAwGA1UECAwFVG9reW8xCjAIBgNVBAcMAS4xEDAOBgNVBAoMB1ByaXZhdGUxCjAI
-    BgNVBAsMAS4xGDAWBgNVBAMMD1ByaXZhdGUgUm9vdCBDQTAeFw0yMzA0MDEwNjE1
-    NDhaFw0zMzAzMjkwNjE1NDhaMGExCzAJBgNVBAYTAkpQMQ4wDAYDVQQIDAVUb2t5
-    bzEKMAgGA1UEBwwBLjEQMA4GA1UECgwHUHJpdmF0ZTEKMAgGA1UECwwBLjEYMBYG
-    A1UEAwwPUHJpdmF0ZSBSb290IENBMHYwEAYHKoZIzj0CAQYFK4EEACIDYgAEuCnm
-    v/MFTtBHM18G1W32kY1qGwy8y1Zeas49tqWh3qPQZdSLHW6iLom+9vIoutVzaJRy
-    /YT2A+0Weh3un8cTFKO2TyYLByAmtJr2iVPn+9CiFdi4idnVf2+obDlwa7iwMAoG
-    CCqGSM49BAMEA2cAMGQCMEMm2FN3mPUiInrOXAJTVEzgcojmQrhBJIOXwsThyVmh
-    ehCnvR0ilAGdBKiNRcNfAAIwII5/q172256j/YrVNmaT/fdCYnn6qM0bQECJ/LWT
-    BdYh85/JZW1MunRyYzHZpcNA
-    -----END CERTIFICATE-----
-    """
-  nginx_site_private_ca_root_crl:
-    """
-    -----BEGIN X509 CRL-----
-    MIIBGTCBoAIBATAKBggqhkjOPQQDBDBhMQswCQYDVQQGEwJKUDEOMAwGA1UECAwF
-    VG9reW8xCjAIBgNVBAcMAS4xEDAOBgNVBAoMB1ByaXZhdGUxCjAIBgNVBAsMAS4x
-    GDAWBgNVBAMMD1ByaXZhdGUgUm9vdCBDQRcNMjMwNDAxMDYxNTUxWhcNMjMwNTAx
-    MDYxNTUxWqAOMAwwCgYDVR0UBAMCAQEwCgYIKoZIzj0EAwQDaAAwZQIxAKk7iXz3
-    7edcGudaOFhcw32Hu7ZsmCiwiuLADZSWjen++f2AU2e5exJi1y4i6pD5yAIwZ/nU
-    7q/J7K56I7t2RcXYIi9bfMqzsbhdiEJCfgqSWptcPEiyjGq1FO2N7mm4vDR8
-    -----END X509 CRL-----
-    """
+  nginx_site_private_ca_root_certificate: vagrant_private_ca.root_ca_certificate
+  nginx_site_private_ca_root_crl: vagrant_private_ca.root_ca_crl
 
-  nginx_site_private_ca_inter_tls_certificate: private_ca_inter_tls_certificate
-  nginx_site_private_ca_inter_tls_crl:
-    """
-    -----BEGIN X509 CRL-----
-    MIIBFzCBnwIBATAKBggqhkjOPQQDBDBgMQswCQYDVQQGEwJKUDEOMAwGA1UECAwF
-    VG9reW8xCjAIBgNVBAcMAS4xEDAOBgNVBAoMB1ByaXZhdGUxCjAIBgNVBAsMAS4x
-    FzAVBgNVBAMMDlByaXZhdGUgVExTIENBFw0yMzA0MDEwNjE2MDJaFw0yMzA1MDEw
-    NjE2MDJaoA4wDDAKBgNVHRQEAwIBATAKBggqhkjOPQQDBANnADBkAjBE3yg1hEvU
-    dE4oZJmul52gscX/mUFj/4hhBxz78Mfak7OShDqXfwSyX+gSc+zcOC0CMF05a/Y6
-    Zrn6GScQ9sq6t+PAxLKBxz47WGNBIHQdpgeF9qzgGsJnZq8c+N6Ku+xwjw==
-    -----END X509 CRL-----
-    """
+  nginx_site_private_ca_inter_tls_certificate: vagrant_private_ca.inter_tls_ca_certificate
+  nginx_site_private_ca_inter_tls_crl: vagrant_private_ca.inter_tls_ca_crl
 
   nginx_site_local_proxy_certificate_fullchain:
     """
@@ -259,9 +220,9 @@ let private_ca_inter_tls_certificate =
     JrM1sDfsmu4SlxUKv8s4HTJW4w2BrXYmiNAvracHk2ouhI9YvAxgq4lUqH0CMBgg
     lOqIXea1565nIMmWO938gR9qL1zwoKAEEWTiFTBaVXitSqEJ+eNOqsnbR3V5Kg==
     -----END CERTIFICATE-----
-    \(private_ca_inter_tls_certificate)
+    \(vagrant_private_ca.inter_tls_ca_certificate)
     """
-  nginx_site_local_proxy_certificate_chain: private_ca_inter_tls_certificate
+  nginx_site_local_proxy_certificate_chain: vagrant_private_ca.inter_tls_ca_certificate
   nginx_site_local_proxy_certificate_privkey:
     "__ansible_vault":
       """
@@ -287,5 +248,5 @@ let private_ca_inter_tls_certificate =
       65623061316365336265613230323765623432626536663838643630383936633661333137356365
       31666530333037356338
       """
-  nginx_site_local_proxy_certificate_client_chain: private_ca_inter_tls_certificate
+  nginx_site_local_proxy_certificate_client_chain: vagrant_private_ca.inter_tls_ca_certificate
 }

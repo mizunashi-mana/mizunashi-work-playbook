@@ -1,0 +1,23 @@
+[Unit]
+Description=OCSP responder by OpenSSL
+Documentation=https://www.openssl.org/
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+User=ocsp-responder
+EnvironmentFile=/etc/default/openssl-ocsp-responder-{{ item.key }}
+ExecStart=/usr/bin/openssl \
+  -ignore-err \
+  -index /etc/pki/ocsp/{{ item.key }}/index.txt \
+  -CA /etc/pki/ocsp/{{ item.key }}/cacert.pem \
+  -rsigner /etc/pki/ocsp/{{ item.key }}/cacert.pem \
+  -rkey /etc/pki/ocsp/{{ item.key }}/privkey.pem \
+  -port "$PORT" \
+  -ndays "$UPDATE_DAYS" \
+  $EXTRA_ARGS
+TimeoutStopSec=20s
+
+[Install]
+WantedBy=multi-user.target

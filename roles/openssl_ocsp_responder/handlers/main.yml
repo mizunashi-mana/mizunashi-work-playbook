@@ -1,0 +1,26 @@
+---
+- name: Restart services
+  ansible.builtin.systemd:
+    name: 'openssl-ocsp-responder-{{ item.key }}'
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  become: true
+  loop: '{{ openssl_ocsp_responder_entries|dict2items }}'
+  listen:
+  - Restart openssl-ocsp-responder
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status 'openssl-ocsp-responder-{{ item.key }}'
+  become: true
+  changed_when: false
+  loop: '{{ openssl_ocsp_responder_entries|dict2items }}'
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ item.value.listen_port }}'
+    state: started
+    timeout: 60
+  loop: '{{ openssl_ocsp_responder_entries|dict2items }}'
+  listen: Check

@@ -10,6 +10,7 @@
   - redis_exporter
   - postgres_exporter
   - statsd_exporter
+  - openssl_ocsp_responder
 
   - postgresql_mastodon
   - mastodon

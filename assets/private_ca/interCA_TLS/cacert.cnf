@@ -19,7 +19,7 @@ localityName_default            = .
 0.organizationName_default      = Private
 
 organizationalUnitName          = Organizational Unit Name
-organizationalUnitName_default  = .
+organizationalUnitName_default  = mizunashi-work-playbook
 
 commonName                      = Common Name
 commonName_default              = Private TLS CA
