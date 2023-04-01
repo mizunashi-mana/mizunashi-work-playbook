@@ -1,4 +1,59 @@
 ---
+- name: Directory of www-data of private CA is available
+  ansible.builtin.file:
+    src: /var/www/private_ca
+    state: directory
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify:
+    - Reload nginx
+
+- name: Install private CA certificate of root CA
+  ansible.builtin.copy:
+    content: '{{ nginx_site_private_ca_root_certificate }}'
+    dest: /var/www/private_ca/rootCA.crt
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify:
+    - Reload nginx
+
+- name: Install private CA CRL of root CA
+  ansible.builtin.copy:
+    content: '{{ nginx_site_private_ca_root_crl }}'
+    dest: /var/www/private_ca/rootCA.crl
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify:
+    - Reload nginx
+
+- name: Install private CA certificate of inter CA TLS
+  ansible.builtin.copy:
+    content: '{{ nginx_site_private_ca_inter_tls_certificate }}'
+    dest: /var/www/private_ca/interCA_TLS.crt
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify:
+    - Reload nginx
+
+- name: Install private CA CRL of inter CA TLS
+  ansible.builtin.copy:
+    content: '{{ nginx_site_private_ca_inter_tls_crl }}'
+    dest: /var/www/private_ca/interCA_TLS.crl
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  notify:
+    - Reload nginx
+
 - name: Install private CA site
   ansible.builtin.template:
     src: etc/nginx/sites-available/private_ca.conf

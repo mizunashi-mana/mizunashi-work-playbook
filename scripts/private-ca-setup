@@ -79,6 +79,10 @@ m4 \
   "$PROJECT_DIR/assets/private_ca/rootCA/ca.cnf.m4" \
   >"$ROOT_CA_DIR/ca.cnf"
 
+openssl ca \
+  -config "$ROOT_CA_DIR/ca.cnf" \
+  -gencrl -out "$ROOT_CA_DIR/crl.pem"
+
 
 INTER_TLS_CA_DIR="$DIST_DIR/interCA_TLS"
 mkdir -p "$INTER_TLS_CA_DIR/"{crl,var,newcerts,private}
@@ -105,6 +109,10 @@ m4 \
   "-D__DISTRIBUTION_URL__=${DISTRIBUTION_URL}" \
   "$PROJECT_DIR/assets/private_ca/interCA_TLS/ca.cnf.m4" \
   >"$INTER_TLS_CA_DIR/ca.cnf"
+
+openssl ca \
+  -config "$INTER_TLS_CA_DIR/ca.cnf" \
+  -gencrl -out "$INTER_TLS_CA_DIR/crl.pem"
 
 
 cp "$PROJECT_DIR/assets/private_ca/req.cnf" "$DIST_DIR/req.cnf"

@@ -2,3 +2,9 @@ package nginx_site_private_ca
 
 nginx_site_private_ca_listen_port: uint
 nginx_site_private_ca_domain: string
+
+nginx_site_private_ca_root_certificate: string
+nginx_site_private_ca_root_crl: string
+
+nginx_site_private_ca_inter_tls_certificate: string
+nginx_site_private_ca_inter_tls_crl: string

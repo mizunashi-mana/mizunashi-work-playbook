@@ -6,3 +6,17 @@
     sysctl_set: true
     state: present
   become: true
+
+- name: Install sudo
+  ansible.builtin.apt:
+    name: 'sudo=1:{{ base_sudo_version }}*'
+    state: present
+  become: true
+
+- name: The workuser has the sudo group
+  ansible.builtin.user:
+    name: '{{ base_workuser_name }}'
+    state: present
+    groups: sudo
+    append: true
+  become: true

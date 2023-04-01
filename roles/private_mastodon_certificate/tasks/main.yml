@@ -17,21 +17,20 @@
     mode: '0755'
   become: true
 
-- name: Install fullchain certificate for Mastodon
-  ansible.builtin.shell:
-    cmd: |
-      /usr/local/sbin/private-ca-gen-csr \
-        --out-csr '/etc/letsencrypt/live/{{ mastodon_local_domain }}/cert.csr' \
-        --out-key '/etc/letsencrypt/live/{{ mastodon_local_domain }}/privkey.pem' \
-        && /usr/local/sbin/private-ca-gen-tls-cert \
-        --in-csr '/etc/letsencrypt/live/{{ mastodon_local_domain }}/cert.csr' \
-        --out-cert '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
-    creates: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
+- name: fullchain certificate is available
+  ansible.builtin.copy:
+    content: "{{ private_mastodon_certificate_fullchain }}\n"
+    dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
+    state: file
+    owner: root
+    group: root
+    mode: '0644'
   become: true
 
-- name: fullchain certificate is available
-  ansible.builtin.file:
-    path: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
+- name: chain certificate is available
+  ansible.builtin.copy:
+    content: "{{ private_mastodon_certificate_chain }}\n"
+    dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/chain.pem'
     state: file
     owner: root
     group: root
@@ -39,28 +38,11 @@
   become: true
 
 - name: private key is available
-  ansible.builtin.file:
-    path: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/privkey.pem'
+  ansible.builtin.copy:
+    content: "{{ private_mastodon_certificate_privkey }}\n"
+    dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/privkey.pem'
     state: file
     owner: root
     group: root
     mode: '0600'
-  become: true
-
-- name: Install chain certificate for Mastodon
-  ansible.builtin.command:
-    cmd: |
-      cp
-        '{{ private_ca_root_dir }}/interCA_TLS/cacert.pem'
-        '/etc/letsencrypt/live/{{ mastodon_local_domain }}/chain.pem'
-    creates: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/chain.pem'
-  become: true
-
-- name: CA certificate is available
-  ansible.builtin.file:
-    path: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/chain.pem'
-    state: file
-    owner: root
-    group: root
-    mode: '0644'
   become: true

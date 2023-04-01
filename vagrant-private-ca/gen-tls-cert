@@ -9,18 +9,14 @@ INTER_TLS_CA_DIR="$CA_DIR/interCA_TLS"
 
 function show_usage() {
   cat <<EOS
-Usage: $0 --out-cert PATH --out-key PATH
+Usage: $0 --dist-dir PATH
 EOS
 }
 
 while [ "$#" -ne 0 ]; do
   case "$1" in
-    '--out-cert' )
-      OUT_CERT="$2"
-      shift
-      ;;
-    '--out-key' )
-      OUT_KEY="$2"
+    '--dist-dir' )
+      DIST_DIR="$2"
       shift
       ;;
     '-?' | '--help' )
@@ -36,15 +32,20 @@ while [ "$#" -ne 0 ]; do
   shift
 done
 
-if [ -z "${OUT_CERT:-}" ] || [ -z "${OUT_KEY:-}" ]; then
+if [ -z "${DIST_DIR:-}" ]; then
   echo "Not enough arguments." 1>&2
   show_usage
   exit 1
 fi
 
-OUT_CERT="$(cd "$(dirname "$OUT_CERT")" && pwd)/$(basename "$OUT_CERT")"
-OUT_KEY="$(cd "$(dirname "$OUT_KEY")" && pwd)/$(basename "$OUT_KEY")"
-OUT_CSR="$OUT_CERT.csr"
+mkdir -p "$DIST_DIR"
+DIST_DIR="$(cd "$DIST_DIR" && pwd)"
+
+OUT_CSR="$DIST_DIR/cert.csr"
+OUT_CERT="$DIST_DIR/cert.pem"
+OUT_FULLCHAIN="$DIST_DIR/fullchain.pem"
+OUT_CHAIN="$DIST_DIR/chain.pem"
+OUT_KEY="$DIST_DIR/privkey.pem"
 
 openssl req \
   -config "$CA_DIR/req.cnf" \
@@ -60,3 +61,7 @@ cd "$CA_DIR" && openssl ca \
   -batch \
   -in "$OUT_CSR" \
   -out "$OUT_CERT"
+
+cp "$INTER_TLS_CA_DIR/cacert.pem" "$OUT_CHAIN"
+
+cat "$OUT_CERT" "$OUT_CHAIN" > "$OUT_FULLCHAIN"
