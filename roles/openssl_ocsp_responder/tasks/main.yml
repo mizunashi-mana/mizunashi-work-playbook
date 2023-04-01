@@ -25,75 +25,76 @@
 
 - name: Directories of OCSP entries are available
   ansible.builtin.file:
-    path: '/etc/pki/ocsp/{{ item.key }}'
+    path: '/etc/pki/ocsp/{{ item }}'
     state: directory
     owner: ocsp-responder
     group: ocsp-responder
     mode: '0755'
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
 
 - name: Copy database contents
   ansible.builtin.copy:
-    content: '{{ item.value.database_content }}'
-    dest: '/etc/pki/ocsp/{{ item.key }}/index.txt'
+    content: '{{ openssl_ocsp_responder_entries[item].ca_database_content }}'
+    dest: '/etc/pki/ocsp/{{ item }}/index.txt'
     owner: ocsp-responder
     group: ocsp-responder
     mode: '0644'
     backup: true
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
   notify:
     - Restart openssl-ocsp-responder
 
 - name: Copy certificates
   ansible.builtin.copy:
-    content: '{{ item.value.ca_cert }}'
-    dest: '/etc/pki/ocsp/{{ item.key }}/cacert.pem'
+    content: '{{ openssl_ocsp_responder_entries[item].ca_cert }}'
+    dest: '/etc/pki/ocsp/{{ item }}/cacert.pem'
     owner: ocsp-responder
     group: ocsp-responder
     mode: '0644'
     backup: true
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
   notify:
     - Restart openssl-ocsp-responder
 
 - name: Copy private keys
   ansible.builtin.copy:
-    content: '{{ item.value.ca_privkey }}'
-    dest: '/etc/pki/ocsp/{{ item.key }}/privkey.pem'
+    content: '{{ openssl_ocsp_responder_entries[item].ca_privkey }}'
+    dest: '/etc/pki/ocsp/{{ item }}/privkey.pem'
     owner: ocsp-responder
     group: ocsp-responder
     mode: '0600'
     backup: true
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
+  no_log: true
   notify:
     - Restart openssl-ocsp-responder
 
 - name: Install sysconfig
   ansible.builtin.template:
     src: etc/default/openssl-ocsp-responder-xxx
-    dest: '/etc/default/openssl-ocsp-responder-{{ item.key }}'
+    dest: '/etc/default/openssl-ocsp-responder-{{ item }}'
     owner: root
     group: root
     mode: '0644'
     backup: true
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
   notify:
     - Restart openssl-ocsp-responder
 
 - name: Install services
   ansible.builtin.template:
     src: etc/systemd/system/openssl-ocsp-responder-xxx.service
-    dest: '/etc/systemd/system/openssl-ocsp-responder-{{ item.key }}.service'
+    dest: '/etc/systemd/system/openssl-ocsp-responder-{{ item }}.service'
     owner: root
     group: root
     mode: '0644'
     backup: true
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
   notify:
     - Restart openssl-ocsp-responder

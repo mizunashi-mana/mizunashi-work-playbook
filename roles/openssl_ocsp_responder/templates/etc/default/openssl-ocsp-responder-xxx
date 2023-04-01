@@ -1,2 +1,2 @@
-PORT={{ item.listen_port }}
+PORT={{ openssl_ocsp_responder_entries[item].listen_port }}
 UPDATE_DAYS=7

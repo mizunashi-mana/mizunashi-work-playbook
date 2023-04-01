@@ -7,13 +7,13 @@ After=network.target
 Type=simple
 Restart=always
 User=ocsp-responder
-EnvironmentFile=/etc/default/openssl-ocsp-responder-{{ item.key }}
+EnvironmentFile=/etc/default/openssl-ocsp-responder-{{ item }}
 ExecStart=/usr/bin/openssl \
   -ignore-err \
-  -index /etc/pki/ocsp/{{ item.key }}/index.txt \
-  -CA /etc/pki/ocsp/{{ item.key }}/cacert.pem \
-  -rsigner /etc/pki/ocsp/{{ item.key }}/cacert.pem \
-  -rkey /etc/pki/ocsp/{{ item.key }}/privkey.pem \
+  -index /etc/pki/ocsp/{{ item }}/index.txt \
+  -CA /etc/pki/ocsp/{{ item }}/cacert.pem \
+  -rsigner /etc/pki/ocsp/{{ item }}/cacert.pem \
+  -rkey /etc/pki/ocsp/{{ item }}/privkey.pem \
   -port "$PORT" \
   -ndays "$UPDATE_DAYS" \
   $EXTRA_ARGS
