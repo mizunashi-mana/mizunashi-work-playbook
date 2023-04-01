@@ -1,5 +1,3 @@
-import "tool/file"
-
 import "mizunashi.work/pkg/roles/base"
 import "mizunashi.work/pkg/roles/openssh_server"
 import "mizunashi.work/pkg/roles/nftables"
