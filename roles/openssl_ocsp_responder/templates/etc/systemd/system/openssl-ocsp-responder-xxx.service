@@ -4,7 +4,6 @@ Documentation=https://www.openssl.org/
 After=network.target
 
 [Service]
-Type=simple
 Restart=always
 User=ocsp-responder
 Environment="DATA_DIR=/var/lib/ocsp-responder/{{ item }}"
