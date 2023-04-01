@@ -7,7 +7,7 @@ PROJECT_DIR="$(cd "$(dirname "$(dirname "$0")")" && pwd)"
 
 ROOT_CA_DAYS=3650
 INTER_TLS_CA_DAYS=1825
-VAULT_ID=private_ca
+VAULT_ID=default
 
 function show_usage() {
   cat <<EOS
@@ -85,6 +85,9 @@ if [ -z "${PACKAGE_NAME:-}" ]; then
   PACKAGE_NAME="$(basename "$DIST_DIR")"
 fi
 
+KNOWN_VAULT_IDS="$VAULT_ID"
+
+
 ROOT_CA_DIR="$DIST_DIR/rootCA"
 mkdir -p "$ROOT_CA_DIR/"{crl,var,newcerts,private}
 if ! [ -e "$ROOT_CA_DIR/var/index.txt" ]; then
@@ -122,7 +125,8 @@ ROOT_CA_KEY="$(openssl pkey -in "$ROOT_CA_DIR/private/cakey.pem" -passout 'pass:
 ansible-vault encrypt \
   --ask-vault-password \
   --verbose \
-  --vault-id "$VAULT_ID" \
+  --vault-id "$KNOWN_VAULT_IDS" \
+  --encrypt-vault-id "$VAULT_ID" \
   --output "$ROOT_CA_DIR/private/cakey.pem.vaulted" \
   <(echo "$ROOT_CA_KEY")
 
@@ -169,7 +173,8 @@ cd "$DIST_DIR" && openssl ca \
 INTER_TLS_CA_KEY="$(openssl pkey -in "$INTER_TLS_CA_DIR/private/cakey.pem" -passout 'pass:')"
 ansible-vault encrypt \
   --ask-vault-password \
-  --vault-id "$VAULT_ID" \
+  --vault-id "$KNOWN_VAULT_IDS" \
+  --encrypt-vault-id "$VAULT_ID" \
   --output "$INTER_TLS_CA_DIR/private/cakey.pem.vaulted" \
   <(echo "$INTER_TLS_CA_KEY")
 
