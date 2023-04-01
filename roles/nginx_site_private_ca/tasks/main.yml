@@ -7,8 +7,6 @@
     group: root
     mode: '0644'
   become: true
-  notify:
-    - Reload nginx
 
 - name: Install private CA certificate of root CA
   ansible.builtin.copy:
@@ -18,8 +16,6 @@
     group: root
     mode: '0644'
   become: true
-  notify:
-    - Reload nginx
 
 - name: Install private CA CRL of root CA
   ansible.builtin.copy:
@@ -29,8 +25,6 @@
     group: root
     mode: '0644'
   become: true
-  notify:
-    - Reload nginx
 
 - name: Install private CA certificate of inter CA TLS
   ansible.builtin.copy:
@@ -40,8 +34,6 @@
     group: root
     mode: '0644'
   become: true
-  notify:
-    - Reload nginx
 
 - name: Install private CA CRL of inter CA TLS
   ansible.builtin.copy:
@@ -51,8 +43,6 @@
     group: root
     mode: '0644'
   become: true
-  notify:
-    - Reload nginx
 
 - name: Install private CA site
   ansible.builtin.template:
