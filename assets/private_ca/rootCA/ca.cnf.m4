@@ -32,7 +32,7 @@ emailAddress            = optional
 
 [ user_cert_ext ]
 subjectKeyIdentifier    = hash
-authorityKeyIdentifier  = keyid:always, issuer:always
+authorityKeyIdentifier  = keyid, issuer:always
 authorityInfoAccess     = @authority_info
 crlDistributionPoints   = URI:__DISTRIBUTION_URL__/rootCA.crl
 

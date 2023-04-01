@@ -79,7 +79,10 @@ DIST_DIR="$(cd "$DIST_DIR" && pwd)"
 
 ROOT_CA_DIR="$DIST_DIR/rootCA"
 mkdir -p "$ROOT_CA_DIR/"{crl,var,newcerts,private}
-touch "$ROOT_CA_DIR/var/index.txt"
+if ! [ -e "$ROOT_CA_DIR/var/index.txt" ]; then
+  touch "$ROOT_CA_DIR/var/index.txt"
+fi
+cp "$PROJECT_DIR/assets/private_ca/index.txt.attr" "$ROOT_CA_DIR/var/index.txt.attr"
 if ! [ -e "$ROOT_CA_DIR/var/serial" ]; then
   echo '01' > "$ROOT_CA_DIR/var/serial"
 fi
@@ -118,7 +121,10 @@ ansible-vault encrypt \
 
 INTER_TLS_CA_DIR="$DIST_DIR/interCA_TLS"
 mkdir -p "$INTER_TLS_CA_DIR/"{crl,var,newcerts,private}
-touch "$INTER_TLS_CA_DIR/var/index.txt"
+if ! [ -e "$INTER_TLS_CA_DIR/var/index.txt" ]; then
+  touch "$INTER_TLS_CA_DIR/var/index.txt"
+fi
+cp "$PROJECT_DIR/assets/private_ca/index.txt.attr" "$INTER_TLS_CA_DIR/var/index.txt.attr"
 if ! [ -e "$INTER_TLS_CA_DIR/var/serial" ]; then
   echo '01' > "$INTER_TLS_CA_DIR/var/serial"
 fi
@@ -167,3 +173,5 @@ chmod +x "$DIST_DIR/gen-tls-cert"
 
 cp "$PROJECT_DIR/assets/private_ca/gen-vars" "$DIST_DIR/gen-vars"
 chmod +x "$DIST_DIR/gen-vars"
+
+"$DIST_DIR/gen-vars"

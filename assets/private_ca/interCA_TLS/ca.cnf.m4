@@ -32,7 +32,7 @@ emailAddress            = optional
 
 [ user_cert_ext ]
 subjectKeyIdentifier    = hash
-authorityKeyIdentifier  = keyid:always, issuer:always
+authorityKeyIdentifier  = keyid, issuer:always
 basicConstraints        = CA:FALSE
 keyUsage                = critical, digitalSignature
 extendedKeyUsage        = serverAuth, clientAuth
