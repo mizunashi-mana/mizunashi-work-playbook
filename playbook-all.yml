@@ -12,7 +12,6 @@
   - postgresql
   - exim
   - certbot
-  - private_ca
   - node_exporter
   - nginx_exporter
   - redis_exporter

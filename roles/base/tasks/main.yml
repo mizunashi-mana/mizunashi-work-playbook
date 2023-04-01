@@ -9,7 +9,7 @@
 
 - name: Install sudo
   ansible.builtin.apt:
-    name: 'sudo=1:{{ base_sudo_version }}*'
+    name: 'sudo={{ base_sudo_version }}*'
     state: present
   become: true
 

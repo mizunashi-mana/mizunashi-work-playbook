@@ -21,7 +21,6 @@
   ansible.builtin.copy:
     content: "{{ private_mastodon_certificate_fullchain }}\n"
     dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
-    state: file
     owner: root
     group: root
     mode: '0644'
@@ -31,7 +30,6 @@
   ansible.builtin.copy:
     content: "{{ private_mastodon_certificate_chain }}\n"
     dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/chain.pem'
-    state: file
     owner: root
     group: root
     mode: '0644'
@@ -41,7 +39,6 @@
   ansible.builtin.copy:
     content: "{{ private_mastodon_certificate_privkey }}\n"
     dest: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/privkey.pem'
-    state: file
     owner: root
     group: root
     mode: '0600'
