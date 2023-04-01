@@ -1,4 +1,40 @@
 ---
+- name: Directory of certificates of local proxy is available
+  ansible.builtin.file:
+    path: /etc/pki/private-local/live/local_proxy
+    state: directory
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: Install certificate chain
+  ansible.builtin.copy:
+    content: '{{ nginx_site_local_proxy_certificate_fullchain }}'
+    dest: /etc/pki/private-local/live/local_proxy/fullchain.pem
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: Install certificate chain
+  ansible.builtin.copy:
+    content: '{{ nginx_site_local_proxy_certificate_chain }}'
+    dest: /etc/pki/private-local/live/local_proxy/chain.pem
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: Install certificate private key
+  ansible.builtin.copy:
+    content: '{{ nginx_site_local_proxy_certificate_privkey }}'
+    dest: /etc/pki/private-local/live/local_proxy/privkey.pem
+    owner: root
+    group: root
+    mode: '0600'
+  become: true
+
 - name: Install local proxy site
   ansible.builtin.template:
     src: 'etc/nginx/sites-available/local_proxy_xxx.conf'

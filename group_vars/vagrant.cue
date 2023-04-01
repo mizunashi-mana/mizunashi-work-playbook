@@ -65,6 +65,78 @@ let private_ca_inter_tls_certificate =
   mastodon_local_domain: "mstdn-local.mizunashi.work"
   mastodon_single_user_mode: "true"
 
+  openssh_server_listen_port: ssh_port
+  nginx_site_http_redirector_listen_port: http_port
+  nginx_site_mastodon_front_listen_port: https_port
+  nginx_site_local_proxy_listen_port: local_proxy_https_port
+
+  nftables_accept_tcp_ports: [
+    ssh_port,
+    http_port,
+    https_port,
+  ]
+
+  nginx_resolver: "8.8.8.8"
+
+  exim_mail_domain: "mail-local.mizunashi.work"
+
+  nginx_site_private_ca_domain: "ca-local.mizunashi.work"
+  nginx_site_private_ca_listen_port: http_port
+
+  nginx_site_local_proxy_common_domain: "mizunashi.private"
+  nginx_site_local_proxy_entries: {
+    "node":
+      upstream_port: 9100
+  }
+
+  prometheus_scrape_configs: [
+    {
+      job_name: "node"
+      static_configs: [
+        {
+          targets: [
+            "localhost:9100"
+          ]
+          labels: {
+            "service": "vagrant"
+            "project": "primary"
+            "hostname": "localhost"
+          }
+        }
+      ]
+    },
+    {
+      job_name: "nginx"
+      static_configs: [
+        {
+          targets: [
+            "localhost:9113"
+          ]
+          labels: {
+            "service": "vagrant"
+            "project": "primary"
+            "hostname": "localhost"
+          }
+        }
+      ]
+    },
+    {
+      job_name: "redis"
+      static_configs: [
+        {
+          targets: [
+            "localhost:9121"
+          ]
+          labels: {
+            "service": "vagrant"
+            "project": "primary"
+            "hostname": "localhost"
+          }
+        }
+      ]
+    },
+  ]
+
   mastodon_db_user_password: {
     "__ansible_vault":
       """
@@ -125,75 +197,6 @@ let private_ca_inter_tls_certificate =
       """
   }
   mastodon_vapid_public_key: "BMRVNeG8Io07OP2yGLhhhIXiX-m7Tjjhws_RJ9b1BvBXTKj8wRn9XAyRBoeM04TUgj26qkdnrtBbcRh_XODZW3k="
-
-  openssh_server_listen_port: ssh_port
-  nginx_site_http_redirector_listen_port: http_port
-  nginx_site_mastodon_front_listen_port: https_port
-  nginx_site_local_proxy_listen_port: local_proxy_https_port
-
-  nftables_accept_tcp_ports: [
-    ssh_port,
-    http_port,
-    https_port,
-  ]
-
-  nginx_resolver: "8.8.8.8"
-
-  exim_mail_domain: "mail-local.mizunashi.work"
-
-  nginx_site_local_proxy_common_domain: "mizunashi.private"
-  nginx_site_local_proxy_entries: {}
-
-  nginx_site_private_ca_domain: "ca-local.mizunashi.work"
-  nginx_site_private_ca_listen_port: http_port
-
-  prometheus_scrape_configs: [
-    {
-      job_name: "node"
-      static_configs: [
-        {
-          targets: [
-            "localhost:9100"
-          ]
-          labels: {
-            "service": "vagrant"
-            "project": "primary"
-            "hostname": "localhost"
-          }
-        }
-      ]
-    },
-    {
-      job_name: "nginx"
-      static_configs: [
-        {
-          targets: [
-            "localhost:9113"
-          ]
-          labels: {
-            "service": "vagrant"
-            "project": "primary"
-            "hostname": "localhost"
-          }
-        }
-      ]
-    },
-    {
-      job_name: "redis"
-      static_configs: [
-        {
-          targets: [
-            "localhost:9121"
-          ]
-          labels: {
-            "service": "vagrant"
-            "project": "primary"
-            "hostname": "localhost"
-          }
-        }
-      ]
-    },
-  ]
 
   private_mastodon_certificate_fullchain:
     """
@@ -287,4 +290,56 @@ let private_ca_inter_tls_certificate =
     Zrn6GScQ9sq6t+PAxLKBxz47WGNBIHQdpgeF9qzgGsJnZq8c+N6Ku+xwjw==
     -----END X509 CRL-----
     """
+
+  nginx_site_local_proxy_certificate_fullchain:
+    """
+    -----BEGIN CERTIFICATE-----
+    MIIDijCCAxGgAwIBAgIBAjAKBggqhkjOPQQDBDBgMQswCQYDVQQGEwJKUDEOMAwG
+    A1UECAwFVG9reW8xCjAIBgNVBAcMAS4xEDAOBgNVBAoMB1ByaXZhdGUxCjAIBgNV
+    BAsMAS4xFzAVBgNVBAMMDlByaXZhdGUgVExTIENBMB4XDTIzMDQwMTA3MjkxOFoX
+    DTI0MDMzMTA3MjkxOFowZTELMAkGA1UEBhMCSlAxDjAMBgNVBAgMBVRva3lvMQow
+    CAYDVQQHDAEuMRAwDgYDVQQKDAdQcml2YXRlMQowCAYDVQQLDAEuMRwwGgYDVQQD
+    DBMqLm1penVuYXNoaS5wcml2YXRlMHYwEAYHKoZIzj0CAQYFK4EEACIDYgAET8fM
+    14MEq4TgIMh0ERSp4JmrGQ6O9G9TJLrJOERwytJzphCWOE4feaLZ9SB5mVJ32CZk
+    hXsqr5GEDuCohrI0X9wZacpBmNyEdK3HILVmdKQppdR9QQJkCk594VGayEr7o4IB
+    mDCCAZQwHQYDVR0OBBYEFFDQAAlLKVw7VfhlVISlEP9hveVjMIGLBgNVHSMEgYMw
+    gYCAFAFnVTvzxVhBK7HYbEfIzMG8JqNnoWWkYzBhMQswCQYDVQQGEwJKUDEOMAwG
+    A1UECAwFVG9reW8xCjAIBgNVBAcMAS4xEDAOBgNVBAoMB1ByaXZhdGUxCjAIBgNV
+    BAsMAS4xGDAWBgNVBAMMD1ByaXZhdGUgUm9vdCBDQYIBATAJBgNVHRMEAjAAMA4G
+    A1UdDwEB/wQEAwIHgDAdBgNVHSUEFjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwSgYI
+    KwYBBQUHAQEEPjA8MDoGCCsGAQUFBzAChi5odHRwOi8vY2EtbG9jYWwubWl6dW5h
+    c2hpLndvcmsvaW50ZXJDQV9UTFMuY3J0MD8GA1UdHwQ4MDYwNKAyoDCGLmh0dHA6
+    Ly9jYS1sb2NhbC5taXp1bmFzaGkud29yay9pbnRlckNBX1RMUy5jcmwwHgYDVR0R
+    BBcwFYITKi5taXp1bmFzaGkucHJpdmF0ZTAKBggqhkjOPQQDBANnADBkAjAmgvXM
+    JrM1sDfsmu4SlxUKv8s4HTJW4w2BrXYmiNAvracHk2ouhI9YvAxgq4lUqH0CMBgg
+    lOqIXea1565nIMmWO938gR9qL1zwoKAEEWTiFTBaVXitSqEJ+eNOqsnbR3V5Kg==
+    -----END CERTIFICATE-----
+    \(private_ca_inter_tls_certificate)
+    """
+  nginx_site_local_proxy_certificate_chain: private_ca_inter_tls_certificate
+  nginx_site_local_proxy_certificate_privkey:
+    "__ansible_vault":
+      """
+      $ANSIBLE_VAULT;1.1;AES256
+      66333336356339636232646361386539343234666238346366616662643533626264326137636466
+      3133366130656130343136646263653038346435653734380a323262393130613639346166326166
+      33313161396431386532373462376463333239633435336663636631343230663036636465396638
+      3137323231366363640a336434636334643630333861373862616233333762343935656361316364
+      64613935666337336333356530353935336163346532613533633766663264303964373861366131
+      35356238386361353236623066643535383530616133303139366634313135366537343466356433
+      66303832633064313962313638313431313862636531306334396434653961633931396361333537
+      65626631396535333038313839323631333965623664383761356662343333663937306562663564
+      33323930323932396332306230356632616465323565303763386537323761633230666338373961
+      37393530646437333363396133626230393531323061303539633231316631323730303163373039
+      32386135643734636634643461313935613663656462656334336164653236636237303864666536
+      30393936343861623062323664323764343235346261613238633166383832373363353437323733
+      64616237333134643634303932326131666139633962303964623233316430383734396165633061
+      39646431336636343933363132353030363339356533626165616363623835616461366661323566
+      39356264396139633861626435363961323561616363633261303663316664376464636237373038
+      35646136616137663365653537666365346333356238383036616364306534306639393765303237
+      65356566653233663234633133643535623862396631333939303533343962303565383063613231
+      62306132623637653632383834353937626665626230323537373133646566626165643234333933
+      65623061316365336265613230323765623432626536663838643630383936633661333137356365
+      31666530333037356338
+      """
 }

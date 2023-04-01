@@ -9,14 +9,22 @@ INTER_TLS_CA_DIR="$CA_DIR/interCA_TLS"
 
 function show_usage() {
   cat <<EOS
-Usage: $0 --dist-dir PATH
+Usage: $0 --dist-dir PATH [option...]
+
+Options:
+  --extra-ext key=value : Extra extensions (may be repeated)
 EOS
 }
 
+REQ_EXTRA_EXTS=()
 while [ "$#" -ne 0 ]; do
   case "$1" in
     '--dist-dir' )
       DIST_DIR="$2"
+      shift
+      ;;
+    '--extra-ext' )
+      REQ_EXTRA_EXTS+=(-addext "$2")
       shift
       ;;
     '-?' | '--help' )
@@ -47,14 +55,19 @@ OUT_FULLCHAIN="$DIST_DIR/fullchain.pem"
 OUT_CHAIN="$DIST_DIR/chain.pem"
 OUT_KEY="$DIST_DIR/privkey.pem"
 
-openssl req \
-  -config "$CA_DIR/req.cnf" \
-  -newkey EC \
-  -pkeyopt ec_paramgen_curve:secp384r1 \
-  -pkeyopt ec_param_enc:named_curve \
-  -nodes \
-  -out "$OUT_CSR" \
+REQ_ARGS=(
+  -config "$CA_DIR/req.cnf"
+  -newkey EC
+  -pkeyopt ec_paramgen_curve:secp384r1
+  -pkeyopt ec_param_enc:named_curve
+  -nodes
+  -out "$OUT_CSR"
   -keyout "$OUT_KEY"
+)
+
+REQ_ARGS+=("${REQ_EXTRA_EXTS[@]}")
+
+openssl req "${REQ_ARGS[@]}"
 
 cd "$CA_DIR" && openssl ca \
   -config "$INTER_TLS_CA_DIR/ca.cnf" \
