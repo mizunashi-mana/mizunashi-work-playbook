@@ -1,8 +1,0 @@
-package nginx_site_ocsp_responder
-
-import "mizunashi.work/pkg/roles/openssl_ocsp_responder"
-
-openssl_ocsp_responder
-
-nginx_site_ocsp_responder_listen_port: uint
-nginx_site_ocsp_responder_domain: string

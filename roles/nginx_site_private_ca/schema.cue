@@ -1,5 +1,9 @@
 package nginx_site_private_ca
 
+import "mizunashi.work/pkg/roles/openssl_ocsp_responder"
+
+openssl_ocsp_responder
+
 nginx_site_private_ca_listen_port: uint
 nginx_site_private_ca_domain: string
 

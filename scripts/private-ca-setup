@@ -10,7 +10,7 @@ INTER_TLS_CA_DAYS=1825
 
 function show_usage() {
   cat <<EOS
-Usage: $0 --dist-dir DIR --dist-url URL --root-ca-ocsp-url URL --inter-tls-ca-ocsp-url URL [option...]
+Usage: $0 --dist-dir DIR --dist-url URL [option...]
 
 Options:
   --root-ca-days DAYS: Expired days of root CA
@@ -28,14 +28,6 @@ while [ "$#" -ne 0 ]; do
       ;;
     '--dist-url' )
       DISTRIBUTION_URL="$2"
-      shift
-      ;;
-    '--root-ca-ocsp-url' )
-      ROOT_CA_OCSP_URL="$2"
-      shift
-      ;;
-    '--inter-tls-ca-ocsp-url' )
-      INTER_TLS_CA_OCSP_URL="$2"
       shift
       ;;
     '--root-ca-days' )
@@ -68,9 +60,7 @@ while [ "$#" -ne 0 ]; do
 done
 
 if [ -z "${DIST_DIR:-}" ] \
-  || [ -z "${DISTRIBUTION_URL:-}" ] \
-  || [ -z "${ROOT_CA_OCSP_URL:-}" ] \
-  || [ -z "${INTER_TLS_CA_OCSP_URL:-}" ]
+  || [ -z "${DISTRIBUTION_URL:-}" ]
 then
   echo "Not enough arguments." 1>&2
   show_usage
@@ -110,7 +100,6 @@ openssl req \
 
 m4 \
   "-D__DISTRIBUTION_URL__=${DISTRIBUTION_URL}" \
-  "-D__ROOT_CA_OCSP_URL__=${ROOT_CA_OCSP_URL}" \
   "$PROJECT_DIR/assets/private_ca/rootCA/ca.cnf.m4" \
   >"$ROOT_CA_DIR/ca.cnf"
 
@@ -168,7 +157,6 @@ cd "$DIST_DIR" && openssl ca \
 
 m4 \
   "-D__DISTRIBUTION_URL__=${DISTRIBUTION_URL}" \
-  "-D__INTER_TLS_CA_OCSP_URL__=${INTER_TLS_CA_OCSP_URL}" \
   "$PROJECT_DIR/assets/private_ca/interCA_TLS/ca.cnf.m4" \
   >"$INTER_TLS_CA_DIR/ca.cnf"
 

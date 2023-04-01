@@ -8,7 +8,7 @@ Restart=always
 User=ocsp-responder
 Environment="DATA_DIR=/var/lib/ocsp-responder/{{ item }}"
 EnvironmentFile=/etc/default/openssl-ocsp-responder-{{ item }}
-ExecStart=/usr/bin/openssl-ocsp-responder
+ExecStart=/bin/bash /usr/bin/openssl-ocsp-responder
 TimeoutStopSec=20s
 
 [Install]

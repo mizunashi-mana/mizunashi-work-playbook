@@ -11,7 +11,6 @@ import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
 import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
 import "mizunashi.work/pkg/roles/nginx_site_private_ca"
-import "mizunashi.work/pkg/roles/nginx_site_ocsp_responder"
 import "mizunashi.work/pkg/roles/postgresql_mastodon"
 import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 
@@ -25,7 +24,6 @@ import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 #Schema: nginx_site_mastodon_front
 #Schema: nginx_site_local_proxy
 #Schema: nginx_site_private_ca
-#Schema: nginx_site_ocsp_responder
 #Schema: postgresql_mastodon
 #Schema: private_mastodon_certificate
 #Schema: enable_private_mastodon_certificate: bool
@@ -41,10 +39,8 @@ let local_proxy_https_port = 19100
   mastodon_local_domain: "mstdn-local.mizunashi.work"
   exim_mail_domain: "mail-local.mizunashi.work"
   nginx_site_private_ca_domain: "ca-local.mizunashi.work"
-  nginx_site_ocsp_responder_domain: "ocsp-local.mizunashi.work"
 
   nginx_site_http_redirector_listen_port: http_port
-  nginx_site_ocsp_responder_listen_port: http_port
   nginx_site_private_ca_listen_port: http_port
   nginx_site_mastodon_front_listen_port: https_port
   nginx_site_local_proxy_listen_port: local_proxy_https_port

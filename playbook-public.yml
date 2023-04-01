@@ -21,7 +21,6 @@
   - nginx_site_mastodon_front
   - nginx_site_private_ca
   - nginx_site_local_proxy
-  - nginx_site_ocsp_responder
 
   tasks:
   - name: Use private certificates on developing
