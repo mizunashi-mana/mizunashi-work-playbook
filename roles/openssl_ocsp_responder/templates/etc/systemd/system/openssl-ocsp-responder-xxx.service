@@ -10,13 +10,13 @@ User=ocsp-responder
 Environment="DATA_DIR=/var/lib/ocsp-responder/{{ item }}"
 EnvironmentFile=/etc/default/openssl-ocsp-responder-{{ item }}
 ExecStart=/usr/bin/openssl ocsp \
-  -ignore_err \
+  -port "$PORT" \
   -index "$DATA_DIR/index.txt" \
   -CA "$DATA_DIR/cacert.pem" \
   -rsigner "$DATA_DIR/cacert.pem" \
   -rkey "$DATA_DIR/privkey.pem" \
-  -port "$PORT" \
   -ndays "$UPDATE_DAYS" \
+  -ignore_err \
   $EXTRA_ARGS
 TimeoutStopSec=20s
 
