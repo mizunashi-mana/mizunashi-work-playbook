@@ -11,4 +11,4 @@ group_vars/*.yml
 __pycache__/
 
 # CA
-*-private-ca/**/*.old
+*_private_ca/**/*.old

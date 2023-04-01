@@ -37,4 +37,5 @@ authorityInfoAccess     = @authority_info
 crlDistributionPoints   = URI:http://ca-local.mizunashi.work/rootCA.crl
 
 [ authority_info ]
+OCSP;URI.0          = http://ca-local.mizunashi.work:10081/
 caIssuers;URI.0     = http://ca-local.mizunashi.work/rootCA.crt

@@ -37,4 +37,5 @@ authorityInfoAccess     = @authority_info
 crlDistributionPoints   = URI:__DISTRIBUTION_URL__/rootCA.crl
 
 [ authority_info ]
+OCSP;URI.0          = __ROOT_CA_OCSP_URL__
 caIssuers;URI.0     = __DISTRIBUTION_URL__/rootCA.crt

@@ -1,5 +1,6 @@
 GROUP_VARS_SRC ?= $(wildcard ./group_vars/*.cue)
 ROLES_SCHEMAS ?= $(wildcard ./roles/*/schema.cue)
+VARS_SCHEMAS ?= $(wildcard ./cue_vars/*/vars.cue) $(wildcard ./*/vars.cue)
 
 CUE ?= cue
 POETRY ?= poetry
@@ -22,7 +23,7 @@ all: $(STAMPS) $(GROUP_VARS_OUT)
 	$(POETRY) run ansible-galaxy collection install -r collections/requirements.yml
 	touch $@
 
-%.yml: %.cue $(ROLES_SCHEMAS)
+%.yml: %.cue $(ROLES_SCHEMAS) $(VARS_SCHEMAS)
 	$(POETRY) run python3 -m cue_compiler $< $@
 
 .PHONY: vagrant-up

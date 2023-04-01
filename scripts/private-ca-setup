@@ -7,14 +7,16 @@ PROJECT_DIR="$(cd "$(dirname "$(dirname "$0")")" && pwd)"
 
 ROOT_CA_DAYS=3650
 INTER_TLS_CA_DAYS=1825
+VAULT_ID=private_ca
 
 function show_usage() {
   cat <<EOS
-Usage: $0 --dist-dir DIR --dist-url URL [option...]
+Usage: $0 --dist-dir DIR --dist-url URL --root-ca-ocsp-url URL --inter-tls-ca-ocsp-url URL [option...]
 
 Options:
   --root-ca-days DAYS: Expired days of root CA
   --inter-tls-ca-days DAYS: Expired days of intermediate TLS CA
+  --vault-id: Vault ID
 EOS
 }
 
@@ -28,12 +30,24 @@ while [ "$#" -ne 0 ]; do
       DISTRIBUTION_URL="$2"
       shift
       ;;
+    '--root-ca-ocsp-url' )
+      ROOT_CA_OCSP_URL="$2"
+      shift
+      ;;
+    '--inter-tls-ca-ocsp-url' )
+      INTER_TLS_CA_OCSP_URL="$2"
+      shift
+      ;;
     '--root-ca-days' )
       ROOT_CA_DAYS="$2"
       shift
       ;;
     '--inter-tls-ca-days' )
       INTER_TLS_CA_DAYS="$2"
+      shift
+      ;;
+    '--vault-id' )
+      VAULT_ID="$2"
       shift
       ;;
     '-?' | '--help' )
@@ -49,7 +63,11 @@ while [ "$#" -ne 0 ]; do
   shift
 done
 
-if [ -z "${DIST_DIR:-}" ] || [ -z "${DISTRIBUTION_URL}" ]; then
+if [ -z "${DIST_DIR:-}" ] \
+  || [ -z "${DISTRIBUTION_URL:-}" ] \
+  || [ -z "${ROOT_CA_OCSP_URL:-}" ] \
+  || [ -z "${INTER_TLS_CA_OCSP_URL:-}" ]
+then
   echo "Not enough arguments." 1>&2
   show_usage
   exit 1
@@ -62,8 +80,12 @@ DIST_DIR="$(cd "$DIST_DIR" && pwd)"
 ROOT_CA_DIR="$DIST_DIR/rootCA"
 mkdir -p "$ROOT_CA_DIR/"{crl,var,newcerts,private}
 touch "$ROOT_CA_DIR/var/index.txt"
-echo '01' > "$ROOT_CA_DIR/var/serial"
-echo '01' > "$ROOT_CA_DIR/var/crlnumber"
+if ! [ -e "$ROOT_CA_DIR/var/serial" ]; then
+  echo '01' > "$ROOT_CA_DIR/var/serial"
+fi
+if ! [ -e "$ROOT_CA_DIR/var/crlnumber" ]; then
+  echo '01' > "$ROOT_CA_DIR/var/crlnumber"
+fi
 
 openssl req \
   -config "$PROJECT_DIR/assets/private_ca/rootCA/cacert.cnf" \
@@ -77,6 +99,7 @@ openssl req \
 
 m4 \
   "-D__DISTRIBUTION_URL__=${DISTRIBUTION_URL}" \
+  "-D__ROOT_CA_OCSP_URL__=${ROOT_CA_OCSP_URL}" \
   "$PROJECT_DIR/assets/private_ca/rootCA/ca.cnf.m4" \
   >"$ROOT_CA_DIR/ca.cnf"
 
@@ -84,12 +107,24 @@ cd "$DIST_DIR" && openssl ca \
   -config "$ROOT_CA_DIR/ca.cnf" \
   -gencrl -out "$ROOT_CA_DIR/crl.pem"
 
+ROOT_CA_KEY="$(openssl pkey -in "$ROOT_CA_DIR/private/cakey.pem" -passout 'pass:')"
+ansible-vault encrypt \
+  --ask-vault-password \
+  --verbose \
+  --vault-id "$VAULT_ID" \
+  --output "$ROOT_CA_DIR/private/cakey.pem.vaulted" \
+  <(echo "$ROOT_CA_KEY")
+
 
 INTER_TLS_CA_DIR="$DIST_DIR/interCA_TLS"
 mkdir -p "$INTER_TLS_CA_DIR/"{crl,var,newcerts,private}
 touch "$INTER_TLS_CA_DIR/var/index.txt"
-echo '01' > "$INTER_TLS_CA_DIR/var/serial"
-echo '01' > "$INTER_TLS_CA_DIR/var/crlnumber"
+if ! [ -e "$INTER_TLS_CA_DIR/var/serial" ]; then
+  echo '01' > "$INTER_TLS_CA_DIR/var/serial"
+fi
+if ! [ -e "$INTER_TLS_CA_DIR/var/crlnumber" ]; then
+  echo '01' > "$INTER_TLS_CA_DIR/var/crlnumber"
+fi
 
 openssl req \
   -config "$PROJECT_DIR/assets/private_ca/interCA_TLS/cacert.cnf" \
@@ -109,6 +144,7 @@ cd "$DIST_DIR" && openssl ca \
 
 m4 \
   "-D__DISTRIBUTION_URL__=${DISTRIBUTION_URL}" \
+  "-D__INTER_TLS_CA_OCSP_URL__=${INTER_TLS_CA_OCSP_URL}" \
   "$PROJECT_DIR/assets/private_ca/interCA_TLS/ca.cnf.m4" \
   >"$INTER_TLS_CA_DIR/ca.cnf"
 
@@ -116,7 +152,18 @@ cd "$DIST_DIR" && openssl ca \
   -config "$INTER_TLS_CA_DIR/ca.cnf" \
   -gencrl -out "$INTER_TLS_CA_DIR/crl.pem"
 
+INTER_TLS_CA_KEY="$(openssl pkey -in "$INTER_TLS_CA_DIR/private/cakey.pem" -passout 'pass:')"
+ansible-vault encrypt \
+  --ask-vault-password \
+  --vault-id "$VAULT_ID" \
+  --output "$INTER_TLS_CA_DIR/private/cakey.pem.vaulted" \
+  <(echo "$INTER_TLS_CA_KEY")
+
 
 cp "$PROJECT_DIR/assets/private_ca/req.cnf" "$DIST_DIR/req.cnf"
+
 cp "$PROJECT_DIR/assets/private_ca/gen-tls-cert" "$DIST_DIR/gen-tls-cert"
 chmod +x "$DIST_DIR/gen-tls-cert"
+
+cp "$PROJECT_DIR/assets/private_ca/gen-vars" "$DIST_DIR/gen-vars"
+chmod +x "$DIST_DIR/gen-vars"
