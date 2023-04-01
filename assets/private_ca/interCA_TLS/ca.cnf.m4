@@ -15,7 +15,7 @@ name_opt          = ca_default
 cert_opt          = ca_default
 default_days      = 365
 default_crl_days  = 30
-default_md        = default
+default_md        = sha512
 preserve          = no
 policy            = policy_anything
 x509_extensions   = user_cert_ext
@@ -32,7 +32,7 @@ emailAddress            = optional
 
 [ user_cert_ext ]
 subjectKeyIdentifier    = hash
-authorityKeyIdentifier  = keyid, issuer:always
+authorityKeyIdentifier  = keyid:always, issuer:always
 basicConstraints        = CA:FALSE
 keyUsage                = critical, digitalSignature
 extendedKeyUsage        = serverAuth, clientAuth

@@ -9,3 +9,6 @@ group_vars/*.yml
 
 # Python
 __pycache__/
+
+# CA
+*-private-ca/**/*.old

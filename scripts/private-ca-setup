@@ -49,7 +49,7 @@ while [ "$#" -ne 0 ]; do
   shift
 done
 
-if [ -z "${DIST_DIR:-}" ]; then
+if [ -z "${DIST_DIR:-}" ] || [ -z "${DISTRIBUTION_URL}" ]; then
   echo "Not enough arguments." 1>&2
   show_usage
   exit 1
@@ -69,7 +69,8 @@ openssl req \
   -config "$PROJECT_DIR/assets/private_ca/rootCA/cacert.cnf" \
   -x509 \
   -newkey EC \
-  -pkeyopt ec_paramgen_curve:prime256v1 \
+  -pkeyopt ec_paramgen_curve:secp384r1 \
+  -pkeyopt ec_param_enc:named_curve \
   -days "$ROOT_CA_DAYS" \
   -out "$ROOT_CA_DIR/cacert.pem" \
   -keyout "$ROOT_CA_DIR/private/cakey.pem"
@@ -79,7 +80,7 @@ m4 \
   "$PROJECT_DIR/assets/private_ca/rootCA/ca.cnf.m4" \
   >"$ROOT_CA_DIR/ca.cnf"
 
-openssl ca \
+cd "$DIST_DIR" && openssl ca \
   -config "$ROOT_CA_DIR/ca.cnf" \
   -gencrl -out "$ROOT_CA_DIR/crl.pem"
 
@@ -93,7 +94,8 @@ echo '01' > "$INTER_TLS_CA_DIR/var/crlnumber"
 openssl req \
   -config "$PROJECT_DIR/assets/private_ca/interCA_TLS/cacert.cnf" \
   -newkey EC \
-  -pkeyopt ec_paramgen_curve:prime256v1 \
+  -pkeyopt ec_paramgen_curve:secp384r1 \
+  -pkeyopt ec_param_enc:named_curve \
   -out "$INTER_TLS_CA_DIR/cacert.csr" \
   -keyout "$INTER_TLS_CA_DIR/private/cakey.pem"
 
@@ -110,7 +112,7 @@ m4 \
   "$PROJECT_DIR/assets/private_ca/interCA_TLS/ca.cnf.m4" \
   >"$INTER_TLS_CA_DIR/ca.cnf"
 
-openssl ca \
+cd "$DIST_DIR" && openssl ca \
   -config "$INTER_TLS_CA_DIR/ca.cnf" \
   -gencrl -out "$INTER_TLS_CA_DIR/crl.pem"
 
