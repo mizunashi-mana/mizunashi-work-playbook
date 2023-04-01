@@ -5,7 +5,7 @@ set -euo pipefail
 
 CA_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-PACKAGE_NAME="${PACKAGE_NAME:-private_ca}"
+PACKAGE_NAME="${PACKAGE_NAME:-"$(basename "$CA_DIR")"}"
 
 cat <<EOS >"$CA_DIR/vars.cue"
 package ${PACKAGE_NAME}
