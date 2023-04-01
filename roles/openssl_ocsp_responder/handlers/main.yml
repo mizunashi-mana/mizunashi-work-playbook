@@ -6,7 +6,7 @@
     daemon_reload: true
     enabled: true
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2itemsmap(attribute="key") }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute="key") }}'
   listen:
   - Restart openssl-ocsp-responder
 
@@ -14,7 +14,7 @@
   ansible.builtin.command: systemctl status 'openssl-ocsp-responder-{{ item }}'
   become: true
   changed_when: false
-  loop: '{{ openssl_ocsp_responder_entries|dict2itemsmap(attribute="key") }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute="key") }}'
   listen: Check
 
 - name: Check listen port

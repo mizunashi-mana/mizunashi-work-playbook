@@ -26,7 +26,7 @@
   - name: Use private certificates on developing
     ansible.builtin.include_role:
       name: private_mastodon_certificate
-    when: '{{ enable_private_mastodon_certificate|default(false) }}'
+    when: enable_private_mastodon_certificate|default(false)
 
   post_tasks:
   - name: Check
