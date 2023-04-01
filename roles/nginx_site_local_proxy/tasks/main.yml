@@ -35,6 +35,15 @@
     mode: '0600'
   become: true
 
+- name: Install client certificate chain
+  ansible.builtin.copy:
+    content: '{{ nginx_site_local_proxy_certificate_client_chain }}'
+    dest: /etc/pki/private-local/live/local_proxy/client_chain.pem
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
 - name: Install local proxy site
   ansible.builtin.template:
     src: 'etc/nginx/sites-available/local_proxy_xxx.conf'

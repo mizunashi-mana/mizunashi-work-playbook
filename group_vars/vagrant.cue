@@ -342,4 +342,5 @@ let private_ca_inter_tls_certificate =
       65623061316365336265613230323765623432626536663838643630383936633661333137356365
       31666530333037356338
       """
+  nginx_site_local_proxy_certificate_client_chain: private_ca_inter_tls_certificate
 }
