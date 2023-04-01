@@ -11,6 +11,7 @@ import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
 import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
 import "mizunashi.work/pkg/roles/nginx_site_private_ca"
+import "mizunashi.work/pkg/roles/nginx_site_ocsp_responder"
 import "mizunashi.work/pkg/roles/postgresql_mastodon"
 import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 
@@ -24,6 +25,7 @@ import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 #Schema: nginx_site_mastodon_front
 #Schema: nginx_site_local_proxy
 #Schema: nginx_site_private_ca
+#Schema: nginx_site_ocsp_responder
 #Schema: postgresql_mastodon
 #Schema: private_mastodon_certificate
 #Schema: enable_private_mastodon_certificate: bool
@@ -31,15 +33,19 @@ import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 let ssh_port = vagrant.#ssh_port
 let http_port = 80
 let https_port = 443
-let ocsp_responder_port_for_root = 10081
-let ocsp_responder_port_for_inter_tls = 10082
+let ocsp_responder_port_for_root = 4211
+let ocsp_responder_port_for_inter_tls = 4212
 let local_proxy_https_port = 19100
 
 #Schema & {
   mastodon_local_domain: "mstdn-local.mizunashi.work"
-  mastodon_single_user_mode: "true"
+  exim_mail_domain: "mail-local.mizunashi.work"
+  nginx_site_private_ca_domain: "ca-local.mizunashi.work"
+  nginx_site_ocsp_responder_domain: "ocsp-local.mizunashi.work"
 
   nginx_site_http_redirector_listen_port: http_port
+  nginx_site_ocsp_responder_listen_port: http_port
+  nginx_site_private_ca_listen_port: http_port
   nginx_site_mastodon_front_listen_port: https_port
   nginx_site_local_proxy_listen_port: local_proxy_https_port
 
@@ -48,6 +54,12 @@ let local_proxy_https_port = 19100
     http_port,
     https_port,
   ]
+
+  nginx_site_local_proxy_common_domain: "mizunashi.private"
+  nginx_site_local_proxy_entries: {
+    "node":
+      upstream_port: 9100
+  }
 
   openssl_ocsp_responder_entries: {
     "rootCA": {
@@ -66,16 +78,7 @@ let local_proxy_https_port = 19100
 
   nginx_resolver: "8.8.8.8"
 
-  exim_mail_domain: "mail-local.mizunashi.work"
-
-  nginx_site_private_ca_domain: "ca-local.mizunashi.work"
-  nginx_site_private_ca_listen_port: http_port
-
-  nginx_site_local_proxy_common_domain: "mizunashi.private"
-  nginx_site_local_proxy_entries: {
-    "node":
-      upstream_port: 9100
-  }
+  mastodon_single_user_mode: "true"
 
   enable_private_mastodon_certificate: true
 

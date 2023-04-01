@@ -4,6 +4,7 @@ set -xeuo pipefail
 
 exec /usr/bin/openssl ocsp \
   -port "$PORT" \
+  -path "$PATH" \
   -index "$DATA_DIR/index.txt" \
   -CA "$DATA_DIR/cacert.pem" \
   -rsigner "$DATA_DIR/cacert.pem" \

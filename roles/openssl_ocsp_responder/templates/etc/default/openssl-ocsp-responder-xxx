@@ -1,3 +1,4 @@
 PORT={{ openssl_ocsp_responder_entries[item].listen_port }}
+PATH='/{{ item.key }}'
 UPDATE_DAYS=7
 EXTRA_ARGS=
