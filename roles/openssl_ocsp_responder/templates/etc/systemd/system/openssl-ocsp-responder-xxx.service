@@ -8,8 +8,8 @@ Type=simple
 Restart=always
 User=ocsp-responder
 EnvironmentFile=/etc/default/openssl-ocsp-responder-{{ item }}
-ExecStart=/usr/bin/openssl \
-  -ignore-err \
+ExecStart=/usr/bin/openssl ocsp \
+  -ignore_err \
   -index /etc/pki/ocsp/{{ item }}/index.txt \
   -CA /etc/pki/ocsp/{{ item }}/cacert.pem \
   -rsigner /etc/pki/ocsp/{{ item }}/cacert.pem \

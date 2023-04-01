@@ -14,61 +14,52 @@
     state: present
   become: true
 
-- name: Directory of OCSP PKIs is available
-  ansible.builtin.file:
-    path: /etc/pki/ocsp
-    state: directory
-    owner: ocsp-responder
-    group: ocsp-responder
-    mode: '0755'
-  become: true
-
 - name: Directories of OCSP entries are available
   ansible.builtin.file:
-    path: '/etc/pki/ocsp/{{ item }}'
+    path: '/var/lib/ocsp-responder/{{ item }}'
     state: directory
     owner: ocsp-responder
     group: ocsp-responder
     mode: '0755'
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute="key") }}'
 
 - name: Copy database contents
   ansible.builtin.copy:
     content: '{{ openssl_ocsp_responder_entries[item].ca_database_content }}'
-    dest: '/etc/pki/ocsp/{{ item }}/index.txt'
+    dest: '/var/lib/ocsp-responder/{{ item }}/index.txt'
     owner: ocsp-responder
     group: ocsp-responder
     mode: '0644'
     backup: true
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute="key") }}'
   notify:
     - Restart openssl-ocsp-responder
 
 - name: Copy certificates
   ansible.builtin.copy:
     content: '{{ openssl_ocsp_responder_entries[item].ca_cert }}'
-    dest: '/etc/pki/ocsp/{{ item }}/cacert.pem'
+    dest: '/var/lib/ocsp-responder/{{ item }}/cacert.pem'
     owner: ocsp-responder
     group: ocsp-responder
     mode: '0644'
     backup: true
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute="key") }}'
   notify:
     - Restart openssl-ocsp-responder
 
 - name: Copy private keys
   ansible.builtin.copy:
     content: '{{ openssl_ocsp_responder_entries[item].ca_privkey }}'
-    dest: '/etc/pki/ocsp/{{ item }}/privkey.pem'
+    dest: '/var/lib/ocsp-responder/{{ item }}/privkey.pem'
     owner: ocsp-responder
     group: ocsp-responder
     mode: '0600'
     backup: true
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute="key") }}'
   no_log: true
   notify:
     - Restart openssl-ocsp-responder
@@ -82,7 +73,7 @@
     mode: '0644'
     backup: true
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute="key") }}'
   notify:
     - Restart openssl-ocsp-responder
 
@@ -95,6 +86,6 @@
     mode: '0644'
     backup: true
   become: true
-  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute='key') }}'
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute="key") }}'
   notify:
     - Restart openssl-ocsp-responder
