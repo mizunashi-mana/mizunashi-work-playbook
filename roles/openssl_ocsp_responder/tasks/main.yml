@@ -64,6 +64,18 @@
   notify:
     - Restart openssl-ocsp-responder
 
+- name: Install entrypoint
+  ansible.builtin.copy:
+    src: usr/bin/openssl-ocsp-responder
+    dest: /usr/bin/openssl-ocsp-responder
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart openssl-ocsp-responder
+
 - name: Install sysconfig
   ansible.builtin.template:
     src: etc/default/openssl-ocsp-responder-xxx

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -xeuo pipefail
+
+exec /usr/bin/openssl ocsp \
+  -port "$PORT" \
+  -index "$DATA_DIR/index.txt" \
+  -CA "$DATA_DIR/cacert.pem" \
+  -rsigner "$DATA_DIR/cacert.pem" \
+  -rkey "$DATA_DIR/privkey.pem" \
+  -ndays "$UPDATE_DAYS" \
+  -ignore_err \
+  $EXTRA_ARGS
