@@ -200,7 +200,7 @@ let private_ca_inter_tls_certificate =
   ]
 
   private_mastodon_certificate_fullchain:
-    #"""
+    """
     -----BEGIN CERTIFICATE-----
     MIIEJzCCA86gAwIBAgIBATAJBgcqhkjOPQQBMGAxCzAJBgNVBAYTAkpQMQ4wDAYD
     VQQIDAVUb2t5bzEKMAgGA1UEBwwBLjEQMA4GA1UECgwHUHJpdmF0ZTEKMAgGA1UE
@@ -227,7 +227,7 @@ let private_ca_inter_tls_certificate =
     CmWHAS7dlLAe99o=
     -----END CERTIFICATE-----
     \(private_ca_inter_tls_certificate)
-    """#
+    """
   private_mastodon_certificate_chain: private_ca_inter_tls_certificate
   private_mastodon_certificate_privkey:
     "__ansible_vault":

@@ -1,7 +1,7 @@
 ---
 - name: Directory of www-data of private CA is available
   ansible.builtin.file:
-    src: /var/www/private_ca
+    path: /var/www/private_ca
     state: directory
     owner: root
     group: root
