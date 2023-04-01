@@ -7,6 +7,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "internal-mizunashi-work" do |node|
     node.vm.box = "generic/debian11"
     node.vm.hostname = "internal.mizunashi-work.vagrant"
+    node.vm.network :private_network, ip: "192.168.61.34"
   end
 
   config.vm.provision "ansible" do |ansible|
@@ -20,8 +21,8 @@ Vagrant.configure(2) do |config|
       "vagrant" => ["public-mizunashi-work", "internal-mizunashi-work"],
       "public_vagrant" => ["public-mizunashi-work"],
       "internal_vagrant" => ["internal-mizunashi-work"],
-      "public" => ["public_vagrant"],
-      "internal" => ["internal_vagrant"]
+      "public" => ["public-mizunashi-work"],
+      "internal" => ["internal-mizunashi-work"]
     }
   end
 end
