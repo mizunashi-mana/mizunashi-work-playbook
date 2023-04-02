@@ -6,16 +6,14 @@
   become: true
 
 - name: Hosts are available
-  ansible.builtin.lineinfile:
-    path: '/etc/banner_add_hosts'
-    search_string: '{{ item.key }} '
-    line: '{{ item.key }} {{ item.value.primary_host }} {{ item.value.additional_hosts|join(" ") }}'
+  ansible.builtin.template:
+    src: etc/hosts.dnsmasq
+    dest: /etc/hosts.dnsmasq
     owner: root
     group: root
     mode: '0644'
     backup: true
   become: true
-  loop: '{{ dnsmasq_hosts_entries|dict2items }}'
   notify:
   - Reload dnsmasq
 

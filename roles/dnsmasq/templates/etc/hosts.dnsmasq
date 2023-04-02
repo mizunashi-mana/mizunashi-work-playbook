@@ -1,0 +1,3 @@
+{% for ip, entry in dnsmasq_hosts_entries.items() %}
+{{ ip }} {{ entry.primary_host }} {{ entry.additional_hosts|join(" ") }}
+{% endfor %}
