@@ -5,5 +5,5 @@ global:
 
 rule_files: []
 
-scrape_config_files:
-  - /etc/prometheus/scrape-config.d/*.yml
+scrape_configs:
+{{ prometheus_scrape_configs|to_yaml(indent=2) }}

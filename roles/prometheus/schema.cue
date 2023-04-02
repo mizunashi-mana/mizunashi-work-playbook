@@ -1,6 +1,6 @@
 package prometheus
 
-prometheus_scrape_configs: [string]: #ScrapeConfig
+prometheus_scrape_configs: [...#ScrapeConfig]
 
 #ScrapeConfig: {
   job_name: string

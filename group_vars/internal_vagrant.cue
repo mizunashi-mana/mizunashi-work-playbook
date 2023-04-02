@@ -28,8 +28,8 @@ let hostname_relabel_config = {
     ssh_port,
   ]
 
-  prometheus_scrape_configs: {
-    "node.\(vagrant.#internal_host_info.hostname)": {
+  prometheus_scrape_configs: [
+    {
       job_name: "node"
       static_configs: [
         {
@@ -41,5 +41,5 @@ let hostname_relabel_config = {
         hostname_relabel_config
       ]
     }
-  }
+  ]
 }
