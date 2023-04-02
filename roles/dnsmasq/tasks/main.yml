@@ -27,6 +27,16 @@
     backup: true
   become: true
 
+- name: Copy dnsmasq config
+  ansible.builtin.template:
+    src: etc/dnsmasq.conf
+    dest: /etc/dnsmasq.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
 - name: Notify restart dnsmasq if not started
   ansible.builtin.command: systemctl status dnsmasq
   become: true
