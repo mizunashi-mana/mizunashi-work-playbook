@@ -1,6 +1,7 @@
 - hosts: internal
 
   roles:
+  - dnsmasq
   - blackbox_exporter
   - prometheus
   - grafana

@@ -1,4 +1,3 @@
 ---
 grafana_version: 9.4.3
-grafana_listen_port: 9099
 grafana_listen_address: 127.0.0.1

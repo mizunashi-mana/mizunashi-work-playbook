@@ -1,0 +1,39 @@
+---
+- name: Install dnsmasq
+  ansible.builtin.apt:
+    name: 'dnsmasq={{ dnsmasq_version }}*'
+    state: present
+  become: true
+
+- name: Hosts are available
+  ansible.builtin.lineinfile:
+    path: '/etc/banner_add_hosts'
+    search_string: '{{ item.key }} '
+    line: '{{ item.key }} {{ item.value.primary_host }} {{ item.value.additional_hosts|join(" ") }}'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  loop: '{{ dnsmasq_hosts_entries|dict2items }}'
+  notify:
+  - Reload dnsmasq
+
+- name: The name server of dnsmasq is available
+  ansible.builtin.lineinfile:
+    path: '/run/resolvconf/resolv.conf'
+    line: 'nameserver 127.0.0.1'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Notify restart dnsmasq if not started
+  ansible.builtin.command: systemctl status dnsmasq
+  become: true
+  register: dnsmasq_service_status
+  changed_when: dnsmasq_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart dnsmasq

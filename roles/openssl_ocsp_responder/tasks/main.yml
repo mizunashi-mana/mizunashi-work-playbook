@@ -101,3 +101,13 @@
   loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute="key") }}'
   notify:
     - Restart openssl-ocsp-responder
+
+- name: Notify restart service if not started
+  ansible.builtin.command: systemctl status 'openssl-ocsp-responder-{{ item }}'
+  register: openssl_ocsp_responder_service_status
+  changed_when: openssl_ocsp_responder_service_status.rc != 0
+  failed_when: false
+  become: true
+  loop: '{{ openssl_ocsp_responder_entries|dict2items|map(attribute="key") }}'
+  notify:
+    - Restart openssl-ocsp-responder

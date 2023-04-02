@@ -10,13 +10,17 @@ import "mizunashi.work/pkg/roles/node_exporter"
 
 #ssh_port: 22
 
-#public_host_info: {
-  hostname: "public.mizunashi-work.vagrant"
-  ip: "192.168.61.33"
-}
-#internal_host_info: {
-  hostname: "internal.mizunashi-work.vagrant"
-  ip: "192.168.61.34"
+#hosts_entries: {
+  public001: {
+    ip: "192.168.61.33"
+    exposed_host: "public001.mizunashi-local.private"
+    host: "public.mizunashi-work.vagrant"
+  }
+  internal001: {
+    ip: "192.168.61.34"
+    exposed_host: "internal001.mizunashi-local.private"
+    host: "internal.mizunashi-work.vagrant"
+  }
 }
 
 base
@@ -34,12 +38,3 @@ workuser_setup_ssh_authorized_keys: [
 ]
 
 openssh_server_listen_port: #ssh_port
-
-base_hosts_entries: {
-  "\(#public_host_info.ip)": {
-    primary_host: #public_host_info.hostname
-  }
-  "\(#internal_host_info.ip)": {
-    primary_host: #internal_host_info.hostname
-  }
-}
