@@ -3,6 +3,7 @@ package vagrant
 import "mizunashi.work/pkg/roles/base"
 import "mizunashi.work/pkg/roles/workuser_setup"
 import "mizunashi.work/pkg/roles/openssh_server"
+import "mizunashi.work/pkg/roles/apticron"
 import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/fail2ban"
 import "mizunashi.work/pkg/roles/exim"
@@ -30,6 +31,7 @@ nftables
 fail2ban
 node_exporter
 exim
+apticron
 
 workuser_setup_username: "vagrant"
 workuser_setup_home_directory: "/home/\(workuser_setup_username)"
@@ -38,3 +40,5 @@ workuser_setup_ssh_authorized_keys: [
 ]
 
 openssh_server_listen_port: #ssh_port
+
+apticron_notification_email: "root@localhost"

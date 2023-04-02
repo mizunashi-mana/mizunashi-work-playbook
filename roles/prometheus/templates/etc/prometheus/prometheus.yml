@@ -6,4 +6,4 @@ global:
 rule_files: []
 
 scrape_configs:
-{{ prometheus_scrape_configs|to_yaml(indent=2) }}
+{{ prometheus_scrape_configs|to_yaml }}
