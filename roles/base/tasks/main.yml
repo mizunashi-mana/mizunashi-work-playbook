@@ -12,11 +12,3 @@
     name: 'sudo={{ base_sudo_version }}*'
     state: present
   become: true
-
-- name: The workuser has the sudo group
-  ansible.builtin.user:
-    name: '{{ base_workuser_name }}'
-    state: present
-    groups: sudo
-    append: true
-  become: true

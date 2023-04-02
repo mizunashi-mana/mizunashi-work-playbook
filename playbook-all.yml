@@ -2,6 +2,7 @@
 
   roles:
   - base
+  - workuser_setup
   - nftables
   - fail2ban
   - apticron
