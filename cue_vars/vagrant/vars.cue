@@ -21,7 +21,7 @@ exim
 workuser_setup_username: "vagrant"
 workuser_setup_home_directory: "/home/vagrant"
 workuser_setup_ssh_authorized_keys: [
-  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkqfF4qMFhr2fg+Yw3WLIqaRLqYzkCjWy2fdF4eQ5LG workuser@vagrant"
+  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkqfF4qMFhr2fg+Yw3WLIqaRLqYzkCjWy2fdF4eQ5LG mizunashi-work-playbook"
 ]
 
 openssh_server_listen_port: #ssh_port
