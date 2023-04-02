@@ -4,8 +4,10 @@
   - base
   - nftables
   - fail2ban
+  - apticron
   - openssh_server
   - node_exporter
+  - exim
 
   post_tasks:
   - name: Check

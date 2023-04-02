@@ -5,11 +5,9 @@ import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/mastodon"
 import "mizunashi.work/pkg/roles/nginx_exporter"
-import "mizunashi.work/pkg/roles/node_exporter"
 import "mizunashi.work/pkg/roles/redis_exporter"
 import "mizunashi.work/pkg/roles/postgres_exporter"
 import "mizunashi.work/pkg/roles/statsd_exporter"
-import "mizunashi.work/pkg/roles/exim"
 import "mizunashi.work/pkg/roles/openssl_ocsp_responder"
 import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
@@ -21,10 +19,8 @@ import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 #Schema: vagrant
 #Schema: nginx
 #Schema: mastodon
-#Schema: exim
 #Schema: openssl_ocsp_responder
 #Schema: nginx_exporter
-#Schema: node_exporter
 #Schema: redis_exporter
 #Schema: postgres_exporter
 #Schema: statsd_exporter
@@ -46,7 +42,6 @@ let ocsp_responder_port_for_inter_tls = 4212
 
 #Schema & {
   mastodon_local_domain: "mstdn-local.mizunashi.work"
-  exim_mail_domain: "mail-local.mizunashi.work"
   nginx_site_private_ca_domain: "ca-local.mizunashi.work"
 
   nginx_site_http_redirector_listen_port: http_port

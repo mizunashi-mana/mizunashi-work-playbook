@@ -5,7 +5,6 @@
   - ruby
   - redis_server
   - postgresql
-  - exim
   - certbot
   - redis_exporter
   - postgres_exporter
