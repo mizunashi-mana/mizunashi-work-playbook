@@ -1,5 +1,7 @@
 package prometheus
 
+prometheus_listen_port: uint | *9090
+
 prometheus_scrape_configs: [...#ScrapeConfig]
 
 #ScrapeConfig: {
@@ -14,9 +16,7 @@ prometheus_scrape_configs: [...#ScrapeConfig]
 
 #StaticConfig: {
   targets: [...string]
-  labels: {
-    [string]: string
-  }
+  labels: [string]: string
 }
 
 #RelabelConfig: {
