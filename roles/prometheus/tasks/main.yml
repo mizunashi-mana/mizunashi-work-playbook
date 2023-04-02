@@ -17,6 +17,29 @@
   notify:
     - Reload prometheus
 
+- name: Directory of scrape configs is available
+  ansible.builtin.file:
+    path: /etc/prometheus/scrape-config.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Install scrape configs
+  ansible.builtin.copy:
+    content: '{{ prometheus_scrape_configs[item] | to_yaml }}'
+    dest: '/etc/prometheus/scrape-config.d/{{ item }}.yml'
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
+  become: true
+  loop: '{{ prometheus_scrape_configs|dict2items|map(attribute="key") }}'
+  notify:
+    - Reload prometheus
+
 - name: Copy prometheus environment
   ansible.builtin.template:
     src: etc/default/prometheus

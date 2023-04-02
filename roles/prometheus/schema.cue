@@ -1,5 +1,7 @@
 package prometheus
 
+prometheus_scrape_configs: [string]: #ScrapeConfig
+
 #ScrapeConfig: {
   job_name: string
   scrape_interval?: string
@@ -7,6 +9,7 @@ package prometheus
   metrics_path: string | *"/metrics"
   scheme: string | *"http"
   static_configs: [...#StaticConfig]
+  relabel_configs: [...#RelabelConfig]
 }
 
 #StaticConfig: {
@@ -16,4 +19,9 @@ package prometheus
   }
 }
 
-prometheus_scrape_configs: [...#ScrapeConfig]
+#RelabelConfig: {
+  source_labels: [...string]
+  target_label: string
+  regex: string
+  replacement: string
+}

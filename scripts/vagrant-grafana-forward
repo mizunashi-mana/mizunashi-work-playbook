@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+[ "${TRACE:-false}" = 'true' ] && set -x
+
+PROJECT_DIR="$(cd "$(dirname "$(dirname "$0")")" && pwd)"
+
+LOCAL_BIND_PORT="${LOCAL_BIND_PORT:-9099}"
+
+exec ssh \
+  -i "$PROJECT_DIR/assets/vagrant_ssh_privkey" \
+  -L "${LOCAL_BIND_PORT}:localhost:9099" \
+  -N \
+  vagrant@192.168.61.34

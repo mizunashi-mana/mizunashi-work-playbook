@@ -10,12 +10,17 @@ let ssh_port = vagrant.#ssh_port
 
 let prometheus_phase = "vagrant"
 let prometheus_group_internal = "internal"
-let internal_vagrant_host = "internal.mizunashi-work.vagrant"
 
 let internal_vagrant_labels = {
   phase: prometheus_phase
   group: prometheus_group_internal
-  hostname: internal_vagrant_host
+}
+
+let hostname_relabel_config = {
+  source_labels: ["__address__"]
+  regex: #"([^:]+):(\d+)"#
+  target_label: "hostname"
+  replacement: #"${1}"#
 }
 
 #Schema & {
@@ -23,15 +28,18 @@ let internal_vagrant_labels = {
     ssh_port,
   ]
 
-  prometheus_scrape_configs: [
-    {
+  prometheus_scrape_configs: {
+    "node.\(vagrant.#internal_host_info.hostname)": {
       job_name: "node"
       static_configs: [
         {
-          targets: ["localhost:9100"]
+          targets: ["\(vagrant.#internal_host_info.hostname):9100"]
           labels: internal_vagrant_labels
         }
       ]
-    },
-  ]
+      relabel_configs: [
+        hostname_relabel_config
+      ]
+    }
+  }
 }

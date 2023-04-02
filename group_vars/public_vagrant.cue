@@ -57,9 +57,7 @@ let ocsp_responder_port_for_inter_tls = 4212
 
   nftables_accept_ports_with_addrs: {
     "to_internal": {
-      source_addrs: [
-        "192.168.61.34"
-      ]
+      source_addrs: [vagrant.#internal_host_info.ip]
       tcp_ports: [
         local_proxy_https_port
       ]
