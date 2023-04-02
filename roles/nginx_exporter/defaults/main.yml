@@ -2,4 +2,3 @@
 nginx_exporter_version: 0.8.0
 
 nginx_exporter_listen_address: 127.0.0.1
-nginx_exporter_listen_port: 9113

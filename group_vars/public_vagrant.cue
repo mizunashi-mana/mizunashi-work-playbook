@@ -5,6 +5,10 @@ import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/mastodon"
 import "mizunashi.work/pkg/roles/nginx_exporter"
+import "mizunashi.work/pkg/roles/node_exporter"
+import "mizunashi.work/pkg/roles/redis_exporter"
+import "mizunashi.work/pkg/roles/postgres_exporter"
+import "mizunashi.work/pkg/roles/statsd_exporter"
 import "mizunashi.work/pkg/roles/exim"
 import "mizunashi.work/pkg/roles/openssl_ocsp_responder"
 import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
@@ -20,6 +24,10 @@ import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 #Schema: exim
 #Schema: openssl_ocsp_responder
 #Schema: nginx_exporter
+#Schema: node_exporter
+#Schema: redis_exporter
+#Schema: postgres_exporter
+#Schema: statsd_exporter
 #Schema: nginx_site_http_redirector
 #Schema: nginx_site_mastodon_front
 #Schema: nginx_site_local_proxy
@@ -31,9 +39,10 @@ import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 let ssh_port = vagrant.#ssh_port
 let http_port = 80
 let https_port = 443
+let local_proxy_https_port = 19100
+
 let ocsp_responder_port_for_root = 4211
 let ocsp_responder_port_for_inter_tls = 4212
-let local_proxy_https_port = 19100
 
 #Schema & {
   mastodon_local_domain: "mstdn-local.mizunashi.work"
@@ -51,10 +60,34 @@ let local_proxy_https_port = 19100
     https_port,
   ]
 
+  nftables_accept_ports_with_addrs: {
+    "to_internal": {
+      source_addrs: [
+        "192.168.61.34"
+      ]
+      tcp_ports: [
+        local_proxy_https_port
+      ]
+    }
+  }
+
   nginx_site_local_proxy_common_domain: "mizunashi-local.private"
   nginx_site_local_proxy_entries: {
-    "node":
-      upstream_port: 9100
+    "node": {
+      upstream_port: #Schema.node_exporter_listen_port
+    }
+    "nginx": {
+      upstream_port: #Schema.nginx_exporter_listen_port
+    }
+    "redis": {
+      upstream_port: #Schema.redis_exporter_listen_port
+    }
+    "postgresql": {
+      upstream_port: #Schema.postgres_exporter_listen_port
+    }
+    "statsd": {
+      upstream_port: #Schema.statsd_exporter_web_listen_port
+    }
   }
 
   openssl_ocsp_responder_entries: {
