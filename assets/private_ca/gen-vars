@@ -43,3 +43,4 @@ inter_tls_ca_privkey: "__ansible_vault":
 """
 $(cat "$CA_DIR/interCA_TLS/private/cakey.pem.vaulted")
 """
+EOS

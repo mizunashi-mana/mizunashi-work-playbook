@@ -99,7 +99,8 @@ hJfsbotTajoVTibF4WXDkFlLOIXjo/g/f5+M
 """
 inter_tls_ca_database:
 """
-
+V	240401062912Z		01	unknown	/C=JP/ST=Tokyo/L=./O=Private/OU=mizunashi-work-playbook/CN=mstdn-local.mizunashi.work
+V	240401063224Z		02	unknown	/C=JP/ST=Tokyo/L=./O=Private/OU=mizunashi-work-playbook/CN=*.mizunashi-local.private
 """
 inter_tls_ca_privkey: "__ansible_vault":
 """
