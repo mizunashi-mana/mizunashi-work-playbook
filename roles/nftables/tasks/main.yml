@@ -36,10 +36,34 @@
   notify:
     - Restart nftables
 
-- name: Copy nftables ssh config
+- name: Copy nftables tcp accept config
   ansible.builtin.template:
     src: etc/nftables-inbound.d/accept_tcp_dports.conf
     dest: /etc/nftables-inbound.d/accept_tcp_dports.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart nftables
+
+- name: Copy nftables chain jump config
+  ansible.builtin.template:
+    src: etc/nftables-inbound.d/jump_saddr_chains.conf
+    dest: /etc/nftables-inbound.d/jump_saddr_chains.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart nftables
+
+- name: Copy nftables restricted accept config
+  ansible.builtin.template:
+    src: etc/nftables-chain.d/accept_tcp_dports.conf
+    dest: /etc/nftables-chain.d/accept_tcp_dports.conf
     owner: root
     group: root
     mode: '0644'
