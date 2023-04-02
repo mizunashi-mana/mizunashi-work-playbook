@@ -33,7 +33,7 @@ let hostname_relabel_config = {
       job_name: "node"
       static_configs: [
         {
-          targets: ["\(vagrant.#internal_host_info.hostname):9100"]
+          targets: ["localhost:9100"]
           labels: internal_vagrant_labels
         }
       ]
