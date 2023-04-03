@@ -15,7 +15,7 @@
     backup: true
   become: true
   notify:
-    - Reload prometheus
+    - Restart prometheus
 
 - name: Directory of TLS config is available
   ansible.builtin.file:
