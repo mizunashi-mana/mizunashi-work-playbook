@@ -1,9 +1,9 @@
 package nftables
 
-#AcceptPortsWithAddrs: {
-  source_addrs: [...string]
+nftables_accept_tcp_ports: [...uint]
+nftables_accept_ports_with_iif: [string]: #AcceptPortsWithIif
+
+#AcceptPortsWithIif: {
+  iif: string
   tcp_ports: [...uint]
 }
-
-nftables_accept_tcp_ports: [...uint]
-nftables_accept_ports_with_addrs: [string]: #AcceptPortsWithAddrs

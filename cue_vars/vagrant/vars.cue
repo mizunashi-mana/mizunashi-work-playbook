@@ -21,16 +21,16 @@ import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
 
 #internal_host_entries: {
   internal001: {
-    ip: "192.168.61.34"
-    exposed_host: "internal001.mizunashi-local.private"
+    internal_ip: "192.168.62.34"
+    internal_host: "internal001.mizunashi-local.private"
     host: "internal.mizunashi-work.vagrant"
   }
 }
 
 #public_host_entries: {
   public001: {
-    ip: "192.168.61.33"
-    exposed_host: "public001.mizunashi-local.private"
+    internal_ip: "192.168.62.33"
+    internal_host: "public001.mizunashi-local.private"
     host: "public.mizunashi-work.vagrant"
   }
 }
@@ -63,8 +63,8 @@ workuser_setup_ssh_authorized_keys: [
 ]
 
 nftables_accept_tcp_ports: [#ssh_port, ...uint]
-nftables_accept_ports_with_addrs: "to_internal": {
-  source_addrs: [#host_entries.internal001.ip]
+nftables_accept_ports_with_iif: "to_internal": {
+  iif: "eth2"
   tcp_ports: [
     #local_proxy_https_port
   ]

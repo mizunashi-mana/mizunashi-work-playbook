@@ -20,8 +20,8 @@ let ssh_port = vagrant.#ssh_port
   dnsmasq_hosts_entries: [
     for _, entry in vagrant.#host_entries {
       {
-        ip: entry.ip
-        domain: entry.exposed_host
+        ip: entry.internal_ip
+        domain: entry.internal_host
       }
     }
   ]
@@ -40,7 +40,7 @@ let ssh_port = vagrant.#ssh_port
       static_configs: [{
         targets: [
           for _, entry in vagrant.#internal_host_entries {
-            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
+            "\(entry.internal_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -51,7 +51,7 @@ let ssh_port = vagrant.#ssh_port
       static_configs: [{
         targets: [
           for _, entry in vagrant.#internal_host_entries {
-            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
+            "\(entry.internal_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -62,7 +62,7 @@ let ssh_port = vagrant.#ssh_port
       static_configs: [{
         targets: [
           for _, entry in vagrant.#host_entries {
-            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
+            "\(entry.internal_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -73,7 +73,7 @@ let ssh_port = vagrant.#ssh_port
       static_configs: [{
         targets: [
           for _, entry in vagrant.#host_entries {
-            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
+            "\(entry.internal_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -84,7 +84,7 @@ let ssh_port = vagrant.#ssh_port
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
-            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
+            "\(entry.internal_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -95,7 +95,7 @@ let ssh_port = vagrant.#ssh_port
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
-            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
+            "\(entry.internal_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -106,7 +106,7 @@ let ssh_port = vagrant.#ssh_port
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
-            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
+            "\(entry.internal_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
