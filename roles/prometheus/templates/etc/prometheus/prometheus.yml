@@ -16,12 +16,15 @@ scrape_configs:
 {% endif %}
   metrics_path: {{ scrape_config.metrics_path|to_yaml }}
   scheme: {{ scrape_config.scheme|to_yaml }}
-  params: {{ scrape_config.params|to_yaml }}
+  params:
+    {{ scrape_config.params|to_yaml|indent(4) }}
   tls_config:
 {% if scrape_config.enable_tls_client_verification %}
     cert_file: /etc/prometheus/tls_config/client_certificate.pem
     key_file: /etc/prometheus/tls_config/client_privkey.pem
 {% endif %}
-  static_configs: {{ scrape_config.static_configs|to_yaml }}
-  relabel_configs: {{ scrape_config.relabel_configs|to_yaml }}
+  static_configs:
+    {{ scrape_config.static_configs|to_yaml|indent(4) }}
+  relabel_configs:
+    {{ scrape_config.relabel_configs|to_yaml|indent(4) }}
 {% endfor %}
