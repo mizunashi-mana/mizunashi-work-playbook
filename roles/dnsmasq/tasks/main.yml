@@ -5,18 +5,6 @@
     state: present
   become: true
 
-- name: Hosts are available
-  ansible.builtin.template:
-    src: etc/hosts.dnsmasq
-    dest: /etc/hosts.dnsmasq
-    owner: root
-    group: root
-    mode: '0644'
-    backup: true
-  become: true
-  notify:
-  - Reload dnsmasq
-
 - name: The name server of dnsmasq is available
   ansible.builtin.lineinfile:
     path: '/run/resolvconf/resolv.conf'
@@ -36,6 +24,20 @@
     mode: '0644'
     backup: true
   become: true
+  notify:
+  - Reload dnsmasq
+
+- name: Copy address config
+  ansible.builtin.template:
+    src: etc/dnsmasq.d/address.conf
+    dest: /etc/dnsmasq.d/address.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+  - Reload dnsmasq
 
 - name: Notify restart dnsmasq if not started
   ansible.builtin.command: systemctl status dnsmasq

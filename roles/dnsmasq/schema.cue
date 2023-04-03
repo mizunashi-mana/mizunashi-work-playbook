@@ -2,9 +2,9 @@ package dnsmasq
 
 dnsmasq_listen_port: uint | *53
 
-dnsmasq_hosts_entries: [string]: #HostEntry
+dnsmasq_hosts_entries: [...#HostEntry]
 
 #HostEntry: {
-  primary_host: string
-  additional_hosts: [...string]
+  domain: string
+  ip: string
 }

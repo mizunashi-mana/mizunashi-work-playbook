@@ -1,4 +1,4 @@
-package vagrant_private_ca
+package private_ca_vagrant
 
 root_ca_certificate:
 """

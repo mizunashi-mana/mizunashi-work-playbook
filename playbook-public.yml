@@ -14,12 +14,9 @@
   - postgresql_mastodon
   - mastodon
 
-  - nginx
-  - nginx_exporter
   - nginx_site_http_redirector
   - nginx_site_mastodon_front
   - nginx_site_private_ca
-  - nginx_site_local_proxy
 
   tasks:
   - name: Use private certificates on developing

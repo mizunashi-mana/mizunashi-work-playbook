@@ -9,6 +9,9 @@
   - openssh_server
   - node_exporter
   - exim
+  - nginx
+  - nginx_site_local_proxy
+  - nginx_exporter
 
   post_tasks:
   - name: Check

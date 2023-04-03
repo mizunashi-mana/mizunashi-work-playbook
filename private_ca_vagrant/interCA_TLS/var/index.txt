@@ -1,2 +1,3 @@
 V	240401062912Z		01	unknown	/C=JP/ST=Tokyo/L=./O=Private/OU=mizunashi-work-playbook/CN=mstdn-local.mizunashi.work
 V	240401063224Z		02	unknown	/C=JP/ST=Tokyo/L=./O=Private/OU=mizunashi-work-playbook/CN=*.mizunashi-local.private
+V	240402142147Z		03	unknown	/C=JP/ST=Tokyo/L=./O=Private/OU=mizunashi-work-playbook/CN=Prometheus Client Auth
