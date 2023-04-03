@@ -49,7 +49,7 @@ let ocsp_responder_port_for_inter_tls = 4212
   nginx_site_local_proxy_entries: "redis": {
     upstream_port: #Schema.redis_exporter_listen_port
   }
-  nginx_site_local_proxy_entries: "postgresql": {
+  nginx_site_local_proxy_entries: "postgres": {
     upstream_port: #Schema.postgres_exporter_listen_port
   }
   nginx_site_local_proxy_entries: "statsd": {

@@ -11,9 +11,6 @@ import "mizunashi.work/pkg/roles/grafana"
 #Schema: grafana
 
 let ssh_port = vagrant.#ssh_port
-let postgres_exporter_http_port = 9187
-let redis_exporter_http_port = 9121
-let statsd_exporter_http_port = 9102
 
 #Schema & {
   nftables_accept_tcp_ports: [
@@ -43,7 +40,7 @@ let statsd_exporter_http_port = 9102
       static_configs: [{
         targets: [
           for _, entry in vagrant.#internal_host_entries {
-            "\(entry.exposed_host):\(#Schema.prometheus_listen_port)"
+            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -54,7 +51,7 @@ let statsd_exporter_http_port = 9102
       static_configs: [{
         targets: [
           for _, entry in vagrant.#internal_host_entries {
-            "\(entry.exposed_host):\(#Schema.grafana_listen_port)"
+            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -65,7 +62,7 @@ let statsd_exporter_http_port = 9102
       static_configs: [{
         targets: [
           for _, entry in vagrant.#host_entries {
-            "\(entry.exposed_host):\(#Schema.node_exporter_listen_port)"
+            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -76,7 +73,7 @@ let statsd_exporter_http_port = 9102
       static_configs: [{
         targets: [
           for _, entry in vagrant.#host_entries {
-            "\(entry.exposed_host):\(#Schema.nginx_exporter_listen_port)"
+            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -87,7 +84,7 @@ let statsd_exporter_http_port = 9102
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
-            "\(entry.exposed_host):\(redis_exporter_http_port)"
+            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -98,7 +95,7 @@ let statsd_exporter_http_port = 9102
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
-            "\(entry.exposed_host):\(postgres_exporter_http_port)"
+            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
@@ -109,7 +106,7 @@ let statsd_exporter_http_port = 9102
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
-            "\(entry.exposed_host):\(statsd_exporter_http_port)"
+            "\(entry.exposed_host):\(#Schema.#local_proxy_https_port)"
           }
         ]
       }]
