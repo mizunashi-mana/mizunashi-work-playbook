@@ -17,6 +17,40 @@
   notify:
     - Reload prometheus
 
+- name: Directory of TLS config is available
+  ansible.builtin.file:
+    path: /etc/prometheus/tls_config
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Install client certificate
+  ansible.builtin.copy:
+    src: "{{ prometheus_client_certificate_cert }}\n"
+    dest: /etc/prometheus/tls_config/client_certificate.pem
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Reload prometheus
+
+- name: Install client certificate privkey
+  ansible.builtin.copy:
+    src: "{{ prometheus_client_certificate_privkey }}\n"
+    dest: /etc/prometheus/tls_config/client_privkey.pem
+    owner: root
+    group: root
+    mode: '0600'
+    backup: true
+  become: true
+  no_log: true
+  notify:
+    - Reload prometheus
+
 - name: Copy prometheus environment
   ansible.builtin.template:
     src: etc/default/prometheus

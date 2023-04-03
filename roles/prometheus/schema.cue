@@ -15,7 +15,7 @@ prometheus_listen_port: uint | *9090
 prometheus_scrape_configs: [...#ScrapeConfig]
 
 prometheus_client_certificate_cert: string
-prometheus_client_certificate_key: cue_types.#Vaulted
+prometheus_client_certificate_privkey: cue_types.#Vaulted
 
 #ScrapeConfig: {
   job_name: string

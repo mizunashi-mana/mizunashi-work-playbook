@@ -11,7 +11,7 @@ scrape_configs:
 {% if 'scrape_interval' in scrape_config %}
   scrape_interval: {{ scrape_config.scrape_interval }}
 {% endif %}
-{% if 'scrape_timeout' in scrape_timeout %}
+{% if 'scrape_timeout' in scrape_config %}
   scrape_timeout: {{ scrape_config.scrape_timeout }}
 {% endif %}
   metrics_path: {{ scrape_config.metrics_path|to_yaml }}
