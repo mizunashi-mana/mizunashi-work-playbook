@@ -39,7 +39,7 @@ let statsd_exporter_http_port = 9102
   prometheus_scrape_configs: [
     {
       job_name: "prometheus"
-      params: "proxy_exporter_type": ["prometheus"]
+      params: "local_proxy_upstream": ["prometheus"]
       static_configs: [{
         targets: [
           for _, entry in vagrant.#internal_host_entries {
@@ -50,7 +50,7 @@ let statsd_exporter_http_port = 9102
     },
     {
       job_name: "grafana"
-      params: "proxy_exporter_type": ["grafana"]
+      params: "local_proxy_upstream": ["grafana"]
       static_configs: [{
         targets: [
           for _, entry in vagrant.#internal_host_entries {
@@ -61,7 +61,7 @@ let statsd_exporter_http_port = 9102
     },
     {
       job_name: "node"
-      params: "proxy_exporter_type": ["node"]
+      params: "local_proxy_upstream": ["node"]
       static_configs: [{
         targets: [
           for _, entry in vagrant.#host_entries {
@@ -72,7 +72,7 @@ let statsd_exporter_http_port = 9102
     },
     {
       job_name: "nginx"
-      params: "proxy_exporter_type": ["nginx"]
+      params: "local_proxy_upstream": ["nginx"]
       static_configs: [{
         targets: [
           for _, entry in vagrant.#host_entries {
@@ -83,7 +83,7 @@ let statsd_exporter_http_port = 9102
     },
     {
       job_name: "redis"
-      params: "proxy_exporter_type": ["redis"]
+      params: "local_proxy_upstream": ["redis"]
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
@@ -94,7 +94,7 @@ let statsd_exporter_http_port = 9102
     },
     {
       job_name: "postgres"
-      params: "proxy_exporter_type": ["postgres"]
+      params: "local_proxy_upstream": ["postgres"]
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
@@ -105,7 +105,7 @@ let statsd_exporter_http_port = 9102
     },
     {
       job_name: "statsd"
-      params: "proxy_exporter_type": ["statsd"]
+      params: "local_proxy_upstream": ["statsd"]
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
