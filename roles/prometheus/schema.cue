@@ -23,7 +23,7 @@ prometheus_client_certificate_privkey: cue_types.#Vaulted
   scrape_timeout?: string
   metrics_path: string | *"/metrics"
   scheme: string | *"https"
-  params: [string]: string
+  params: [string]: [...string]
   enable_tls_client_verification: bool | *false
   static_configs: [...#StaticConfig]
   relabel_configs: [...#RelabelConfig] | *[#hostname_relabel_config]
