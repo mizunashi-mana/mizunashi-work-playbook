@@ -144,7 +144,7 @@ let statsd_exporter_http_port = 9102
     -----END CERTIFICATE-----
     \(private_ca_vagrant.inter_tls_ca_certificate)
     """
-  prometheus_client_certificate_key:
+  prometheus_client_certificate_privkey:
     "__ansible_vault":
       """
       $ANSIBLE_VAULT;1.1;AES256
