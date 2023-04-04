@@ -25,6 +25,7 @@ prometheus_client_certificate_privkey: cue_types.#Vaulted
   scheme: string | *"https"
   params: [string]: [...string]
   enable_tls_client_verification: bool | *false
+  use_private_ca: bool | *false
   static_configs: [...#StaticConfig]
   relabel_configs: [...#RelabelConfig] | *[#hostname_relabel_config]
 }

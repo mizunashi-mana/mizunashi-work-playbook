@@ -1,0 +1,3 @@
+---
+dependencies:
+  - role: private_root_ca

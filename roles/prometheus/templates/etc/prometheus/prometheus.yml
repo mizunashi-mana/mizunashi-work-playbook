@@ -23,6 +23,9 @@ scrape_configs:
     cert_file: /etc/prometheus/tls_config/client_certificate.pem
     key_file: /etc/prometheus/tls_config/client_privkey.pem
 {% endif %}
+{% if scrape_config.use_private_ca %}
+    ca_file: {{ private_ca_root_certificate_path }}
+{% endif %}
   static_configs:
     {{ scrape_config.static_configs|to_yaml|indent(4) }}
   relabel_configs:
