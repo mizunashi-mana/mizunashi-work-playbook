@@ -21,8 +21,8 @@
   ansible.builtin.file:
     path: /etc/prometheus/tls_config
     state: directory
-    owner: root
-    group: root
+    owner: prometheus
+    group: prometheus
     mode: '0755'
   become: true
 
@@ -30,8 +30,8 @@
   ansible.builtin.copy:
     content: "{{ prometheus_client_certificate_cert }}\n"
     dest: /etc/prometheus/tls_config/client_certificate.pem
-    owner: root
-    group: root
+    owner: prometheus
+    group: prometheus
     mode: '0644'
     backup: true
   become: true
@@ -42,21 +42,8 @@
   ansible.builtin.copy:
     content: "{{ prometheus_client_certificate_privkey }}\n"
     dest: /etc/prometheus/tls_config/client_privkey.pem
-    owner: root
-    group: root
-    mode: '0600'
-    backup: true
-  become: true
-  no_log: true
-  notify:
-    - Reload prometheus
-
-- name: Install client certificate privkey
-  ansible.builtin.copy:
-    content: "{{ prometheus_client_certificate_privkey }}\n"
-    dest: /etc/prometheus/tls_config/client_privkey.pem
-    owner: root
-    group: root
+    owner: prometheus
+    group: prometheus
     mode: '0600'
     backup: true
   become: true
