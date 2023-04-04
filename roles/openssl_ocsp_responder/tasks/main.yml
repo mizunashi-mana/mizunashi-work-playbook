@@ -26,7 +26,7 @@
 
 - name: Copy database contents
   ansible.builtin.copy:
-    content: '{{ openssl_ocsp_responder_entries[item].ca_database_content }}'
+    content: "{{ openssl_ocsp_responder_entries[item].ca_database_content }}\n"
     dest: '/var/lib/ocsp-responder/{{ item }}/index.txt'
     owner: ocsp-responder
     group: ocsp-responder
@@ -39,7 +39,7 @@
 
 - name: Copy certificates
   ansible.builtin.copy:
-    content: '{{ openssl_ocsp_responder_entries[item].ca_cert }}'
+    content: "{{ openssl_ocsp_responder_entries[item].ca_cert }}\n"
     dest: '/var/lib/ocsp-responder/{{ item }}/cacert.pem'
     owner: ocsp-responder
     group: ocsp-responder
@@ -52,7 +52,7 @@
 
 - name: Copy private keys
   ansible.builtin.copy:
-    content: '{{ openssl_ocsp_responder_entries[item].ca_privkey }}'
+    content: "{{ openssl_ocsp_responder_entries[item].ca_privkey }}\n"
     dest: '/var/lib/ocsp-responder/{{ item }}/privkey.pem'
     owner: ocsp-responder
     group: ocsp-responder
