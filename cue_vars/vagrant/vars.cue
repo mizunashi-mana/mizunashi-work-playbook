@@ -17,8 +17,8 @@ import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
 
 #ssh_port: 22
 #local_proxy_https_port: 19100
-#node_exporter_http_port: 9100
-#nginx_exporter_http_port: 9113
+#node_exporter_http_port: node_exporter.node_exporter_listen_port
+#nginx_exporter_http_port: nginx_exporter.nginx_exporter_listen_port
 
 #internal_host_entries: {
   internal001: {
