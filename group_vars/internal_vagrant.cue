@@ -37,6 +37,8 @@ let ssh_port = vagrant.#ssh_port
     {
       job_name: "prometheus"
       params: "local_proxy_upstream": ["prometheus"]
+      enable_tls_client_verification: true
+      use_private_ca: true
       static_configs: [{
         targets: [
           for _, entry in vagrant.#internal_host_entries {
@@ -48,6 +50,8 @@ let ssh_port = vagrant.#ssh_port
     {
       job_name: "grafana"
       params: "local_proxy_upstream": ["grafana"]
+      enable_tls_client_verification: true
+      use_private_ca: true
       static_configs: [{
         targets: [
           for _, entry in vagrant.#internal_host_entries {
@@ -59,6 +63,8 @@ let ssh_port = vagrant.#ssh_port
     {
       job_name: "node"
       params: "local_proxy_upstream": ["node"]
+      enable_tls_client_verification: true
+      use_private_ca: true
       static_configs: [{
         targets: [
           for _, entry in vagrant.#host_entries {
@@ -70,6 +76,8 @@ let ssh_port = vagrant.#ssh_port
     {
       job_name: "nginx"
       params: "local_proxy_upstream": ["nginx"]
+      enable_tls_client_verification: true
+      use_private_ca: true
       static_configs: [{
         targets: [
           for _, entry in vagrant.#host_entries {
@@ -81,6 +89,8 @@ let ssh_port = vagrant.#ssh_port
     {
       job_name: "redis"
       params: "local_proxy_upstream": ["redis"]
+      enable_tls_client_verification: true
+      use_private_ca: true
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
@@ -92,6 +102,8 @@ let ssh_port = vagrant.#ssh_port
     {
       job_name: "postgres"
       params: "local_proxy_upstream": ["postgres"]
+      enable_tls_client_verification: true
+      use_private_ca: true
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
@@ -103,6 +115,8 @@ let ssh_port = vagrant.#ssh_port
     {
       job_name: "statsd"
       params: "local_proxy_upstream": ["statsd"]
+      enable_tls_client_verification: true
+      use_private_ca: true
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
