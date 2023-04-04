@@ -19,12 +19,12 @@
 
 - name: Set path of private CA certificate
   ansible.builtin.set_fact:
-    private_ca_root_certificate_path: /etc/pki/private_ca/rootCA_cert.pem
+    private_root_ca_certificate_path: /etc/pki/private_ca/rootCA_cert.pem
 
 - name: Install private CA certificate
   ansible.builtin.copy:
-    content: '{{ private_ca_root_certificate }}'
-    dest: '{{ private_ca_root_certificate_path }}'
+    content: '{{ private_root_ca_certificate }}'
+    dest: '{{ private_root_ca_certificate_path }}'
     owner: root
     group: root
     mode: '0644'
