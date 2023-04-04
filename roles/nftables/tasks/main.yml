@@ -50,8 +50,8 @@
 
 - name: Copy nftables chain jump config
   ansible.builtin.template:
-    src: etc/nftables-inbound.d/jump_saddr_chains.conf
-    dest: /etc/nftables-inbound.d/jump_saddr_chains.conf
+    src: etc/nftables-inbound.d/jump_chains.conf
+    dest: /etc/nftables-inbound.d/jump_chains.conf
     owner: root
     group: root
     mode: '0644'
