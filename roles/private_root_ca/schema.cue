@@ -1,3 +1,3 @@
 package private_root_ca
 
-private_ca_root_certificate: string
+private_root_ca_certificate: string

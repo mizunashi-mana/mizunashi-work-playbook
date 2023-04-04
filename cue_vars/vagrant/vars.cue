@@ -4,6 +4,7 @@ import "mizunashi.work/pkg/private_ca_vagrant"
 
 import "mizunashi.work/pkg/roles/base"
 import "mizunashi.work/pkg/roles/workuser_setup"
+import "mizunashi.work/pkg/roles/private_root_ca"
 import "mizunashi.work/pkg/roles/openssh_server"
 import "mizunashi.work/pkg/roles/apticron"
 import "mizunashi.work/pkg/roles/nftables"
@@ -46,6 +47,7 @@ import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
 
 base
 workuser_setup
+private_root_ca
 openssh_server
 nftables
 fail2ban
@@ -61,6 +63,8 @@ workuser_setup_home_directory: "/home/\(workuser_setup_username)"
 workuser_setup_ssh_authorized_keys: [
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkqfF4qMFhr2fg+Yw3WLIqaRLqYzkCjWy2fdF4eQ5LG mizunashi-work-playbook"
 ]
+
+private_root_ca_certificate: private_ca_vagrant.root_ca_certificate
 
 nftables_accept_tcp_ports: [#ssh_port, ...uint]
 nftables_accept_ports_with_iif: "to_internal": {

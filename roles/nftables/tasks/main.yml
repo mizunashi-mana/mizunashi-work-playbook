@@ -62,8 +62,8 @@
 
 - name: Copy nftables restricted accept config
   ansible.builtin.template:
-    src: etc/nftables-chain.d/accept_tcp_dports.conf
-    dest: /etc/nftables-chain.d/accept_tcp_dports.conf
+    src: etc/nftables-chain.d/accept_ports_with_iif.conf
+    dest: /etc/nftables-chain.d/accept_ports_with_iif.conf
     owner: root
     group: root
     mode: '0644'
