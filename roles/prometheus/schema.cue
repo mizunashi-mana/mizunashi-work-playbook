@@ -14,9 +14,6 @@ prometheus_listen_port: uint | *9090
 
 prometheus_scrape_configs: [...#ScrapeConfig]
 
-prometheus_client_certificate_cert: string
-prometheus_client_certificate_privkey: cue_types.#Vaulted
-
 #ScrapeConfig: {
   job_name: string
   scrape_interval?: string
@@ -24,10 +21,15 @@ prometheus_client_certificate_privkey: cue_types.#Vaulted
   metrics_path: string | *"/metrics"
   scheme: string | *"https"
   params: [string]: [...string]
-  enable_tls_client_verification: bool | *false
   use_private_ca: bool | *false
+  basic_auth?: #BasicAuth
   static_configs: [...#StaticConfig]
   relabel_configs: [...#RelabelConfig] | *[#hostname_relabel_config]
+}
+
+#BasicAuth: {
+  username: string
+  password: cue_types.#Vaulted
 }
 
 #StaticConfig: {

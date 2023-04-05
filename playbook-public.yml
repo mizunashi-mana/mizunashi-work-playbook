@@ -5,18 +5,15 @@
   - ruby
   - redis_server
   - postgresql
-  - certbot
   - redis_exporter
   - postgres_exporter
   - statsd_exporter
-  - openssl_ocsp_responder
 
   - postgresql_mastodon
   - mastodon
 
   - nginx_site_http_redirector
   - nginx_site_mastodon_front
-  - nginx_site_private_ca
 
   tasks:
   - name: Use private certificates on developing

@@ -26,3 +26,103 @@
     state: present
     update_cache: '{{ caddy_install_repository_result.changed }}'
   become: true
+
+- name: Copy Caddyfile
+  ansible.builtin.template:
+    src: etc/caddy/Caddyfile
+    dest: /etc/caddy/Caddyfile
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+  - Reload caddy
+
+- name: Directory of caddy is available
+  ansible.builtin.file:
+    path: /etc/caddy/sites.d
+    state: directory
+    owner: caddy
+    group: caddy
+    mode: '0755'
+  become: true
+
+- name: Directory of PKI is available
+  ansible.builtin.file:
+    path: /etc/pki
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Directory of caddy PKI is available
+  ansible.builtin.file:
+    path: /etc/pki/caddy
+    state: directory
+    owner: caddy
+    group: caddy
+    mode: '0755'
+  become: true
+
+- name: Directory of caddy CA is available
+  ansible.builtin.file:
+    path: /etc/pki/caddy/ca
+    state: directory
+    owner: caddy
+    group: caddy
+    mode: '0755'
+  become: true
+
+- name: Directory of caddy local CA is available
+  ansible.builtin.file:
+    path: /etc/pki/caddy/ca/local
+    state: directory
+    owner: caddy
+    group: caddy
+    mode: '0755'
+  become: true
+
+- name: Install private root CA certificate
+  ansible.builtin.copy:
+    path: /etc/pki/caddy/ca/local
+    state: directory
+    owner: caddy
+    group: caddy
+    mode: '0755'
+  become: true
+
+- name: Install private root CA certificate
+  ansible.builtin.copy:
+    content: '{{ caddy_pki_ca_local_root_cert }}'
+    dest: /etc/pki/caddy/ca/local/root.crt
+    owner: caddy
+    group: caddy
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+  - Reload caddy
+
+- name: Install private root CA key
+  ansible.builtin.copy:
+    content: '{{ caddy_pki_ca_local_root_key }}'
+    dest: /etc/pki/caddy/ca/local/root.key
+    owner: caddy
+    group: caddy
+    mode: '0600'
+    backup: true
+  become: true
+  no_log: true
+  notify:
+  - Reload caddy
+
+- name: Notify restart caddy if not started
+  ansible.builtin.command: systemctl status caddy
+  become: true
+  register: caddy_service_status
+  changed_when: caddy_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart caddy

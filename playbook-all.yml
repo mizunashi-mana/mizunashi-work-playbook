@@ -9,6 +9,7 @@
   - openssh_server
   - node_exporter
   - exim
+  - certbot
   - private_root_ca
   - nginx
   - nginx_site_local_proxy

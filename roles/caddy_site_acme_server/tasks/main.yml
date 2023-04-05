@@ -1,0 +1,12 @@
+---
+- name: Install ACME server site
+  ansible.builtin.copy:
+    src: etc/caddy/sites.d/acme_server.Caddyfile
+    dest: /etc/caddy/sites.d/acme_server.Caddyfile
+    owner: caddy
+    group: caddy
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+  - Reload caddy

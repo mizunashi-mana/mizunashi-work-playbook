@@ -5,22 +5,18 @@ import "mizunashi.work/pkg/roles/mastodon"
 import "mizunashi.work/pkg/roles/redis_exporter"
 import "mizunashi.work/pkg/roles/postgres_exporter"
 import "mizunashi.work/pkg/roles/statsd_exporter"
-import "mizunashi.work/pkg/roles/openssl_ocsp_responder"
 import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
-import "mizunashi.work/pkg/roles/nginx_site_private_ca"
 import "mizunashi.work/pkg/roles/postgresql_mastodon"
 import "mizunashi.work/pkg/roles/private_mastodon_certificate"
 
 #Schema: vagrant
 #Schema: mastodon
-#Schema: openssl_ocsp_responder
 #Schema: redis_exporter
 #Schema: postgres_exporter
 #Schema: statsd_exporter
 #Schema: nginx_site_http_redirector
 #Schema: nginx_site_mastodon_front
-#Schema: nginx_site_private_ca
 #Schema: postgresql_mastodon
 #Schema: private_mastodon_certificate
 #Schema: enable_private_mastodon_certificate: bool
@@ -29,15 +25,10 @@ let ssh_port = vagrant.#ssh_port
 let http_port = 80
 let https_port = 443
 
-let ocsp_responder_port_for_root = 4211
-let ocsp_responder_port_for_inter_tls = 4212
-
 #Schema & {
   mastodon_local_domain: "mstdn-local.mizunashi.work"
-  nginx_site_private_ca_domain: "ca-local.mizunashi.work"
 
   nginx_site_http_redirector_listen_port: http_port
-  nginx_site_private_ca_listen_port: http_port
   nginx_site_mastodon_front_listen_port: https_port
 
   nftables_accept_tcp_ports: [
@@ -48,27 +39,15 @@ let ocsp_responder_port_for_inter_tls = 4212
 
   nginx_site_local_proxy_entries: "redis": {
     upstream_port: #Schema.redis_exporter_listen_port
+    auth_password: vagrant.#local_proxy_password
   }
   nginx_site_local_proxy_entries: "postgres": {
     upstream_port: #Schema.postgres_exporter_listen_port
+    auth_password: vagrant.#local_proxy_password
   }
   nginx_site_local_proxy_entries: "statsd": {
     upstream_port: #Schema.statsd_exporter_web_listen_port
-  }
-
-  openssl_ocsp_responder_entries: {
-    "rootCA": {
-      listen_port: ocsp_responder_port_for_root
-      ca_cert: private_ca_vagrant.root_ca_certificate
-      ca_privkey: private_ca_vagrant.root_ca_privkey
-      ca_database_content: private_ca_vagrant.root_ca_database
-    }
-    "interCA_TLS": {
-      listen_port: ocsp_responder_port_for_inter_tls
-      ca_cert: private_ca_vagrant.inter_tls_ca_certificate
-      ca_privkey: private_ca_vagrant.inter_tls_ca_privkey
-      ca_database_content: private_ca_vagrant.inter_tls_ca_database
-    }
+    auth_password: vagrant.#local_proxy_password
   }
 
   mastodon_single_user_mode: "true"
@@ -162,9 +141,8 @@ let ocsp_responder_port_for_inter_tls = 4212
     eTE5hF0EgeK5iUSwV+ufYyALFAREsmehAjBWQUjgwmQChzkbEK0ziQ1RB5wEpKWy
     pBP4iDtkUrWkGok3A/a1/LSBnr6xJWV90XY=
     -----END CERTIFICATE-----
-    \(private_ca_vagrant.inter_tls_ca_certificate)
     """
-  private_mastodon_certificate_chain: private_ca_vagrant.inter_tls_ca_certificate
+  private_mastodon_certificate_chain: private_mastodon_certificate_fullchain
   private_mastodon_certificate_privkey:
     "__ansible_vault":
       """
@@ -190,10 +168,4 @@ let ocsp_responder_port_for_inter_tls = 4212
       36653965396639386665613131313034343666653239616230326334633736616461396562626437
       39306236373939383632
       """
-
-  nginx_site_private_ca_root_certificate: private_ca_vagrant.root_ca_certificate
-  nginx_site_private_ca_root_crl: private_ca_vagrant.root_ca_crl
-
-  nginx_site_private_ca_inter_tls_certificate: private_ca_vagrant.inter_tls_ca_certificate
-  nginx_site_private_ca_inter_tls_crl: private_ca_vagrant.inter_tls_ca_crl
 }

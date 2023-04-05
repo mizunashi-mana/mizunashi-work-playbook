@@ -122,6 +122,15 @@
   notify:
     - Reload nginx
 
+- name: Directory of nginx credentials is available
+  ansible.builtin.file:
+    path: /etc/nginx/cred.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+  become: true
+
 - name: Remove default server
   ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default

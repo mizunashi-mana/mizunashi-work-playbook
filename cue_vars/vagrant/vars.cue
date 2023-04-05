@@ -16,9 +16,11 @@ import "mizunashi.work/pkg/roles/nginx_exporter"
 import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
 
 #ssh_port: 22
-#local_proxy_https_port: 19100
+#local_proxy_https_port: nginx_site_local_proxy.nginx_site_local_proxy_listen_port
 #node_exporter_http_port: node_exporter.node_exporter_listen_port
 #nginx_exporter_http_port: nginx_exporter.nginx_exporter_listen_port
+
+#internal_iface: "eth2"
 
 #internal_host_entries: {
   internal001: {
@@ -45,6 +47,17 @@ import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
   }
 }
 
+#local_proxy_password:
+  "__ansible_vault":
+    """
+    $ANSIBLE_VAULT;1.1;AES256
+    36633436613662373337636363313865306635333737366632303932333939303065626239323236
+    3335333362613132666562323332623731646633366139610a666338373236393837636339323038
+    33383462353635313337616537636239636430386165363664363435383631353962623135643231
+    3965663439336432330a356139363465663438303430313733656431663232626433356136663632
+    6164
+    """
+
 base
 workuser_setup
 private_root_ca
@@ -67,8 +80,8 @@ workuser_setup_ssh_authorized_keys: [
 private_root_ca_certificate: private_ca_vagrant.root_ca_certificate
 
 nftables_accept_tcp_ports: [#ssh_port, ...uint]
-nftables_accept_ports_with_iif: "to_internal": {
-  iif: "eth2"
+nftables_accept_ports_with_iif: "internal_local_proxy": {
+  iif: #internal_iface
   tcp_ports: [
     #local_proxy_https_port
   ]
@@ -80,17 +93,19 @@ apticron_notification_email: "root@localhost"
 
 nginx_resolver: "8.8.8.8"
 
-nginx_site_local_proxy_common_domain: "mizunashi-local.private"
+nginx_site_local_proxy_server_name: "*.mizunashi-local.private"
 nginx_site_local_proxy_listen_port: #local_proxy_https_port
 
 node_exporter_listen_port: #node_exporter_http_port
 nginx_site_local_proxy_entries: "node": {
   upstream_port: #node_exporter_http_port
+  auth_password: #local_proxy_password
 }
 
 nginx_exporter_listen_port: #nginx_exporter_http_port
 nginx_site_local_proxy_entries: "nginx": {
   upstream_port: #nginx_exporter_http_port
+  auth_password: #local_proxy_password
 }
 
 nginx_site_local_proxy_certificate_fullchain:
@@ -120,9 +135,8 @@ nginx_site_local_proxy_certificate_fullchain:
   be7kYYR7gNl+BddJAjEAwyVXgQN7l6sA5yYc1gpp6rGtEC2L7trhdmN081vnHqil
   BsRe+pqoOu+zDWHnpu9o
   -----END CERTIFICATE-----
-  \(private_ca_vagrant.inter_tls_ca_certificate)
   """
-nginx_site_local_proxy_certificate_chain: private_ca_vagrant.inter_tls_ca_certificate
+nginx_site_local_proxy_certificate_chain: nginx_site_local_proxy_certificate_fullchain
 nginx_site_local_proxy_certificate_privkey:
   "__ansible_vault":
     """
@@ -148,4 +162,3 @@ nginx_site_local_proxy_certificate_privkey:
     37346235383739353232346536636637396364326135636332326236653461383532346239346239
     32636630356462363133
     """
-nginx_site_local_proxy_certificate_client_chain: private_ca_vagrant.inter_tls_ca_certificate

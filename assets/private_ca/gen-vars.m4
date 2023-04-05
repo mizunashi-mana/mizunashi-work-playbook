@@ -6,7 +6,7 @@ set -euo pipefail
 CA_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 cat <<EOS >"$CA_DIR/vars.cue"
-package private_ca_vagrant
+package __PACKAGE_NAME__
 
 root_ca_certificate:
 """

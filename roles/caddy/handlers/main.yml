@@ -1,0 +1,36 @@
+---
+- name: Reload caddy
+  ansible.builtin.set_fact:
+    caddy_handler_state: reloaded
+  become: true
+  listen: Reload caddy
+
+- name: Restart caddy
+  ansible.builtin.set_fact:
+    caddy_handler_state: restarted
+  become: true
+  listen: Restart caddy
+
+- name: Restart or reload caddy
+  ansible.builtin.systemd:
+    name: caddy
+    state: '{{ caddy_handler_state }}'
+    daemon_reload: true
+    enabled: true
+  become: true
+  listen:
+  - Restart caddy
+  - Reload caddy
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status prometheus-blackbox-exporter
+  become: true
+  changed_when: false
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ blackbox_exporter_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check
