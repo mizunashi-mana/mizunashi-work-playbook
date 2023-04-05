@@ -2,6 +2,7 @@
 
   roles:
   - dnsmasq
+  - caddy
   - blackbox_exporter
   - prometheus
   - grafana

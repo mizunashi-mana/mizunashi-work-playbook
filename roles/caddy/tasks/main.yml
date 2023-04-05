@@ -1,0 +1,28 @@
+---
+- name: Copy caddy gpg key
+  ansible.builtin.copy:
+    src: usr/share/keyrings/caddy.gpg
+    dest: /usr/share/keyrings/caddy.gpg
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Install caddy repository
+  ansible.builtin.template:
+    src: etc/apt/sources.list.d/caddy-stable.list
+    dest: /etc/apt/sources.list.d/caddy-stable.list
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  register: caddy_install_repository_result
+
+- name: Install caddy
+  ansible.builtin.apt:
+    name: 'caddy={{ caddy_version }}*'
+    state: present
+    update_cache: '{{ caddy_install_repository_result.changed }}'
+  become: true

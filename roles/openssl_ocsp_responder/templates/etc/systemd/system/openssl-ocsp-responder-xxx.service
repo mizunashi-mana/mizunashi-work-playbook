@@ -11,5 +11,12 @@ EnvironmentFile=/etc/default/openssl-ocsp-responder-{{ item }}
 ExecStart=/bin/bash /usr/bin/openssl-ocsp-responder
 TimeoutStopSec=20s
 
+# Sandboxing
+ProtectSystem=strict
+ReadWritePaths=/var/lib/ocsp-responder/{{ item }}
+
+# System Call Filtering
+SystemCallArchitectures=native
+
 [Install]
 WantedBy=multi-user.target
