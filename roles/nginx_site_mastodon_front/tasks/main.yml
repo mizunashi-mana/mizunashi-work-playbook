@@ -13,6 +13,7 @@
         --agree-tos
         --no-eff-email
     creates: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
+    stdin: ''
   environment:
     REQUESTS_CA_BUNDLE: '{{ private_root_ca_certificate_path }}'
   become: true

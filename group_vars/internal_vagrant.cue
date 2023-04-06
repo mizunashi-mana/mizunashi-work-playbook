@@ -25,13 +25,14 @@ let acme_challenge_hostname = vagrant.#acme_challenge_hostname
     ssh_port,
   ]
 
-  nftables_accept_ports_with_iif: "internal_dns": {
+  nftables_accept_ports_with_iif: "internal_services": {
     iif: vagrant.#internal_iface
     tcp_ports: [
-      dns_port
+      dns_port,
+      acme_server_https_port,
     ]
     udp_ports: [
-      dns_port
+      dns_port,
     ]
   }
 
