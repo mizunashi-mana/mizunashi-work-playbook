@@ -86,15 +86,6 @@
 
 - name: Install private root CA certificate
   ansible.builtin.copy:
-    path: /etc/pki/caddy/ca/local
-    state: directory
-    owner: caddy
-    group: caddy
-    mode: '0755'
-  become: true
-
-- name: Install private root CA certificate
-  ansible.builtin.copy:
     content: '{{ caddy_pki_ca_local_root_cert }}'
     dest: /etc/pki/caddy/ca/local/root.crt
     owner: caddy
