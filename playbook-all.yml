@@ -9,6 +9,18 @@
   - openssh_server
   - node_exporter
   - exim
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check
+
+- import_playbook: ./playbook-internal.yml
+- import_playbook: ./playbook-public.yml
+
+- hosts: all
+
+  roles:
   - certbot
   - private_root_ca
   - nginx
@@ -20,6 +32,3 @@
   - name: Check
     ansible.builtin.command: echo check
     notify: Check
-
-- import_playbook: ./playbook-internal.yml
-- import_playbook: ./playbook-public.yml
