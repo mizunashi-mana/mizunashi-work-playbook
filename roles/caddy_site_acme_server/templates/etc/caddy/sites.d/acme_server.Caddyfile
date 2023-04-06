@@ -1,4 +1,9 @@
 {{ caddy_site_acme_server_listen_address }}:{{ caddy_site_acme_server_listen_port }} {
+	log {
+		output file /var/log/caddy/access.acme_server.log
+	}
+
 	tls internal
+
 	acme_server
 }
