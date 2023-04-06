@@ -16,7 +16,7 @@
 - name: Password file is available
   ansible.builtin.file:
     path: /etc/nginx/cred.d/local_proxy.htpasswd
-    state: touched
+    state: touch
     owner: root
     group: root
     mode: '0644'
