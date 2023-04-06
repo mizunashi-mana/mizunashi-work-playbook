@@ -3,6 +3,7 @@
 		ca local {
 			name "{{ caddy_pki_ca_local_name }}"
 			root_cn "{{ caddy_pki_ca_local_root_cn }}"
+			install_trust false
 
 			root {
 				cert /etc/pki/caddy/ca/local/root.crt
