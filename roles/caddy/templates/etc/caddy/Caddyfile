@@ -1,5 +1,3 @@
-import sites.d/*.Caddyfile
-
 {
 	pki {
 		ca local {
@@ -13,3 +11,5 @@ import sites.d/*.Caddyfile
 		}
 	}
 }
+
+import sites.d/*.Caddyfile

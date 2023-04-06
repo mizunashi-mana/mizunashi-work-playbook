@@ -2,22 +2,17 @@
 - name: Request nginx started
   ansible.builtin.meta: flush_handlers
 
-- name: Passwords are available
-  ansible.builtin.lineinfile:
-    path: /etc/nginx/cred.d/local_proxy.htpasswd
-    search_string: '{{ item }}:'
-    line: |
-      {{ item }}:{{
-        nginx_site_local_proxy_entries[item].auth_password
-          |string|password_hash(hashtype="sha512",salt=nginx_site_local_proxy_password_salt)
-      }}
+- name: Install password file
+  ansible.builtin.template:
+    src: 'etc/nginx/cred.d/local_proxy.htpasswd'
+    dest: '/etc/nginx/cred.d/local_proxy.htpasswd'
     owner: root
     group: root
     mode: '0644'
-    create: true
     backup: true
   become: true
-  loop: '{{ nginx_site_local_proxy_entries|dict2items|map(attribute="key") }}'
+  notify:
+    - Reload nginx
 
 - name: Install local proxy site
   ansible.builtin.template:

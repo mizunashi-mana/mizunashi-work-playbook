@@ -111,7 +111,7 @@
     group: root
     mode: '0644'
     backup: true
-    validate: caddy validate --config %s
+    validate: caddy validate --adapter caddyfile --config %s
   become: true
   notify:
   - Reload caddy
