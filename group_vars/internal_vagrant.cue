@@ -46,6 +46,8 @@ let dns_port = dnsmasq.dnsmasq_listen_port
   caddy_pki_ca_local_root_cert: private_ca_vagrant.root_ca_certificate
   caddy_pki_ca_local_root_key: private_ca_vagrant.root_ca_privkey
 
+  caddy_site_acme_server_name: "localhost"
+
   nginx_site_local_proxy_entries: "caddy": {
     upstream_port: #Schema.caddy_admin_listen_port
     auth_password: vagrant.#local_proxy_password
