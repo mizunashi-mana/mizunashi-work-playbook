@@ -65,7 +65,7 @@ import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 
 #notification_email: "root@localhost"
 
-#acme_challenge_hostname: #internal_host_entries.internal001.internal_host
+#acme_challenge_hostname: "acme.mizunashi-local.private"
 
 base
 workuser_setup

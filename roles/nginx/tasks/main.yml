@@ -126,8 +126,8 @@
   ansible.builtin.file:
     path: /etc/nginx/cred.d
     state: directory
-    owner: root
-    group: root
+    owner: www-data
+    group: www-data
     mode: '0700'
   become: true
 

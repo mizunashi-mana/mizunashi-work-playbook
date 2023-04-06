@@ -22,9 +22,9 @@
   ansible.builtin.template:
     src: 'etc/nginx/cred.d/local_proxy.htpasswd'
     dest: '/etc/nginx/cred.d/local_proxy.htpasswd'
-    owner: root
-    group: root
-    mode: '0644'
+    owner: www-data
+    group: www-data
+    mode: '0600'
     backup: true
   become: true
   notify:

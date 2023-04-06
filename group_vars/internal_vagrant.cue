@@ -43,6 +43,10 @@ let acme_challenge_hostname = vagrant.#acme_challenge_hostname
         domain: entry.internal_host
       }
     }
+    {
+      ip: vagrant.#internal_host_entries.internal001.internal_ip
+      domain: vagrant.#acme_challenge_hostname
+    }
   ]
 
   caddy_pki_ca_local_name: "mizunashi-work-playbook Local Authority"

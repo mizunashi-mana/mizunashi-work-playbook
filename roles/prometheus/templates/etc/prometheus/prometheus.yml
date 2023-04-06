@@ -22,8 +22,11 @@ scrape_configs:
 {% if scrape_config.use_private_ca %}
     ca_file: {{ private_root_ca_certificate_path }}
 {% endif %}
+{% if 'basic_auth' in scrape_config %}
   basic_auth:
-    {{ scrape_config.basic_auth|to_yaml|indent(4) }}
+    username: {{ scrape_config.basic_auth.username|to_yaml }}
+    password: {{ scrape_config.basic_auth.password|string|to_yaml }}
+{% endif %}
   static_configs:
     {{ scrape_config.static_configs|to_yaml|indent(4) }}
   relabel_configs:
