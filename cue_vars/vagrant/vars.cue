@@ -65,6 +65,8 @@ import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 
 #notification_email: "root@localhost"
 
+#acme_challenge_hostname: #internal_host_entries.internal001.internal_host
+
 base
 workuser_setup
 private_root_ca
@@ -106,8 +108,8 @@ nginx_resolver: #internal_dns_resolver
 nginx_site_http_redirector_listen_port: #http_port
 
 nginx_site_local_proxy_listen_port: #local_proxy_https_port
-nginx_site_local_proxy_email: #notification_email
-nginx_site_local_proxy_acme_challenge_url: "https://\(#internal_host_entries.internal001.internal_host):\(#acme_server_https_port)/acme/local/directory"
+nginx_site_local_proxy_acme_email: #notification_email
+nginx_site_local_proxy_acme_challenge_url: "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
 
 node_exporter_listen_port: #node_exporter_http_port
 nginx_site_local_proxy_entries: "node": {

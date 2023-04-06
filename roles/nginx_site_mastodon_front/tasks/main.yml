@@ -2,6 +2,20 @@
 - name: Request nginx started
   ansible.builtin.meta: flush_handlers
 
+- name: Get certificates
+  ansible.builtin.command:
+    cmd: |
+      certbot certonly
+        --server '{{ nginx_site_mastodon_front_acme_challenge_url }}'
+        --webroot --webroot-path '{{ certbot_webroot_dir }}'
+        --domain '{{ mastodon_local_domain }}'
+        --email '{{ nginx_site_mastodon_front_acme_email }}'
+        --agree-tos
+    creates: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
+  environment:
+    REQUESTS_CA_BUNDLE: '{{ private_root_ca_certificate_path }}'
+  become: true
+
 - name: Install mastodon site
   ansible.builtin.template:
     src: etc/nginx/sites-available/mastodon_front.conf
