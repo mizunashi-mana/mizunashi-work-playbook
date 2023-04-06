@@ -7,4 +7,4 @@ caddy_pki_ca_local_root_cn: string
 caddy_pki_ca_local_root_cert: string
 caddy_pki_ca_local_root_key: cue_types.#Vaulted
 
-caddy_admin_listen_port: uint | *2019
+caddy_metrics_listen_port: uint | *2018

@@ -30,7 +30,7 @@
 
 - name: Check listen port
   ansible.builtin.wait_for:
-    port: '{{ caddy_admin_listen_port }}'
+    port: '{{ caddy_metrics_listen_port }}'
     state: started
     timeout: 60
   listen: Check

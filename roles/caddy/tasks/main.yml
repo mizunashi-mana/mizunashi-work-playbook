@@ -103,6 +103,19 @@
   notify:
   - Reload caddy
 
+- name: Copy metrics.Caddyfile
+  ansible.builtin.template:
+    src: etc/caddy/sites.d/metrics.Caddyfile
+    dest: /etc/caddy/sites.d/metrics.Caddyfile
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: caddy validate --adapter caddyfile --config %s
+  become: true
+  notify:
+  - Reload caddy
+
 - name: Copy Caddyfile
   ansible.builtin.template:
     src: etc/caddy/Caddyfile

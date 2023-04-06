@@ -9,11 +9,12 @@
   ansible.builtin.template:
     src: etc/prometheus/prometheus.yml
     dest: /etc/prometheus/prometheus.yml
-    owner: root
-    group: root
-    mode: '0644'
+    owner: prometheus
+    group: prometheus
+    mode: '0600'
     backup: true
   become: true
+  diff: false
   notify:
     - Restart prometheus
 

@@ -58,7 +58,7 @@ let acme_challenge_hostname = vagrant.#acme_challenge_hostname
   caddy_site_acme_server_listen_port: acme_server_https_port
 
   nginx_site_local_proxy_entries: "caddy": {
-    upstream_port: #Schema.caddy_admin_listen_port
+    upstream_port: #Schema.caddy_metrics_listen_port
     auth_password: vagrant.#local_proxy_password
   }
   nginx_site_local_proxy_entries: "prometheus": {

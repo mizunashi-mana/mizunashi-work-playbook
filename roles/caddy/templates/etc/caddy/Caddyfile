@@ -2,6 +2,11 @@
 	auto_https disable_redirects
 	skip_install_trust
 
+	log default {
+		output file /var/log/caddy/default.log
+		format json
+	}
+
 	pki {
 		ca local {
 			name "{{ caddy_pki_ca_local_name }}"
