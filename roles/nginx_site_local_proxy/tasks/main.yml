@@ -11,6 +11,7 @@
         --domain '{{ base_internal_hostname }}'
         --email '{{ nginx_site_local_proxy_acme_email }}'
         --agree-tos
+        --no-eff-email
     creates: '/etc/letsencrypt/live/{{ base_internal_hostname }}/fullchain.pem'
   environment:
     REQUESTS_CA_BUNDLE: '{{ private_root_ca_certificate_path }}'

@@ -11,6 +11,7 @@
         --domain '{{ mastodon_local_domain }}'
         --email '{{ nginx_site_mastodon_front_acme_email }}'
         --agree-tos
+        --no-eff-email
     creates: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
   environment:
     REQUESTS_CA_BUNDLE: '{{ private_root_ca_certificate_path }}'
