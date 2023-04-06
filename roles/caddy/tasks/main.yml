@@ -33,18 +33,6 @@
     state: present
   become: true
 
-- name: Copy Caddyfile
-  ansible.builtin.template:
-    src: etc/caddy/Caddyfile
-    dest: /etc/caddy/Caddyfile
-    owner: root
-    group: root
-    mode: '0644'
-    backup: true
-  become: true
-  notify:
-  - Reload caddy
-
 - name: Directory of caddy is available
   ansible.builtin.file:
     path: /etc/caddy/sites.d
@@ -112,6 +100,19 @@
     backup: true
   become: true
   no_log: true
+  notify:
+  - Reload caddy
+
+- name: Copy Caddyfile
+  ansible.builtin.template:
+    src: etc/caddy/Caddyfile
+    dest: /etc/caddy/Caddyfile
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: caddy validate --config %s
+  become: true
   notify:
   - Reload caddy
 
