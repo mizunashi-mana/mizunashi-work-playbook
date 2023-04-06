@@ -15,7 +15,7 @@
     backup: true
   become: true
   notify:
-  - Reload dnsmasq
+  - Restart dnsmasq
 
 - name: Copy address config
   ansible.builtin.template:
@@ -27,7 +27,7 @@
     backup: true
   become: true
   notify:
-  - Reload dnsmasq
+  - Restart dnsmasq
 
 - name: Notify restart dnsmasq if not started
   ansible.builtin.command: systemctl status dnsmasq

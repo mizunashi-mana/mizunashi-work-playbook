@@ -23,7 +23,7 @@
 
 - name: Install private CA certificate
   ansible.builtin.copy:
-    content: '{{ private_root_ca_certificate }}'
+    content: "{{ private_root_ca_certificate }}\n"
     dest: '{{ private_root_ca_certificate_path }}'
     owner: root
     group: root

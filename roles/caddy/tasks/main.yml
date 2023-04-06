@@ -80,7 +80,7 @@
 
 - name: Install private root CA certificate
   ansible.builtin.copy:
-    content: '{{ caddy_pki_ca_local_root_cert }}'
+    content: "{{ caddy_pki_ca_local_root_cert }}\n"
     dest: /etc/pki/caddy/ca/local/root.crt
     owner: caddy
     group: caddy
@@ -92,7 +92,7 @@
 
 - name: Install private root CA key
   ansible.builtin.copy:
-    content: '{{ caddy_pki_ca_local_root_key }}'
+    content: "{{ caddy_pki_ca_local_root_key }}\n"
     dest: /etc/pki/caddy/ca/local/root.key
     owner: caddy
     group: caddy
