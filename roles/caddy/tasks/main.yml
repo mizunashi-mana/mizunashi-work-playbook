@@ -27,6 +27,12 @@
     update_cache: '{{ caddy_install_repository_result.changed }}'
   become: true
 
+- name: Install libnss3-tools for private CA
+  ansible.builtin.apt:
+    name: libnss3-tools
+    state: present
+  become: true
+
 - name: Copy Caddyfile
   ansible.builtin.template:
     src: etc/caddy/Caddyfile

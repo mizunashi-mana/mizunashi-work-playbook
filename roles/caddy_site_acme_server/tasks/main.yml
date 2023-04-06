@@ -1,6 +1,6 @@
 ---
 - name: Install ACME server site
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: etc/caddy/sites.d/acme_server.Caddyfile
     dest: /etc/caddy/sites.d/acme_server.Caddyfile
     owner: caddy
