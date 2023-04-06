@@ -3,10 +3,14 @@
   ansible.builtin.meta: flush_handlers
 
 - name: Passwords are available
-  community.general.htpasswd:
+  ansible.builtin.lineinfile:
     path: /etc/nginx/cred.d/local_proxy.htpasswd
-    name: '{{ item }}'
-    password: '{{ nginx_site_local_proxy_entries[item].auth_password }}'
+    search: '{{ item }}'
+    line: '{{ item }}:{{ nginx_site_local_proxy_entries[item].auth_password|password_hash("sha512") }}'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
   become: true
   loop: '{{ nginx_site_local_proxy_entries|dict2items|map(attribute="key") }}'
 
