@@ -1,4 +1,4 @@
 {{ caddy_site_acme_server_listen_address }}:{{ caddy_site_acme_server_listen_port }} {
-  	tls internal
-  	acme_server
+	tls internal
+	acme_server
 }

@@ -1,15 +1,15 @@
 import sites.d/*.Caddyfile
 
 {
-  	pki {
-   		ca local {
-      		name "{{ caddy_pki_ca_local_name }}"
-      		root_cn "{{ caddy_pki_ca_local_root_cn }}"
+	pki {
+		ca local {
+			name "{{ caddy_pki_ca_local_name }}"
+			root_cn "{{ caddy_pki_ca_local_root_cn }}"
 
-      		root {
-        		cert /etc/pki/caddy/ca/local/root.crt
-       			key /etc/pki/caddy/ca/local/root.key
-      		}
-    	}
-  	}
+			root {
+				cert /etc/pki/caddy/ca/local/root.crt
+				key /etc/pki/caddy/ca/local/root.key
+			}
+		}
+	}
 }
