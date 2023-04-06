@@ -46,6 +46,10 @@ let dns_port = dnsmasq.dnsmasq_listen_port
   caddy_pki_ca_local_root_cert: private_ca_vagrant.root_ca_certificate
   caddy_pki_ca_local_root_key: private_ca_vagrant.root_ca_privkey
 
+  nginx_site_local_proxy_entries: "caddy": {
+    upstream_port: #Schema.caddy_admin_listen_port
+    auth_password: vagrant.#local_proxy_password
+  }
   nginx_site_local_proxy_entries: "prometheus": {
     upstream_port: #Schema.prometheus_listen_port
     auth_password: vagrant.#local_proxy_password
@@ -156,6 +160,21 @@ let dns_port = dnsmasq.dnsmasq_listen_port
       static_configs: [{
         targets: [
           for _, entry in vagrant.#public_host_entries {
+            "\(entry.internal_host):\(#Schema.#local_proxy_https_port)"
+          }
+        ]
+      }]
+    },
+    {
+      job_name: "caddy"
+      use_private_ca: true
+      basic_auth: {
+        username: "caddy"
+        password: vagrant.#local_proxy_password
+      }
+      static_configs: [{
+        targets: [
+          for _, entry in vagrant.#internal_host_entries {
             "\(entry.internal_host):\(#Schema.#local_proxy_https_port)"
           }
         ]

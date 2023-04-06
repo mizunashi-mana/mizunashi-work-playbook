@@ -2,12 +2,13 @@
 
   roles:
   - dnsmasq
-  - blackbox_exporter
-  - prometheus
-  - grafana
 
   - caddy
   - caddy_site_acme_server
+
+  - blackbox_exporter
+  - prometheus
+  - grafana
 
   post_tasks:
   - name: Check
