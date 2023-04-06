@@ -10,6 +10,7 @@
     group: root
     mode: '0644'
   become: true
+  failed_when: false
   register: nginx_site_local_proxy_htpasswd_file_stats
 
 - name: Password file is available
@@ -20,7 +21,7 @@
     group: root
     mode: '0644'
   become: true
-  when: not nginx_site_local_proxy_htpasswd_file_stats.exists
+  when: nginx_site_local_proxy_htpasswd_file_stats.state != 'file'
 
 - name: Passwords are available
   ansible.builtin.lineinfile:

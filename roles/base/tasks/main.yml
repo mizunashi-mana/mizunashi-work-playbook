@@ -19,7 +19,7 @@
 
 - name: Register internal DNS
   ansible.builtin.lineinfile:
-    path: '/etc/resolv.conf'
+    path: '/run/resolvconf/resolv.conf'
     line: 'nameserver {{ base_internal_dns_ip }}'
     owner: root
     group: root
