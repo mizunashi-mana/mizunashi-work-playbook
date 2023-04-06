@@ -2,35 +2,19 @@
 - name: Request nginx started
   ansible.builtin.meta: flush_handlers
 
-- name: Password file is available
-  ansible.builtin.file:
-    path: /etc/nginx/cred.d/local_proxy.htpasswd
-    state: file
-    owner: root
-    group: root
-    mode: '0644'
-  become: true
-  failed_when: false
-  register: nginx_site_local_proxy_htpasswd_file_stats
-
-- name: Password file is available
-  ansible.builtin.file:
-    path: /etc/nginx/cred.d/local_proxy.htpasswd
-    state: touch
-    owner: root
-    group: root
-    mode: '0644'
-  become: true
-  when: nginx_site_local_proxy_htpasswd_file_stats.state != 'file'
-
 - name: Passwords are available
   ansible.builtin.lineinfile:
     path: /etc/nginx/cred.d/local_proxy.htpasswd
-    search_string: '{{ item }}'
-    line: '{{ item }}:{{ nginx_site_local_proxy_entries[item].auth_password|string|password_hash("sha512") }}'
+    search_string: '{{ item }}:'
+    line: |
+      {{ item }}:{{
+        nginx_site_local_proxy_entries[item].auth_password
+          |string|password_hash(hashtype="sha512",salt=nginx_site_local_proxy_password_salt)
+      }}
     owner: root
     group: root
     mode: '0644'
+    create: true
     backup: true
   become: true
   loop: '{{ nginx_site_local_proxy_entries|dict2items|map(attribute="key") }}'
