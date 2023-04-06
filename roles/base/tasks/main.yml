@@ -1,4 +1,8 @@
 ---
+- name: Check internal host variable is required
+  ansible.builtin.msg:
+    var: 'base_internal_hostname'
+
 - name: Enable SYN cookies
   ansible.posix.sysctl:
     name: net.ipv4.tcp_syncookies
@@ -11,4 +15,14 @@
   ansible.builtin.apt:
     name: 'sudo={{ base_sudo_version }}*'
     state: present
+  become: true
+
+- name: Register internal DNS
+  ansible.builtin.lineinfile:
+    path: '/etc/resolv.conf'
+    line: 'nameserver {{ base_internal_dns_ip }}'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
   become: true

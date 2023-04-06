@@ -15,12 +15,6 @@
   - nginx_site_http_redirector
   - nginx_site_mastodon_front
 
-  tasks:
-  - name: Use private certificates on developing
-    ansible.builtin.include_role:
-      name: private_mastodon_certificate
-    when: enable_private_mastodon_certificate|default(false)
-
   post_tasks:
   - name: Check
     ansible.builtin.command: echo check

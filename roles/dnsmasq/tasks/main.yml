@@ -5,16 +5,6 @@
     state: present
   become: true
 
-- name: The name server of dnsmasq is available
-  ansible.builtin.lineinfile:
-    path: '/run/resolvconf/resolv.conf'
-    line: 'nameserver 127.0.0.1'
-    owner: root
-    group: root
-    mode: '0644'
-    backup: true
-  become: true
-
 - name: Copy dnsmasq config
   ansible.builtin.template:
     src: etc/dnsmasq.conf

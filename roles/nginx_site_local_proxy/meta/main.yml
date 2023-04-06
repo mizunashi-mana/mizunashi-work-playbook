@@ -1,3 +1,5 @@
 ---
 dependencies:
+  - role: certbot
   - role: nginx
+  - role: nginx_site_http_redirector

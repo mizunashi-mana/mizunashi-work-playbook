@@ -1,4 +1,7 @@
 ---
+- name: Request nginx started
+  ansible.builtin.meta: flush_handlers
+
 - name: Install mastodon site
   ansible.builtin.template:
     src: etc/nginx/sites-available/mastodon_front.conf
