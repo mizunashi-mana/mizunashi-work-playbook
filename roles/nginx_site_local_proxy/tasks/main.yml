@@ -2,6 +2,20 @@
 - name: Request nginx started
   ansible.builtin.meta: flush_handlers
 
+- name: Get certificates
+  ansible.builtin.command:
+    cmd: |
+      certbot certonly
+        --server '{{ nginx_site_local_proxy_acme_challenge_url }}'
+        --webroot --webroot-path '{{ certbot_webroot_dir }}'
+        --domain '{{ base_internal_hostname }}'
+        --email '{{ nginx_site_local_proxy_email }}'
+        --agree-tos
+    creates: '/etc/letsencrypt/live/{{ base_internal_hostname }}/fullchain.pem'
+  environment:
+    REQUESTS_CA_BUNDLE: '{{ private_root_ca_certificate_path }}'
+  become: true
+
 - name: Install password file
   ansible.builtin.template:
     src: 'etc/nginx/cred.d/local_proxy.htpasswd'

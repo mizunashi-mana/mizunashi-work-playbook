@@ -21,6 +21,7 @@ import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 #local_proxy_https_port: nginx_site_local_proxy.nginx_site_local_proxy_listen_port
 #node_exporter_http_port: node_exporter.node_exporter_listen_port
 #nginx_exporter_http_port: nginx_exporter.nginx_exporter_listen_port
+#acme_server_https_port: 6100
 
 #internal_iface: "eth2"
 
@@ -105,6 +106,8 @@ nginx_resolver: #internal_dns_resolver
 nginx_site_http_redirector_listen_port: #http_port
 
 nginx_site_local_proxy_listen_port: #local_proxy_https_port
+nginx_site_local_proxy_email: #notification_email
+nginx_site_local_proxy_acme_challenge_url: "https://\(#internal_host_entries.internal001.internal_host):\(#acme_server_https_port)/acme/local/directory"
 
 node_exporter_listen_port: #node_exporter_http_port
 nginx_site_local_proxy_entries: "node": {

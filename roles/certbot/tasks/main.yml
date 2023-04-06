@@ -7,7 +7,7 @@
 
 - name: Directory of certbot is available
   ansible.builtin.file:
-    path: /var/www/certbot
+    path: '{{ certbot_webroot_dir }}'
     state: directory
     owner: root
     group: root

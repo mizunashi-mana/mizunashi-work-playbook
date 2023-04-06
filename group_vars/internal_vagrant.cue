@@ -16,6 +16,7 @@ import "mizunashi.work/pkg/roles/caddy_site_acme_server"
 
 let ssh_port = vagrant.#ssh_port
 let dns_port = dnsmasq.dnsmasq_listen_port
+let acme_server_https_port = vagrant.#acme_server_https_port
 
 #Schema & {
   nftables_accept_tcp_ports: [
@@ -46,7 +47,8 @@ let dns_port = dnsmasq.dnsmasq_listen_port
   caddy_pki_ca_local_root_cert: private_ca_vagrant.root_ca_certificate
   caddy_pki_ca_local_root_key: private_ca_vagrant.root_ca_privkey
 
-  caddy_site_acme_server_name: "localhost"
+  caddy_site_acme_server_name: vagrant.#internal_host_entries.internal001.internal_host
+  caddy_site_acme_server_listen_port: acme_server_https_port
 
   nginx_site_local_proxy_entries: "caddy": {
     upstream_port: #Schema.caddy_admin_listen_port
