@@ -1,6 +1,6 @@
 ---
 - name: Check internal host variable is required
-  ansible.builtin.msg:
+  ansible.builtin.debug:
     var: 'base_internal_hostname'
 
 - name: Enable SYN cookies
