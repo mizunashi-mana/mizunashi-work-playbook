@@ -1,26 +1,10 @@
 import "mizunashi.work/pkg/cue_vars/vagrant"
 import "mizunashi.work/pkg/private_ca_vagrant"
 
-import "mizunashi.work/pkg/roles/mastodon"
-import "mizunashi.work/pkg/roles/redis_server"
-import "mizunashi.work/pkg/roles/redis_exporter"
-import "mizunashi.work/pkg/roles/postgresql"
-import "mizunashi.work/pkg/roles/postgres_exporter"
-import "mizunashi.work/pkg/roles/statsd_exporter"
-import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
-import "mizunashi.work/pkg/roles/postgresql_mastodon"
-import "mizunashi.work/pkg/roles/postgresql_postgres_exporter"
+import "mizunashi.work/pkg/schemas/group_vars_public"
 
+#Schema: group_vars_public
 #Schema: vagrant
-#Schema: mastodon
-#Schema: redis_server
-#Schema: redis_exporter
-#Schema: postgresql
-#Schema: postgres_exporter
-#Schema: statsd_exporter
-#Schema: nginx_site_mastodon_front
-#Schema: postgresql_mastodon
-#Schema: postgresql_postgres_exporter
 
 let ssh_port = vagrant.#ssh_port
 let http_port = vagrant.#http_port

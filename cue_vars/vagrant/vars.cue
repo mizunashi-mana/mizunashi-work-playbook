@@ -2,26 +2,15 @@ package vagrant
 
 import "mizunashi.work/pkg/private_ca_vagrant"
 
-import "mizunashi.work/pkg/roles/base"
-import "mizunashi.work/pkg/roles/workuser_setup"
-import "mizunashi.work/pkg/roles/private_root_ca"
-import "mizunashi.work/pkg/roles/openssh_server"
-import "mizunashi.work/pkg/roles/apticron"
-import "mizunashi.work/pkg/roles/nftables"
-import "mizunashi.work/pkg/roles/fail2ban"
-import "mizunashi.work/pkg/roles/exim"
-import "mizunashi.work/pkg/roles/certbot"
-import "mizunashi.work/pkg/roles/node_exporter"
-import "mizunashi.work/pkg/roles/nginx"
-import "mizunashi.work/pkg/roles/nginx_exporter"
-import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
-import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
+import "mizunashi.work/pkg/schemas/group_vars_all"
+
+group_vars_all
 
 #ssh_port: 22
 #http_port: 80
-#local_proxy_https_port: nginx_site_local_proxy.nginx_site_local_proxy_listen_port
-#node_exporter_http_port: node_exporter.node_exporter_listen_port
-#nginx_exporter_http_port: nginx_exporter.nginx_exporter_listen_port
+#local_proxy_https_port: nginx_site_local_proxy_listen_port
+#node_exporter_http_port: node_exporter_listen_port
+#nginx_exporter_http_port: nginx_exporter_listen_port
 #acme_server_https_port: 6100
 
 #internal_iface: "eth2"
@@ -68,21 +57,6 @@ import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 
 #acme_challenge_hostname: "acme.mizunashi-local.private"
 #acme_challenge_url:  "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
-
-base
-workuser_setup
-private_root_ca
-openssh_server
-nftables
-fail2ban
-node_exporter
-exim
-apticron
-certbot
-nginx
-nginx_exporter
-nginx_site_http_redirector
-nginx_site_local_proxy
 
 base_internal_dns_ip: #internal_dns_resolver
 

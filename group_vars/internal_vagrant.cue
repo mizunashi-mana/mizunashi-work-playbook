@@ -1,21 +1,13 @@
 import "mizunashi.work/pkg/cue_vars/vagrant"
 import "mizunashi.work/pkg/private_ca_vagrant"
 
-import "mizunashi.work/pkg/roles/dnsmasq"
-import "mizunashi.work/pkg/roles/prometheus"
-import "mizunashi.work/pkg/roles/grafana"
-import "mizunashi.work/pkg/roles/caddy"
-import "mizunashi.work/pkg/roles/caddy_site_acme_server"
+import "mizunashi.work/pkg/schemas/group_vars_internal"
 
+#Schema: group_vars_internal
 #Schema: vagrant
-#Schema: dnsmasq
-#Schema: prometheus
-#Schema: grafana
-#Schema: caddy
-#Schema: caddy_site_acme_server
 
 let ssh_port = vagrant.#ssh_port
-let dns_port = dnsmasq.dnsmasq_listen_port
+let dns_port = #Schema.dnsmasq_listen_port
 let acme_server_https_port = vagrant.#acme_server_https_port
 
 let acme_challenge_hostname = vagrant.#acme_challenge_hostname
