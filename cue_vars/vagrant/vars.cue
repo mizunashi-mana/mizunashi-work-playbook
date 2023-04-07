@@ -15,10 +15,12 @@ group_vars_all
 
 #internal_iface: "eth2"
 
+#private_domain: "mizunashi-local.private"
+
 #internal_host_entries: {
   internal001: {
     internal_ip: "192.168.62.34"
-    internal_host: "internal001.mizunashi-local.private"
+    internal_host: "internal001.\(#private_domain)"
     host: "internal.mizunashi-work.vagrant"
   }
 }
@@ -26,7 +28,7 @@ group_vars_all
 #public_host_entries: {
   public001: {
     internal_ip: "192.168.62.33"
-    internal_host: "public001.mizunashi-local.private"
+    internal_host: "public001.\(#private_domain)"
     host: "public.mizunashi-work.vagrant"
   }
 }
@@ -55,7 +57,7 @@ group_vars_all
 
 #notification_email: "root@localhost"
 
-#acme_challenge_hostname: "acme.mizunashi-local.private"
+#acme_challenge_hostname: "acme.\(#private_domain)"
 #acme_challenge_url:  "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
 
 base_internal_dns_ip: #internal_dns_resolver
