@@ -15,7 +15,6 @@ group_vars_all
 #nginx_exporter_http_port: nginx_exporter_listen_port
 #acme_server_https_port: 6100
 
-#internal_iface: "eth2"
 #workuser_name: "vagrant"
 
 #private_domain: "mizunashi-local.private"
@@ -76,9 +75,12 @@ workuser_setup_ssh_authorized_keys: [
 
 private_root_ca_certificate: ca_vars.root_ca_certificate
 
+network_internal_iface: "eth2"
+network_internal_netmask: "255.255.255.0"
+
 nftables_accept_tcp_ports: [#ssh_port, ...uint]
 nftables_accept_ports_with_iif: "internal_local_proxy": {
-  iif: #internal_iface
+  iif: network_internal_iface
   tcp_ports: [
     #local_proxy_https_port
   ]

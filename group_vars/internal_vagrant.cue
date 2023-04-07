@@ -47,7 +47,7 @@ let local_proxy_scrape_configs = {
   ]
 
   nftables_accept_ports_with_iif: "internal_services": {
-    iif: #Schema.#internal_iface
+    iif: #Schema.network_internal_iface
     tcp_ports: [
       dns_port,
       acme_server_https_port,

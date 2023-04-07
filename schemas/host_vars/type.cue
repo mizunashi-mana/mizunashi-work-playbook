@@ -1,3 +1,5 @@
 package host_vars
 
-base_internal_hostname: string
+import "mizunashi.work/pkg/roles/network/network_host_vars"
+
+network_host_vars

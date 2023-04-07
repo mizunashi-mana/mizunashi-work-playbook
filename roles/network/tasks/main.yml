@@ -1,30 +1,33 @@
 ---
+- name: Check internal host variable is required
+  ansible.builtin.debug:
+    var: 'network_internal_hostname'
+
 - name: Directory of interfaces is available
   ansible.builtin.file:
-    path: /etc/network/interfaces-available
+    path: /etc/network/iface-available
     state: directory
     owner: root
     group: root
     mode: '0755'
   become: true
 
-- name: Install interface configs
+- name: Install internal iface
   ansible.builtin.template:
-    src: etc/network/interfaces-available/iface_xxx.conf
-    dest: '/etc/network/interfaces-available/iface_{{ item.key }}.conf'
+    src: etc/network/iface-available/internal_iface.conf
+    dest: '/etc/network/iface-available/internal_iface.conf'
     owner: root
     group: root
     mode: '0644'
     backup: true
   become: true
-  loop: '{{ network_interface_entries }}'
 
-- name: Links of interfaces are available
+- name: Enable internal iface
   ansible.builtin.file:
-    path: '/etc/network/interfaces.d/iface_{{ item.key }}.conf'
-    dest: '/etc/network/interfaces-available/iface_{{ item.key }}.conf'
+    path: '/etc/network/interfaces.d/internal_iface.conf'
+    dest: '/etc/network/iface-available/internal_iface.conf'
     state: link
     owner: root
     group: root
   become: true
-  loop: '{{ network_interface_entries }}'
+  when: network_setup_internal_iface

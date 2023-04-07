@@ -1,8 +1,4 @@
 ---
-- name: Check internal host variable is required
-  ansible.builtin.debug:
-    var: 'base_internal_hostname'
-
 - name: Enable SYN cookies
   ansible.posix.sysctl:
     name: net.ipv4.tcp_syncookies
