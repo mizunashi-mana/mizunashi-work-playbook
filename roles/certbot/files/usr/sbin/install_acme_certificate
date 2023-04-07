@@ -49,7 +49,7 @@ fi
 
 source /etc/certbot/install_acme_cert_config.sh
 
-echo | certbot certonly \
+certbot certonly \
   --server "$SERVER" \
   --webroot --webroot-path "$WEBROOT" \
   --domain "$DOMAIN" \
@@ -59,12 +59,14 @@ echo | certbot certonly \
 
 CRON_FILE="${CRON_DIR}/0certbot-renew-${DOMAIN}"
 cat <<EOS > "$CRON_FILE"
+#!/usr/bin/env bash
+
 set -euxo
 
 if [ -n '$REQUESTS_CA_BUNDLE' ]; then
   export REQUESTS_CA_BUNDLE=$REQUESTS_CA_BUNDLE
 fi
 
-echo | certbot renew --cert-name '$DOMAIN'
+certbot renew --cert-name '$DOMAIN'
 EOS
 chmod +x "$CRON_FILE"
