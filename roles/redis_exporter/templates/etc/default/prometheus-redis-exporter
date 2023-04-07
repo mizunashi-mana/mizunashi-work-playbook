@@ -1,4 +1,4 @@
 LISTEN_ADDRESS={{ redis_exporter_listen_address }}:{{ redis_exporter_listen_port }}
 REDIS_ADDRESS=redis://localhost:{{ redis_server_listen_port }}
-REDIS_PASSWORD_FILE=/etc/redis_exporter/password_file
+REDIS_PASSWORD_FILE=/etc/redis_exporter/password_file.json
 EXTRA_ARGS=""

@@ -2,6 +2,10 @@ package mastodon
 
 import "mizunashi.work/pkg/cue_types"
 
+import "mizunashi.work/pkg/roles/redis_server"
+
+redis_server
+
 mastodon_local_domain: string
 mastodon_single_user_mode: "true" | "false"
 
