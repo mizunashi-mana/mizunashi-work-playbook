@@ -5,7 +5,7 @@
 
 - name: Directory of interfaces is available
   ansible.builtin.file:
-    path: /etc/network/iface-available
+    path: /etc/network/iface-available.d
     state: directory
     owner: root
     group: root
@@ -14,8 +14,8 @@
 
 - name: Install internal iface
   ansible.builtin.template:
-    src: etc/network/iface-available/internal_iface.conf
-    dest: '/etc/network/iface-available/internal_iface.conf'
+    src: etc/network/iface-available.d/internal_iface.conf
+    dest: '/etc/network/iface-available.d/internal_iface.conf'
     owner: root
     group: root
     mode: '0644'
@@ -25,7 +25,7 @@
 - name: Enable internal iface
   ansible.builtin.file:
     path: '/etc/network/interfaces.d/internal_iface.conf'
-    dest: '/etc/network/iface-available/internal_iface.conf'
+    dest: '/etc/network/iface-available.d/internal_iface.conf'
     state: link
     owner: root
     group: root
