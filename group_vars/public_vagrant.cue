@@ -19,9 +19,8 @@ import "mizunashi.work/pkg/roles/postgresql_mastodon"
 let ssh_port = vagrant.#ssh_port
 let http_port = vagrant.#http_port
 let https_port = 443
-let acme_server_https_port = vagrant.#acme_server_https_port
 
-let acme_challenge_hostname = vagrant.#acme_challenge_hostname
+let acme_challenge_url = vagrant.#acme_challenge_url
 
 #Schema & {
   mastodon_local_domain: "mstdn-local.mizunashi.work"
@@ -48,8 +47,8 @@ let acme_challenge_hostname = vagrant.#acme_challenge_hostname
     auth_password: vagrant.#local_proxy_password
   }
 
-  nginx_site_mastodon_front_acme_email: vagrant.#notification_email
-  nginx_site_mastodon_front_acme_challenge_url: "https://\(acme_challenge_hostname):\(acme_server_https_port)/acme/local/directory"
+  nginx_site_mastodon_front_acme_challenge_url: acme_challenge_url
+  nginx_site_mastodon_front_ca_bundle_path: #Schema.private_root_ca_certificate_path
 
   mastodon_single_user_mode: "true"
 

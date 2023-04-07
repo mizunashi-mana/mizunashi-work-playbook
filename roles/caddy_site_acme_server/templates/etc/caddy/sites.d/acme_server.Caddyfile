@@ -5,5 +5,7 @@
 
 	tls internal
 
-	acme_server
+	acme_server {
+		lifetime 10d
+	}
 }

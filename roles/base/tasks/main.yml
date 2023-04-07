@@ -17,6 +17,21 @@
     state: present
   become: true
 
+- name: Install CA certificates
+  ansible.builtin.apt:
+    name: 'ca-certificates={{ base_ca_certificates_version }}*'
+    state: present
+  become: true
+
+- name: Bundled certificate is available
+  ansible.builtin.file:
+    path: '{{ base_ca_certificates_bundle_file }}'
+    state: file
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
 - name: Register internal DNS
   ansible.builtin.lineinfile:
     path: '/run/resolvconf/resolv.conf'

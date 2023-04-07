@@ -5,11 +5,51 @@
     state: present
   become: true
 
-- name: Directory of certbot is available
+- name: Directory of certbot webroot is available
   ansible.builtin.file:
     path: '{{ certbot_webroot_dir }}'
     state: directory
     owner: root
     group: root
     mode: '0755'
+  become: true
+
+- name: Directory of certbot config is available
+  ansible.builtin.file:
+    path: /etc/certbot
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Copy certbot config
+  ansible.builtin.template:
+    src: etc/certbot/install_acme_cert_config.sh
+    dest: /etc/certbot/install_acme_cert_config.sh
+    owner: root
+    group: root
+    mode: '0600'
+    backup: true
+  diff: false
+  become: true
+
+- name: Copy letsencrypt config
+  ansible.builtin.template:
+    src: etc/letsencrypt/cli.ini
+    dest: /etc/letsencrypt/cli.ini
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Install certificate installer
+  ansible.builtin.copy:
+    src: usr/sbin/install_acme_certificate
+    dest: /usr/sbin/install_acme_certificate
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
   become: true

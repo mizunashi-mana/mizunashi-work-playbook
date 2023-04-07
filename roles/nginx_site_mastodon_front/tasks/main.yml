@@ -5,17 +5,11 @@
 - name: Get certificates
   ansible.builtin.command:
     cmd: |
-      certbot certonly
+      /usr/sbin/install_acme_certificate
         --server '{{ nginx_site_mastodon_front_acme_challenge_url }}'
-        --webroot --webroot-path '{{ certbot_webroot_dir }}'
         --domain '{{ mastodon_local_domain }}'
-        --email '{{ nginx_site_mastodon_front_acme_email }}'
-        --agree-tos
-        --no-eff-email
+        --ca-bundle-path '{{ nginx_site_mastodon_front_ca_bundle_path }}'
     creates: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
-    stdin: ''
-  environment:
-    REQUESTS_CA_BUNDLE: '{{ private_root_ca_certificate_path }}'
   become: true
 
 - name: Install mastodon site

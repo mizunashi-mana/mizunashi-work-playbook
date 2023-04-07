@@ -12,6 +12,8 @@
 			name "{{ caddy_pki_ca_local_name }}"
 			root_cn "{{ caddy_pki_ca_local_root_cn }}"
 
+			intermediate_lifetime 30d
+
 			root {
 				cert /etc/pki/caddy/ca/local/root.crt
 				key /etc/pki/caddy/ca/local/root.key

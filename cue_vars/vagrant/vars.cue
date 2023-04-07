@@ -10,6 +10,7 @@ import "mizunashi.work/pkg/roles/apticron"
 import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/fail2ban"
 import "mizunashi.work/pkg/roles/exim"
+import "mizunashi.work/pkg/roles/certbot"
 import "mizunashi.work/pkg/roles/node_exporter"
 import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/nginx_exporter"
@@ -66,6 +67,7 @@ import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 #notification_email: "root@localhost"
 
 #acme_challenge_hostname: "acme.mizunashi-local.private"
+#acme_challenge_url:  "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
 
 base
 workuser_setup
@@ -76,6 +78,7 @@ fail2ban
 node_exporter
 exim
 apticron
+certbot
 nginx
 nginx_exporter
 nginx_site_http_redirector
@@ -102,14 +105,14 @@ nftables_accept_ports_with_iif: "internal_local_proxy": {
 openssh_server_listen_port: #ssh_port
 
 apticron_notification_email: #notification_email
+certbot_acme_notification_email: #notification_email
 
 nginx_resolver: #internal_dns_resolver
 
 nginx_site_http_redirector_listen_port: #http_port
 
 nginx_site_local_proxy_listen_port: #local_proxy_https_port
-nginx_site_local_proxy_acme_email: #notification_email
-nginx_site_local_proxy_acme_challenge_url: "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
+nginx_site_local_proxy_acme_challenge_url: #acme_challenge_url
 
 node_exporter_listen_port: #node_exporter_http_port
 nginx_site_local_proxy_entries: "node": {
