@@ -5,6 +5,18 @@
     state: present
   become: true
 
+- name: Copy redis config
+  ansible.builtin.template:
+    src: etc/redis/redis.conf
+    dest: /etc/redis/redis.conf
+    owner: root
+    group: root
+    mode: '0640'
+    backup: true
+  become: true
+  notify:
+    - Restart redis-server
+
 - name: Notify restart redis-server if not started
   ansible.builtin.command: systemctl status redis-server
   become: true

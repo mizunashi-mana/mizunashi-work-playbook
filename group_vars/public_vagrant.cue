@@ -4,19 +4,23 @@ import "mizunashi.work/pkg/private_ca_vagrant"
 import "mizunashi.work/pkg/roles/mastodon"
 import "mizunashi.work/pkg/roles/redis_server"
 import "mizunashi.work/pkg/roles/redis_exporter"
+import "mizunashi.work/pkg/roles/postgresql"
 import "mizunashi.work/pkg/roles/postgres_exporter"
 import "mizunashi.work/pkg/roles/statsd_exporter"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
 import "mizunashi.work/pkg/roles/postgresql_mastodon"
+import "mizunashi.work/pkg/roles/postgresql_postgres_exporter"
 
 #Schema: vagrant
 #Schema: mastodon
 #Schema: redis_server
 #Schema: redis_exporter
+#Schema: postgresql
 #Schema: postgres_exporter
 #Schema: statsd_exporter
 #Schema: nginx_site_mastodon_front
 #Schema: postgresql_mastodon
+#Schema: postgresql_postgres_exporter
 
 let ssh_port = vagrant.#ssh_port
 let http_port = vagrant.#http_port
@@ -116,6 +120,17 @@ let acme_challenge_url = vagrant.#acme_challenge_url
   mastodon_vapid_public_key: "BMRVNeG8Io07OP2yGLhhhIXiX-m7Tjjhws_RJ9b1BvBXTKj8wRn9XAyRBoeM04TUgj26qkdnrtBbcRh_XODZW3k="
 
   redis_server_auth_password:
+    "__ansible_vault":
+      """
+      $ANSIBLE_VAULT;1.1;AES256
+      31306435633332313262633863316466396538623261346165326263623062356563633034623031
+      3463656139626236336433643062643361633731393563630a303562386337663931616639653761
+      62613733663763633762316465616634323833623339643039336162643532326264343937626464
+      6561343033613965350a663633643161643762623237396633386563393239356563396363363865
+      3062
+      """
+
+  postgres_exporter_user_password:
     "__ansible_vault":
       """
       $ANSIBLE_VAULT;1.1;AES256

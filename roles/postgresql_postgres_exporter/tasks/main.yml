@@ -1,0 +1,25 @@
+---
+- name: Request postgresql started
+  ansible.builtin.meta: flush_handlers
+
+- name: Select users
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command 'SELECT usename FROM pg_shadow;'
+        --csv
+  become: true
+  changed_when: false
+  register: postgresql_postgres_exporter_users_result
+
+- name: Postgres exporter working user is available
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          CREATE USER {{ postgres_exporter_user_name }}
+          WITH ENCRYPTED PASSWORD 'md5{{ postgres_exporter_user_password | md5 }}';
+        "
+  become: true
+  when: |
+    postgres_exporter_user_name not in postgresql_postgres_exporter_users_result.stdout_lines
