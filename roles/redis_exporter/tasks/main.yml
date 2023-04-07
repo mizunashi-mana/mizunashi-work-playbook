@@ -5,6 +5,27 @@
     state: present
   become: true
 
+- name: Directory of redis exporter is available
+  ansible.builtin.file:
+    path: /etc/redis_exporter
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+  become: true
+
+- name: Copy password file environment
+  ansible.builtin.template:
+    src: etc/redis_exporter/password_file
+    dest: /etc/redis_exporter/password_file
+    owner: prometheus
+    group: prometheus
+    mode: '0600'
+    backup: true
+  become: true
+  notify:
+    - Restart redis-exporter
+
 - name: Copy redis exporter environment
   ansible.builtin.template:
     src: etc/default/prometheus-redis-exporter
