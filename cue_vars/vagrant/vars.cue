@@ -75,6 +75,7 @@ workuser_setup_ssh_authorized_keys: [
 
 private_root_ca_certificate: ca_vars.root_ca_certificate
 
+network_setup_internal_iface: false
 network_internal_iface: "eth2"
 network_internal_netmask: "255.255.255.0"
 
