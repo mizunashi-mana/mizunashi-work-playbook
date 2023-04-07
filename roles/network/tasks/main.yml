@@ -24,10 +24,10 @@
 
 - name: Enable internal iface
   ansible.builtin.file:
-    path: '/etc/network/interfaces.d/internal_iface.conf'
-    dest: '/etc/network/iface-available.d/internal_iface.conf'
-    state: link
+    src: /etc/network/iface-available.d/internal_iface.conf
+    dest: /etc/network/interfaces.d/internal_iface.conf
     owner: root
     group: root
+    state: link
   become: true
   when: network_setup_internal_iface
