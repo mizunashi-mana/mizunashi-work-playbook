@@ -4,6 +4,8 @@ import "mizunashi.work/pkg/private_ca_vagrant"
 
 import "mizunashi.work/pkg/schemas/group_vars_all"
 
+let ca_vars = private_ca_vagrant
+
 group_vars_all
 
 #ssh_port: 22
@@ -68,7 +70,7 @@ workuser_setup_ssh_authorized_keys: [
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkqfF4qMFhr2fg+Yw3WLIqaRLqYzkCjWy2fdF4eQ5LG mizunashi-work-playbook"
 ]
 
-private_root_ca_certificate: private_ca_vagrant.root_ca_certificate
+private_root_ca_certificate: ca_vars.root_ca_certificate
 
 nftables_accept_tcp_ports: [#ssh_port, ...uint]
 nftables_accept_ports_with_iif: "internal_local_proxy": {

@@ -6,11 +6,11 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
 #Schema: group_vars_public
 #Schema: vagrant
 
-let ssh_port = vagrant.#ssh_port
-let http_port = vagrant.#http_port
+let ssh_port = #Schema.#ssh_port
+let http_port = #Schema.#http_port
 let https_port = 443
 
-let acme_challenge_url = vagrant.#acme_challenge_url
+let acme_challenge_url = #Schema.#acme_challenge_url
 
 #Schema & {
   mastodon_local_domain: "mstdn-local.mizunashi.work"
@@ -26,15 +26,15 @@ let acme_challenge_url = vagrant.#acme_challenge_url
 
   nginx_site_local_proxy_entries: "redis": {
     upstream_port: #Schema.redis_exporter_listen_port
-    auth_password: vagrant.#local_proxy_password
+    auth_password: #Schema.#local_proxy_password
   }
   nginx_site_local_proxy_entries: "postgres": {
     upstream_port: #Schema.postgres_exporter_listen_port
-    auth_password: vagrant.#local_proxy_password
+    auth_password: #Schema.#local_proxy_password
   }
   nginx_site_local_proxy_entries: "statsd": {
     upstream_port: #Schema.statsd_exporter_web_listen_port
-    auth_password: vagrant.#local_proxy_password
+    auth_password: #Schema.#local_proxy_password
   }
 
   nginx_site_mastodon_front_acme_challenge_url: acme_challenge_url
