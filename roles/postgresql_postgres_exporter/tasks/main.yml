@@ -18,7 +18,7 @@
       sudo --user postgres psql
         --command "
           CREATE USER {{ postgres_exporter_user_name }}
-          WITH ENCRYPTED PASSWORD 'md5{{ postgres_exporter_user_password | md5 }}';
+          WITH ENCRYPTED PASSWORD '{{ postgres_exporter_user_password }}';
         "
   become: true
   no_log: true

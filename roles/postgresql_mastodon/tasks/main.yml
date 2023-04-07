@@ -18,7 +18,7 @@
       sudo --user postgres psql
         --command "
           CREATE USER {{ mastodon_db_user_name }}
-          WITH ENCRYPTED PASSWORD 'md5{{ mastodon_db_user_password | md5 }}'
+          WITH ENCRYPTED PASSWORD '{{ mastodon_db_user_password }}'
           CREATEDB;
         "
   become: true
