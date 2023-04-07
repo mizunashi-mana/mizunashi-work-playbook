@@ -6,6 +6,7 @@
 	tls internal
 
 	acme_server {
+		ca local
 		lifetime 10d
 	}
 }

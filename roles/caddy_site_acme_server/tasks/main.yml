@@ -7,7 +7,6 @@
     group: caddy
     mode: '0644'
     backup: true
-    validate: caddy validate --adapter caddyfile --config %s
   become: true
   notify:
   - Reload caddy
