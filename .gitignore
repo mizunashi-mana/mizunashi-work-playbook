@@ -1,4 +1,5 @@
 group_vars/*.yml
+host_vars/*.yml
 /tmp
 
 # Vagrant

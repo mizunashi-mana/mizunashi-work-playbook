@@ -1,4 +1,5 @@
 GROUP_VARS_SRC ?= $(wildcard ./group_vars/*.cue)
+HOST_VARS_SRC ?= $(wildcard ./host_vars/*.cue)
 ROLES_SCHEMAS ?= $(wildcard ./roles/*/schema.cue)
 VARS_SCHEMAS ?= $(wildcard ./cue_vars/*/vars.cue) $(wildcard ./*/vars.cue)
 
@@ -6,6 +7,7 @@ CUE ?= cue
 POETRY ?= poetry
 
 GROUP_VARS_OUT := $(subst .cue,.yml,$(GROUP_VARS_SRC))
+HOST_VARS_OUT := $(subst .cue,.yml,$(HOST_VARS_SRC))
 STAMPS := \
 	.stamp.poetry-installed \
 	.stamp.ansible-collections-installed
@@ -13,7 +15,7 @@ STAMPS := \
 .SUFFIXES: .cue .yml
 
 .PHONY: all
-all: $(STAMPS) $(GROUP_VARS_OUT)
+all: $(STAMPS) $(GROUP_VARS_OUT) $(HOST_VARS_OUT)
 
 .stamp.poetry-installed: pyproject.toml poetry.lock
 	$(POETRY) install
