@@ -29,7 +29,7 @@
     state: file
     owner: root
     group: root
-    mode: '0755'
+    mode: '0644'
   become: true
 
 - name: Register internal DNS
