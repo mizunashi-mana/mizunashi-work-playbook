@@ -7,9 +7,9 @@
     cmd: |
       /usr/sbin/install_acme_certificate
         --server '{{ nginx_site_local_proxy_acme_challenge_url }}'
-        --domain '{{ base_internal_hostname }}'
+        --domain '{{ network_internal_hostname }}'
         --ca-bundle-path '{{ nginx_site_local_proxy_ca_bundle_path }}'
-    creates: '/etc/letsencrypt/live/{{ base_internal_hostname }}/fullchain.pem'
+    creates: '/etc/letsencrypt/live/{{ network_internal_hostname }}/fullchain.pem'
   become: true
 
 - name: Install password file
