@@ -55,7 +55,7 @@ group_vars_all
     6164
     """
 
-#internal_dns_resolver: #internal_host_entries.internal001.internal_ip
+#internal_dns_resolver: #host_entries.internal001.internal_ip
 
 #notification_email: "root@localhost"
 
