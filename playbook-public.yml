@@ -12,6 +12,8 @@
   - postgresql_mastodon
   - mastodon
 
+  - postgresql_postgres_exporter
+
   - nginx_site_http_redirector
   - nginx_site_mastodon_front
 
