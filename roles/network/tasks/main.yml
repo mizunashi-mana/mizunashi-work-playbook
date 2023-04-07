@@ -1,0 +1,30 @@
+---
+- name: Directory of interfaces is available
+  ansible.builtin.file:
+    path: /etc/network/interfaces-available
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Install interface configs
+  ansible.builtin.template:
+    src: etc/network/interfaces-available/iface_xxx.conf
+    dest: '/etc/network/interfaces-available/iface_{{ item.key }}.conf'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  loop: '{{ network_interface_entries }}'
+
+- name: Links of interfaces are available
+  ansible.builtin.file:
+    path: '/etc/network/interfaces.d/iface_{{ item.key }}.conf'
+    dest: '/etc/network/interfaces-available/iface_{{ item.key }}.conf'
+    state: link
+    owner: root
+    group: root
+  become: true
+  loop: '{{ network_interface_entries }}'
