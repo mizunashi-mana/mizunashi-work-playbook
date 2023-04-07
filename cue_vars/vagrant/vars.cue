@@ -16,8 +16,10 @@ group_vars_all
 #acme_server_https_port: 6100
 
 #internal_iface: "eth2"
+#workuser_name: "vagrant"
 
 #private_domain: "mizunashi-local.private"
+#notification_email: "root@localhost"
 
 #internal_host_entries: {
   internal001: {
@@ -57,14 +59,16 @@ group_vars_all
 
 #internal_dns_resolver: #host_entries.internal001.internal_ip
 
-#notification_email: "root@localhost"
-
 #acme_challenge_hostname: "acme.\(#private_domain)"
 #acme_challenge_url:  "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
 
+ansible_connection: "ssh"
+ansible_port: #ssh_port
+ansible_user: #workuser_name
+
 base_internal_dns_ip: #internal_dns_resolver
 
-workuser_setup_username: "vagrant"
+workuser_setup_username: #workuser_name
 workuser_setup_home_directory: "/home/\(workuser_setup_username)"
 workuser_setup_ssh_authorized_keys: [
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkqfF4qMFhr2fg+Yw3WLIqaRLqYzkCjWy2fdF4eQ5LG mizunashi-work-playbook"
