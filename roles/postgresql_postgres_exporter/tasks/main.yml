@@ -21,6 +21,7 @@
           WITH ENCRYPTED PASSWORD 'md5{{ postgres_exporter_user_password | md5 }}';
         "
   become: true
+  no_log: true
   when: |
     postgres_exporter_user_name not in postgresql_postgres_exporter_users_result.stdout_lines
 
