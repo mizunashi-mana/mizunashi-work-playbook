@@ -6,7 +6,7 @@
   ansible.builtin.command:
     cmd: |
       sudo --user postgres psql
-        --command 'SELECT usename FROM pg_shadow;'
+        --command 'SELECT usename FROM pg_user;'
         --csv
   become: true
   changed_when: false
@@ -23,3 +23,177 @@
   become: true
   when: |
     postgres_exporter_user_name not in postgresql_postgres_exporter_users_result.stdout_lines
+
+- name: Select postgres exporter useconfig
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          SELECT useconfig FROM pg_user
+          WHERE usename = '{{ postgres_exporter_user_name }}';
+        "
+        --csv
+  become: true
+  changed_when: false
+  register: postgresql_postgres_exporter_useconfig
+
+- name: SEARCH_PATH of postgres exporter is available
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          ALTER USER {{ postgres_exporter_user_name }}
+          SET SEARCH_PATH TO 'postgres_exporter, pg_catalog';
+        "
+  become: true
+  when: |
+    not postgresql_postgres_exporter_useconfig.stdout
+      is search("search_path=postgres_exporter, pg_catalog")
+
+- name: Select grants of pg_monitor
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          SELECT t_member_authid.rolname FROM pg_auth_members
+          INNER JOIN pg_authid AS t_role_authid ON t_role_authid.oid = roleid
+          INNER JOIN pg_authid AS t_member_authid ON t_member_authid.oid = member
+          WHERE
+            t_role_authid.rolname = 'pg_monitor';
+        "
+        --csv
+  become: true
+  changed_when: false
+  register: postgresql_postgres_exporter_member_pg_monitor
+
+- name: The member of pg_monitor is available
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "GRANT pg_monitor TO {{ postgres_exporter_user_name }};"
+  become: true
+  when: |
+    postgres_exporter_user_name not in postgresql_postgres_exporter_member_pg_monitor.stdout_lines
+
+- name: Select namespaces
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command 'SELECT nspname FROM pg_namespace;'
+        --csv
+  become: true
+  changed_when: false
+  register: postgresql_postgres_exporter_namespaces_result
+
+- name: The member of pg_monitor is available
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "CREATE SCHEMA postgres_exporter;"
+  become: true
+  when: |
+    'postgres_exporter' not in postgresql_postgres_exporter_namespaces_result.stdout_lines
+
+- name: Select postgres exporter namspace ACL
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          SELECT nspacl FROM pg_namespace
+          WHERE nspname = 'postgres_exporter';
+        "
+        --csv
+  become: true
+  changed_when: false
+  register: postgresql_postgres_exporter_usage_acl_stats_result
+
+- name: Set fact namspace ACL
+  ansible.builtin.set_fact:
+    postgresql_postgres_exporter_usage_acl_item: "{{ postgres_exporter_user_name }}=U/postgres"
+
+- name: The usage of postgres exporter is available
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          GRANT USAGE ON SCHEMA postgres_exporter
+          TO {{ postgres_exporter_user_name }};
+        "
+  become: true
+  when: |
+    not postgresql_postgres_exporter_usage_acl_stats_result.stdout
+      is search(postgresql_postgres_exporter_usage_acl_item)
+
+- name: Select postgres exporter views
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          SELECT viewname FROM pg_views
+          WHERE schemaname = 'postgres_exporter';
+        "
+        --csv
+  become: true
+  changed_when: false
+  register: postgresql_postgres_exporter_views_result
+
+- name: postgres_exporter.pg_stat_activity is available
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          CREATE OR REPLACE FUNCTION get_pg_stat_activity() RETURNS SETOF pg_stat_activity AS
+            $$ SELECT * FROM pg_catalog.pg_stat_activity; $$
+            LANGUAGE sql
+            VOLATILE
+            SECURITY DEFINER;
+
+          CREATE OR REPLACE VIEW postgres_exporter.pg_stat_activity AS
+            SELECT * from get_pg_stat_activity();
+
+          GRANT SELECT ON postgres_exporter.pg_stat_activity TO postgres_exporter;
+        "
+  become: true
+  when: |
+    "pg_stat_activity" not in postgresql_postgres_exporter_views_result.stdout_lines
+
+- name: postgres_exporter.pg_stat_activity is available
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          CREATE OR REPLACE FUNCTION get_pg_stat_replication() RETURNS SETOF pg_stat_replication AS
+            $$ SELECT * FROM pg_catalog.pg_stat_replication; $$
+            LANGUAGE sql
+            VOLATILE
+            SECURITY DEFINER;
+
+          CREATE OR REPLACE VIEW postgres_exporter.pg_stat_replication AS
+            SELECT * FROM get_pg_stat_replication();
+
+          GRANT SELECT ON postgres_exporter.pg_stat_replication TO postgres_exporter;
+        "
+  become: true
+  when: |
+    "pg_stat_replication" not in postgresql_postgres_exporter_views_result.stdout_lines
+
+- name: postgres_exporter.pg_stat_activity is available
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
+          CREATE OR REPLACE FUNCTION get_pg_stat_statements() RETURNS SETOF pg_stat_statements AS
+            $$ SELECT * FROM public.pg_stat_statements; $$
+            LANGUAGE sql
+            VOLATILE
+            SECURITY DEFINER;
+
+          CREATE OR REPLACE VIEW postgres_exporter.pg_stat_statements AS
+            SELECT * FROM get_pg_stat_statements();
+
+          GRANT SELECT ON postgres_exporter.pg_stat_statements TO postgres_exporter;
+        "
+  become: true
+  when: |
+    "pg_stat_statements" not in postgresql_postgres_exporter_views_result.stdout_lines

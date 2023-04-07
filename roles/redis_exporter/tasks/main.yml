@@ -14,25 +14,13 @@
     mode: '0755'
   become: true
 
-- name: Copy password file environment
-  ansible.builtin.template:
-    src: etc/redis_exporter/password_file.json
-    dest: /etc/redis_exporter/password_file.json
-    owner: prometheus
-    group: prometheus
-    mode: '0600'
-    backup: true
-  become: true
-  notify:
-    - Restart redis-exporter
-
 - name: Copy redis exporter environment
   ansible.builtin.template:
     src: etc/default/prometheus-redis-exporter
     dest: /etc/default/prometheus-redis-exporter
     owner: root
     group: root
-    mode: '0644'
+    mode: '0600'
     backup: true
   become: true
   notify:
