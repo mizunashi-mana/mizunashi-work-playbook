@@ -2,6 +2,7 @@ import "mizunashi.work/pkg/cue_vars/vagrant"
 import "mizunashi.work/pkg/private_ca_vagrant"
 
 import "mizunashi.work/pkg/roles/mastodon"
+import "mizunashi.work/pkg/roles/redis_server"
 import "mizunashi.work/pkg/roles/redis_exporter"
 import "mizunashi.work/pkg/roles/postgres_exporter"
 import "mizunashi.work/pkg/roles/statsd_exporter"
@@ -10,6 +11,7 @@ import "mizunashi.work/pkg/roles/postgresql_mastodon"
 
 #Schema: vagrant
 #Schema: mastodon
+#Schema: redis_server
 #Schema: redis_exporter
 #Schema: postgres_exporter
 #Schema: statsd_exporter
