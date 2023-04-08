@@ -3,6 +3,7 @@
   roles:
   - base
   - network
+  - systemd_resolved
   - workuser_setup
   - nftables
   - fail2ban

@@ -81,7 +81,7 @@ ansible_connection: "ssh"
 ansible_port: #ssh_port
 ansible_user: #workuser_name
 
-base_internal_dns_ip: #internal_dns_resolver
+systemd_resolved_internal_dns: #internal_dns_resolver
 
 workuser_setup_username: #workuser_name
 workuser_setup_home_directory: "/home/\(workuser_setup_username)"
