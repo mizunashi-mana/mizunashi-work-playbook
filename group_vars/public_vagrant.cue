@@ -6,21 +6,17 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
 #Schema: group_vars_public
 #Schema: vagrant
 
-let ssh_port = #Schema.#ssh_port
-let http_port = #Schema.#http_port
 let https_port = 443
-
-let acme_challenge_url = #Schema.#acme_challenge_url
 
 #Schema & {
   mastodon_local_domain: "mstdn-local.mizunashi.work"
 
-  nginx_site_http_redirector_listen_port: http_port
+  nginx_site_http_redirector_listen_port: #Schema.#http_port
   nginx_site_mastodon_front_listen_port: https_port
 
   nftables_accept_tcp_ports: [
-    ssh_port,
-    http_port,
+    #Schema.#ssh_port,
+    #Schema.#http_port,
     https_port,
   ]
 
@@ -37,8 +33,13 @@ let acme_challenge_url = #Schema.#acme_challenge_url
     auth_password: #Schema.#local_proxy_password
   }
 
-  nginx_site_mastodon_front_acme_challenge_url: acme_challenge_url
+  nginx_site_mastodon_front_acme_challenge_url: #Schema.#acme_challenge_url
   nginx_site_mastodon_front_ca_bundle_path: #Schema.private_root_ca_certificate_path
+
+  exim_smarthost_hostname: #Schema.#internal_smtp_hostname
+  exim_smarthost_port: #Schema.#internal_smtp_submission_port
+  exim_smarthost_auth_username: #Schema.#internal_smtp_auth_username
+  exim_smarthost_auth_password: #Schema.#internal_smtp_auth_password
 
   mastodon_single_user_mode: "true"
 

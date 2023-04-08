@@ -1,0 +1,11 @@
+mappings:
+- match: "Mastodon.*.sidekiq.queues.*.*"
+  name: "mastodon_sidekiq_queues_${3}"
+  labels:
+    environment: "$1"
+    queue: "$2"
+- match: "Mastodon\\.(\\w+)\\.(.*)"
+  match_type: regex
+  name: "mastodon_${2}"
+  labels:
+    environment: "$1"

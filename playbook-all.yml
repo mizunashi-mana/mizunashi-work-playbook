@@ -9,6 +9,11 @@
   - apticron
   - openssh_server
   - node_exporter
+  - certbot
+  - private_root_ca
+  - nginx
+  - nginx_exporter
+  - nginx_site_http_redirector
 
   post_tasks:
   - name: Check
@@ -21,12 +26,7 @@
 - hosts: all
 
   roles:
-  - certbot
-  - private_root_ca
-  - nginx
-  - nginx_site_http_redirector
   - nginx_site_local_proxy
-  - nginx_exporter
 
   post_tasks:
   - name: Check

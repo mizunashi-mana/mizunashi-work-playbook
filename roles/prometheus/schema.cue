@@ -21,8 +21,10 @@ prometheus_scrape_configs: [...#ScrapeConfig]
   metrics_path: string | *"/metrics"
   scheme: string | *"https"
   params: [string]: [...string]
-  use_private_ca: bool | *false
   basic_auth?: #BasicAuth
+  tls_config?: {
+    ca_file?: string
+  }
   static_configs: [...#StaticConfig]
   relabel_configs: [...#RelabelConfig] | *[#hostname_relabel_config]
 }

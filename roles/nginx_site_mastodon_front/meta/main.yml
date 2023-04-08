@@ -1,7 +1,5 @@
 ---
 dependencies:
-  - role: base
-  - role: private_root_ca
+  - role: network
   - role: certbot
   - role: nginx
-  - role: nginx_site_http_redirector

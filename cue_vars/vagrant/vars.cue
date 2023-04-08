@@ -14,6 +14,7 @@ group_vars_all
 #node_exporter_http_port: node_exporter_listen_port
 #nginx_exporter_http_port: nginx_exporter_listen_port
 #acme_server_https_port: 6100
+#internal_smtp_submission_port: 587
 
 #workuser_name: "vagrant"
 
@@ -45,6 +46,13 @@ group_vars_all
   }
 }
 
+#internal_dns_resolver: #host_entries.internal001.internal_ip
+
+#acme_challenge_hostname: "acme.\(#private_domain)"
+#acme_challenge_url:  "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
+
+#internal_smtp_hostname: "smtp.\(#private_domain)"
+
 #local_proxy_password:
   "__ansible_vault":
     """
@@ -56,10 +64,17 @@ group_vars_all
     6164
     """
 
-#internal_dns_resolver: #host_entries.internal001.internal_ip
-
-#acme_challenge_hostname: "acme.\(#private_domain)"
-#acme_challenge_url:  "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
+#internal_smtp_auth_username: "submission"
+#internal_smtp_auth_password:
+  "__ansible_vault":
+    """
+    $ANSIBLE_VAULT;1.1;AES256
+    35373731313932333565623162306266656562313032636530313430306637373833303333386662
+    3233653565346164623265643865336439383666323261620a626339396333303761393036373839
+    34616239366634346132623737633461653732653465316163316234643034666134643530306634
+    6162646332396662340a386361643965396431643536303461336533333762383735613535373238
+    3264
+    """
 
 ansible_connection: "ssh"
 ansible_port: #ssh_port

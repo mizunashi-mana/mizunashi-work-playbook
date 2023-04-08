@@ -10,6 +10,7 @@ ExecStart=/usr/bin/prometheus-statsd-exporter \
   --web.listen-address "$WEB_LISTEN_ADDRESS" \
   --statsd.listen-udp "$STATSD_LISTEN_UDP_ADDRESS" \
   --statsd.listen-tcp "$STATSD_LISTEN_TCP_ADDRESS" \
+  --statsd.mapping-config "$MAPPING_CONFIG" \
   $EXTRA_ARGS
 
 [Install]

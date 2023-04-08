@@ -1,0 +1,1 @@
+[{{ postfix_relayhost_hostname }}] {{ postfix_relayhost_auth_username }}:{{ postfix_relayhost_auth_password }}

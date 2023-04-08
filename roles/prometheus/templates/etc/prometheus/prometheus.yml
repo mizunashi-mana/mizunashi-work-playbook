@@ -18,9 +18,9 @@ scrape_configs:
   scheme: {{ scrape_config.scheme|to_yaml }}
   params:
     {{ scrape_config.params|to_yaml|indent(4) }}
+{% if 'tls_config' in scrape_config %}
   tls_config:
-{% if scrape_config.use_private_ca %}
-    ca_file: {{ private_root_ca_certificate_path }}
+    {{ scrape_config.tls_config|to_yaml|indent(4) }}
 {% endif %}
 {% if 'basic_auth' in scrape_config %}
   basic_auth:

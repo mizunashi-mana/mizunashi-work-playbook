@@ -8,7 +8,6 @@ import "mizunashi.work/pkg/roles/openssh_server"
 import "mizunashi.work/pkg/roles/apticron"
 import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/fail2ban"
-import "mizunashi.work/pkg/roles/exim"
 import "mizunashi.work/pkg/roles/certbot"
 import "mizunashi.work/pkg/roles/node_exporter"
 import "mizunashi.work/pkg/roles/nginx"
@@ -24,7 +23,6 @@ openssh_server
 nftables
 fail2ban
 node_exporter
-exim
 apticron
 certbot
 nginx

@@ -17,6 +17,18 @@
   notify:
     - Restart exim
 
+- name: Copy password file
+  ansible.builtin.template:
+    src: etc/exim4/passwd.client
+    dest: /etc/exim4/passwd.client
+    owner: root
+    group: root
+    mode: '0600'
+    backup: true
+  become: true
+  notify:
+    - Restart exim
+
 - name: Notify restart exim if not started
   ansible.builtin.command: systemctl status exim4
   become: true

@@ -8,11 +8,7 @@ let ca_vars = private_ca_vagrant
 #Schema: group_vars_internal
 #Schema: vagrant
 
-let ssh_port = #Schema.#ssh_port
 let dns_port = #Schema.dnsmasq_listen_port
-let acme_server_https_port = #Schema.#acme_server_https_port
-
-let acme_challenge_hostname = #Schema.#acme_challenge_hostname
 
 let local_proxy_scrape_configs = {
   "prometheus": {
@@ -43,14 +39,15 @@ let local_proxy_scrape_configs = {
 
 #Schema & {
   nftables_accept_tcp_ports: [
-    ssh_port,
+    #Schema.#ssh_port,
   ]
 
   nftables_accept_ports_with_iif: "internal_services": {
     iif: #Schema.network_internal_iface
     tcp_ports: [
       dns_port,
-      acme_server_https_port,
+      #Schema.#acme_server_https_port,
+      #Schema.#internal_smtp_submission_port,
     ]
     udp_ports: [
       dns_port,
@@ -67,7 +64,11 @@ let local_proxy_scrape_configs = {
     {
       ip: #Schema.#host_entries.internal001.internal_ip
       domain: #Schema.#acme_challenge_hostname
-    }
+    },
+    {
+      ip: #Schema.#host_entries.internal001.internal_ip
+      domain: #Schema.#internal_smtp_hostname
+    },
   ]
 
   caddy_pki_ca_local_name: "mizunashi-work-playbook Local Authority"
@@ -75,8 +76,8 @@ let local_proxy_scrape_configs = {
   caddy_pki_ca_local_root_cert: ca_vars.root_ca_certificate
   caddy_pki_ca_local_root_key: ca_vars.root_ca_privkey
 
-  caddy_site_acme_server_name: acme_challenge_hostname
-  caddy_site_acme_server_listen_port: acme_server_https_port
+  caddy_site_acme_server_name: #Schema.#acme_challenge_hostname
+  caddy_site_acme_server_listen_port: #Schema.#acme_server_https_port
 
   nginx_site_local_proxy_entries: "caddy": {
     upstream_port: #Schema.caddy_metrics_listen_port
@@ -91,14 +92,27 @@ let local_proxy_scrape_configs = {
     auth_password: #Schema.#local_proxy_password
   }
 
+  postfix_hostname: #Schema.#internal_smtp_hostname
+  postfix_submission_listen_port: #Schema.#internal_smtp_submission_port
+  postfix_relayhost_hostname: #Schema.#internal_smtp_hostname
+  postfix_relayhost_port: #Schema.#internal_smtp_submission_port
+  postfix_relayhost_auth_username: #Schema.#internal_smtp_auth_username
+  postfix_relayhost_auth_password: #Schema.#internal_smtp_auth_password
+  postfix_submission_auth_username: #Schema.#internal_smtp_auth_username
+  postfix_submission_auth_password: #Schema.#internal_smtp_auth_password
+  postfix_cert_acme_challenge_url: #Schema.#acme_challenge_url
+  postfix_cert_ca_bundle_path: #Schema.private_root_ca_certificate_path
+
   prometheus_scrape_configs: [
     for job, entry in local_proxy_scrape_configs {
       {
         job_name: job
-        use_private_ca: true
         basic_auth: {
           username: job
           password: #Schema.#local_proxy_password
+        }
+        tls_config: {
+          ca_file: #Schema.private_root_ca_certificate_path
         }
         static_configs: [{
           targets: [

@@ -1,15 +1,43 @@
 ---
+- name: Reload postfix
+  ansible.builtin.set_fact:
+    postfix_handler_state: reloaded
+  become: true
+  listen: Reload postfix
+
 - name: Restart postfix
+  ansible.builtin.set_fact:
+    postfix_handler_state: restarted
+  become: true
+  listen: Restart postfix
+
+- name: Restart or reload postfix
   ansible.builtin.systemd:
     name: postfix
-    state: restarted
+    state: '{{ postfix_handler_state }}'
     daemon_reload: true
     enabled: true
   become: true
-  listen: Restart postfix
+  listen:
+  - Restart postfix
+  - Reload postfix
 
 - name: Check systemd service
   ansible.builtin.command: systemctl status postfix
   become: true
   changed_when: false
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ postfix_smtp_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ postfix_submission_listen_port }}'
+    state: started
+    timeout: 60
   listen: Check

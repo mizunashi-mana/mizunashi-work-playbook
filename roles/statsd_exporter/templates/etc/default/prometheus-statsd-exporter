@@ -1,4 +1,5 @@
 WEB_LISTEN_ADDRESS={{ statsd_exporter_web_listen_address }}:{{ statsd_exporter_web_listen_port }}
 STATSD_LISTEN_UDP_ADDRESS={{ statsd_exporter_statsd_listen_address }}:{{ statsd_exporter_statsd_listen_udp_port }}
 STATSD_LISTEN_TCP_ADDRESS={{ statsd_exporter_statsd_listen_address }}:{{ statsd_exporter_statsd_listen_tcp_port }}
+MAPPING_CONFIG=/etc/stats_exporter/mapping-config.yml
 EXTRA_ARGS=''

@@ -8,6 +8,15 @@
     mode: '0755'
   become: true
 
+- name: Directory of statsd exporter config is available
+  ansible.builtin.file:
+    path: /etc/statsd_exporter
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
 - name: Install statsd exporter
   ansible.builtin.shell:
     cmd: |
@@ -26,6 +35,18 @@
     group: root
     mode: '0755'
   become: true
+
+- name: Copy mapping config
+  ansible.builtin.template:
+    src: etc/statsd_exporter/mapping-config.yml
+    dest: /etc/statsd_exporter/mapping-config.yml
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart statsd-exporter
 
 - name: Copy statsd exporter environment
   ansible.builtin.template:

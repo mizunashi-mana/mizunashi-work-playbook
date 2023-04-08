@@ -2,3 +2,4 @@
 dependencies:
   - role: certbot
   - role: node_exporter
+  - role: nginx_site_http_redirector
