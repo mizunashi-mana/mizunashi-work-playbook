@@ -4,6 +4,8 @@
 
 ```
 make vagrant-up
+vagrant reload
+make vagrant-provision
 ```
 
 ## License

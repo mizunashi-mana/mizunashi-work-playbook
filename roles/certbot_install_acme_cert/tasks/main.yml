@@ -10,6 +10,7 @@
         --agree-tos
         --no-eff-email
     creates: '/etc/letsencrypt/live/{{ certbot_install_acme_cert_domain }}/fullchain.pem'
+    stdin: ''
   environment:
     REQUESTS_CA_BUNDLE: '{{ certbot_install_acme_cert_ca_bundle }}'
   become: true

@@ -1,5 +1,4 @@
 package network
 
-network_setup_internal_iface: bool
 network_internal_iface: string
 network_internal_netmask: string

@@ -39,4 +39,3 @@
     group: root
     state: link
   become: true
-  when: network_setup_internal_iface
