@@ -1,44 +1,6 @@
+---
 - import_playbook: ./playbook-base.yml
-
-- hosts: all
-
-  roles:
-  - nftables
-  - fail2ban
-
-  post_tasks:
-  - name: Check
-    ansible.builtin.command: echo check
-    notify: Check
-
-- import_playbook: ./playbook-internal-base.yml
-
-- hosts: all
-
-  roles:
-  - systemd_resolved
-  - apticron
-  - node_exporter
-  - certbot
-  - private_root_ca
-  - nginx
-  - nginx_exporter
-  - nginx_site_http_redirector
-
-  post_tasks:
-  - name: Check
-    ansible.builtin.command: echo check
-    notify: Check
-
-- import_playbook: ./playbook-internal.yml
-- import_playbook: ./playbook-public.yml
-
-- hosts: all
-
-  roles:
-  - nginx_site_local_proxy
-
-  post_tasks:
-  - name: Check
-    ansible.builtin.command: echo check
-    notify: Check
+- import_playbook: ./playbook-firewall.yml
+- import_playbook: ./playbook-internal-dns.yml
+- import_playbook: ./playbook-internal-backbone.yml
+- import_playbook: ./playbook-services.yml

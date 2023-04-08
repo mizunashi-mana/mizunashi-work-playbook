@@ -1,0 +1,53 @@
+---
+- hosts: all
+
+  roles:
+  - apticron
+  - node_exporter
+  - certbot
+  - private_root_ca
+  - nginx
+  - nginx_exporter
+  - nginx_site_http_redirector
+  - nginx_site_local_proxy
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check
+
+- hosts: internal
+
+  roles:
+  - blackbox_exporter
+  - grafana
+  - prometheus
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check
+
+- hosts: public
+
+  roles:
+  - exim
+  - nodejs
+  - ruby
+  - redis_server
+  - postgresql
+  - redis_exporter
+  - postgres_exporter
+  - statsd_exporter
+
+  - postgresql_mastodon
+  - mastodon
+
+  - postgresql_postgres_exporter
+
+  - nginx_site_mastodon_front
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check

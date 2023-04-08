@@ -1,0 +1,11 @@
+---
+- hosts: all
+
+  roles:
+  - nftables
+  - fail2ban
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check

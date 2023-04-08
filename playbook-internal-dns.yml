@@ -1,0 +1,20 @@
+---
+- hosts: internal
+
+  roles:
+  - dnsmasq
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check
+
+- hosts: all
+
+  roles:
+  - systemd_resolved
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check

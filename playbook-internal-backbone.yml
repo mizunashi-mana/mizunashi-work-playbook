@@ -1,7 +1,11 @@
+---
 - hosts: internal
 
   roles:
-  - dnsmasq
+  - caddy
+  - caddy_site_acme_server
+
+  - postfix
 
   post_tasks:
   - name: Check
