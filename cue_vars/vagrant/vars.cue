@@ -19,7 +19,6 @@ group_vars_all
 #workuser_name: "vagrant"
 
 #private_domain: "mizunashi-local.private"
-#notification_email: "root@localhost"
 
 #internal_host_entries: {
   internal001: {
@@ -75,6 +74,8 @@ group_vars_all
     6162646332396662340a386361643965396431643536303461336533333762383735613535373238
     3264
     """
+
+#notification_email: "\(#workuser_name)@\(#internal_smtp_hostname)"
 
 ansible_connection: "ssh"
 ansible_port: #ssh_port

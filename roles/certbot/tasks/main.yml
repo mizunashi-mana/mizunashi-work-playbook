@@ -26,8 +26,8 @@
 
 - name: Install cerbot renew
   ansible.builtin.copy:
-    src: usr/local/bin/certbot_renew
-    dest: /usr/local/bin/certbot_renew
+    src: usr/local/bin/certbot-renew
+    dest: /usr/local/bin/certbot-renew
     owner: root
     group: root
     mode: '0755'
