@@ -3,9 +3,9 @@
 ## Test on local
 
 ```
-make vagrant-up
+make vagrant-up # failed on first start
 vagrant reload
-make vagrant-provision
+make vagrant-up
 ```
 
 ## License
