@@ -1,10 +1,42 @@
+---
 mappings:
-- match: "Mastodon.*.sidekiq.queues.*.*"
+- match: Mastodon.*.sidekiq.queues.*.*
   name: "mastodon_sidekiq_queues_${3}"
   labels:
     environment: "$1"
     queue: "$2"
-- match: "Mastodon\\.(\\w+)\\.(.*)"
+
+- match: Mastodon\.(\w+)\.db\.tables\.([^.]+)\.queries\.(.+)\.([^.]+)
+  match_type: regex
+  name: "mastodon_db_tables_queries_${4}"
+  labels:
+    environment: "$1"
+    table: "$2"
+    operation: "$3"
+
+- match: Mastodon\.(\w+)\.sidekiq\.(.+)\.queries\.(.+)\.([^.]+)
+  match_type: regex
+  name: "mastodon_db_tables_queries_${4}"
+  labels:
+    environment: "$1"
+    table: "$2"
+    operation: "$3"
+
+- match: Mastodon\.(\w+)\.sidekiq\.(.+)\.([^.]+)
+  match_type: regex
+  name: "mastodon_sidekiq_${3}"
+  labels:
+    environment: "$1"
+    event: "$2"
+
+- match: Mastodon\.(\w+)\.web\.(.+)\.([^.]+)
+  match_type: regex
+  name: "mastodon_web_${3}"
+  labels:
+    environment: "$1"
+    api: "$2"
+
+- match: Mastodon\.(\w+)\.(.*)
   match_type: regex
   name: "mastodon_${2}"
   labels:
