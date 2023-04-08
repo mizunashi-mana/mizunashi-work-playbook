@@ -62,3 +62,5 @@ recipient_delimiter = +
 
 inet_interfaces = localhost
 inet_protocols = {{ postfix_inet_protocols }}
+smtp_bind_address = 127.0.0.1
+smtp_bind_address6 = ::1

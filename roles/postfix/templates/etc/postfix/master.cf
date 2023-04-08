@@ -27,6 +27,8 @@
   -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
   -o milter_macro_daemon_name=ORIGINATING
   -o inet_interfaces=all
+  -o smtp_bind_address=
+  -o smtp_bind_address6=
 #smtps     inet  n       -       y       -       -       smtpd
 #  -o syslog_name=postfix/smtps
 #  -o smtpd_tls_wrappermode=yes
