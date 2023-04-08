@@ -14,26 +14,6 @@
     mode: '0755'
   become: true
 
-- name: Directory of certbot config is available
-  ansible.builtin.file:
-    path: /etc/certbot
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
-  become: true
-
-- name: Copy certbot config
-  ansible.builtin.template:
-    src: etc/certbot/install_acme_cert_config.sh
-    dest: /etc/certbot/install_acme_cert_config.sh
-    owner: root
-    group: root
-    mode: '0600'
-    backup: true
-  diff: false
-  become: true
-
 - name: Copy letsencrypt config
   ansible.builtin.template:
     src: etc/letsencrypt/cli.ini
@@ -44,10 +24,10 @@
     backup: true
   become: true
 
-- name: Install certificate installer
+- name: Install cerbot renew
   ansible.builtin.copy:
-    src: usr/sbin/install_acme_certificate
-    dest: /usr/sbin/install_acme_certificate
+    src: usr/local/bin/certbot_renew
+    dest: /usr/local/bin/certbot_renew
     owner: root
     group: root
     mode: '0755'

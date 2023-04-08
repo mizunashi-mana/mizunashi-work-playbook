@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+[ "${TRACE:-false}" = 'true' ] && set -x
+
+function show_usage() {
+  echo "Usage: $0 -c COMMAND -d DESTINATION"
+}
+
+while getopts d:c: opt; do
+  case "$opt" in
+    'd' )
+      DESTINATION_PROMFILE="$OPTARG"
+      ;;
+    'c' )
+      COLLECT_COMMAND="$OPTARG"
+      ;;
+    \? )
+      show_usage
+      exit
+      ;;
+  esac
+done
+
+if [ -z "${COLLECT_COMMAND:-}" ] || [ -z "${DESTINATION_PROMFILE:-}" ]; then
+  echo "Not enough options"
+  show_usage
+  exit 1
+fi
+
+function output_collect_time() {
+  cat <<EOS
+# HELP node_exporter_custom_collector_collected_time Custom collector collected time of metric in epoch seconds
+# TYPE node_exporter_custom_collector_collected_time gauge
+node_exporter_custom_collector_collected_time{dest="$DESTINATION_PROMFILE"} $(date +%s)
+EOS
+}
+
+(output_collect_time && bash -c "$COLLECT_COMMAND") | tee "$DESTINATION_PROMFILE"

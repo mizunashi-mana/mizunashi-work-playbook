@@ -3,6 +3,15 @@
   ansible.builtin.debug:
     var: 'network_internal_hostname'
 
+- name: Get full hostname
+  ansible.builtin.command: hostname --long
+  changed_when: false
+  register: network_hostname_long_stats
+
+- name: Set full hostname
+  ansible.builtin.set_fact:
+    network_hostname: '{{ network_hostname_long_stats.stdout }}'
+
 - name: Directory of interfaces is available
   ansible.builtin.file:
     path: /etc/network/iface-available.d

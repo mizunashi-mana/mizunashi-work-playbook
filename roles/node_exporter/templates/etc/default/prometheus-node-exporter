@@ -1,2 +1,3 @@
 LISTEN_ADDRESS={{ node_exporter_bind_address }}:{{ node_exporter_listen_port }}
+COLLECTOR_DIR={{ node_exporter_custom_collector_dir }}
 EXTRA_ARGS=""

@@ -1,6 +1,7 @@
 - hosts: public
 
   roles:
+  - exim
   - nodejs
   - ruby
   - redis_server

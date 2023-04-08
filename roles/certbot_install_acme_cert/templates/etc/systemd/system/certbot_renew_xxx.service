@@ -1,0 +1,7 @@
+[Unit]
+Description=certbot renew service for {{ certbot_install_acme_cert_domain }}
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/default/certbot_renew_{{ certbot_install_acme_cert_domain }}
+ExecStart=/usr/local/bin/certbot_renew

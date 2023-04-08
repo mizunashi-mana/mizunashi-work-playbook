@@ -1,0 +1,15 @@
+---
+- name: Install postfix
+  ansible.builtin.apt:
+    name: 'postfix={{ postfix_version }}*'
+    state: present
+  become: true
+
+- name: Notify restart postfix if not started
+  ansible.builtin.command: systemctl status postfix
+  become: true
+  register: postfix_service_status
+  changed_when: postfix_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart postfix

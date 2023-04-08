@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -euxo
+
+if [ -n "$REQUESTS_CA_BUNDLE" ]; then
+  export REQUESTS_CA_BUNDLE="$REQUESTS_CA_BUNDLE"
+fi
+
+certbot renew --cert-name "$DOMAIN"
+
+/usr/local/bin/node_exporter_custom_collector -c 'echo' \
+  -d "$DESTINATION_PROMFILE"

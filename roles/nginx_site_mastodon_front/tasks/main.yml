@@ -2,15 +2,14 @@
 - name: Request nginx started
   ansible.builtin.meta: flush_handlers
 
-- name: Get certificates
-  ansible.builtin.command:
-    cmd: |
-      /usr/sbin/install_acme_certificate
-        --server '{{ nginx_site_mastodon_front_acme_challenge_url }}'
-        --domain '{{ mastodon_local_domain }}'
-        --ca-bundle-path '{{ nginx_site_mastodon_front_ca_bundle_path }}'
-    creates: '/etc/letsencrypt/live/{{ mastodon_local_domain }}/fullchain.pem'
-  become: true
+- name: Install certificate
+  ansible.builtin.include_role:
+    name: certbot_install_acme_cert
+  vars:
+    certbot_install_acme_cert_server: '{{ nginx_site_mastodon_front_acme_challenge_url }}'
+    certbot_install_acme_cert_domain: '{{ mastodon_local_domain }}'
+    certbot_install_acme_cert_ca_bundle: '{{ nginx_site_mastodon_front_ca_bundle_path }}'
+    certbot_install_acme_cert_on_calendar: '{{ certbot_renew_on_calendar }}'
 
 - name: Install mastodon site
   ansible.builtin.template:

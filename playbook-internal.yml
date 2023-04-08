@@ -2,6 +2,7 @@
 
   roles:
   - dnsmasq
+  - postfix
 
   - caddy
   - caddy_site_acme_server

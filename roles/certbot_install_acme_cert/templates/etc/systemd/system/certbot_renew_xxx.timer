@@ -1,0 +1,10 @@
+[Unit]
+Description=certbot renew timer for {{ certbot_install_acme_cert_domain }}
+ConditionPathExists=/etc/letsencrypt/live/{{ certbot_install_acme_cert_domain }}/fullchain.pem
+
+[Timer]
+OnCalendar={{ certbot_install_acme_cert_on_calendar }}
+Persistent=true
+
+[Install]
+WantedBy=timers.target

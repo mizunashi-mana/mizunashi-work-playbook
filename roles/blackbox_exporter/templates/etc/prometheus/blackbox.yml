@@ -18,6 +18,11 @@ modules:
     http:
       method: POST
 
+  private_http_2xx:
+    prober: http
+    tls_config:
+      ca_file: '{{ private_root_ca_certificate_path }}'
+
   ssh_banner:
     prober: tcp
     tcp:

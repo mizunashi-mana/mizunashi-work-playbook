@@ -17,6 +17,25 @@
   notify:
     - Restart node-exporter
 
+- name: Install node exporter custom collector
+  ansible.builtin.template:
+    src: usr/local/bin/node_exporter_custom_collector
+    dest: /usr/local/bin/node_exporter_custom_collector
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
+  become: true
+
+- name: Directory of node exporter custom collector is available
+  ansible.builtin.file:
+    path: '{{ node_exporter_custom_collector_dir }}'
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
 - name: Install node exporter service
   ansible.builtin.template:
     src: usr/lib/systemd/system/prometheus-node-exporter.service

@@ -2,15 +2,14 @@
 - name: Request nginx started
   ansible.builtin.meta: flush_handlers
 
-- name: Get certificates
-  ansible.builtin.command:
-    cmd: |
-      /usr/sbin/install_acme_certificate
-        --server '{{ nginx_site_local_proxy_acme_challenge_url }}'
-        --domain '{{ network_internal_hostname }}'
-        --ca-bundle-path '{{ nginx_site_local_proxy_ca_bundle_path }}'
-    creates: '/etc/letsencrypt/live/{{ network_internal_hostname }}/fullchain.pem'
-  become: true
+- name: Install certificate
+  ansible.builtin.include_role:
+    name: certbot_install_acme_cert
+  vars:
+    certbot_install_acme_cert_server: '{{ nginx_site_local_proxy_acme_challenge_url }}'
+    certbot_install_acme_cert_domain: '{{ network_internal_hostname }}'
+    certbot_install_acme_cert_ca_bundle: '{{ nginx_site_local_proxy_ca_bundle_path }}'
+    certbot_install_acme_cert_on_calendar: '{{ certbot_renew_on_calendar }}'
 
 - name: Install password file
   ansible.builtin.template:

@@ -1,0 +1,15 @@
+---
+- name: Restart postfix
+  ansible.builtin.systemd:
+    name: postfix
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  become: true
+  listen: Restart postfix
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status postfix
+  become: true
+  changed_when: false
+  listen: Check

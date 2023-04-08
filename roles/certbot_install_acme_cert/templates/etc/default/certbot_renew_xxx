@@ -1,0 +1,3 @@
+REQUESTS_CA_BUNDLE={{ certbot_install_acme_cert_ca_bundle }}
+DOMAIN={{ certbot_install_acme_cert_domain }}
+DESTINATION_PROMFILE={{ node_exporter_custom_collector_dir }}/certbot_renew_{{ certbot_install_acme_cert_domain }}.prom
