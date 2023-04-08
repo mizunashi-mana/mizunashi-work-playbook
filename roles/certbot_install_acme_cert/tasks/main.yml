@@ -16,7 +16,7 @@
 
 - name: Install environment
   ansible.builtin.template:
-    src: 'etc/default/certbot_renew_{{ certbot_install_acme_cert_domain }}'
+    src: 'etc/default/certbot_renew_xxx'
     dest: '/etc/default/certbot_renew_{{ certbot_install_acme_cert_domain }}'
     owner: root
     group: root
@@ -26,7 +26,7 @@
 
 - name: Install service
   ansible.builtin.template:
-    src: 'etc/systemd/system/certbot_renew_{{ certbot_install_acme_cert_domain }}.service'
+    src: 'etc/systemd/system/certbot_renew_xxx.service'
     dest: '/etc/systemd/system/certbot_renew_{{ certbot_install_acme_cert_domain }}.service'
     owner: root
     group: root
@@ -37,7 +37,7 @@
 
 - name: Install timer
   ansible.builtin.template:
-    src: 'etc/systemd/system/certbot_renew_{{ certbot_install_acme_cert_domain }}.timer'
+    src: 'etc/systemd/system/certbot_renew_xxx.timer'
     dest: '/etc/systemd/system/certbot_renew_{{ certbot_install_acme_cert_domain }}.timer'
     owner: root
     group: root
