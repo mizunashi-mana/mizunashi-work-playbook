@@ -28,6 +28,7 @@
     owner: root
     group: root
   become: true
+  failed_when: false
 
 - name: Notify restart systemd-resolved if not started
   ansible.builtin.command: systemctl status systemd-resolved

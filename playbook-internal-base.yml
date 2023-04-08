@@ -1,14 +1,7 @@
 - hosts: internal
 
   roles:
-  - caddy
-  - caddy_site_acme_server
-
-  - blackbox_exporter
-  - grafana
-  - prometheus
-
-  - postfix
+  - dnsmasq
 
   post_tasks:
   - name: Check

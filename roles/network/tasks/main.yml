@@ -1,7 +1,7 @@
 ---
-- name: Check internal host variable is required
+- name: Check internal host variables are required
   ansible.builtin.debug:
-    var: 'network_internal_hostname'
+    msg: '{{ network_internal_hostname }}:{{ network_internal_address }}'
 
 - name: Get full hostname
   ansible.builtin.command: hostname --long

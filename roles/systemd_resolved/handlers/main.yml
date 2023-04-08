@@ -22,6 +22,18 @@
   - Restart systemd-resolved
   - Reload systemd-resolved
 
+- name: The resolver is systemd stub resolver
+  ansible.builtin.file:
+    src: /run/systemd/resolve/stub-resolv.conf
+    dest: /etc/resolv.conf
+    state: link
+    owner: root
+    group: root
+  become: true
+  listen:
+  - Restart systemd-resolved
+  - Reload systemd-resolved
+
 - name: Check systemd service
   ansible.builtin.command: systemctl status systemd-resolved
   become: true

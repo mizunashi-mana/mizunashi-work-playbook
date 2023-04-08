@@ -1,14 +1,23 @@
+- import_playbook: ./playbook-base.yml
+
 - hosts: all
 
   roles:
-  - base
-  - network
-  - systemd_resolved
-  - workuser_setup
   - nftables
   - fail2ban
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check
+
+- import_playbook: ./playbook-internal-base.yml
+
+- hosts: all
+
+  roles:
+  - systemd_resolved
   - apticron
-  - openssh_server
   - node_exporter
   - certbot
   - private_root_ca
