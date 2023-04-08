@@ -17,3 +17,5 @@ postfix_cert_ca_bundle_path: string
 
 postfix_submission_auth_username: string
 postfix_submission_auth_password: cue_types.#Vaulted
+
+postfix_inet_protocols: string | *"all"

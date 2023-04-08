@@ -1,7 +1,7 @@
 ---
 - name: Directory of resolved configs is available
   ansible.builtin.file:
-    path: /etc/resolved.conf.d
+    path: /etc/systemd/resolved.conf.d
     state: directory
     owner: root
     group: root
@@ -10,13 +10,15 @@
 
 - name: Register internal DNS
   ansible.builtin.template:
-    src: etc/resolved.conf.d/internal_dns.conf
-    dest: /etc/resolved.conf.d/internal_dns.conf
+    src: etc/systemd/resolved.conf.d/internal_dns.conf
+    dest: /etc/systemd/resolved.conf.d/internal_dns.conf
     owner: root
     group: root
     mode: '0644'
     backup: true
   become: true
+  notify:
+  - Restart systemd-resolved
 
 - name: Notify restart systemd-resolved if not started
   ansible.builtin.command: systemctl status systemd-resolved

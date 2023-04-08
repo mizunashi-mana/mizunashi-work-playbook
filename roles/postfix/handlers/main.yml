@@ -28,14 +28,14 @@
   changed_when: false
   listen: Check
 
-- name: Check listen port
+- name: Check SMTP listen port
   ansible.builtin.wait_for:
     port: '{{ postfix_smtp_listen_port }}'
     state: started
     timeout: 60
   listen: Check
 
-- name: Check listen port
+- name: Check Submission listen port
   ansible.builtin.wait_for:
     port: '{{ postfix_submission_listen_port }}'
     state: started

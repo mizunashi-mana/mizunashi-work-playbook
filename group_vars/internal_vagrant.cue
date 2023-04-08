@@ -103,6 +103,8 @@ let local_proxy_scrape_configs = {
   postfix_cert_acme_challenge_url: #Schema.#acme_challenge_url
   postfix_cert_ca_bundle_path: #Schema.private_root_ca_certificate_path
 
+  postfix_inet_protocols: "ipv4"
+
   prometheus_scrape_configs: [
     for job, entry in local_proxy_scrape_configs {
       {
