@@ -1,9 +1,9 @@
 internal_node_name = "internal-mizunashi-work"
 public_node_name = "public-mizunashi-work"
 
+vault_password_file = "assets/vagrant_vault_password"
 ansible_arguments = [
-  "--diff",
-  "--vault-password-file", "assets/vagrant_vault_password",
+  "--diff"
 ]
 
 ansible_groups = {
@@ -34,6 +34,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "vv"
+    ansible.vault_password_file = vault_password_file
     ansible.raw_arguments = ansible_arguments
     ansible.groups = ansible_groups
     ansible.playbook = "playbook-base.yml"
@@ -51,6 +52,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "vv"
+    ansible.vault_password_file = vault_password_file
     ansible.raw_arguments = ansible_arguments
     ansible.groups = ansible_groups
     ansible.playbook = "playbook-all.yml"

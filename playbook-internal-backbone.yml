@@ -5,6 +5,9 @@
   - caddy
   - caddy_site_acme_server
 
+  - nginx
+  - nginx_site_http_redirector
+
   - postfix
 
   post_tasks:

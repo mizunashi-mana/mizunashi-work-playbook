@@ -5,7 +5,6 @@
   - apticron
   - node_exporter
   - certbot
-  - private_root_ca
   - nginx
   - nginx_exporter
   - nginx_site_http_redirector
