@@ -5,6 +5,7 @@
   - base
   - network
   - workuser_setup
+  - openssh_server
   - private_root_ca
 
   post_tasks:

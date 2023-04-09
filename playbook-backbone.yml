@@ -13,7 +13,6 @@
 
   roles:
   - systemd_resolved
-  - openssh_server
 
   - nginx
   - nginx_site_http_redirector

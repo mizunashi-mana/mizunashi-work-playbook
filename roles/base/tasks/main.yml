@@ -7,15 +7,11 @@
     state: present
   become: true
 
-- name: Install sudo
+- name: Install base dependencies
   ansible.builtin.apt:
-    name: 'sudo={{ base_sudo_version }}*'
-    state: present
-  become: true
-
-- name: Install CA certificates
-  ansible.builtin.apt:
-    name: 'ca-certificates={{ base_ca_certificates_version }}*'
+    name:
+    - 'sudo={{ base_sudo_version }}*'
+    - 'ca-certificates={{ base_ca_certificates_version }}*'
     state: present
   become: true
 

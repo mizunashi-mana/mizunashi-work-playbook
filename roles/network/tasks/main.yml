@@ -30,6 +30,8 @@
     mode: '0644'
     backup: true
   become: true
+  notify:
+  - Restart network
 
 - name: Enable internal iface
   ansible.builtin.file:
@@ -39,3 +41,5 @@
     group: root
     state: link
   become: true
+  notify:
+  - Restart network

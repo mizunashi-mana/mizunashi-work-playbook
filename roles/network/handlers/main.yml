@@ -1,4 +1,11 @@
 ---
+- name: Notify restart networking
+  debug:
+    msg: Please run 'sudo systemctl reboot'
+  become: true
+  listen:
+  - Restart network
+
 - name: Check internal IP
   ansible.builtin.command:
     cmd: |
