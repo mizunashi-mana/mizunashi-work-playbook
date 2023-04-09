@@ -73,7 +73,7 @@
   ansible.builtin.file:
     path: /etc/postfix/sasl/sasldb
     state: file
-    owner: postfix
+    owner: root
     group: postfix
     mode: '0640'
   become: true
