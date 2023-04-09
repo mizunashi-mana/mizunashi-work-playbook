@@ -1,6 +1,5 @@
 ---
 - import_playbook: ./playbook-base.yml
 - import_playbook: ./playbook-firewall.yml
-- import_playbook: ./playbook-internal-dns.yml
-- import_playbook: ./playbook-internal-backbone.yml
+- import_playbook: ./playbook-backbone.yml
 - import_playbook: ./playbook-services.yml

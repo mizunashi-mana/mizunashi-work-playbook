@@ -40,6 +40,7 @@ let https_port = 443
   exim_smarthost_port: #Schema.#internal_smtp_submission_port
   exim_smarthost_auth_username: #Schema.#internal_smtp_auth_username
   exim_smarthost_auth_password: #Schema.#internal_smtp_auth_password
+  exim_ca_certificates: #Schema.private_root_ca_certificate_path
 
   mastodon_single_user_mode: "true"
 

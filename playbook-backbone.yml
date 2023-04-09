@@ -13,6 +13,23 @@
 
   roles:
   - systemd_resolved
+  - openssh_server
+
+  - nginx
+  - nginx_site_http_redirector
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check
+
+- hosts: internal
+
+  roles:
+  - caddy
+  - caddy_site_acme_server
+
+  - postfix
 
   post_tasks:
   - name: Check

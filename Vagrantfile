@@ -40,16 +40,6 @@ Vagrant.configure(2) do |config|
     ansible.playbook = "playbook-base.yml"
   end
 
-  config.vm.provision :shell do |shell|
-    shell.inline = <<-SHELL
-      set -exuo pipefail
-      if ! (ip address show dev eth2 | grep 192.168 >/dev/null); then
-        echo 'Should `vagrant reload`.'
-        exit 1
-      fi
-    SHELL
-  end
-
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "vv"
     ansible.vault_password_file = vault_password_file

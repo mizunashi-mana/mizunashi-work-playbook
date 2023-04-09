@@ -6,3 +6,8 @@
   - network
   - workuser_setup
   - private_root_ca
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check

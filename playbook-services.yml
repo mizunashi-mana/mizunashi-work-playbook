@@ -5,9 +5,7 @@
   - apticron
   - node_exporter
   - certbot
-  - nginx
   - nginx_exporter
-  - nginx_site_http_redirector
   - nginx_site_local_proxy
 
   post_tasks:

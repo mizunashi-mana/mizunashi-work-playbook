@@ -23,6 +23,8 @@ compatibility_level = 2
 
 smtpd_helo_required = yes
 
+show_user_unknown_table_name = no
+
 
 
 # TLS parameters
@@ -33,9 +35,6 @@ smtpd_tls_security_level=may
 smtp_tls_CApath=/etc/ssl/certs
 smtp_tls_security_level=may
 smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
-
-
-smtpd_sasl_password_maps = hash:/etc/postfix/sasl/auth_password
 
 
 myhostname = {{ postfix_hostname }}
@@ -62,5 +61,3 @@ recipient_delimiter = +
 
 inet_interfaces = localhost
 inet_protocols = {{ postfix_inet_protocols }}
-smtp_bind_address = 127.0.0.1
-smtp_bind_address6 = ::1

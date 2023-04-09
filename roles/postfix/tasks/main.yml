@@ -44,17 +44,27 @@
   notify:
     - Restart postfix
 
-- name: Copy postfix auth password
-  ansible.builtin.template:
-    src: etc/postfix/sasl/auth_passwd
-    dest: /etc/postfix/sasl/auth_passwd
-    owner: root
-    group: root
-    mode: '0600'
-    backup: true
+- name: Create auth DB
+  ansible.builtin.shell:
+    cmd: |
+      echo '{{ postfix_submission_auth_password }}' | saslpasswd2 -c \
+        -f /etc/postfix/sasl/sasldb \
+        -u '{{ postfix_hostname }}' -p \
+        '{{ postfix_submission_auth_username }}'
+    creates: /etc/postfix/sasl/sasldb
   become: true
+  no_log: true
   notify:
     - Restart postfix
+
+- name: Auth DB is available
+  ansible.builtin.file:
+    path: /etc/postfix/sasl/sasldb
+    state: file
+    owner: postfix
+    group: postfix
+    mode: '0640'
+  become: true
 
 - name: Copy postfix relay password
   ansible.builtin.template:
