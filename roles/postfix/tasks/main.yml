@@ -44,6 +44,18 @@
   notify:
     - Restart postfix
 
+- name: Copy sasl config
+  ansible.builtin.template:
+    src: etc/postfix/sasl/smtpd.conf
+    dest: /etc/postfix/sasl/smtpd.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart postfix
+
 - name: Create auth DB
   ansible.builtin.shell:
     cmd: |
