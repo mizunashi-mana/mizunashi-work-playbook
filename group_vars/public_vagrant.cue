@@ -38,7 +38,7 @@ let https_port = 443
 
   exim_smarthost_hostname: #Schema.#internal_smtp_hostname
   exim_smarthost_port: #Schema.#internal_smtp_submission_port
-  exim_smarthost_auth_username: #Schema.#internal_smtp_auth_username
+  exim_smarthost_auth_userid: #Schema.#internal_smtp_auth_userid
   exim_smarthost_auth_password: #Schema.#internal_smtp_auth_password
   exim_ca_certificates: #Schema.private_root_ca_certificate_path
 

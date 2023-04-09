@@ -1,1 +1,1 @@
-{{ exim_smarthost_hostname }}:{{ exim_smarthost_auth_username }}:{{ exim_smarthost_auth_password }}
+{{ exim_smarthost_hostname }}:{{ exim_smarthost_auth_userid }}:{{ exim_smarthost_auth_password }}

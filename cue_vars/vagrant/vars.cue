@@ -74,6 +74,7 @@ group_vars_all
     6162646332396662340a386361643965396431643536303461336533333762383735613535373238
     3264
     """
+#internal_smtp_auth_userid: "\(#internal_smtp_auth_username)@\(#internal_smtp_hostname)"
 
 #notification_email: "\(#workuser_name)@\(#internal_smtp_hostname)"
 
