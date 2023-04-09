@@ -6,18 +6,16 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
 #Schema: group_vars_public
 #Schema: vagrant
 
-let https_port = 443
-
 #Schema & {
-  mastodon_local_domain: "mstdn-local.mizunashi.work"
+  mastodon_local_domain: #Schema.#mastodon_hostname
 
   nginx_site_http_redirector_listen_port: #Schema.#http_port
-  nginx_site_mastodon_front_listen_port: https_port
+  nginx_site_mastodon_front_listen_port: #Schema.#https_port
 
   nftables_accept_tcp_ports: [
     #Schema.#ssh_port,
     #Schema.#http_port,
-    https_port,
+    #Schema.#https_port,
   ]
 
   nginx_site_local_proxy_entries: "redis": {

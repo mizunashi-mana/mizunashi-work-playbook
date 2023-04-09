@@ -125,5 +125,66 @@ let local_proxy_scrape_configs = {
         }]
       }
     },
+    {
+      job_name: "blackbox_icmp"
+      metrics_path: "/probe"
+      params: {
+        module: ["icmp"]
+      }
+      static_configs: [{
+        targets: [
+          for _, host_entry in #Schema.#host_entries {
+            host_entry.internal_host
+          }
+        ]
+      }]
+    },
+    {
+      job_name: "blackbox_http_2xx"
+      metrics_path: "/probe"
+      params: {
+        module: ["http_2xx"]
+      }
+      static_configs: [{
+        targets: [
+          for _, host_entry in #Schema.#host_entries {
+            "http://\(host_entry.internal_host):\(#Schema.#http_port)"
+          }
+        ]
+      }]
+    },
+    {
+      job_name: "blackbox_private_http_2xx"
+      metrics_path: "/probe"
+      params: {
+        module: ["private_http_2xx"]
+      }
+      static_configs: [{
+        targets: [
+          for _, host_entry in #Schema.#host_entries {
+            "https://\(host_entry.internal_host):\(#Schema.#local_proxy_https_port)/monitor/l7check"
+          },
+          "https://\(#Schema.#mastodon_hostname):\(#Schema.#https_port)/",
+          "https://\(#Schema.#acme_challenge_hostname):\(#Schema.#acme_server_https_port)/",
+        ]
+      }]
+    },
+    {
+      job_name: "blackbox_tcp_connect"
+      metrics_path: "/probe"
+      params: {
+        module: ["tcp_connect"]
+      }
+      static_configs: [{
+        targets: [
+          for _, host_entry in #Schema.#internal_host_entries {
+            "\(host_entry.internal_host):\(dns_port)",
+          },
+          for _, host_entry in #Schema.#internal_host_entries {
+            "\(host_entry.internal_host):\(#Schema.#internal_smtp_submission_port)",
+          },
+        ]
+      }]
+    },
   ]
 }

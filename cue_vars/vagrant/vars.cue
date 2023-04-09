@@ -10,6 +10,7 @@ group_vars_all
 
 #ssh_port: 22
 #http_port: 80
+#https_port: 443
 #local_proxy_https_port: nginx_site_local_proxy_listen_port
 #node_exporter_http_port: node_exporter_listen_port
 #nginx_exporter_http_port: nginx_exporter_listen_port
@@ -51,6 +52,9 @@ group_vars_all
 #acme_challenge_url:  "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
 
 #internal_smtp_hostname: "smtp.\(#private_domain)"
+#mastodon_hostname: "mstdn-local.mizunashi.work"
+
+#notification_email: "\(#workuser_name)@\(#internal_smtp_hostname)"
 
 #local_proxy_password:
   "__ansible_vault":
@@ -75,8 +79,6 @@ group_vars_all
     3264
     """
 #internal_smtp_auth_userid: "\(#internal_smtp_auth_username)@\(#internal_smtp_hostname)"
-
-#notification_email: "\(#workuser_name)@\(#internal_smtp_hostname)"
 
 ansible_connection: "ssh"
 ansible_port: #ssh_port
