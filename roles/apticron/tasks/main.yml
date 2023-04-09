@@ -16,7 +16,7 @@
   become: true
 
 - name: Notify reload apticron if not started
-  ansible.builtin.command: systemctl status apticron
+  ansible.builtin.command: systemctl status apticron.timer
   become: true
   register: apticron_service_status
   changed_when: apticron_service_status.rc != 0

@@ -17,7 +17,7 @@
   listen: Reload apticron
 
 - name: Check systemd service
-  ansible.builtin.command: systemctl status apticron
+  ansible.builtin.command: systemctl status apticron.timer
   become: true
   changed_when: false
   listen: Check
