@@ -45,7 +45,6 @@ group_vars_all
   }
 }
 
-#public_dns_resolver: "8.8.8.8"
 #internal_dns_resolver: #host_entries.internal001.internal_ip
 
 #acme_challenge_hostname: "acme.\(#private_domain)"
@@ -82,7 +81,6 @@ ansible_connection: "ssh"
 ansible_port: #ssh_port
 ansible_user: #workuser_name
 
-systemd_resolved_public_dns: #public_dns_resolver
 systemd_resolved_internal_dns: #internal_dns_resolver
 
 workuser_setup_username: #workuser_name
