@@ -53,6 +53,11 @@ let blackbox_exporter_relabel_configs = [
   },
 ]
 
+#BlackboxExporterScrapeConfig: #Schema.#ScrapeConfig
+#BlackboxExporterScrapeConfig: scheme: "http"
+#BlackboxExporterScrapeConfig: metrics_path: "/probe"
+#BlackboxExporterScrapeConfig: relabel_configs: blackbox_exporter_relabel_configs
+
 #Schema & {
   nftables_accept_tcp_ports: [
     #Schema.#ssh_port,
@@ -141,9 +146,8 @@ let blackbox_exporter_relabel_configs = [
         }]
       }
     },
-    {
+    #BlackboxExporterScrapeConfig & {
       job_name: "blackbox_icmp"
-      metrics_path: "/probe"
       params: {
         module: ["icmp"]
       }
@@ -154,11 +158,9 @@ let blackbox_exporter_relabel_configs = [
           }
         ]
       }]
-      relabel_configs: blackbox_exporter_relabel_configs
     },
-    {
+    #BlackboxExporterScrapeConfig & {
       job_name: "blackbox_http_2xx"
-      metrics_path: "/probe"
       params: {
         module: ["http_2xx"]
       }
@@ -169,11 +171,9 @@ let blackbox_exporter_relabel_configs = [
           }
         ]
       }]
-      relabel_configs: blackbox_exporter_relabel_configs
     },
-    {
+    #BlackboxExporterScrapeConfig & {
       job_name: "blackbox_private_http_2xx"
-      metrics_path: "/probe"
       params: {
         module: ["private_http_2xx"]
       }
@@ -186,11 +186,9 @@ let blackbox_exporter_relabel_configs = [
           "https://\(#Schema.#acme_challenge_hostname):\(#Schema.#acme_server_https_port)/",
         ]
       }]
-      relabel_configs: blackbox_exporter_relabel_configs
     },
-    {
+    #BlackboxExporterScrapeConfig & {
       job_name: "blackbox_tcp_connect"
-      metrics_path: "/probe"
       params: {
         module: ["tcp_connect"]
       }
@@ -204,7 +202,6 @@ let blackbox_exporter_relabel_configs = [
           },
         ]
       }]
-      relabel_configs: blackbox_exporter_relabel_configs
     },
   ]
 }
