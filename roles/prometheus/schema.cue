@@ -42,6 +42,6 @@ prometheus_scrape_configs: [...#ScrapeConfig]
 #RelabelConfig: {
   source_labels: [...string]
   target_label: string
-  regex: string
-  replacement: string
+  regex?: string
+  replacement?: string
 }

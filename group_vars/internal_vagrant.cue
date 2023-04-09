@@ -37,6 +37,22 @@ let local_proxy_scrape_configs = {
   },
 }
 
+let blackbox_exporter_relabel_configs = [
+  #Schema.#hostname_relabel_config,
+  {
+    source_labels: ["__address__"]
+    target_label: "__param_target"
+  },
+  {
+    source_labels: ["__param_target"]
+    target_label: "instance"
+  },
+  {
+    source_labels: ["__address__"]
+    target_label: "localhost:\(#Schema.blackbox_exporter_listen_port)"
+  },
+]
+
 #Schema & {
   nftables_accept_tcp_ports: [
     #Schema.#ssh_port,
@@ -138,6 +154,7 @@ let local_proxy_scrape_configs = {
           }
         ]
       }]
+      relabel_configs: blackbox_exporter_relabel_configs
     },
     {
       job_name: "blackbox_http_2xx"
@@ -152,6 +169,7 @@ let local_proxy_scrape_configs = {
           }
         ]
       }]
+      relabel_configs: blackbox_exporter_relabel_configs
     },
     {
       job_name: "blackbox_private_http_2xx"
@@ -168,6 +186,7 @@ let local_proxy_scrape_configs = {
           "https://\(#Schema.#acme_challenge_hostname):\(#Schema.#acme_server_https_port)/",
         ]
       }]
+      relabel_configs: blackbox_exporter_relabel_configs
     },
     {
       job_name: "blackbox_tcp_connect"
@@ -185,6 +204,7 @@ let local_proxy_scrape_configs = {
           },
         ]
       }]
+      relabel_configs: blackbox_exporter_relabel_configs
     },
   ]
 }
