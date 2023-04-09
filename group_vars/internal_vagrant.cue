@@ -48,8 +48,8 @@ let blackbox_exporter_relabel_configs = [
     target_label: "instance"
   },
   {
-    source_labels: ["__address__"]
-    target_label: "localhost:\(#Schema.blackbox_exporter_listen_port)"
+    target_label: "__address__"
+    replacement: "localhost:\(#Schema.blackbox_exporter_listen_port)"
   },
 ]
 
