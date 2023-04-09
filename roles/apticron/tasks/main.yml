@@ -1,7 +1,7 @@
 ---
 - name: Install apticron
   ansible.builtin.apt:
-    name: 'apticron={{ apticron_version }}*'
+    name: 'apticron-systemd={{ apticron_version }}*'
     state: present
   become: true
 
@@ -14,3 +14,12 @@
     mode: '0644'
     backup: true
   become: true
+
+- name: Notify reload apticron if not started
+  ansible.builtin.command: systemctl status apticron
+  become: true
+  register: apticron_service_status
+  changed_when: apticron_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Reload apticron

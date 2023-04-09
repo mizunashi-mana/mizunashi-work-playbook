@@ -13,3 +13,10 @@
   become: true
   changed_when: false
   listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ exim_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check

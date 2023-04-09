@@ -1,0 +1,23 @@
+---
+- name: Reload service
+  ansible.builtin.systemd:
+    name: 'apticron.service'
+    enabled: true
+    daemon_reload: true
+  become: true
+  listen: Reload apticron
+
+- name: Reload timer
+  ansible.builtin.systemd:
+    name: 'apticron.timer'
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  listen: Reload apticron
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status apticron
+  become: true
+  changed_when: false
+  listen: Check

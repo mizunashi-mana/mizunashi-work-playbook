@@ -69,5 +69,5 @@ smtp_sasl_mechanism_filter = plain
 mailbox_size_limit = 0
 recipient_delimiter = +
 
-inet_interfaces = localhost
+inet_interfaces = all
 inet_protocols = {{ postfix_inet_protocols }}

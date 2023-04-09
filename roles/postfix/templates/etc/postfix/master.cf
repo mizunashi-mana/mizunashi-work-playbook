@@ -9,7 +9,9 @@
 # service type  private unpriv  chroot  wakeup  maxproc command + args
 #               (yes)   (yes)   (no)    (never) (100)
 # ==========================================================================
-{{ postfix_smtp_listen_port }}      inet  n       -       y       -       -       smtpd
+127.0.0.1:{{ postfix_smtp_listen_port }}      inet  n       -       y       -       -       smtpd
+    -o inet_interfaces=localhost
+    -o smtp_bind_address=127.0.0.1
 #smtp      inet  n       -       y       -       1       postscreen
 #smtpd     pass  -       -       y       -       -       smtpd
 #dnsblog   unix  -       -       y       -       0       dnsblog
@@ -25,7 +27,7 @@
 #  -o smtpd_sender_restrictions=$mua_sender_restrictions
     -o smtpd_recipient_restrictions=
     -o smtpd_relay_restrictions=permit_sasl_authenticated,reject
-    -o milter_macro_daemon_name=ORIGINATING
+#    -o milter_macro_daemon_name=ORIGINATING
     -o inet_interfaces=all
 #smtps     inet  n       -       y       -       -       smtpd
 #  -o syslog_name=postfix/smtps

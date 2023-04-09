@@ -8,3 +8,6 @@ exim_smarthost_auth_username: string
 exim_smarthost_auth_password: cue_types.#Vaulted
 
 exim_ca_certificates: string
+
+// Cannot change port
+exim_listen_port: 25
