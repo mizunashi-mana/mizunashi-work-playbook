@@ -13,11 +13,11 @@ modules:
   http_2xx:
     prober: http
 
-  http_3xx:
+  http_redirect:
     prober: http
     http:
-      valid_status_codes: 3xx
-      follow_redirects: false
+      valid_status_codes: [301,302,303,307,308]
+      no_follow_redirects: true
 
   http_post_2xx:
     prober: http
