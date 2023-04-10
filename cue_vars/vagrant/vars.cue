@@ -15,7 +15,6 @@ group_vars_all
 #node_exporter_http_port: node_exporter_listen_port
 #nginx_exporter_http_port: nginx_exporter_listen_port
 #acme_server_https_port: 6100
-#internal_smtp_submission_port: 587
 
 #workuser_name: "vagrant"
 
