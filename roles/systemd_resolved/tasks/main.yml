@@ -27,6 +27,7 @@
     state: link
     owner: root
     group: root
+    force: true
   become: true
   failed_when: false
 
