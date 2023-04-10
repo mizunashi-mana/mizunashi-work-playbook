@@ -17,6 +17,7 @@
 - hosts: internal
 
   roles:
+  - minio
   - blackbox_exporter
   - grafana
   - prometheus

@@ -1,0 +1,6 @@
+---
+ name: Install minio
+  ansible.builtin.apt:
+    deb: '{{ minio_deb_url }}'
+    state: present
+  become: true
