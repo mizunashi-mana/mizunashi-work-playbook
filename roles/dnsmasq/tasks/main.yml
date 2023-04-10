@@ -29,6 +29,18 @@
   notify:
   - Restart dnsmasq
 
+- name: Copy resolv config
+  ansible.builtin.template:
+    src: etc/resolv.dnsmasq.conf
+    dest: /etc/resolv.dnsmasq.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+  - Restart dnsmasq
+
 - name: Notify restart dnsmasq if not started
   ansible.builtin.command: systemctl status dnsmasq
   become: true
