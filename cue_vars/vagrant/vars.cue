@@ -46,6 +46,7 @@ group_vars_all
 }
 
 #internal_dns_resolver: #host_entries.internal001.internal_ip
+#public_dns_resolvers: ["4.2.2.1", "4.2.2.2"]
 
 #acme_challenge_hostname: "acme.\(#private_domain)"
 #acme_challenge_url:  "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
@@ -70,6 +71,7 @@ ansible_port: #ssh_port
 ansible_user: #workuser_name
 
 systemd_resolved_internal_dns: #internal_dns_resolver
+systemd_resolved_fallback_dns: #public_dns_resolvers
 
 workuser_setup_username: #workuser_name
 workuser_setup_home_directory: "/home/\(workuser_setup_username)"

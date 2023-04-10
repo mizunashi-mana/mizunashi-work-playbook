@@ -9,6 +9,7 @@ systemd_resolved_stub_listener: false
 dnsmasq_listen_port: uint | *53
 
 dnsmasq_hosts_entries: [...#HostEntry]
+dnsmasq_nameservers: [...string]
 
 #HostEntry: {
   domain: string

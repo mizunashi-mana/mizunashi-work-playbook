@@ -86,6 +86,7 @@ let blackbox_exporter_relabel_configs = [
       domain: #Schema.#acme_challenge_hostname
     },
   ]
+  dnsmasq_nameservers: #Schema.#public_dns_resolvers
 
   caddy_pki_ca_local_name: "mizunashi-work-playbook Local Authority"
   caddy_pki_ca_local_root_cn: "mizunashi-work-playbook - 2023 ECC Root"
