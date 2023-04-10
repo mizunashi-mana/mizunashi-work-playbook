@@ -6,6 +6,7 @@ import "mizunashi.work/pkg/roles/systemd_resolved"
 import "mizunashi.work/pkg/roles/workuser_setup"
 import "mizunashi.work/pkg/roles/private_root_ca"
 import "mizunashi.work/pkg/roles/openssh_server"
+import "mizunashi.work/pkg/roles/exim"
 import "mizunashi.work/pkg/roles/apticron"
 import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/fail2ban"
@@ -25,6 +26,7 @@ openssh_server
 nftables
 fail2ban
 node_exporter
+exim
 apticron
 certbot
 nginx

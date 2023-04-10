@@ -67,19 +67,6 @@ group_vars_all
     6164
     """
 
-#internal_smtp_auth_username: "submission"
-#internal_smtp_auth_password:
-  "__ansible_vault":
-    """
-    $ANSIBLE_VAULT;1.1;AES256
-    35373731313932333565623162306266656562313032636530313430306637373833303333386662
-    3233653565346164623265643865336439383666323261620a626339396333303761393036373839
-    34616239366634346132623737633461653732653465316163316234643034666134643530306634
-    6162646332396662340a386361643965396431643536303461336533333762383735613535373238
-    3264
-    """
-#internal_smtp_auth_userid: "\(#internal_smtp_auth_username)@\(#internal_smtp_hostname)"
-
 ansible_connection: "ssh"
 ansible_port: #ssh_port
 ansible_user: #workuser_name
@@ -106,6 +93,21 @@ nftables_accept_ports_with_iif: "internal_local_proxy": {
 }
 
 openssh_server_listen_port: #ssh_port
+
+exim_smarthost_hostname: "smtp-relay-dummy.localhost"
+exim_smarthost_port: 587
+exim_smarthost_auth_userid: "dummy"
+exim_smarthost_auth_password:
+  "__ansible_vault":
+    """
+    $ANSIBLE_VAULT;1.1;AES256
+    35373731313932333565623162306266656562313032636530313430306637373833303333386662
+    3233653565346164623265643865336439383666323261620a626339396333303761393036373839
+    34616239366634346132623737633461653732653465316163316234643034666134643530306634
+    6162646332396662340a386361643965396431643536303461336533333762383735613535373238
+    3264
+    """
+exim_smarthost_ca_certificates: group_vars_all.base_ca_certificates_bundle_file
 
 apticron_notification_email: #notification_email
 certbot_acme_notification_email: #notification_email

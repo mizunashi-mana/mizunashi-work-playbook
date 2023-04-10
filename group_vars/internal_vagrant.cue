@@ -113,19 +113,6 @@ let blackbox_exporter_relabel_configs = [
     auth_password: #Schema.#local_proxy_password
   }
 
-  postfix_hostname: #Schema.#internal_smtp_hostname
-  postfix_submission_listen_port: #Schema.#internal_smtp_submission_port
-  postfix_relayhost_hostname: #Schema.#internal_smtp_hostname
-  postfix_relayhost_port: #Schema.#internal_smtp_submission_port
-  postfix_relayhost_auth_username: #Schema.#internal_smtp_auth_username
-  postfix_relayhost_auth_password: #Schema.#internal_smtp_auth_password
-  postfix_submission_auth_username: #Schema.#internal_smtp_auth_username
-  postfix_submission_auth_password: #Schema.#internal_smtp_auth_password
-  postfix_cert_acme_challenge_url: #Schema.#acme_challenge_url
-  postfix_cert_ca_bundle_path: #Schema.private_root_ca_certificate_path
-
-  postfix_inet_protocols: "ipv4"
-
   prometheus_scrape_configs: [
     for job, entry in local_proxy_scrape_configs {
       {
@@ -196,9 +183,6 @@ let blackbox_exporter_relabel_configs = [
         targets: [
           for _, host_entry in #Schema.#internal_host_entries {
             "\(host_entry.internal_host):\(dns_port)",
-          },
-          for _, host_entry in #Schema.#internal_host_entries {
-            "\(host_entry.internal_host):\(#Schema.#internal_smtp_submission_port)",
           },
         ]
       }]

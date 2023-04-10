@@ -2,6 +2,7 @@
 - hosts: all
 
   roles:
+  - exim
   - apticron
   - node_exporter
   - certbot
@@ -28,7 +29,6 @@
 - hosts: public
 
   roles:
-  - exim
   - nodejs
   - ruby
   - redis_server
