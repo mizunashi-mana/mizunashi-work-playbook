@@ -68,7 +68,6 @@ let blackbox_exporter_relabel_configs = [
     tcp_ports: [
       dns_port,
       #Schema.#acme_server_https_port,
-      #Schema.#internal_smtp_submission_port,
     ]
     udp_ports: [
       dns_port,
