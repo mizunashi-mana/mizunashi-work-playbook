@@ -107,7 +107,6 @@ exim_smarthost_auth_password:
     6162646332396662340a386361643965396431643536303461336533333762383735613535373238
     3264
     """
-exim_smarthost_ca_certificates: group_vars_all.base_ca_certificates_bundle_file
 
 apticron_notification_email: #notification_email
 certbot_acme_notification_email: #notification_email
