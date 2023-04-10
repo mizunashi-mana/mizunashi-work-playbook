@@ -51,10 +51,9 @@ group_vars_all
 #acme_challenge_hostname: "acme.\(#private_domain)"
 #acme_challenge_url:  "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
 
-#internal_smtp_hostname: "smtp.\(#private_domain)"
 #mastodon_hostname: "mstdn-local.mizunashi.work"
 
-#notification_email: "\(#workuser_name)@\(#internal_smtp_hostname)"
+#notification_email: "\(#workuser_name)@localhost"
 
 #local_proxy_password:
   "__ansible_vault":

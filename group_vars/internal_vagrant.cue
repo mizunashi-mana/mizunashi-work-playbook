@@ -86,10 +86,6 @@ let blackbox_exporter_relabel_configs = [
       ip: #Schema.#host_entries.internal001.internal_ip
       domain: #Schema.#acme_challenge_hostname
     },
-    {
-      ip: #Schema.#host_entries.internal001.internal_ip
-      domain: #Schema.#internal_smtp_hostname
-    },
   ]
 
   caddy_pki_ca_local_name: "mizunashi-work-playbook Local Authority"
