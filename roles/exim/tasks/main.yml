@@ -22,8 +22,8 @@
     src: etc/exim4/passwd.client
     dest: /etc/exim4/passwd.client
     owner: root
-    group: root
-    mode: '0600'
+    group: Debian-exim
+    mode: '0640'
     backup: true
   become: true
   notify:
