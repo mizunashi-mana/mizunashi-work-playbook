@@ -1,6 +1,7 @@
 ---
 - name: Install minio
   ansible.builtin.apt:
+    name: 'minio={{ minio_version }}'
     deb: '{{ minio_deb_url }}'
     state: present
   become: true
@@ -29,7 +30,7 @@
     state: directory
     owner: minio-user
     group: minio-user
-    mode: '0755'
+    mode: '0700'
   become: true
 
 - name: Copy config

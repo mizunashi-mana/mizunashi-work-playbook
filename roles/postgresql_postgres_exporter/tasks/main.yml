@@ -30,8 +30,11 @@
     cmd: |
       sudo --user postgres psql
         --command "
-          SELECT useconfig FROM pg_user
-          WHERE usename = '{{ postgres_exporter_user_name }}';
+          SELECT useconfig_item
+          FROM pg_user, UNNEST(useconfig) AS useconfig_item
+          WHERE
+              usename = '{{ postgres_exporter_user_name }}'
+          AND useconfig_item LIKE 'search_path=%';
         "
         --csv
   become: true
@@ -48,8 +51,8 @@
         "
   become: true
   when: |
-    not postgresql_postgres_exporter_useconfig.stdout
-      is search("search_path=postgres_exporter, pg_catalog")
+    '"search_path=""postgres_exporter, pg_catalog"""'
+      not in postgresql_postgres_exporter_useconfig.stdout_lines
 
 - name: Select grants of pg_monitor
   ansible.builtin.command:
@@ -100,17 +103,16 @@
     cmd: |
       sudo --user postgres psql
         --command "
-          SELECT nspacl FROM pg_namespace
-          WHERE nspname = 'postgres_exporter';
+          SELECT nspacl_item
+          FROM pg_namespace, UNNEST(nspacl) AS nspacl_item
+          WHERE
+              nspname = 'postgres_exporter'
+          AND nspacl_item LIKE '{{ postgres_exporter_user_name }}=%';
         "
         --csv
   become: true
   changed_when: false
   register: postgresql_postgres_exporter_usage_acl_stats_result
-
-- name: Set fact namspace ACL
-  ansible.builtin.set_fact:
-    postgresql_postgres_exporter_usage_acl_item: "{{ postgres_exporter_user_name }}=U/postgres"
 
 - name: The usage of postgres exporter is available
   ansible.builtin.command:
@@ -123,7 +125,7 @@
   become: true
   when: |
     not postgresql_postgres_exporter_usage_acl_stats_result.stdout
-      is search(postgresql_postgres_exporter_usage_acl_item)
+      is search("=U/postgres")
 
 - name: Select postgres exporter views
   ansible.builtin.command:

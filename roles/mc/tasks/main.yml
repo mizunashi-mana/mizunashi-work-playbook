@@ -1,0 +1,7 @@
+---
+- name: Install mcli
+  ansible.builtin.apt:
+    name: 'mcli={{ mc_version }}'
+    deb: '{{ mc_deb_url }}'
+    state: present
+  become: true

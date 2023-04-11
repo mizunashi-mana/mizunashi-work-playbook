@@ -6,6 +6,7 @@
   - apticron
   - node_exporter
   - certbot
+  - mc
   - nginx_exporter
   - nginx_site_local_proxy
 
@@ -21,6 +22,8 @@
   - blackbox_exporter
   - grafana
   - prometheus
+
+  - minio_setup
 
   post_tasks:
   - name: Check

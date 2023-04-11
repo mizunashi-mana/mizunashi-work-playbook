@@ -1,0 +1,30 @@
+---
+- name: Set MC host
+  set_fact:
+    minio_setup_target_endpoint: |
+      http://{{ minio_root_user }}:{{ minio_root_password }}@localhost:{{ minio_server_listen_port }}
+
+- name: Select users
+  ansible.builtin.command:
+    cmd: mcli admin user list minio_setup_target
+  environment:
+    MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  register: minio_setup_select_users
+
+- name: Add users
+  ansible.builtin.command:
+    cmd: |
+      mcli admin user add '{{ item.key }}'
+        '{{ item.value.access_key }}'
+        '{{ item.value.secret_key }}'
+  environment:
+    MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  when: not ('enable ' + item.key) in minio_setup_select_users.stdout_lines
+  loop: '{{ minio_user_entries|dict2items }}'
+
+- name: Select buckets
+  ansible.builtin.command:
+    cmd: mcli find --maxdepth 1 minio_setup_target/
+  environment:
+    MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  register: minio_setup_select_buckets
