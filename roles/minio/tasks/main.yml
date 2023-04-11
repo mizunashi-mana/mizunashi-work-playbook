@@ -1,0 +1,42 @@
+---
+- name: Install minio
+  ansible.builtin.apt:
+    deb: '{{ minio_deb_url }}'
+    state: present
+  become: true
+
+- name: minio-user is available
+  ansible.builtin.user:
+    name: minio-user
+    system: true
+    home: /var/lib/minio
+    shell: /usr/sbin/nologin
+    state: present
+  become: true
+
+- name: Directory to work minio is available
+  ansible.builtin.file:
+    path: /var/lib/minio
+    state: directory
+    owner: minio-user
+    group: minio-user
+    mode: '0755'
+  become: true
+
+- name: Directory of volumes is available
+  ansible.builtin.file:
+    path: /var/lib/minio/volumes
+    state: directory
+    owner: minio-user
+    group: minio-user
+    mode: '0755'
+  become: true
+
+- name: Notify restart minio if not started
+  ansible.builtin.command: systemctl status minio
+  become: true
+  register: minio_service_status
+  changed_when: minio_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart minio

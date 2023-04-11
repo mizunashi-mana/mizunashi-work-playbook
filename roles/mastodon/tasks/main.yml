@@ -91,7 +91,7 @@
     dest: /var/lib/mastodon/live/.env.production
     owner: mastodon
     group: mastodon
-    mode: '0644'
+    mode: '0600'
     backup: true
   become: true
   diff: false
