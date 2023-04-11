@@ -55,6 +55,7 @@ group_vars_all
 
 #minio_server_hostname: "minio.\(#private_domain)"
 
+#account_email: "\(#workuser_name)@localhost"
 #notification_email: "\(#workuser_name)@localhost"
 
 #local_proxy_password:
