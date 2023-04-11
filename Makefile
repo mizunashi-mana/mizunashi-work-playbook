@@ -1,7 +1,8 @@
 GROUP_VARS_SRC ?= $(wildcard ./group_vars/*.cue)
 HOST_VARS_SRC ?= $(wildcard ./host_vars/*.cue)
 ROLES_SCHEMAS ?= $(wildcard ./roles/*/schema.cue)
-VARS_SCHEMAS ?= $(wildcard ./cue_vars/*/vars.cue) $(wildcard ./*/vars.cue)
+VARS_SCHEMAS ?= $(wildcard ./schemas/*/schema.cue)
+COMMON_VARS ?= $(wildcard ./cue_vars/*/vars.cue) $(wildcard ./*/vars.cue)
 
 CUE ?= cue
 POETRY ?= poetry
@@ -28,7 +29,7 @@ all: $(STAMPS) $(GROUP_VARS_OUT) $(HOST_VARS_OUT)
 vagrant_private_ca/vars.cue: vagrant_private_ca/gen-vars $(wildcard vagrant_private_ca/*/*)
 	./vagrant_private_ca/gen-vars
 
-%.yml: %.cue $(ROLES_SCHEMAS) $(VARS_SCHEMAS)
+%.yml: %.cue $(ROLES_SCHEMAS) $(VARS_SCHEMAS) $(COMMON_VARS)
 	$(POETRY) run python3 -m cue_compiler $< $@
 
 .PHONY: vagrant-up
