@@ -32,6 +32,26 @@
     mode: '0755'
   become: true
 
+- name: Copy config
+  ansible.builtin.template:
+    src: etc/default/minio
+    dest: /etc/default/minio
+    owner: root
+    group: root
+    mode: '0600'
+    backup: true
+  become: true
+
+- name: Copy service
+  ansible.builtin.template:
+    src: etc/systemd/system/minio.service
+    dest: /etc/systemd/system/minio.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
 - name: Notify restart minio if not started
   ansible.builtin.command: systemctl status minio
   become: true
