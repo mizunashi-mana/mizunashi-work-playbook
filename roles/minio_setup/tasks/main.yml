@@ -1,4 +1,7 @@
 ---
+- name: Request minio started
+  ansible.builtin.meta: flush_handlers
+
 - name: Set MC host
   set_fact:
     minio_setup_target_endpoint: |

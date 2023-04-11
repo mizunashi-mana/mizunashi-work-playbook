@@ -53,6 +53,8 @@ group_vars_all
 
 #mastodon_hostname: "mstdn-local.mizunashi.work"
 
+#minio_server_hostname: "minio.\(#private_domain)"
+
 #notification_email: "\(#workuser_name)@localhost"
 
 #local_proxy_password:

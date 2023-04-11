@@ -6,7 +6,6 @@
   - apticron
   - node_exporter
   - certbot
-  - mc
   - nginx_exporter
   - nginx_site_local_proxy
 
@@ -24,6 +23,7 @@
   - prometheus
 
   - minio_setup
+  - nginx_site_minio_server
 
   post_tasks:
   - name: Check

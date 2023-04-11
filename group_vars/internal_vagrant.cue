@@ -109,6 +109,20 @@ let blackbox_exporter_relabel_configs = [
     auth_password: #Schema.#local_proxy_password
   }
 
+  minio_root_password:
+    "__ansible_vault":
+      """
+      $ANSIBLE_VAULT;1.1;AES256
+      62356637313731376334383336616332393936306231343930343163666366613062643330323366
+      3234626231666439646234653165393839306439326261370a346332316463623539623639623633
+      61656566353831363366653531383530663564633661363361306134346338643761386136316565
+      3033656435353263620a356264383762373763313464363235393734346261333666346234653832
+      3666
+      """
+  nginx_site_minio_server_domain: #Schema.#minio_server_hostname
+  nginx_site_minio_server_acme_challenge_url: #Schema.#acme_challenge_url
+  nginx_site_minio_server_ca_bundle_path: #Schema.private_root_ca_certificate_path
+
   prometheus_scrape_configs: [
     for job, entry in local_proxy_scrape_configs {
       {

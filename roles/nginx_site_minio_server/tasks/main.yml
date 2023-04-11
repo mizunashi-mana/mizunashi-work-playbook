@@ -1,0 +1,35 @@
+---
+- name: Request nginx started
+  ansible.builtin.meta: flush_handlers
+
+- name: Install certificate
+  ansible.builtin.include_role:
+    name: certbot_install_acme_cert
+  vars:
+    certbot_install_acme_cert_server: '{{ nginx_site_minio_server_acme_challenge_url }}'
+    certbot_install_acme_cert_domain: '{{ nginx_site_minio_server_domain }}'
+    certbot_install_acme_cert_ca_bundle: '{{ nginx_site_minio_server_ca_bundle_path }}'
+    certbot_install_acme_cert_on_calendar: '{{ certbot_renew_on_calendar }}'
+
+- name: Install minio site
+  ansible.builtin.template:
+    src: etc/nginx/sites-available/minio_server.conf
+    dest: /etc/nginx/sites-available/minio_server.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Reload nginx
+
+- name: Enable minio site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/minio_server.conf
+    dest: /etc/nginx/sites-enabled/minio_server.conf
+    owner: root
+    group: root
+    state: link
+  become: true
+  notify:
+    - Reload nginx
