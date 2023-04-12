@@ -80,10 +80,14 @@ let blackbox_exporter_relabel_configs = [
         ip: entry.internal_ip
         domain: entry.internal_host
       }
-    }
+    },
     {
       ip: #Schema.#host_entries.internal001.internal_ip
       domain: #Schema.#acme_challenge_hostname
+    },
+    {
+      ip: #Schema.#host_entries.internal001.internal_ip
+      domain: #Schema.#minio_server_hostname
     },
   ]
   dnsmasq_nameservers: #Schema.#public_dns_resolvers

@@ -12,7 +12,8 @@
     deb: '{{ minio_deb_url }}'
     state: present
   become: true
-  when: 'msg' in minio_installed_check and minio_installed_check.msg is search('No package')
+  when: |
+    'msg' in minio_installed_check and minio_installed_check.msg is search('No package')
 
 - name: minio-user is available
   ansible.builtin.user:
