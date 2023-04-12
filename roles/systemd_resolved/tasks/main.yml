@@ -34,8 +34,6 @@
     src: /run/systemd/resolve/stub-resolv.conf
     dest: /etc/resolv.conf
     state: link
-    owner: root
-    group: root
     force: true
   become: true
   when: systemd_resolved_stub_resolv_stat.stat.exists
