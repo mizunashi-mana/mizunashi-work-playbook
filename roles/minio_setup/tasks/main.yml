@@ -12,6 +12,7 @@
     cmd: mcli admin user list minio_setup_target
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  changed_when: false
   register: minio_setup_select_users
 
 - name: Add users
@@ -30,4 +31,5 @@
     cmd: mcli find --maxdepth 1 minio_setup_target/
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  changed_when: false
   register: minio_setup_select_buckets
