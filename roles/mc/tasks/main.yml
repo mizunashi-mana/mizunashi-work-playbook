@@ -1,7 +1,15 @@
 ---
-- name: Install mcli
+- name: mcli is available
   ansible.builtin.apt:
     name: 'mcli={{ mc_version }}'
+    state: present
+  become: true
+  failed_when: false
+  register: mc_installed_check
+
+- name: Install mcli
+  ansible.builtin.apt:
     deb: '{{ mc_deb_url }}'
     state: present
   become: true
+  when: mc_installed_check.msg is search('No package')

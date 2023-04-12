@@ -9,10 +9,10 @@
 
 - name: Install minio
   ansible.builtin.apt:
-    name: 'minio={{ minio_version }}'
     deb: '{{ minio_deb_url }}'
     state: present
   become: true
+  when: minio_installed_check.msg is search('No package')
 
 - name: minio-user is available
   ansible.builtin.user:
