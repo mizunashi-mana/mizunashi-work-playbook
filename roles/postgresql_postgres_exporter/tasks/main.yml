@@ -103,11 +103,11 @@
     cmd: |
       sudo --user postgres psql
         --command "
-          SELECT pg_grantor_authid.rolname
+          SELECT pg_grantee_authid.rolname
           FROM pg_namespace, aclexplode(nspacl) AS nspacl_item
-          INNER JOIN pg_authid AS pg_grantor_authid ON
-              pg_grantor_authid.oid = nspacl_item.grantor
-          AND pg_grantor_authid.rolname = '{{ postgres_exporter_user_name }}'
+          INNER JOIN pg_authid AS pg_grantee_authid ON
+              pg_grantee_authid.oid = nspacl_item.grantee
+          AND pg_grantee_authid.rolname = '{{ postgres_exporter_user_name }}'
           WHERE
               nspname = 'postgres_exporter'
           AND nspacl_item.privilege_type = 'USAGE';
