@@ -103,11 +103,14 @@
     cmd: |
       sudo --user postgres psql
         --command "
-          SELECT nspacl_item
-          FROM pg_namespace, UNNEST(nspacl) AS nspacl_item
+          SELECT pg_grantor_authid.rolname
+          FROM pg_namespace, aclexplode(nspacl) AS nspacl_item
+          INNER JOIN pg_authid AS pg_grantor_authid ON
+              pg_grantor_authid.oid = nspacl_item.grantor
+          AND pg_grantor_authid.rolname = '{{ postgres_exporter_user_name }}'
           WHERE
               nspname = 'postgres_exporter'
-          AND nspacl_item LIKE '{{ postgres_exporter_user_name }}=%';
+          AND nspacl_item.privilege_type = 'USAGE';
         "
         --csv
   become: true
@@ -124,8 +127,8 @@
         "
   become: true
   when: |
-    not postgresql_postgres_exporter_usage_acl_stats_result.stdout
-      is search("=U/postgres")
+    postgres_exporter_user_name
+      not in postgresql_postgres_exporter_usage_acl_stats_result.stdout_lines
 
 - name: Select postgres exporter views
   ansible.builtin.command:
