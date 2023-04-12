@@ -12,4 +12,4 @@
     deb: '{{ mc_deb_url }}'
     state: present
   become: true
-  when: mc_installed_check.msg is search('No package')
+  when: 'msg' in mc_installed_check and mc_installed_check.msg is search('No package')
