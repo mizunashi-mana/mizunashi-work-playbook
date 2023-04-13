@@ -8,6 +8,7 @@ import "mizunashi.work/pkg/roles/minio_setup"
 import "mizunashi.work/pkg/roles/prometheus"
 import "mizunashi.work/pkg/roles/blackbox_exporter"
 import "mizunashi.work/pkg/roles/grafana"
+import "mizunashi.work/pkg/roles/grafana_provisioning"
 import "mizunashi.work/pkg/roles/caddy"
 import "mizunashi.work/pkg/roles/caddy_site_acme_server"
 import "mizunashi.work/pkg/roles/nginx_site_minio_server"
@@ -19,6 +20,7 @@ minio_setup
 prometheus
 blackbox_exporter
 grafana
+grafana_provisioning
 caddy
 caddy_site_acme_server
 nginx_site_minio_server
