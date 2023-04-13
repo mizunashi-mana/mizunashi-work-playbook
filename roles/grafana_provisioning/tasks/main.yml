@@ -1,0 +1,90 @@
+---
+- name: Directory of provisioning available is available
+  ansible.builtin.file:
+    path: /etc/grafana/prov-available
+    state: directory
+    owner: root
+    group: grafana
+    mode: '0750'
+  become: true
+
+- name: Directory of available datasources is available
+  ansible.builtin.file:
+    path: /etc/grafana/prov-available/datasources
+    state: directory
+    owner: root
+    group: grafana
+    mode: '0750'
+  become: true
+
+- name: Directory of available datasources is available
+  ansible.builtin.file:
+    path: /etc/grafana/prov-available/dashboards
+    state: directory
+    owner: root
+    group: grafana
+    mode: '0750'
+  become: true
+
+- name: Directory of provisioning available is available
+  ansible.builtin.file:
+    path: /var/lib/grafana/dashboards
+    state: directory
+    owner: grafana
+    group: grafana
+    mode: '0750'
+  become: true
+
+- name: Copy datasource
+  ansible.builtin.template:
+    src: etc/grafana/prov-available/datasources/datasource.yml
+    dest: /etc/grafana/prov-available/datasources/datasource.yml
+    owner: root
+    group: grafana
+    mode: '0640'
+    backup: true
+  become: true
+  notify:
+  - Restart grafana
+
+- name: Copy dashboard provider of node exporter
+  ansible.builtin.template:
+    src: etc/grafana/prov-available/dashboards/node-exporter.yml
+    dest: /etc/grafana/prov-available/dashboards/node-exporter.yml
+    owner: root
+    group: grafana
+    mode: '0640'
+    backup: true
+  become: true
+  notify:
+  - Restart grafana
+
+- name: Copy dashboard of node exporter
+  ansible.builtin.copy:
+    src: var/lib/grafana/dashboards/node-exporter.yml
+    dest: /var/lib/grafana/dashboards/node-exporter.yml
+    owner: grafana
+    group: grafana
+    mode: '0640'
+    backup: true
+  become: true
+  notify:
+  - Restart grafana
+
+- name: Link datasource
+  ansible.builtin.file:
+    src: /etc/grafana/prov-available/datasources/datasource.yml
+    dest: /etc/grafana/provisioning/datasources/datasource.yml
+    state: link
+  become: true
+  notify:
+  - Restart grafana
+
+- name: Link dashboard of node exporter
+  ansible.builtin.file:
+    src: /etc/grafana/prov-available/dashboards/node-exporter.yml
+    dest: /etc/grafana/provisioning/dashboards/node-exporter.yml
+    state: link
+  become: true
+  notify:
+  - Restart grafana

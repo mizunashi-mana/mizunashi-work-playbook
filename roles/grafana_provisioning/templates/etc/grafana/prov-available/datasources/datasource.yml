@@ -1,0 +1,19 @@
+# config file version
+apiVersion: 1
+
+# # list of datasources that should be deleted from the database
+# deleteDatasources:
+#   - name: Graphite
+#     orgId: 1
+
+datasources:
+{% for entry in grafana_provisioning_datasources %}
+  - name: {{ entry.name|to_yaml }}
+    type: {{ entry.type|to_yaml }}
+    access: proxy
+    orgId: {{ entry.orgId|to_yaml }}
+    url: {{ entry.url|to_yaml }}
+    isDefault: {{ entry.is_default|to_yaml }}
+    version: {{ entry.version|to_yaml }}
+    editable: {{ entry.editable|to_yaml }}
+{% endfor %}

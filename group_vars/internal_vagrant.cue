@@ -12,27 +12,39 @@ let dns_port = #Schema.dnsmasq_listen_port
 
 let local_proxy_scrape_configs = {
   "prometheus": {
+    metrics_path: "/metrics"
     host_entries: #Schema.#internal_host_entries
   },
   "grafana": {
+    metrics_path: "/metrics"
     host_entries: #Schema.#internal_host_entries
   },
   "node": {
+    metrics_path: "/metrics"
     host_entries: #Schema.#host_entries
   },
   "nginx": {
+    metrics_path: "/metrics"
     host_entries: #Schema.#host_entries
   },
   "redis": {
+    metrics_path: "/metrics"
     host_entries: #Schema.#public_host_entries
   },
   "postgres": {
+    metrics_path: "/metrics"
     host_entries: #Schema.#public_host_entries
   },
   "statsd": {
+    metrics_path: "/metrics"
     host_entries: #Schema.#public_host_entries
   },
   "caddy": {
+    metrics_path: "/metrics"
+    host_entries: #Schema.#internal_host_entries
+  },
+  "minio": {
+    metrics_path: "/minio/v2/metrics/cluster"
     host_entries: #Schema.#internal_host_entries
   },
 }
@@ -104,6 +116,10 @@ let blackbox_exporter_relabel_configs = [
     upstream_port: #Schema.caddy_metrics_listen_port
     auth_password: #Schema.#local_proxy_password
   }
+  nginx_site_local_proxy_entries: "minio": {
+    upstream_port: #Schema.minio_server_listen_port
+    auth_password: #Schema.#local_proxy_password
+  }
   nginx_site_local_proxy_entries: "prometheus": {
     upstream_port: #Schema.prometheus_listen_port
     auth_password: #Schema.#local_proxy_password
@@ -154,6 +170,7 @@ let blackbox_exporter_relabel_configs = [
     for job, entry in local_proxy_scrape_configs {
       {
         job_name: job
+        metrics_path: entry.metrics_path
         basic_auth: {
           username: job
           password: #Schema.#local_proxy_password

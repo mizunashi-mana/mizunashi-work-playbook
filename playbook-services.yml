@@ -20,6 +20,7 @@
   - minio
   - blackbox_exporter
   - grafana
+  - grafana_provisioning
   - prometheus
 
   - minio_setup
