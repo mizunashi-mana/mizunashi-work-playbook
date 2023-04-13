@@ -3,11 +3,11 @@ apiVersion: 1
 providers:
   - name: 'Node Exporter'
     orgId: 1
-    folder: 'Generic'
+    folder: 'General'
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10
     allowUiUpdates: false
     options:
-      path: /var/lib/grafana/dashboards/node_exporter.json
+      path: /var/lib/grafana/dashboards/node-exporter.json
       foldersFromFilesStructure: false
