@@ -1,9 +1,8 @@
 {
-  "id": 1,
-  "version": 1,
-  "revision": 1,
+  "id": null,
+  "uid": "NodeExporter",
+  "version": 2,
   "schemaVersion": 38,
-  "uid": "GenericNodeExporter",
   "title": "Node Exporter",
   "timezone": "browser",
   "editable": false,
@@ -13,7 +12,8 @@
   "refresh": "",
   "style": "dark",
   "tags": [
-    "linux"
+    "linux",
+    "node_exporter"
   ],
   "links": [],
   "time": {
@@ -72,72 +72,72 @@
   "templating": {
     "list": [
       {
+        "type": "datasource",
+        "name": "DS_PROMETHEUS",
+        "label": "datasource",
+        "query": "prometheus",
         "hide": 0,
         "includeAll": false,
-        "label": "datasource",
         "multi": false,
-        "name": "DS_PROMETHEUS",
         "options": [],
-        "query": "prometheus",
         "queryValue": "",
         "refresh": 1,
         "regex": "",
-        "skipUrlSync": false,
-        "type": "datasource"
+        "skipUrlSync": false
       },
       {
+        "type": "query",
+        "label": "Job",
+        "name": "job",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "${DS_PROMETHEUS}"
+        },
+        "query": {
+          "query": "label_values(node_uname_info, job)",
+          "refId": "Prometheus-job-Variable-Query"
+        },
         "current": {
           "selected": false,
           "text": "node",
           "value": "node"
         },
-        "datasource": {
-          "type": "prometheus",
-          "uid": "${DS_PROMETHEUS}"
-        },
         "definition": "",
         "hide": 0,
         "includeAll": false,
-        "label": "Job",
         "multi": false,
-        "name": "job",
         "options": [],
-        "query": {
-          "query": "label_values(node_uname_info, job)",
-          "refId": "Prometheus-job-Variable-Query"
-        },
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
         "tagsQuery": "",
-        "type": "query",
         "useTags": false
       },
       {
+        "type": "query",
+        "label": "Node",
+        "name": "node",
         "datasource": {
           "type": "prometheus",
           "uid": "${DS_PROMETHEUS}"
         },
-        "definition": "label_values(node_uname_info{job=\"$job\"}, instance)",
-        "hide": 0,
-        "includeAll": false,
-        "label": "Host:",
-        "multi": false,
-        "name": "node",
-        "options": [],
         "query": {
           "query": "label_values(node_uname_info{job=\"$job\"}, instance)",
           "refId": "Prometheus-node-Variable-Query"
         },
+        "definition": "label_values(node_uname_info{job=\"$job\"}, instance)",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "options": [],
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
         "tagsQuery": "",
-        "type": "query",
         "useTags": false
       }
     ]
@@ -170,11 +170,14 @@
       "type": "row"
     },
     {
+      "type": "gauge",
+      "id": 20,
+      "title": "CPU Busy",
+      "description": "Busy state of all CPU cores together",
       "datasource": {
         "type": "prometheus",
         "uid": "${DS_PROMETHEUS}"
       },
-      "description": "Busy state of all CPU cores together",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -220,7 +223,6 @@
         "x": 0,
         "y": 1
       },
-      "id": 20,
       "links": [],
       "options": {
         "orientation": "horizontal",
@@ -237,6 +239,7 @@
       "pluginVersion": "9.4.7",
       "targets": [
         {
+          "refId": "A",
           "datasource": {
             "type": "prometheus",
             "uid": "${DS_PROMETHEUS}"
@@ -247,12 +250,9 @@
           "intervalFactor": 1,
           "legendFormat": "",
           "range": true,
-          "refId": "A",
           "step": 240
         }
-      ],
-      "title": "CPU Busy",
-      "type": "gauge"
+      ]
     },
     {
       "datasource": {
