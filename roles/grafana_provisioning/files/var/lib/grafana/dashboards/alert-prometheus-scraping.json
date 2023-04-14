@@ -7,7 +7,7 @@
   "schemaVersion": 38,
   "tags": [],
   "links": [],
-  "editable": true,
+  "editable": false,
   "style": "dark",
   "graphTooltip": 0,
   "liveNow": false,
