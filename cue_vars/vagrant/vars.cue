@@ -58,7 +58,7 @@ group_vars_all
 #account_email: "\(#workuser_name)@localhost"
 #notification_email: "\(#workuser_name)@localhost"
 
-#local_proxy_password:
+#local_proxy_password: {
   "__ansible_vault":
     """
     $ANSIBLE_VAULT;1.1;AES256
@@ -68,6 +68,7 @@ group_vars_all
     3965663439336432330a356139363465663438303430313733656431663232626433356136663632
     6164
     """
+}
 
 ansible_connection: "ssh"
 ansible_port: #ssh_port
@@ -100,7 +101,7 @@ openssh_server_listen_port: #ssh_port
 exim_smarthost_hostname: "smtp-relay-dummy.localhost"
 exim_smarthost_port: 587
 exim_smarthost_auth_userid: "dummy"
-exim_smarthost_auth_password:
+exim_smarthost_auth_password: {
   "__ansible_vault":
     """
     $ANSIBLE_VAULT;1.1;AES256
@@ -110,6 +111,7 @@ exim_smarthost_auth_password:
     6162646332396662340a386361643965396431643536303461336533333762383735613535373238
     3264
     """
+}
 
 apticron_notification_email: #notification_email
 certbot_acme_notification_email: #notification_email

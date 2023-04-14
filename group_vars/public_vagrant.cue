@@ -97,7 +97,7 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
   }
   mastodon_vapid_public_key: "BMRVNeG8Io07OP2yGLhhhIXiX-m7Tjjhws_RJ9b1BvBXTKj8wRn9XAyRBoeM04TUgj26qkdnrtBbcRh_XODZW3k="
 
-  redis_server_auth_password:
+  redis_server_auth_password: {
     "__ansible_vault":
       """
       $ANSIBLE_VAULT;1.1;AES256
@@ -107,8 +107,9 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
       6561343033613965350a663633643161643762623237396633386563393239356563396363363865
       3062
       """
+  }
 
-  postgres_exporter_user_password:
+  postgres_exporter_user_password: {
     "__ansible_vault":
       """
       $ANSIBLE_VAULT;1.1;AES256
@@ -118,4 +119,5 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
       6561343033613965350a663633643161643762623237396633386563393239356563396363363865
       3062
       """
+  }
 }

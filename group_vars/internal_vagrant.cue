@@ -129,7 +129,7 @@ let blackbox_exporter_relabel_configs = [
     auth_password: #Schema.#local_proxy_password
   }
 
-  minio_root_password:
+  minio_root_password: {
     "__ansible_vault":
       """
       $ANSIBLE_VAULT;1.1;AES256
@@ -139,11 +139,12 @@ let blackbox_exporter_relabel_configs = [
       3033656435353263620a356264383762373763313464363235393734346261333666346234653832
       3666
       """
+  }
   nginx_site_minio_server_domain: #Schema.#minio_server_hostname
   nginx_site_minio_server_acme_challenge_url: #Schema.#acme_challenge_url
   nginx_site_minio_server_ca_bundle_path: #Schema.private_root_ca_certificate_path
 
-  grafana_admin_password:
+  grafana_admin_password: {
     "__ansible_vault":
       """
       $ANSIBLE_VAULT;1.1;AES256
@@ -153,8 +154,9 @@ let blackbox_exporter_relabel_configs = [
       3033656435353263620a356264383762373763313464363235393734346261333666346234653832
       3666
       """
+  }
   grafana_admin_email: #Schema.#account_email
-  grafana_secret_key:
+  grafana_secret_key: {
     "__ansible_vault":
       """
       $ANSIBLE_VAULT;1.1;AES256
@@ -165,6 +167,7 @@ let blackbox_exporter_relabel_configs = [
       39613832323838636132303962663638376162616364343630363665323462613434336164306336
       6234396437353461323831646431373561373433373963333665
       """
+  }
 
   prometheus_scrape_configs: [
     for job, entry in local_proxy_scrape_configs {
