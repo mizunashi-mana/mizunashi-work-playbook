@@ -47,10 +47,10 @@
   notify:
   - Restart grafana
 
-- name: Copy dashboard provider of node exporter
+- name: Copy dashboard providers of generic folder
   ansible.builtin.template:
-    src: etc/grafana/prov-available/dashboards/node-exporter.yml
-    dest: /etc/grafana/prov-available/dashboards/node-exporter.yml
+    src: etc/grafana/prov-available/dashboards/generic.yml
+    dest: /etc/grafana/prov-available/dashboards/generic.yml
     owner: root
     group: grafana
     mode: '0640'
@@ -59,11 +59,11 @@
   notify:
   - Restart grafana
 
-- name: Copy dashboard of node exporter
-  ansible.builtin.copy:
-    src: var/lib/grafana/dashboards/node-exporter.json
-    dest: /var/lib/grafana/dashboards/node-exporter.json
-    owner: grafana
+- name: Copy dashboard providers of alert folder
+  ansible.builtin.template:
+    src: etc/grafana/prov-available/dashboards/alert.yml
+    dest: /etc/grafana/prov-available/dashboards/alert.yml
+    owner: root
     group: grafana
     mode: '0640'
     backup: true
@@ -71,7 +71,26 @@
   notify:
   - Restart grafana
 
-- name: Link datasource
+- name: Set dashboards
+  set_fact:
+    grafana_provisioning_dashboards:
+      - node-exporter
+      - alert-prometheus-scraping
+
+- name: Copy dashboards
+  ansible.builtin.copy:
+    src: var/lib/grafana/dashboards/{{ item }}.json
+    dest: /var/lib/grafana/dashboards/{{ item }}.json
+    owner: grafana
+    group: grafana
+    mode: '0640'
+    backup: true
+  become: true
+  loop: '{{ grafana_provisioning_dashboards }}'
+  notify:
+  - Restart grafana
+
+- name: Enable datasource
   ansible.builtin.file:
     src: /etc/grafana/prov-available/datasources/datasource.yml
     dest: /etc/grafana/provisioning/datasources/datasource.yml
@@ -80,10 +99,19 @@
   notify:
   - Restart grafana
 
-- name: Link dashboard of node exporter
+- name: Enable dashboards of generic folder
   ansible.builtin.file:
-    src: /etc/grafana/prov-available/dashboards/node-exporter.yml
-    dest: /etc/grafana/provisioning/dashboards/node-exporter.yml
+    src: /etc/grafana/prov-available/dashboards/generic.yml
+    dest: /etc/grafana/provisioning/dashboards/generic.yml
+    state: link
+  become: true
+  notify:
+  - Restart grafana
+
+- name: Enable dashboards of alert folder
+  ansible.builtin.file:
+    src: /etc/grafana/prov-available/dashboards/alert.yml
+    dest: /etc/grafana/provisioning/dashboards/alert.yml
     state: link
   become: true
   notify:

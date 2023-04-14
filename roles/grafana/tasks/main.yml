@@ -37,6 +37,7 @@
     mode: '0640'
     backup: true
   become: true
+  diff: false
   notify:
     - Restart grafana
 
