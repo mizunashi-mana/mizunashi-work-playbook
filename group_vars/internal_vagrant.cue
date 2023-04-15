@@ -61,7 +61,7 @@ let blackbox_exporter_relabel_configs = [
   },
   {
     target_label: "__address__"
-    replacement: "localhost:\(#Schema.blackbox_exporter_listen_port)"
+    replacement: "127.0.0.1:\(#Schema.blackbox_exporter_listen_port)"
   },
 ]
 

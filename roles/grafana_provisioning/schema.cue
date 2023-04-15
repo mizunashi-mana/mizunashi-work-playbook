@@ -16,7 +16,7 @@ grafana_provisioning_datasources: [...#DataSourceEntry] | *[#PrometheusDataSourc
   name: "Prometheus"
   type: "prometheus"
   orgId: 1
-  url: "http://localhost:9090"
+  url: "http://127.0.0.1:9090"
   is_default: true
   version: 1
   editable: false
