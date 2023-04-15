@@ -18,14 +18,20 @@ group_vars_all
 
 #workuser_name: "vagrant"
 
-#primary_domain: "mizunashi-work.vagrant"
+#primary_domain_ipv4: "mizunashi-work.vagrant"
+#primary_domain_ipv6: "mizunashi-work.vagrant"
 #private_domain: "mizunashi-local.private"
 
 #internal_host_entries: {
   internal001: {
-    host: "internal.\(#primary_domain)"
-    public_ipv4: "192.168.61.34"
-    public_ipv6: "fde4:8dba:82e1:1005::1"
+    host: "internal.\(#primary_domain_ipv4)"
+
+    public_ipv4_address: "192.168.61.34"
+    public_ipv4_netmask: "255.255.255.0"
+
+    public_ipv6_address: "fde4:8dba:82e1:1005::1"
+    public_ipv6_netmask: "64"
+
     internal_host: "internal001.\(#private_domain)"
     internal_ipv4: "192.168.62.1"
   }
@@ -33,9 +39,14 @@ group_vars_all
 
 #public_host_entries: {
   public001: {
-    host: "public.\(#primary_domain)"
-    public_ipv4: "192.168.61.33"
-    public_ipv6: "fde4:8dba:82e1:1005::2"
+    host: "public.\(#primary_domain_ipv4)"
+
+    public_ipv4_address: "192.168.61.33"
+    public_ipv4_netmask: "255.255.255.0"
+
+    public_ipv6_address: "fde4:8dba:82e1:1005::2"
+    public_ipv6_netmask: "64"
+
     internal_host: "public001.\(#private_domain)"
     internal_ipv4: "192.168.62.2"
   }
@@ -52,7 +63,11 @@ group_vars_all
 
 #public_dns_resolver_ipv4: "4.2.2.1"
 #public_dns_resolver_ipv6: "2001:4860:4860::8844"
-#public_dns_resolvers: [#public_dns_resolver_ipv4, #public_dns_resolver_ipv6]
+#public_dns_resolvers: [
+  #public_dns_resolver_ipv4,
+  #public_dns_resolver_ipv6,
+  "4.2.2.2",
+]
 #internal_dns_resolver: #host_entries.internal001.internal_ipv4
 
 #private_acme_challenge_hostname: "acme.\(#private_domain)"
@@ -91,12 +106,6 @@ workuser_setup_ssh_authorized_keys: [
 private_root_ca_certificate: ca_vars.root_ca_certificate
 
 network_public_iface: "eth1"
-network_public_ipv4_netmask: "255.255.255.0"
-network_public_ipv4_nameserver: #public_dns_resolver_ipv4
-network_public_ipv4_search: #primary_domain
-network_public_ipv6_netmask: "64"
-network_public_ipv6_nameserver: #public_dns_resolver_ipv6
-network_public_ipv6_search: #primary_domain
 
 network_internal_iface: "eth2"
 network_internal_ipv4_netmask: "255.255.255.0"
