@@ -30,6 +30,14 @@ modules:
       tls_config:
         ca_file: '{{ private_root_ca_certificate_path }}'
 
+  private_http_redirect:
+    prober: http
+    http:
+      valid_status_codes: [301,302,303,307,308]
+      no_follow_redirects: true
+      tls_config:
+        ca_file: '{{ private_root_ca_certificate_path }}'
+
   ssh_banner:
     prober: tcp
     tcp:

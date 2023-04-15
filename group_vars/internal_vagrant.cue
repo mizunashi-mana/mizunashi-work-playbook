@@ -191,28 +191,26 @@ let blackbox_exporter_relabel_configs = [
       }
     },
     #BlackboxExporterScrapeConfig & {
-      job_name: "blackbox_icmp"
-      params: {
-        module: ["icmp"]
-      }
-      static_configs: [{
-        targets: [
-          for _, host_entry in #Schema.#host_entries {
-            host_entry.internal_host
-          }
-        ]
-      }]
-    },
-    #BlackboxExporterScrapeConfig & {
       job_name: "blackbox_http_2xx"
       params: {
         module: ["http_2xx"]
       }
       static_configs: [{
         targets: [
+        ]
+      }]
+    },
+    #BlackboxExporterScrapeConfig & {
+      job_name: "blackbox_http_redirect"
+      params: {
+        module: ["http_redirect"]
+      }
+      static_configs: [{
+        targets: [
           for _, host_entry in #Schema.#host_entries {
             "http://\(host_entry.internal_host):\(#Schema.#http_port)"
-          }
+          },
+          "http://\(#Schema.#www_hostname):\(#Schema.#http_port)/",
         ]
       }]
     },
@@ -226,8 +224,19 @@ let blackbox_exporter_relabel_configs = [
           for _, host_entry in #Schema.#host_entries {
             "https://\(host_entry.internal_host):\(#Schema.#local_proxy_https_port)/monitor/l7check"
           },
-          "https://\(#Schema.#mastodon_hostname):\(#Schema.#https_port)/",
           #Schema.#private_acme_challenge_url,
+          "https://\(#Schema.#mastodon_hostname):\(#Schema.#https_port)/",
+        ]
+      }]
+    },
+    #BlackboxExporterScrapeConfig & {
+      job_name: "blackbox_private_http_redirect"
+      params: {
+        module: ["private_http_redirect"]
+      }
+      static_configs: [{
+        targets: [
+          "https://\(#Schema.#www_hostname):\(#Schema.#https_port)/",
         ]
       }]
     },
