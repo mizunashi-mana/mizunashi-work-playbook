@@ -1,6 +1,11 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+if ENV["USER"] != "mastodon"
+  puts "Should run on mastodon user."
+  exit 1
+end
+
 mastodon_live_dir = "/var/lib/mastodon/live"
 ENV["BUNDLE_GEMFILE"] ||= File.expand_path("./Gemfile", mastodon_live_dir)
 ENV["RAILS_ENV"] ||= "production"
