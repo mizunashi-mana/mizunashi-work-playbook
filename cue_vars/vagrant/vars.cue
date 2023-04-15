@@ -34,7 +34,7 @@ group_vars_all
 #public_host_entries: {
   public001: {
     host: "public.\(#primary_domain)"
-    public_ipv4: "192.168.61.35"
+    public_ipv4: "192.168.61.33"
     public_ipv6: "fde4:8dba:82e1:1005::2"
     internal_host: "public001.\(#private_domain)"
     internal_ipv4: "192.168.62.2"
