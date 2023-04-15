@@ -10,3 +10,13 @@ providers:
     options:
       path: /var/lib/grafana/dashboards/node-exporter.json
       foldersFromFilesStructure: false
+
+  - name: 'StatsD Exporter'
+    orgId: 1
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards/statsd-exporter.json
+      foldersFromFilesStructure: false

@@ -75,6 +75,7 @@
   set_fact:
     grafana_provisioning_dashboards:
       - node-exporter
+      - statsd-exporter
       - alert-prometheus-scraping
 
 - name: Copy dashboards

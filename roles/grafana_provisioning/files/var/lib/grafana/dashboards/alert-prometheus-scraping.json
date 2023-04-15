@@ -5,7 +5,9 @@
   "revision": 1,
   "title": "Prometheus Scraping",
   "schemaVersion": 38,
-  "tags": [],
+  "tags": [
+    "prometheus"
+  ],
   "links": [],
   "editable": false,
   "style": "dark",
