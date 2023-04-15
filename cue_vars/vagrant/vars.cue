@@ -14,7 +14,7 @@ group_vars_all
 #local_proxy_https_port: nginx_site_local_proxy_listen_port
 #node_exporter_http_port: node_exporter_listen_port
 #nginx_exporter_http_port: nginx_exporter_listen_port
-#acme_server_https_port: 6100
+#private_acme_server_https_port: 6100
 
 #workuser_name: "vagrant"
 
@@ -48,8 +48,8 @@ group_vars_all
 #internal_dns_resolver: #host_entries.internal001.internal_ip
 #public_dns_resolvers: ["4.2.2.1", "4.2.2.2"]
 
-#acme_challenge_hostname: "acme.\(#private_domain)"
-#acme_challenge_url:  "https://\(#acme_challenge_hostname):\(#acme_server_https_port)/acme/local/directory"
+#private_acme_challenge_hostname: "acme.\(#private_domain)"
+#private_acme_challenge_url:  "https://\(#private_acme_challenge_hostname):\(#private_acme_server_https_port)/acme/local/directory"
 
 #mastodon_hostname: "mstdn-local.mizunashi.work"
 
@@ -121,7 +121,7 @@ nginx_resolver: #internal_dns_resolver
 nginx_site_http_redirector_listen_port: #http_port
 
 nginx_site_local_proxy_listen_port: #local_proxy_https_port
-nginx_site_local_proxy_acme_challenge_url: #acme_challenge_url
+nginx_site_local_proxy_acme_challenge_url: #private_acme_challenge_url
 
 node_exporter_listen_port: #node_exporter_http_port
 nginx_site_local_proxy_entries: "node": {

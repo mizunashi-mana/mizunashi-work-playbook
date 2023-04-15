@@ -31,7 +31,7 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
     auth_password: #Schema.#local_proxy_password
   }
 
-  nginx_site_mastodon_front_acme_challenge_url: #Schema.#acme_challenge_url
+  nginx_site_mastodon_front_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_mastodon_front_ca_bundle_path: #Schema.private_root_ca_certificate_path
 
   mastodon_single_user_mode: "true"

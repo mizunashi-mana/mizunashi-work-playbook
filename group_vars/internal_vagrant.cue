@@ -79,7 +79,7 @@ let blackbox_exporter_relabel_configs = [
     iif: #Schema.network_internal_iface
     tcp_ports: [
       dns_port,
-      #Schema.#acme_server_https_port,
+      #Schema.#private_acme_server_https_port,
     ]
     udp_ports: [
       dns_port,
@@ -95,7 +95,7 @@ let blackbox_exporter_relabel_configs = [
     },
     {
       ip: #Schema.#host_entries.internal001.internal_ip
-      domain: #Schema.#acme_challenge_hostname
+      domain: #Schema.#private_acme_challenge_hostname
     },
     {
       ip: #Schema.#host_entries.internal001.internal_ip
@@ -109,8 +109,8 @@ let blackbox_exporter_relabel_configs = [
   caddy_pki_ca_local_root_cert: ca_vars.root_ca_certificate
   caddy_pki_ca_local_root_key: ca_vars.root_ca_privkey
 
-  caddy_site_acme_server_name: #Schema.#acme_challenge_hostname
-  caddy_site_acme_server_listen_port: #Schema.#acme_server_https_port
+  caddy_site_acme_server_name: #Schema.#private_acme_challenge_hostname
+  caddy_site_acme_server_listen_port: #Schema.#private_acme_server_https_port
 
   nginx_site_local_proxy_entries: "caddy": {
     upstream_port: #Schema.caddy_metrics_listen_port
@@ -141,7 +141,7 @@ let blackbox_exporter_relabel_configs = [
       """
   }
   nginx_site_minio_server_domain: #Schema.#minio_server_hostname
-  nginx_site_minio_server_acme_challenge_url: #Schema.#acme_challenge_url
+  nginx_site_minio_server_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_minio_server_ca_bundle_path: #Schema.private_root_ca_certificate_path
 
   grafana_admin_password: {
@@ -227,7 +227,7 @@ let blackbox_exporter_relabel_configs = [
             "https://\(host_entry.internal_host):\(#Schema.#local_proxy_https_port)/monitor/l7check"
           },
           "https://\(#Schema.#mastodon_hostname):\(#Schema.#https_port)/",
-          "https://\(#Schema.#acme_challenge_hostname):\(#Schema.#acme_server_https_port)/",
+          #Schema.#private_acme_challenge_url,
         ]
       }]
     },
