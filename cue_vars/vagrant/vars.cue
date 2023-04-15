@@ -25,7 +25,7 @@ group_vars_all
   internal001: {
     host: "internal.\(#primary_domain)"
     public_ipv4: "192.168.61.34"
-    public_ipv6: "fde4:8dba:82e1:1005:1"
+    public_ipv6: "fde4:8dba:82e1:1005::1"
     internal_host: "internal001.\(#private_domain)"
     internal_ipv4: "192.168.62.1"
   }
@@ -35,7 +35,7 @@ group_vars_all
   public001: {
     host: "public.\(#primary_domain)"
     public_ipv4: "192.168.61.35"
-    public_ipv6: "fde4:8dba:82e1:1005:2"
+    public_ipv6: "fde4:8dba:82e1:1005::2"
     internal_host: "public001.\(#private_domain)"
     internal_ipv4: "192.168.62.2"
   }
