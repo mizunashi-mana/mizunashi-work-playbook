@@ -52,6 +52,7 @@ group_vars_all
 #private_acme_challenge_url:  "https://\(#private_acme_challenge_hostname):\(#private_acme_server_https_port)/acme/local/directory"
 
 #mastodon_hostname: "mstdn-local.mizunashi.work"
+#www_hostname: "www-local.mizunashi.work"
 
 #minio_server_hostname: "minio.\(#private_domain)"
 

@@ -34,6 +34,12 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
   nginx_site_mastodon_front_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_mastodon_front_ca_bundle_path: #Schema.private_root_ca_certificate_path
 
+  nginx_site_www_redirector_listen_port: #Schema.#https_port
+  nginx_site_www_redirector_domain: #Schema.#www_hostname
+  nginx_site_www_redirector_url: "https://mizunashi-mana.github.io"
+  nginx_site_www_redirector_acme_challenge_url: #Schema.#private_acme_challenge_url
+  nginx_site_www_redirector_ca_bundle_path: #Schema.private_root_ca_certificate_path
+
   mastodon_single_user_mode: "true"
 
   mastodon_db_user_password: {

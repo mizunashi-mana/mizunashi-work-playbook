@@ -9,6 +9,7 @@ import "mizunashi.work/pkg/roles/postgresql"
 import "mizunashi.work/pkg/roles/postgres_exporter"
 import "mizunashi.work/pkg/roles/statsd_exporter"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
+import "mizunashi.work/pkg/roles/nginx_site_www_redirector"
 import "mizunashi.work/pkg/roles/postgresql_mastodon"
 import "mizunashi.work/pkg/roles/postgresql_postgres_exporter"
 
@@ -20,5 +21,6 @@ postgresql
 postgres_exporter
 statsd_exporter
 nginx_site_mastodon_front
+nginx_site_www_redirector
 postgresql_mastodon
 postgresql_postgres_exporter
