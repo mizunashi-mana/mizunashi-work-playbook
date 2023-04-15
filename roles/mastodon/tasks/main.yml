@@ -2,13 +2,15 @@
 - name: Install dependencies
   ansible.builtin.apt:
     name:
+      - git
       - build-essential
       - libidn11-dev
       - libssl-dev
       - libpq-dev
       - libicu-dev
       - zlib1g-dev
-      - git
+      - imagemagick
+      - ffmpeg
     state: present
   become: true
 
