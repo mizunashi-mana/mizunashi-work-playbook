@@ -6,6 +6,18 @@
   listen:
   - Restart network
 
+- name: Check public IP
+  ansible.builtin.command:
+    cmd: |
+      ip address show dev {{ network_public_iface }}
+  register: network_check_public_ip_stats
+  changed_when: false
+  failed_when: |
+    network_check_public_ip_stats.rc != 0
+      or not network_check_public_ip_stats.stdout is search(network_public_ipv4_address)
+      or not network_check_public_ip_stats.stdout is search(network_public_ipv6_address)
+  listen: Check
+
 - name: Check internal IP
   ansible.builtin.command:
     cmd: |
@@ -13,5 +25,6 @@
   register: network_check_internal_ip_stats
   changed_when: false
   failed_when: |
-    network_check_internal_ip_stats.rc != 0 or not network_check_internal_ip_stats.stdout is search(network_internal_address)
+    network_check_internal_ip_stats.rc != 0
+      or not network_check_internal_ip_stats.stdout is search(network_internal_ipv4_address)
   listen: Check

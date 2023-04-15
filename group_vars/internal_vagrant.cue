@@ -89,17 +89,17 @@ let blackbox_exporter_relabel_configs = [
   dnsmasq_hosts_entries: [
     for _, entry in #Schema.#host_entries {
       {
-        ip: entry.internal_ip
         domain: entry.internal_host
+        ip: entry.internal_ipv4
       }
     },
     {
-      ip: #Schema.#host_entries.internal001.internal_ip
       domain: #Schema.#private_acme_challenge_hostname
+      ip: #Schema.#host_entries.internal001.internal_ipv4
     },
     {
-      ip: #Schema.#host_entries.internal001.internal_ip
       domain: #Schema.#minio_server_hostname
+      ip: #Schema.#host_entries.internal001.internal_ipv4
     },
   ]
   dnsmasq_nameservers: #Schema.#public_dns_resolvers

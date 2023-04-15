@@ -18,21 +18,26 @@ group_vars_all
 
 #workuser_name: "vagrant"
 
+#primary_domain: "mizunashi-work.vagrant"
 #private_domain: "mizunashi-local.private"
 
 #internal_host_entries: {
   internal001: {
-    internal_ip: "192.168.62.34"
+    host: "internal.\(#primary_domain)"
+    public_ipv4: "192.168.61.34"
+    public_ipv6: "fde4:8dba:82e1:1001"
     internal_host: "internal001.\(#private_domain)"
-    host: "internal.mizunashi-work.vagrant"
+    internal_ipv4: "192.168.62.1"
   }
 }
 
 #public_host_entries: {
   public001: {
-    internal_ip: "192.168.62.33"
+    host: "public.\(#primary_domain)"
+    public_ipv4: "192.168.61.35"
+    public_ipv6: "fde4:8dba:82e1:1002"
     internal_host: "public001.\(#private_domain)"
-    host: "public.mizunashi-work.vagrant"
+    internal_ipv4: "192.168.62.2"
   }
 }
 
@@ -45,8 +50,10 @@ group_vars_all
   }
 }
 
-#internal_dns_resolver: #host_entries.internal001.internal_ip
-#public_dns_resolvers: ["4.2.2.1", "4.2.2.2"]
+#public_dns_resolver_ipv4: "4.2.2.1"
+#public_dns_resolver_ipv6: "2001:4860:4860::8844"
+#public_dns_resolvers: [#public_dns_resolver_ipv4, #public_dns_resolver_ipv6]
+#internal_dns_resolver: #host_entries.internal001.internal_ipv4
 
 #private_acme_challenge_hostname: "acme.\(#private_domain)"
 #private_acme_challenge_url:  "https://\(#private_acme_challenge_hostname):\(#private_acme_server_https_port)/acme/local/directory"
@@ -75,9 +82,6 @@ ansible_connection: "ssh"
 ansible_port: #ssh_port
 ansible_user: #workuser_name
 
-systemd_resolved_internal_dns: #internal_dns_resolver
-systemd_resolved_fallback_dns: #public_dns_resolvers
-
 workuser_setup_username: #workuser_name
 workuser_setup_home_directory: "/home/\(workuser_setup_username)"
 workuser_setup_ssh_authorized_keys: [
@@ -86,8 +90,21 @@ workuser_setup_ssh_authorized_keys: [
 
 private_root_ca_certificate: ca_vars.root_ca_certificate
 
+network_public_iface: "eth1"
+network_public_ipv4_netmask: "255.255.255.0"
+network_public_ipv4_nameserver: #public_dns_resolver_ipv4
+network_public_ipv4_search: #primary_domain
+network_public_ipv6_netmask: "64"
+network_public_ipv6_nameserver: #public_dns_resolver_ipv6
+network_public_ipv6_search: #primary_domain
+
 network_internal_iface: "eth2"
-network_internal_netmask: "255.255.255.0"
+network_internal_ipv4_netmask: "255.255.255.0"
+network_internal_ipv4_nameserver: #internal_dns_resolver
+network_internal_ipv4_search: #private_domain
+
+systemd_resolved_internal_dns: #internal_dns_resolver
+systemd_resolved_fallback_dns: #public_dns_resolvers
 
 nftables_accept_tcp_ports: [#ssh_port, ...uint]
 nftables_accept_ports_with_iif: "internal_local_proxy": {
@@ -98,6 +115,8 @@ nftables_accept_ports_with_iif: "internal_local_proxy": {
 }
 
 openssh_server_listen_port: #ssh_port
+
+sudo_mail_address: #notification_email
 
 exim_smarthost_hostname: "smtp-relay-dummy.localhost"
 exim_smarthost_port: 587

@@ -29,6 +29,14 @@ mappings:
     environment: "$1"
     event: "$2"
 
+- match: Mastodon\.(\w+)\.web\.(.+)\.status\.([^.]+)
+  match_type: regex
+  name: "mastodon_web_status"
+  labels:
+    environment: "$1"
+    api: "$2"
+    status: "$3"
+
 - match: Mastodon\.(\w+)\.web\.(.+)\.([^.]+)
   match_type: regex
   name: "mastodon_web_${3}"

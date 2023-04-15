@@ -2,6 +2,7 @@ package group_vars_all
 
 import "mizunashi.work/pkg/roles/base"
 import "mizunashi.work/pkg/roles/network"
+import "mizunashi.work/pkg/roles/sudo"
 import "mizunashi.work/pkg/roles/systemd_resolved"
 import "mizunashi.work/pkg/roles/workuser_setup"
 import "mizunashi.work/pkg/roles/private_root_ca"
@@ -19,6 +20,7 @@ import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 
 base
 network
+sudo
 systemd_resolved
 workuser_setup
 private_root_ca

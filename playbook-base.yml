@@ -4,6 +4,7 @@
   roles:
   - base
   - network
+  - sudo
   - workuser_setup
   - openssh_server
   - private_root_ca

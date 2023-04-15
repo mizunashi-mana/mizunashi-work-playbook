@@ -1,16 +1,11 @@
 ---
-- name: Check internal host variables are required
-  ansible.builtin.debug:
-    msg: '{{ network_internal_hostname }}:{{ network_internal_address }}'
-
 - name: Get full hostname
   ansible.builtin.command: hostname --long
   changed_when: false
   register: network_hostname_long_stats
-
-- name: Set full hostname
-  ansible.builtin.set_fact:
-    network_hostname: '{{ network_hostname_long_stats.stdout }}'
+  failed_when: |
+    network_hostname_long_stats.rc != 0
+      and network_hostname_long_stats.stdout == network_public_hostname
 
 - name: Directory of interfaces is available
   ansible.builtin.file:
@@ -21,14 +16,37 @@
     mode: '0755'
   become: true
 
-- name: Install internal iface
+- name: Install public iface
   ansible.builtin.template:
-    src: etc/network/iface-available.d/internal_iface.conf
-    dest: '/etc/network/iface-available.d/internal_iface.conf'
+    src: etc/network/iface-available.d/public_iface.conf
+    dest: /etc/network/iface-available.d/public_iface.conf
     owner: root
     group: root
     mode: '0644'
     backup: true
+  become: true
+  notify:
+  - Restart network
+
+- name: Install internal iface
+  ansible.builtin.template:
+    src: etc/network/iface-available.d/internal_iface.conf
+    dest: /etc/network/iface-available.d/internal_iface.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+  - Restart network
+
+- name: Enable public iface
+  ansible.builtin.file:
+    src: /etc/network/iface-available.d/public_iface.conf
+    dest: /etc/network/interfaces.d/public_iface.conf
+    owner: root
+    group: root
+    state: link
   become: true
   notify:
   - Restart network
