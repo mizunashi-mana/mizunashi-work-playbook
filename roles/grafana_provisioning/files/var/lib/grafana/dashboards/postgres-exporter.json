@@ -1,0 +1,157 @@
+{
+  "id": null,
+  "uid": "PostgresExporter",
+  "version": 1,
+  "revision": 1,
+  "title": "Postgres Exporter",
+  "schemaVersion": 38,
+  "tags": [
+    "PostgreSQL",
+    "postgres-exporter"
+  ],
+  "links": [],
+  "editable": false,
+  "style": "dark",
+  "graphTooltip": 0,
+  "liveNow": false,
+  "timezone": "",
+  "weekStart": "",
+  "fiscalYearStartMonth": 0,
+  "refresh": "",
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "name": "Annotations & Alerts",
+        "type": "dashboard",
+        "enable": true,
+        "hide": true,
+        "datasource": {
+          "uid": "-- Grafana --",
+          "type": "grafana"
+        },
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "target": {
+          "type": "dashboard",
+          "tags": [],
+          "limit": 100,
+          "matchAny": false
+        }
+      }
+    ]
+  },
+  "templating": {
+    "list": [
+      {
+        "name": "datasource",
+        "type": "datasource",
+        "hide": 0,
+        "query": "prometheus",
+        "current": {
+          "selected": false,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "refresh": 1,
+        "includeAll": false,
+        "multi": false,
+        "options": [],
+        "regex": "",
+        "skipUrlSync": false
+      },
+      {
+        "name": "instance",
+        "type": "query",
+        "hide": 0,
+        "datasource": {
+          "uid": "${datasource}",
+          "type": "prometheus"
+        },
+        "query": {
+          "refId": "StandardVariableQuery",
+          "query": "label_values(pg_up,instance)"
+        },
+        "refresh": 1,
+        "definition": "label_values(pg_up,instance)",
+        "includeAll": false,
+        "multi": false,
+        "options": [],
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 2,
+      "title": "Up",
+      "pluginVersion": "9.4.7",
+      "type": "stat",
+      "datasource": {
+        "uid": "${datasource}",
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "uid": "${datasource}",
+            "type": "prometheus"
+          },
+          "expr": "pg_up{instance=~\"$instance\"}",
+          "legendFormat": "__auto",
+          "editorMode": "code",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      }
+    }
+  ]
+}

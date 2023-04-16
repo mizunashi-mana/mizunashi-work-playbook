@@ -70,3 +70,13 @@ providers:
     options:
       path: /var/lib/grafana/dashboards/minio-stats.json
       foldersFromFilesStructure: false
+
+  - name: 'Postgres Exporter'
+    orgId: 1
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards/postgres-exporter.json
+      foldersFromFilesStructure: false

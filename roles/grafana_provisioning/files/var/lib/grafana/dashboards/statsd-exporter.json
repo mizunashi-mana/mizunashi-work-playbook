@@ -7,7 +7,7 @@
   "schemaVersion": 38,
   "tags": [
     "StatsD",
-    "statsd_exporter"
+    "statsd-exporter"
   ],
   "links": [],
   "editable": false,

@@ -1,4 +1,4 @@
 ---
-ruby_version: 3.0.5
-ruby_deb_install_url: https://github.com/mizunashi-mana/ruby-jemalloc/releases/download/v0.0.9/ruby-jemalloc-dev_3.0.5-20230328144135_amd64.deb
+ruby_version: 3.0.6
+ruby_deb_install_url: https://github.com/mizunashi-mana/ruby-jemalloc/releases/download/v1.0.0/ruby-jemalloc-dev_3.0.6-20230415114516_amd64.deb
 ruby_bundler_version: 2.4.8

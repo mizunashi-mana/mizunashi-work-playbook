@@ -7,7 +7,7 @@
   "schemaVersion": 38,
   "tags": [
     "linux",
-    "node_exporter"
+    "node-exporter"
   ],
   "links": [],
   "editable": false,

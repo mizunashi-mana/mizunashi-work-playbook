@@ -59,18 +59,6 @@
   notify:
   - Restart grafana
 
-- name: Copy dashboard providers of alert folder
-  ansible.builtin.template:
-    src: etc/grafana/prov-available/dashboards/alert.yml
-    dest: /etc/grafana/prov-available/dashboards/alert.yml
-    owner: root
-    group: grafana
-    mode: '0640'
-    backup: true
-  become: true
-  notify:
-  - Restart grafana
-
 - name: Set dashboards
   set_fact:
     grafana_provisioning_dashboards:
@@ -80,6 +68,8 @@
       - statsd-exporter
       - statsd-exporter-mastodon
       - minio-stats
+      - postgres-exporter
+      - nginx-exporter
 
 - name: Copy dashboards
   ansible.builtin.copy:
@@ -107,15 +97,6 @@
   ansible.builtin.file:
     src: /etc/grafana/prov-available/dashboards/generic.yml
     dest: /etc/grafana/provisioning/dashboards/generic.yml
-    state: link
-  become: true
-  notify:
-  - Restart grafana
-
-- name: Enable dashboards of alert folder
-  ansible.builtin.file:
-    src: /etc/grafana/prov-available/dashboards/alert.yml
-    dest: /etc/grafana/provisioning/dashboards/alert.yml
     state: link
   become: true
   notify:

@@ -1,7 +1,7 @@
 {
   "id": null,
   "uid": "GrafanaStats",
-  "version": 1,
+  "version": 2,
   "revision": 1,
   "title": "Grafana Stats",
   "description": "Metrics about Grafana",
@@ -71,7 +71,25 @@
     ]
   },
   "templating": {
-    "list": []
+    "list": [
+      {
+        "name": "datasource",
+        "type": "datasource",
+        "hide": 0,
+        "query": "prometheus",
+        "current": {
+          "selected": false,
+          "text": "Prometheus",
+          "value": "Prometheus"
+        },
+        "refresh": 1,
+        "includeAll": false,
+        "multi": false,
+        "options": [],
+        "regex": "",
+        "skipUrlSync": false
+      }
+    ]
   },
   "panels": [
     {
@@ -81,14 +99,14 @@
       "type": "stat",
       "links": [],
       "datasource": {
-        "uid": "PBFA97CFB590B2093",
+        "uid": "${datasource}",
         "type": "prometheus"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "up{job=\"grafana\"}",
@@ -165,14 +183,14 @@
       "type": "stat",
       "links": [],
       "datasource": {
-        "uid": "PBFA97CFB590B2093",
+        "uid": "${datasource}",
         "type": "prometheus"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "grafana_stat_totals_dashboard",
@@ -245,14 +263,14 @@
       "type": "stat",
       "links": [],
       "datasource": {
-        "uid": "PBFA97CFB590B2093",
+        "uid": "${datasource}",
         "type": "prometheus"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "grafana_stat_total_users",
@@ -325,14 +343,14 @@
       "type": "stat",
       "links": [],
       "datasource": {
-        "uid": "PBFA97CFB590B2093",
+        "uid": "${datasource}",
         "type": "prometheus"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "grafana_stat_total_playlists",
@@ -404,19 +422,20 @@
       "type": "table-old",
       "links": [],
       "datasource": {
-        "uid": "PBFA97CFB590B2093",
+        "uid": "${datasource}",
         "type": "prometheus"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "topk(1, grafana_info or grafana_build_info)",
           "format": "time_series",
           "legendFormat": "{{version}}",
+          "editorMode": "code",
           "instant": true,
           "intervalFactor": 2,
           "step": 20
@@ -469,14 +488,14 @@
       "type": "timeseries",
       "links": [],
       "datasource": {
-        "uid": "PBFA97CFB590B2093",
+        "uid": "${datasource}",
         "type": "prometheus"
       },
       "targets": [
         {
           "refId": "B",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "sum by (statuscode) (irate(http_request_total{job='grafana'}[5m]))",
@@ -598,14 +617,14 @@
       "type": "timeseries",
       "links": [],
       "datasource": {
-        "uid": "PBFA97CFB590B2093",
+        "uid": "${datasource}",
         "type": "prometheus"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "sum(irate(grafana_api_response_status_total[5m]))",
@@ -617,7 +636,7 @@
         {
           "refId": "B",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "sum(irate(grafana_proxy_response_status_total[5m]))",
@@ -629,7 +648,7 @@
         {
           "refId": "C",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "sum(irate(grafana_page_response_status_total[5m]))",
@@ -749,14 +768,14 @@
       "type": "table-old",
       "links": [],
       "datasource": {
-        "uid": "PBFA97CFB590B2093",
+        "uid": "${datasource}",
         "type": "prometheus"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "sort(topk(8, sum by (handler) (http_request_total{job=\"grafana\"})))",
@@ -815,14 +834,14 @@
       "type": "timeseries",
       "links": [],
       "datasource": {
-        "uid": "PBFA97CFB590B2093",
+        "uid": "${datasource}",
         "type": "prometheus"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "increase(grafana_alerting_active_alerts[1m])",
@@ -943,14 +962,14 @@
       "type": "timeseries",
       "links": [],
       "datasource": {
-        "uid": "PBFA97CFB590B2093",
+        "uid": "${datasource}",
         "type": "prometheus"
       },
       "targets": [
         {
           "refId": "A",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": " sum (ALERTS)",
@@ -1102,7 +1121,7 @@
       "type": "timeseries",
       "links": [],
       "datasource": {
-        "uid": "PBFA97CFB590B2093",
+        "uid": "${datasource}",
         "type": "prometheus"
       },
       "targets": [
@@ -1111,7 +1130,7 @@
           "type": "timeserie",
           "hide": false,
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "sum(go_goroutines{job=\"grafana\"})",
@@ -1124,7 +1143,7 @@
         {
           "refId": "B",
           "datasource": {
-            "uid": "PBFA97CFB590B2093",
+            "uid": "${datasource}",
             "type": "prometheus"
           },
           "expr": "sum(process_resident_memory_bytes{job=\"grafana\"})",
