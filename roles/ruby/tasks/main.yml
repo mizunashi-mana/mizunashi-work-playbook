@@ -1,9 +1,19 @@
 ---
+- name: ruby is available
+  ansible.builtin.apt:
+    name: 'ruby-jamlloc-dev={{ ruby_version }}'
+    state: present
+  become: true
+  failed_when: false
+  register: ruby_installed_check
+
 - name: Install ruby
   ansible.builtin.apt:
     deb: '{{ ruby_deb_install_url }}'
     state: present
   become: true
+  when: |
+    'msg' in ruby_installed_check and ruby_installed_check.msg is search('No package')
 
 - name: Install bundler
   community.general.gem:
