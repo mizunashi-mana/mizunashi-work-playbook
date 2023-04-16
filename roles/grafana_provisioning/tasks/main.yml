@@ -79,6 +79,7 @@
       - node-exporter
       - statsd-exporter
       - statsd-exporter-mastodon
+      - minio-stats
 
 - name: Copy dashboards
   ansible.builtin.copy:

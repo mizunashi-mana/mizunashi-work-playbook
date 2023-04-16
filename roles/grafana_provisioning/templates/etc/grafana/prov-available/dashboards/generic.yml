@@ -60,3 +60,13 @@ providers:
     options:
       path: /var/lib/grafana/dashboards/nginx-exporter.json
       foldersFromFilesStructure: false
+
+  - name: 'MinIO Stats'
+    orgId: 1
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards/minio-stats.json
+      foldersFromFilesStructure: false
