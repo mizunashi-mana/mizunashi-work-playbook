@@ -33,3 +33,19 @@
     mode: '0755'
     backup: true
   become: true
+
+- name: Disabled builtin renewal timer
+  ansible.builtin.systemd:
+    name: certbot.timer
+    state: stopped
+    enabled: false
+    masked: true
+  become: true
+
+- name: Disabled builtin renewal
+  ansible.builtin.systemd:
+    name: certbot
+    state: stopped
+    enabled: false
+    masked: true
+  become: true

@@ -79,7 +79,6 @@
       - node-exporter
       - statsd-exporter
       - statsd-exporter-mastodon
-      - alert-prometheus-scraping
 
 - name: Copy dashboards
   ansible.builtin.copy:
