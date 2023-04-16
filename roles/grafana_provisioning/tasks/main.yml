@@ -76,6 +76,7 @@
     grafana_provisioning_dashboards:
       - node-exporter
       - statsd-exporter
+      - statsd-exporter-mastodon
       - alert-prometheus-scraping
 
 - name: Copy dashboards
