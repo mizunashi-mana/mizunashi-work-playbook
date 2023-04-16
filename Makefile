@@ -7,6 +7,9 @@ COMMON_VARS ?= $(wildcard ./cue_vars/*/vars.cue) $(wildcard ./*/vars.cue)
 CUE ?= cue
 POETRY ?= poetry
 
+LOGS_DIR ?= logs
+TIMESTAMP ?= $(shell date +%s)
+
 GROUP_VARS_OUT := $(subst .cue,.yml,$(GROUP_VARS_SRC))
 HOST_VARS_OUT := $(subst .cue,.yml,$(HOST_VARS_SRC))
 STAMPS := \
@@ -34,8 +37,8 @@ vagrant_private_ca/vars.cue: vagrant_private_ca/gen-vars $(wildcard vagrant_priv
 
 .PHONY: vagrant-up
 vagrant-up: all
-	$(POETRY) run vagrant up --provision
+	$(POETRY) run vagrant up --provision | tee $(LOGS_DIR)/vagrant-up.$(TIMESTAMP).log
 
 .PHONY: vagrant-provision
 vagrant-provision: all
-	$(POETRY) run vagrant provision
+	$(POETRY) run vagrant provision | tee $(LOGS_DIR)/vagrant-provision.$(TIMESTAMP).log
