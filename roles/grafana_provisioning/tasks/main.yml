@@ -74,6 +74,8 @@
 - name: Set dashboards
   set_fact:
     grafana_provisioning_dashboards:
+      - prometheus-stats
+      - grafana-stats
       - node-exporter
       - statsd-exporter
       - statsd-exporter-mastodon
