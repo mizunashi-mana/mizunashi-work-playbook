@@ -1,0 +1,27 @@
+---
+- name: Copy gpg key
+  ansible.builtin.copy:
+    src: usr/share/keyrings/elastic.gpg
+    dest: /usr/share/keyrings/elastic.gpg
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Install repository
+  ansible.builtin.template:
+    src: etc/apt/sources.list.d/elastic.list
+    dest: /etc/apt/sources.list.d/elastic.list
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  register: elastic_apt_repo_install_repository_result
+
+- name: Update apt cache if needed
+  ansible.builtin.apt:
+    update_cache: true
+  become: true
+  when: elastic_apt_repo_install_repository_result.changed

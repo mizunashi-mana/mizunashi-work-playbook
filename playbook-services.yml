@@ -5,8 +5,9 @@
   - exim
   - apticron
   - node_exporter
-  - certbot
   - nginx_exporter
+  - certbot
+  - logstash
   - nginx_site_local_proxy
 
   post_tasks:
