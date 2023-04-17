@@ -23,6 +23,7 @@
   - grafana
   - grafana_provisioning
   - prometheus
+  - elasticsearch
 
   - minio_setup
   - nginx_site_minio_server
