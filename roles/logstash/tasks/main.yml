@@ -1,6 +1,6 @@
 ---
 - name: Install logstash
   ansible.builtin.apt:
-    name: 'logstash={{ logstash_version }}*'
+    name: 'logstash=1:{{ logstash_version }}*'
     state: present
   become: true
