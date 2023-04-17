@@ -1,0 +1,6 @@
+---
+- name: Install elasticsearch
+  ansible.builtin.apt:
+    name: 'elasticsearch={{ elasticsearch_version }}*'
+    state: present
+  become: true
