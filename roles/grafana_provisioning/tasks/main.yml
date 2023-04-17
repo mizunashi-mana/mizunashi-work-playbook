@@ -70,6 +70,7 @@
       - minio-stats
       - postgres-exporter
       - nginx-exporter
+      - redis-exporter
 
 - name: Copy dashboards
   ansible.builtin.copy:
