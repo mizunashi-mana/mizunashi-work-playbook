@@ -1,2 +1,2 @@
 ---
-elasticsearch_version:
+elasticsearch_version: '8.7.0'
