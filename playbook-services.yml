@@ -7,7 +7,6 @@
   - node_exporter
   - nginx_exporter
   - certbot
-  - logstash
   - nginx_site_local_proxy
 
   post_tasks:
