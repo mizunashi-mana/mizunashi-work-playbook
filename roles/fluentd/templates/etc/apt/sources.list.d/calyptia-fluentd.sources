@@ -1,5 +1,0 @@
-Types: deb
-URIs: https://calyptia-fluentd.s3.us-east-2.amazonaws.com/1/debian/{{ ansible_distribution_release }}/
-Suites: {{ ansible_distribution_release }}
-Components: main
-Signed-By: /usr/share/keyrings/calyptia-fluentd-archive-keyring.gpg

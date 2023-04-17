@@ -1,18 +1,18 @@
 ---
-- name: Copy calyptia-fluentd gpg key
+- name: Copy td-agent gpg key
   ansible.builtin.copy:
-    src: usr/share/keyrings/calyptia-fluentd-archive-keyring.gpg
-    dest: /usr/share/keyrings/calyptia-fluentd-archive-keyring.gpg
+    src: usr/share/keyrings/td-agent-archive-keyring.gpg
+    dest: /usr/share/keyrings/td-agent-archive-keyring.gpg
     owner: root
     group: root
     mode: '0644'
     backup: true
   become: true
 
-- name: Install calyptia-fluentd repository
+- name: Install td-agent repository
   ansible.builtin.template:
-    src: etc/apt/sources.list.d/calyptia-fluentd.sources
-    dest: /etc/apt/sources.list.d/calyptia-fluentd.sources
+    src: etc/apt/sources.list.d/td-agent.sources
+    dest: /etc/apt/sources.list.d/td-agent.sources
     owner: root
     group: root
     mode: '0644'
@@ -20,9 +20,9 @@
   become: true
   register: fluentd_install_repository_result
 
-- name: Install calyptia-fluentd
+- name: Install td-agent
   ansible.builtin.apt:
-    name: 'calyptia-fluentd={{ fluentd_version }}*'
+    name: 'td-agent={{ fluentd_td_agent_version }}*'
     state: present
     update_cache: '{{ fluentd_install_repository_result.changed }}'
   become: true

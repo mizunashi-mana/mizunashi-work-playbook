@@ -1,2 +1,2 @@
 ---
-fluentd_version:
+fluentd_td_agent_version: '4.4.2'
