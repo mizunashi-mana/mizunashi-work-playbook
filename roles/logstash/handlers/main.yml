@@ -1,0 +1,22 @@
+---
+- name: Restart logstash
+  ansible.builtin.systemd:
+    name: logstash
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  become: true
+  listen: Restart logstash
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status logstash
+  become: true
+  changed_when: false
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ logstash_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check
