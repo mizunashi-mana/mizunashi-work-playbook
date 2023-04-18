@@ -1,2 +1,9 @@
 ---
-fluentd_td_agent_version: '4.4.2'
+fluentd_versions:
+  apt:
+    td-agent: '4.4.2'
+
+  gem:
+    fluentd: '1.15.3'
+    fluent-plugin-elasticsearch: '5.2.4'
+    fluent-plugin-prometheus: '2.0.3'

@@ -22,7 +22,34 @@
 
 - name: Install td-agent
   ansible.builtin.apt:
-    name: 'td-agent={{ fluentd_td_agent_version }}*'
+    name: 'td-agent={{ fluentd_versions.apt["td-agent"] }}*'
     state: present
     update_cache: '{{ fluentd_install_repository_result.changed }}'
+  become: true
+
+- name: Install fluentd
+  community.general.gem:
+    executable: /usr/sbin/td-agent-gem
+    name: fluentd
+    state: present
+    user_install: false
+    version: '{{ fluentd_versions.gem["fluentd"] }}'
+  become: true
+
+- name: Install fluent elasticsearch plugin
+  community.general.gem:
+    executable: /usr/sbin/td-agent-gem
+    name: fluent-plugin-elasticsearch
+    state: present
+    user_install: false
+    version: '{{ fluentd_versions.gem["fluent-plugin-elasticsearch"] }}'
+  become: true
+
+- name: Install fluent prometheus plugin
+  community.general.gem:
+    executable: /usr/sbin/td-agent-gem
+    name: fluent-plugin-prometheus
+    state: present
+    user_install: false
+    version: '{{ fluentd_versions.gem["fluent-plugin-prometheus"] }}'
   become: true
