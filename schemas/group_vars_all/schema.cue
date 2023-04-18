@@ -12,6 +12,7 @@ import "mizunashi.work/pkg/roles/apticron"
 import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/fail2ban"
 import "mizunashi.work/pkg/roles/certbot"
+import "mizunashi.work/pkg/roles/fluentd"
 import "mizunashi.work/pkg/roles/node_exporter"
 import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/nginx_exporter"
@@ -31,6 +32,7 @@ node_exporter
 exim
 apticron
 certbot
+fluentd
 nginx
 nginx_exporter
 nginx_site_http_redirector

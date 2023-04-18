@@ -109,8 +109,6 @@ network_public_iface: "eth1"
 
 network_internal_iface: "eth2"
 network_internal_ipv4_netmask: "255.255.255.0"
-network_internal_ipv4_nameserver: #internal_dns_resolver
-network_internal_ipv4_search: #private_domain
 
 systemd_resolved_internal_dns: #internal_dns_resolver
 systemd_resolved_fallback_dns: #public_dns_resolvers

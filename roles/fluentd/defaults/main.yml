@@ -7,3 +7,5 @@ fluentd_versions:
     fluentd: '1.15.3'
     fluent-plugin-elasticsearch: '5.2.4'
     fluent-plugin-prometheus: '2.0.3'
+
+fluentd_metrics_bind_address: '127.0.0.1'

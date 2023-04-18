@@ -1,0 +1,36 @@
+---
+- name: Reload td-agent
+  ansible.builtin.set_fact:
+    fluentd_handler_state: reloaded
+  become: true
+  listen: Reload td-agent
+
+- name: Restart td-agent
+  ansible.builtin.set_fact:
+    fluentd_handler_state: restarted
+  become: true
+  listen: Restart td-agent
+
+- name: Restart or reload td-agent
+  ansible.builtin.systemd:
+    name: td-agent
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  become: true
+  listen:
+  - Reload td-agent
+  - Restart td-agent
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status td-agent
+  become: true
+  changed_when: false
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ fluentd_metrics_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check

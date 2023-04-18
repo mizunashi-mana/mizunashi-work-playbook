@@ -35,6 +35,8 @@
     user_install: false
     version: '{{ fluentd_versions.gem["fluentd"] }}'
   become: true
+  notify:
+  - Restart td-agent
 
 - name: Install fluent elasticsearch plugin
   community.general.gem:
@@ -44,6 +46,8 @@
     user_install: false
     version: '{{ fluentd_versions.gem["fluent-plugin-elasticsearch"] }}'
   become: true
+  notify:
+  - Restart td-agent
 
 - name: Install fluent prometheus plugin
   community.general.gem:
@@ -53,3 +57,26 @@
     user_install: false
     version: '{{ fluentd_versions.gem["fluent-plugin-prometheus"] }}'
   become: true
+  notify:
+  - Restart td-agent
+
+- name: Copy td-agent config
+  ansible.builtin.template:
+    src: etc/td-agent/td-agent.conf
+    dest: /etc/td-agent/td-agent.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+  - Restart td-agent
+
+- name: Notify restart td-agent if not started
+  ansible.builtin.command: systemctl status td-agent
+  become: true
+  register: fluentd_service_status
+  changed_when: fluentd_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart td-agent
