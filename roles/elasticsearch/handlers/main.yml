@@ -1,0 +1,36 @@
+---
+- name: Reload elasticsearch
+  ansible.builtin.set_fact:
+    elasticsearch_handler_state: reloaded
+  become: true
+  listen: Reload elasticsearch
+
+- name: Restart elasticsearch
+  ansible.builtin.set_fact:
+    elasticsearch_handler_state: restarted
+  become: true
+  listen: Restart elasticsearch
+
+- name: Restart or reload elasticsearch
+  ansible.builtin.systemd:
+    name: elasticsearch
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  become: true
+  listen:
+  - Reload elasticsearch
+  - Restart elasticsearch
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status elasticsearch
+  become: true
+  changed_when: false
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ elasticsearch_metrics_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check

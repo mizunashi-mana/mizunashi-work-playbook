@@ -4,3 +4,24 @@
     name: 'elasticsearch={{ elasticsearch_version }}*'
     state: present
   become: true
+
+- name: Copy elasticsearch config
+  ansible.builtin.template:
+    src: etc/elasticsearch/elasticsearch.yml
+    dest: /etc/elasticsearch/elasticsearch.yml
+    owner: root
+    group: elasticsearch
+    mode: '0660'
+    backup: true
+  become: true
+  notify:
+  - Restart elasticsearch
+
+- name: Notify restart elasticsearch if not started
+  ansible.builtin.command: systemctl status elasticsearch
+  become: true
+  register: elasticsearch_service_status
+  changed_when: elasticsearch_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart elasticsearch
