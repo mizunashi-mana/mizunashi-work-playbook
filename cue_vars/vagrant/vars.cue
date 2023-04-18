@@ -14,6 +14,7 @@ group_vars_all
 #local_proxy_https_port: nginx_site_local_proxy_listen_port
 #node_exporter_http_port: node_exporter_listen_port
 #nginx_exporter_http_port: nginx_exporter_listen_port
+#fluentd_metrics_http_port: fluentd_metrics_listen_port
 #private_acme_server_https_port: 6100
 
 #workuser_name: "vagrant"
@@ -159,5 +160,11 @@ nginx_site_local_proxy_entries: "node": {
 nginx_exporter_listen_port: #nginx_exporter_http_port
 nginx_site_local_proxy_entries: "nginx": {
   upstream_port: #nginx_exporter_http_port
+  auth_password: #local_proxy_password
+}
+
+fluentd_metrics_listen_port: #fluentd_metrics_http_port
+nginx_site_local_proxy_entries: "fluentd": {
+  upstream_port: #fluentd_metrics_http_port
   auth_password: #local_proxy_password
 }

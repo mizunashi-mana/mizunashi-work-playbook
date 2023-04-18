@@ -47,6 +47,10 @@ let local_proxy_scrape_configs = {
     metrics_path: "/minio/v2/metrics/cluster"
     host_entries: #Schema.#internal_host_entries
   },
+  "fluentd": {
+    metrics_path: "/metrics"
+    host_entries: #Schema.#host_entries
+  },
 }
 
 let blackbox_exporter_relabel_configs = [
