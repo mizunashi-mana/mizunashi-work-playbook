@@ -3,7 +3,7 @@
   "uid": "RedisExporter",
   "version": 1,
   "revision": 1,
-  "title": "Redis Exporter Quickstart and Dashboard",
+  "title": "Redis Exporterd",
   "description": "A quickstart to setup the Prometheus Redis Exporter with preconfigured dashboards, alerting rules, and recording rules.",
   "schemaVersion": 38,
   "tags": [
