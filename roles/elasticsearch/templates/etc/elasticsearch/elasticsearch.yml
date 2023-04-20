@@ -118,4 +118,4 @@ http.host: 127.0.0.1
 
 #----------------------- END SECURITY AUTO CONFIGURATION -------------------------
 
-http.cors.allow-origin: /https?:\/\/(localhost|{{ elasticsearch_domain | regex_escape }}(:[0-9]+)?/
+http.cors.allow-origin: /https?:\/\/(localhost|{{ elasticsearch_domain | regex_escape }})(:[0-9]+)?/

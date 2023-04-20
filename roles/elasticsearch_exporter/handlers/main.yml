@@ -1,0 +1,36 @@
+---
+- name: Reload elasticsearch exporter
+  ansible.builtin.set_fact:
+    elasticsearch_exporter_handler_state: reloaded
+  become: true
+  listen: Reload elasticsearch-exporter
+
+- name: Restart elasticsearch exporter
+  ansible.builtin.set_fact:
+    elasticsearch_exporter_handler_state: restarted
+  become: true
+  listen: Restart elasticsearch-exporter
+
+- name: Restart or reload elasticsearch exporter
+  ansible.builtin.systemd:
+    name: prometheus-elasticsearch-exporter
+    state: '{{ elasticsearch_exporter_handler_state }}'
+    daemon_reload: true
+    enabled: true
+  become: true
+  listen:
+  - Restart elasticsearch-exporter
+  - Reload elasticsearch-exporter
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status prometheus-elasticsearch-exporter
+  become: true
+  changed_when: false
+  listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ elasticsearch_exporter_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check
