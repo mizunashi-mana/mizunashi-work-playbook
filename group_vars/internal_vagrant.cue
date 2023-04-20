@@ -160,7 +160,10 @@ let blackbox_exporter_relabel_configs = [
   nginx_site_minio_server_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_minio_server_ca_bundle_path: #Schema.ca_certs_private_root_ca_cert_file
 
-  nginx_site_elasticsearch_domain: #Schema.#elasticsearch_hostname
+  elasticsearch_url: "https://\(#Schema.#elasticsearch_hostname):\(#Schema.#elasticsearch_https_port)"
+  nginx_site_elasticsearch_server_name: #Schema.#elasticsearch_hostname
+  nginx_site_elasticsearch_acme_challenge_url: #Schema.#private_acme_challenge_url
+  nginx_site_elasticsearch_ca_bundle_path: #Schema.ca_certs_private_root_ca_cert_file
 
   grafana_admin_password: {
     "__ansible_vault":

@@ -16,6 +16,7 @@ group_vars_all
 #nginx_exporter_http_port: nginx_exporter_listen_port
 #fluentd_metrics_http_port: fluentd_metrics_listen_port
 #private_acme_server_https_port: 6100
+#elasticsearch_https_port: 6310
 
 #workuser_name: "vagrant"
 

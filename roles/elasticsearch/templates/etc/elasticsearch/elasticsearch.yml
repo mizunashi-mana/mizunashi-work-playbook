@@ -117,3 +117,5 @@ http.host: 127.0.0.1
 #transport.host: 0.0.0.0
 
 #----------------------- END SECURITY AUTO CONFIGURATION -------------------------
+
+elasticsearch.hosts: "{{ elasticsearch_url }}"
