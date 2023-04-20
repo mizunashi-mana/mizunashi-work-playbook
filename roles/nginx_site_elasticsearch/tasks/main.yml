@@ -7,7 +7,7 @@
     name: certbot_install_acme_cert
   vars:
     certbot_install_acme_cert_server: '{{ nginx_site_elasticsearch_acme_challenge_url }}'
-    certbot_install_acme_cert_domain: '{{ nginx_site_elasticsearch_server_name }}'
+    certbot_install_acme_cert_domain: '{{ elasticsearch_domain }}'
     certbot_install_acme_cert_ca_bundle: '{{ nginx_site_elasticsearch_ca_bundle_path }}'
     certbot_install_acme_cert_on_calendar: '{{ certbot_renew_on_calendar }}'
 
