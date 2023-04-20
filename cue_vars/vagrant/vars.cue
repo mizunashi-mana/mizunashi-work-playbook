@@ -78,6 +78,7 @@ group_vars_all
 #www_hostname: "www-local.mizunashi.work"
 
 #minio_server_hostname: "minio.\(#private_domain)"
+#elasticsearch_hostname: "elasticsearch.\(#private_domain)"
 
 #account_email: "\(#workuser_name)@localhost"
 #notification_email: "\(#workuser_name)@localhost"
