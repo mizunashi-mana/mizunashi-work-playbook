@@ -1,8 +1,8 @@
 package nginx_site_elasticsearch
 
 elasticsearch_listen_port: uint
+elasticsearch_domain: string
 
-nginx_site_elasticsearch_server_name: string
 nginx_site_elasticsearch_listen_port: uint | *6310
 nginx_site_elasticsearch_acme_challenge_url: string
 nginx_site_elasticsearch_ca_bundle_path: string
