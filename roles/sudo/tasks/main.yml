@@ -4,3 +4,13 @@
     name: 'sudo={{ sudo_version }}*'
     state: present
   become: true
+
+- name: Copy sudoers
+  ansible.builtin.template:
+    src: etc/sudoers
+    dest: /etc/sudoers
+    owner: root
+    group: root
+    mode: '0440'
+    backup: true
+  become: true

@@ -51,6 +51,10 @@ let local_proxy_scrape_configs = {
     metrics_path: "/metrics"
     host_entries: #Schema.#host_entries
   },
+  "elasticsearch": {
+    metrics_path: "/metrics"
+    host_entries: #Schema.#internal_host_entries
+  }
 }
 
 let blackbox_exporter_relabel_configs = [
@@ -105,6 +109,10 @@ let blackbox_exporter_relabel_configs = [
       domain: #Schema.#minio_server_hostname
       ip: #Schema.#host_entries.internal001.internal_ipv4
     },
+    {
+      domain: #Schema.#elasticsearch_hostname
+      ip: #Schema.#host_entries.internal001.internal_ipv4
+    },
   ]
   dnsmasq_nameservers: #Schema.#public_dns_resolvers
 
@@ -130,6 +138,10 @@ let blackbox_exporter_relabel_configs = [
   }
   nginx_site_local_proxy_entries: "grafana": {
     upstream_port: #Schema.grafana_listen_port
+    auth_password: #Schema.#local_proxy_password
+  }
+  nginx_site_local_proxy_entries: "elasticsearch": {
+    upstream_port: #Schema.elasticsearch_listen_port
     auth_password: #Schema.#local_proxy_password
   }
 
