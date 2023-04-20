@@ -14,19 +14,3 @@
     sysctl_set: true
     state: present
   become: true
-
-- name: Install base dependencies
-  ansible.builtin.apt:
-    name:
-    - 'ca-certificates={{ base_ca_certificates_version }}*'
-    state: present
-  become: true
-
-- name: Bundled certificate is available
-  ansible.builtin.file:
-    path: '{{ base_ca_certificates_bundle_file }}'
-    state: file
-    owner: root
-    group: root
-    mode: '0644'
-  become: true

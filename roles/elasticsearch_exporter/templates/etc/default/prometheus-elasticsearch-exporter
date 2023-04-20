@@ -1,0 +1,4 @@
+LISTEN_ADDRESS={{ elasticsearch_exporter_listen_address }}:{{ elasticsearch_exporter_listen_port }}
+ELASTICSEARCH_URI=https://localhost:9200
+ELASTICSEARCH_CA_FILE={{ elasticsearch_exporter_ca_cert_file }}
+EXTRA_ARGS=

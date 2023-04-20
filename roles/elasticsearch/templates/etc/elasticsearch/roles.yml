@@ -1,0 +1,1 @@
+{{ elasticsearch_roles | to_yaml }}

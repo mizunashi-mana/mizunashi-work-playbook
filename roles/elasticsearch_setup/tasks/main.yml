@@ -1,0 +1,14 @@
+---
+- name: Select users
+  ansible.builtin.command: |
+    /usr/share/elasticsearch/bin/elasticsearch-users list
+  changed_when: false
+  become: true
+
+- name: Create upload user
+  ansible.builtin.command: |
+    /usr/share/elasticsearch/bin/elasticsearch-users useradd
+      --password 'test1234'
+      --roles ''
+      test1234
+  become: true

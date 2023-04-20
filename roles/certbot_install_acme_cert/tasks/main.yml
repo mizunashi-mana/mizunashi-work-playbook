@@ -15,6 +15,18 @@
     REQUESTS_CA_BUNDLE: '{{ certbot_install_acme_cert_ca_bundle }}'
   become: true
 
+- name: Install ACME certificate
+  ansible.builtin.command:
+    cmd: |
+      openssl pkcs12 -export
+        -in '/etc/letsencrypt/live/{{ certbot_install_acme_cert_domain }}/cert.pem'
+        -inkey '/etc/letsencrypt/live/{{ certbot_install_acme_cert_domain }}/privkey.pem'
+        -certfile '/etc/letsencrypt/live/{{ certbot_install_acme_cert_domain }}/chain.pem'
+        -out '/etc/letsencrypt/live/{{ certbot_install_acme_cert_domain }}/cert.p12'
+    creates: '/etc/letsencrypt/live/{{ certbot_install_acme_cert_domain }}/cert.p12'
+    stdin: ''
+  become: true
+
 - name: Install environment
   ansible.builtin.template:
     src: 'etc/default/certbot_renew_xxx'

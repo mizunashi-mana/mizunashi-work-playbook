@@ -146,7 +146,7 @@ let blackbox_exporter_relabel_configs = [
   }
   nginx_site_minio_server_domain: #Schema.#minio_server_hostname
   nginx_site_minio_server_acme_challenge_url: #Schema.#private_acme_challenge_url
-  nginx_site_minio_server_ca_bundle_path: #Schema.private_root_ca_certificate_path
+  nginx_site_minio_server_ca_bundle_path: #Schema.ca_certs_private_root_ca_cert_file
 
   grafana_admin_password: {
     "__ansible_vault":
@@ -183,7 +183,7 @@ let blackbox_exporter_relabel_configs = [
           password: #Schema.#local_proxy_password
         }
         tls_config: {
-          ca_file: #Schema.private_root_ca_certificate_path
+          ca_file: #Schema.ca_certs_private_root_ca_cert_file
         }
         static_configs: [{
           targets: [

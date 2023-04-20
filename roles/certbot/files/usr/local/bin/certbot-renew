@@ -8,5 +8,28 @@ fi
 
 certbot renew --cert-name "$DOMAIN"
 
+CERT_DIR="/etc/letsencrypt/live/$DOMAIN"
+
+if [ -e "$CERT_DIR/cert.pem" ] && [ -e "$CERT_DIR/privkey.pem" ] && [ -e "$CERT_DIR/chain.pem" ]
+then
+  echo "Certificates are not available."
+  exit 1
+fi
+
+NEED_CREATE_P12='false'
+if ! [ -e "/etc/letsencrypt/live/$DOMAIN/cert.p12" ]; then
+  NEED_CREATE_P12='true'
+elif [ "$(stat --format=%Y "$CERT_DIR/fullchain.pem")" -ge "$(stat --format=%Y "$CERT_DIR/fullchain.pem")" ]; then
+  NEED_CREATE_P12='true'
+fi
+
+if [ "$NEED_CREATE_P12" = 'true' ]; then
+  openssl pkcs12 -export \
+    -in "$CERT_DIR/cert.pem" \
+    -inkey "$CERT_DIR/privkey.pem" \
+    -certfile "$CERT_DIR/chain.pem" \
+    -out "$CERT_DIR/cert.p12"
+fi
+
 /usr/local/bin/node_exporter_custom_collector -c 'echo' \
   -d "$DESTINATION_PROMFILE"

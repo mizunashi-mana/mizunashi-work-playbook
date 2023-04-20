@@ -5,9 +5,9 @@
   - base
   - network
   - sudo
+  - ca_certs
   - workuser_setup
   - openssh_server
-  - private_root_ca
 
   post_tasks:
   - name: Check

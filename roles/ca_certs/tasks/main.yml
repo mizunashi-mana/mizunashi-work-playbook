@@ -1,0 +1,49 @@
+---
+- name: Install ca-certificates
+  ansible.builtin.apt:
+    name: 'ca-certificates={{ ca_certs_ca_certificates_version }}*'
+    state: present
+  become: true
+
+- name: Bundled certificate is available
+  ansible.builtin.file:
+    path: '{{ ca_certs_public_bundle_file }}'
+    state: file
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: Get bundled certificate
+  ansible.builtin.command: |
+    cat '{{ ca_certs_public_bundle_file }}'
+  register: ca_certs_public_bundle_file_content
+
+- name: Directory of private certs is available
+  ansible.builtin.file:
+    path: '{{ ca_certs_private_certs_dir }}'
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Install private root CA
+  ansible.builtin.copy:
+    content: "{{ ca_certs_private_root_ca_cert }}\n"
+    dest: '{{ ca_certs_private_root_ca_cert_file }}'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Install bundled private certificates
+  ansible.builtin.copy:
+    content: "{{ ca_certs_public_bundle_file_content.stdout }}\n{{ ca_certs_private_root_ca_cert }}\n"
+    dest: '{{ ca_certs_private_bundle_file }}'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true

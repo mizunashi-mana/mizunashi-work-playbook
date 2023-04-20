@@ -1,0 +1,15 @@
+---
+- name: Install elasticsearch exporter
+  ansible.builtin.apt:
+    name: 'prometheus-elasticsearch-exporter={{ elasticsearch_exporter_version }}*'
+    state: present
+  become: true
+
+- name: Notify restart elasticsearch exporter if not started
+  ansible.builtin.command: systemctl status prometheus-elasticsearch-exporter
+  become: true
+  register: elasticsearch_exporter_service_status
+  changed_when: elasticsearch_exporter_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart elasticsearch-exporter
