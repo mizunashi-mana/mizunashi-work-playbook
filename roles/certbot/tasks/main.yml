@@ -5,6 +5,22 @@
     state: present
   become: true
 
+- name: Disabled builtin renewal timer
+  ansible.builtin.systemd:
+    name: certbot.timer
+    state: stopped
+    enabled: false
+    masked: true
+  become: true
+
+- name: Disabled builtin renewal
+  ansible.builtin.systemd:
+    name: certbot
+    state: stopped
+    enabled: false
+    masked: true
+  become: true
+
 - name: Directory of certbot webroot is available
   ansible.builtin.file:
     path: '{{ certbot_webroot_dir }}'
@@ -32,20 +48,4 @@
     group: root
     mode: '0755'
     backup: true
-  become: true
-
-- name: Disabled builtin renewal timer
-  ansible.builtin.systemd:
-    name: certbot.timer
-    state: stopped
-    enabled: false
-    masked: true
-  become: true
-
-- name: Disabled builtin renewal
-  ansible.builtin.systemd:
-    name: certbot
-    state: stopped
-    enabled: false
-    masked: true
   become: true

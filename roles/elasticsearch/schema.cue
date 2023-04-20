@@ -1,6 +1,6 @@
 package elasticsearch
 
-elasticsearch_listen_port: 9200
+elasticsearch_listen_port: uint | *9200
 
 elasticsearch_roles: [string]: #RoleEntry
 

@@ -1,7 +1,7 @@
 ---
 - name: Check listen port
   ansible.builtin.wait_for:
-    port: '{{ nginx_site_http_redirector_listen_port }}'
+    port: '{{ nginx_site_elasticsearch_listen_port }}'
     state: started
     timeout: 60
   listen: Check

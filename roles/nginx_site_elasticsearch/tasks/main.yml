@@ -1,0 +1,23 @@
+---
+- name: Install elasticsearch site
+  ansible.builtin.template:
+    src: etc/nginx/sites-available/elasticsearch.conf
+    dest: /etc/nginx/sites-available/elasticsearch.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Reload nginx
+
+- name: Enable elasticsearch site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/elasticsearch.conf
+    dest: /etc/nginx/sites-enabled/elasticsearch.conf
+    owner: root
+    group: root
+    state: link
+  become: true
+  notify:
+    - Reload nginx
