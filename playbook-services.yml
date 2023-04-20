@@ -28,6 +28,7 @@
 
   - minio_setup
   - nginx_site_minio_server
+  - nginx_site_elasticsearch
 
   post_tasks:
   - name: Check
