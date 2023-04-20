@@ -13,6 +13,7 @@ import "mizunashi.work/pkg/roles/grafana_provisioning"
 import "mizunashi.work/pkg/roles/caddy"
 import "mizunashi.work/pkg/roles/caddy_site_acme_server"
 import "mizunashi.work/pkg/roles/nginx_site_minio_server"
+import "mizunashi.work/pkg/roles/nginx_site_elasticsearch"
 
 group_vars_all
 dnsmasq
@@ -26,3 +27,4 @@ grafana_provisioning
 caddy
 caddy_site_acme_server
 nginx_site_minio_server
+nginx_site_elasticsearch
