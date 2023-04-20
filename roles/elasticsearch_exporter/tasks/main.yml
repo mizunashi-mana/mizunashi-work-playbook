@@ -5,6 +5,30 @@
     state: present
   become: true
 
+- name: Copy elasticsearch exporter environment
+  ansible.builtin.template:
+    src: etc/default/prometheus-elasticsearch-exporter
+    dest: /etc/default/prometheus-elasticsearch-exporter
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart elasticsearch-exporter
+
+- name: Install elasticsearch exporter service
+  ansible.builtin.template:
+    src: usr/lib/systemd/system/prometheus-elasticsearch-exporter.service
+    dest: /usr/lib/systemd/system/prometheus-elasticsearch-exporter.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart elasticsearch-exporter
+
 - name: Notify restart elasticsearch exporter if not started
   ansible.builtin.command: systemctl status prometheus-elasticsearch-exporter
   become: true
