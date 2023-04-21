@@ -141,7 +141,7 @@ let blackbox_exporter_relabel_configs = [
     auth_password: #Schema.#local_proxy_password
   }
   nginx_site_local_proxy_entries: "elasticsearch": {
-    upstream_port: #Schema.elasticsearch_listen_port
+    upstream_port: #Schema.elasticsearch_exporter_listen_port
     auth_password: #Schema.#local_proxy_password
   }
 
