@@ -7,8 +7,9 @@
   "description": "A quickstart to setup the Prometheus Elasticsearch Exporter with preconfigured dashboards, alerting rules, and recording rules.",
   "schemaVersion": 38,
   "tags": [
-    "elasticsearch",
-    "App"
+    "ElasticSearch",
+    "Java",
+    "elasticsearch-exporter"
   ],
   "links": [],
   "editable": false,

@@ -71,6 +71,7 @@
       - postgres-exporter
       - nginx-exporter
       - redis-exporter
+      - elasticsearch-exporter
 
 - name: Copy dashboards
   ansible.builtin.copy:
