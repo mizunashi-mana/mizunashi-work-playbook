@@ -17,6 +17,18 @@
   notify:
   - Restart elasticsearch
 
+- name: Copy elasticsearch roles
+  ansible.builtin.template:
+    src: etc/elasticsearch/roles.yml
+    dest: /etc/elasticsearch/roles.yml
+    owner: root
+    group: elasticsearch
+    mode: '0660'
+    backup: true
+  become: true
+  notify:
+  - Restart elasticsearch
+
 - name: Notify restart elasticsearch if not started
   ansible.builtin.command: systemctl status elasticsearch
   become: true
