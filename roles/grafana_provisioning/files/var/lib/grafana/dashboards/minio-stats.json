@@ -6,7 +6,9 @@
   "title": "MinIO Stats",
   "schemaVersion": 38,
   "tags": [
-    "MinIO"
+    "MinIO",
+    "Golang",
+    "Prometheus"
   ],
   "links": [],
   "editable": false,

@@ -6,8 +6,9 @@
   "title": "Node Exporter",
   "schemaVersion": 38,
   "tags": [
-    "linux",
-    "node-exporter"
+    "Linux",
+    "node-exporter",
+    "Prometheus"
   ],
   "links": [],
   "editable": false,

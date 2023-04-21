@@ -6,7 +6,8 @@
   "title": "Prometheus Stats",
   "schemaVersion": 38,
   "tags": [
-    "prometheus"
+    "Prometheus",
+    "Golang"
   ],
   "links": [],
   "editable": false,

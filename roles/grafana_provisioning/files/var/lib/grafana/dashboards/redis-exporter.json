@@ -8,7 +8,8 @@
   "schemaVersion": 38,
   "tags": [
     "redis-exporter",
-    "Redis"
+    "Redis",
+    "Prometheus"
   ],
   "links": [],
   "editable": false,

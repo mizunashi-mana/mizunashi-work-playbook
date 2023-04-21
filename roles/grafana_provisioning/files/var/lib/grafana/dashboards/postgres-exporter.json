@@ -9,7 +9,8 @@
   "tags": [
     "PostgreSQL",
     "DB",
-    "postgres-exporter"
+    "postgres-exporter",
+    "Prometheus"
   ],
   "links": [],
   "editable": false,

@@ -7,8 +7,9 @@
   "description": "Metrics about Grafana",
   "schemaVersion": 38,
   "tags": [
-    "grafana",
-    "prometheus"
+    "Grafana",
+    "Prometheus",
+    "Golang"
   ],
   "links": [],
   "editable": false,

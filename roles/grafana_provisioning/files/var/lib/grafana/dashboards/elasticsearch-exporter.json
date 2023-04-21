@@ -9,7 +9,8 @@
   "tags": [
     "ElasticSearch",
     "Java",
-    "elasticsearch-exporter"
+    "elasticsearch-exporter",
+    "Prometheus"
   ],
   "links": [],
   "editable": false,
