@@ -69,6 +69,27 @@
   notify:
   - Restart td-agent
 
+- name: Directory of plugins is available
+  ansible.builtin.file:
+    path: /etc/td-agent/plugin
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Install ltsv lack parser
+  ansible.builtin.copy:
+    src: etc/td-agent/plugin/parser_ltsv_lack.rb
+    dest: /etc/td-agent/plugin/parser_ltsv_lack.rb
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+  - Restart td-agent
+
 - name: Copy td-agent config
   ansible.builtin.template:
     src: etc/td-agent/td-agent.conf

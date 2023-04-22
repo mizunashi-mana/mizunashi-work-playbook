@@ -73,6 +73,18 @@ let blackbox_exporter_relabel_configs = [
   },
 ]
 
+let grafana_elasticsearch_datasource_user = {
+  name: "grafana_datasource"
+  password: "__ansible_vault": """
+  $ANSIBLE_VAULT;1.1;AES256
+  62356637313731376334383336616332393936306231343930343163666366613062643330323366
+  3234626231666439646234653165393839306439326261370a346332316463623539623639623633
+  61656566353831363366653531383530663564633661363361306134346338643761386136316565
+  3033656435353263620a356264383762373763313464363235393734346261333666346234653832
+  3666
+  """
+}
+
 #BlackboxExporterScrapeConfig: #Schema.#ScrapeConfig
 #BlackboxExporterScrapeConfig: scheme: "http"
 #BlackboxExporterScrapeConfig: metrics_path: "/probe"
@@ -181,18 +193,11 @@ let blackbox_exporter_relabel_configs = [
       ]
       password: elasticsearch_exporter_elasticsearch_user_password
     }
-    grafana_datasource: {
+    "\(grafana_elasticsearch_datasource_user.name)": {
       roles: [
         "grafana_datasource"
       ]
-      password: "__ansible_vault": """
-      $ANSIBLE_VAULT;1.1;AES256
-      62356637313731376334383336616332393936306231343930343163666366613062643330323366
-      3234626231666439646234653165393839306439326261370a346332316463623539623639623633
-      61656566353831363366653531383530663564633661363361306134346338643761386136316565
-      3033656435353263620a356264383762373763313464363235393734346261333666346234653832
-      3666
-      """
+      password: grafana_elasticsearch_datasource_user.password
     }
   }
 
@@ -218,6 +223,28 @@ let blackbox_exporter_relabel_configs = [
   39613832323838636132303962663638376162616364343630363665323462613434336164306336
   6234396437353461323831646431373561373433373963333665
   """
+
+  grafana_provisioning_datasources: {
+    "Prometheus": {
+      type: "prometheus"
+      orgId: 1
+      url: "http://127.0.0.1:9090"
+      is_default: true
+      version: 1
+      editable: false
+    },
+    "ElasticSearch": {
+      type: "elasticsearch"
+      orgId: 1
+      url: "http://127.0.0.1:9200"
+      version: 1
+      editable: false
+      basic_auth: {
+        user: grafana_elasticsearch_datasource_user.name
+        password: grafana_elasticsearch_datasource_user.password
+      }
+    }
+  }
 
   prometheus_scrape_configs: [
     for job, entry in local_proxy_scrape_configs {

@@ -1,23 +1,26 @@
 package grafana_provisioning
 
-grafana_provisioning_datasources: [...#DataSourceEntry] | *[#PrometheusDataSourceEntry]
+import "mizunashi.work/pkg/cue_types"
+
+grafana_provisioning_datasources: [string]: #DataSourceEntry
 
 #DataSourceEntry: {
-  name: string
-  type: "prometheus"
   orgId: uint | *1
   url: string
   is_default: bool | *false
   version: uint
-  editable: bool
-}
-
-#PrometheusDataSourceEntry: {
-  name: "Prometheus"
+  editable: bool | *false
+  basic_auth?: {
+    user: string
+    password: cue_types.#Vaulted
+  }
+} & ({
   type: "prometheus"
-  orgId: 1
-  url: "http://127.0.0.1:9090"
-  is_default: true
-  version: 1
-  editable: false
-}
+  prometheus_type: "Prometheus"
+  prometheus_version: "2.24.x"
+} | {
+  type: "elasticsearch"
+  es_version: "8.x"
+  time_field: string | *"@timestamp"
+  max_concurrent_shard_requests: uint | *5
+})

@@ -5,7 +5,7 @@
 ```
 make vagrant-up \
   || vagrant reload && make vagrant-up \
-  || vagrant reload && make vagrant-provision
+  || vagrant reload && make vagrant-up
 ```
 
 ## License
