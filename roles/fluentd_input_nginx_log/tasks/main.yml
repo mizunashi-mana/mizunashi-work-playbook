@@ -1,0 +1,25 @@
+---
+- name: Install input of nginx error.log
+  ansible.builtin.template:
+    src: etc/td-agent/conf.d/input_nginx_error_log.conf
+    dest: /etc/td-agent/conf.d/input_nginx_error_log.conf
+    owner: root
+    group: root
+    mode: '0640'
+    backup: true
+  become: true
+  notify:
+  - Reload td-agent
+
+- name: Install input of nginx access.log
+  ansible.builtin.template:
+    src: etc/td-agent/conf.d/input_nginx_ltsv_access_log_xxx.conf
+    dest: '/etc/td-agent/conf.d/input_nginx_ltsv_access_log_{{ item }}.conf'
+    owner: root
+    group: root
+    mode: '0640'
+    backup: true
+  become: true
+  loop: '{{ fluentd_input_nginx_log_access_entries|dict2items|map(attribute="key") }}'
+  notify:
+  - Reload td-agent

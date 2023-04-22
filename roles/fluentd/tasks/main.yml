@@ -70,7 +70,28 @@
     backup: true
   become: true
   notify:
-  - Restart td-agent
+  - Reload td-agent
+
+- name: Directory of td-agent configs is available
+  ansible.builtin.file:
+    path: /etc/td-agent/conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+  become: true
+
+- name: Install filter of prometheus input monitor
+  ansible.builtin.template:
+    src: etc/td-agent/conf.d/filter_prometheus_input_monitor.conf
+    dest: /etc/td-agent/conf.d/filter_prometheus_input_monitor.conf
+    owner: root
+    group: root
+    mode: '0640'
+    backup: true
+  become: true
+  notify:
+  - Reload td-agent
 
 - name: Notify restart td-agent if not started
   ansible.builtin.command: systemctl status td-agent

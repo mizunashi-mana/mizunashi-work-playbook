@@ -12,8 +12,11 @@ import "mizunashi.work/pkg/roles/apticron"
 import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/fail2ban"
 import "mizunashi.work/pkg/roles/certbot"
-import "mizunashi.work/pkg/roles/fluentd"
 import "mizunashi.work/pkg/roles/node_exporter"
+import "mizunashi.work/pkg/roles/fluentd"
+import "mizunashi.work/pkg/roles/fluentd_input_auth_log"
+import "mizunashi.work/pkg/roles/fluentd_input_nginx_log"
+import "mizunashi.work/pkg/roles/fluentd_output_elasticsearch"
 import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/nginx_exporter"
 import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
@@ -33,6 +36,9 @@ exim
 apticron
 certbot
 fluentd
+fluentd_input_auth_log
+fluentd_input_nginx_log
+fluentd_output_elasticsearch
 nginx
 nginx_exporter
 nginx_site_http_redirector

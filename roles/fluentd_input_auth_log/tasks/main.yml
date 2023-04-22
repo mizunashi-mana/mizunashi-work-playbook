@@ -1,0 +1,12 @@
+---
+- name: Install input of auth.log
+  ansible.builtin.template:
+    src: etc/td-agent/conf.d/input_auth_log.conf
+    dest: /etc/td-agent/conf.d/input_auth_log.conf
+    owner: root
+    group: root
+    mode: '0640'
+    backup: true
+  become: true
+  notify:
+  - Reload td-agent

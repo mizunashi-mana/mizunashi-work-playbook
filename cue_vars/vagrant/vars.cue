@@ -164,3 +164,35 @@ nginx_site_local_proxy_entries: "fluentd": {
   upstream_port: #fluentd_metrics_http_port
   auth_password: #local_proxy_password
 }
+
+fluentd_input_auth_log_tag: "node.auth"
+fluentd_input_nginx_log_error_tag: "nginx.error"
+
+#fluentd_input_nginx_log_access_stub_status_tag: "nginx.access.stub_status"
+fluentd_input_nginx_log_access_entries: "\(#fluentd_input_nginx_log_access_stub_status_tag)": {
+  log_file: "/var/log/nginx/access.stub_status.log"
+}
+fluentd_input_nginx_log_access_entries: "nginx.access.local_proxy": {
+  log_file: "/var/log/nginx/access.local_proxy.log"
+}
+fluentd_input_nginx_log_access_entries: "nginx.access.http_redirector": {
+  log_file: "/var/log/nginx/access.http_redirector.log"
+}
+
+fluentd_output_elasticsearch_scheme: "https"
+fluentd_output_elasticsearch_domain: #elasticsearch_hostname
+fluentd_output_elasticsearch_port: #elasticsearch_https_port
+fluentd_output_elasticsearch_ca_file: group_vars_all.ca_certs_private_root_ca_cert_file
+
+fluentd_output_elasticsearch_user_name: "logstash_upload"
+fluentd_output_elasticsearch_user_password: "__ansible_vault": """
+$ANSIBLE_VAULT;1.1;AES256
+62356637313731376334383336616332393936306231343930343163666366613062643330323366
+3234626231666439646234653165393839306439326261370a346332316463623539623639623633
+61656566353831363366653531383530663564633661363361306134346338643761386136316565
+3033656435353263620a356264383762373763313464363235393734346261333666346234653832
+3666
+"""
+
+fluentd_output_elasticsearch_entries: "\(fluentd_input_auth_log_tag)": {}
+fluentd_output_elasticsearch_entries: "\(fluentd_input_nginx_log_error_tag)": {}

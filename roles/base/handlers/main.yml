@@ -1,0 +1,10 @@
+---
+- name: Check timezone
+  ansible.builtin.command: date +%Z
+  become: true
+  changed_when: false
+  register: base_check_timezone
+  failed_when: |
+    base_check_timezone.rc != 0 or base_check_timezone.stdout != 'UTC'
+  listen:
+  - Check

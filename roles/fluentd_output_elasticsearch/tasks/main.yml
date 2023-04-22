@@ -1,0 +1,13 @@
+---
+- name: Install output to ElasticSearch
+  ansible.builtin.template:
+    src: etc/td-agent/conf.d/output_elasticsearch_xxx.conf
+    dest: '/etc/td-agent/conf.d/output_elasticsearch_{{ item }}.conf'
+    owner: root
+    group: root
+    mode: '0640'
+    backup: true
+  become: true
+  loop: '{{ fluentd_output_elasticsearch_entries|dict2items|map(attribute="key") }}'
+  notify:
+  - Reload td-agent

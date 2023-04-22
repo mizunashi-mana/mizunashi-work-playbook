@@ -169,31 +169,17 @@ let blackbox_exporter_relabel_configs = [
 
   elasticsearch_domain: #Schema.#elasticsearch_hostname
   elasticsearch_setup_users: {
-    logstash_upload: {
+    "\(#Schema.fluentd_output_elasticsearch_user_name)": {
       roles: [
         "logstash_upload",
       ]
-      password: "__ansible_vault": """
-      $ANSIBLE_VAULT;1.1;AES256
-      62356637313731376334383336616332393936306231343930343163666366613062643330323366
-      3234626231666439646234653165393839306439326261370a346332316463623539623639623633
-      61656566353831363366653531383530663564633661363361306134346338643761386136316565
-      3033656435353263620a356264383762373763313464363235393734346261333666346234653832
-      3666
-      """
+      password: #Schema.fluentd_output_elasticsearch_user_password
     }
-    elasticsearch_exporter: {
+    "\(elasticsearch_exporter_elasticsearch_user_name)": {
       roles: [
-        "elasticsearch_exporter"
+        "elasticsearch_exporter",
       ]
-      password: "__ansible_vault": """
-      $ANSIBLE_VAULT;1.1;AES256
-      62356637313731376334383336616332393936306231343930343163666366613062643330323366
-      3234626231666439646234653165393839306439326261370a346332316463623539623639623633
-      61656566353831363366653531383530663564633661363361306134346338643761386136316565
-      3033656435353263620a356264383762373763313464363235393734346261333666346234653832
-      3666
-      """
+      password: elasticsearch_exporter_elasticsearch_user_password
     }
     grafana_datasource: {
       roles: [
