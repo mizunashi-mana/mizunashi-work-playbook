@@ -130,7 +130,7 @@
         },
         "query": {
           "refId": "Prometheus-cluster-Variable-Query",
-          "query": "label_values(elasticsearch_indices_docs{job=\"$job\"},cluster)"
+          "query": "label_values(elasticsearch_cluster_health_status{job=\"$job\"},cluster)"
         },
         "current": {
           "isNone": true,
