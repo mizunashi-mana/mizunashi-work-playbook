@@ -4,11 +4,22 @@
     /usr/share/elasticsearch/bin/elasticsearch-users list
   changed_when: false
   become: true
+  register: elasticsearch_setup_select_users_result
 
-- name: Create upload user
+- name: Pickup exists users
+  ansible.builtin.set_fact:
+    elasticsearch_setup_exists_users: |
+      {{ elasticsearch_setup_select_users_result.stdout_lines |  map('regex_replace', '^([^:]+)\s*:', '\\1') }}
+
+- debug:
+    var: elasticsearch_setup_exists_users
+
+- name: Create users
   ansible.builtin.command: |
     /usr/share/elasticsearch/bin/elasticsearch-users useradd
-      --password 'test1234'
-      --roles ''
-      test1234
+      --password '{{ item.value.password }}'
+      --roles '{{ item.value.roles|join(",") }}'
+      '{{ item.key }}'
   become: true
+  when: not item.key in elasticsearch_setup_exists_users
+  loop: '{{ elasticsearch_setup_users|dict2items }}'

@@ -6,6 +6,7 @@ import "mizunashi.work/pkg/roles/dnsmasq"
 import "mizunashi.work/pkg/roles/minio"
 import "mizunashi.work/pkg/roles/minio_setup"
 import "mizunashi.work/pkg/roles/elasticsearch"
+import "mizunashi.work/pkg/roles/elasticsearch_setup"
 import "mizunashi.work/pkg/roles/elasticsearch_exporter"
 import "mizunashi.work/pkg/roles/prometheus"
 import "mizunashi.work/pkg/roles/blackbox_exporter"
@@ -21,6 +22,7 @@ dnsmasq
 minio
 minio_setup
 elasticsearch
+elasticsearch_setup
 elasticsearch_exporter
 prometheus
 blackbox_exporter
