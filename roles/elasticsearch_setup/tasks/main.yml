@@ -15,6 +15,9 @@
         | list
         }}
 
+- debug:
+    var: elasticsearch_setup_exists_users
+
 - name: Create users
   ansible.builtin.command: |
     /usr/share/elasticsearch/bin/elasticsearch-users useradd
