@@ -3,8 +3,8 @@
   ansible.builtin.template:
     src: etc/td-agent/conf.d/input_auth_log.conf
     dest: /etc/td-agent/conf.d/input_auth_log.conf
-    owner: root
-    group: root
+    owner: td-agent
+    group: td-agent
     mode: '0640'
     backup: true
   become: true

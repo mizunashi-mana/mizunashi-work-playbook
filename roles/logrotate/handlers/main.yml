@@ -1,0 +1,10 @@
+---
+- name: Reload logrotate timer
+  ansible.builtin.systemd:
+    name: logrotate.timer
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  listen:
+  - Reload logrotate.timer
