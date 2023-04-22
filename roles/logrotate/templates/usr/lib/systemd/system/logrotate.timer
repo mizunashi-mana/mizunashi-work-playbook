@@ -3,8 +3,8 @@ Description=Rotation of log files
 Documentation=man:logrotate(8) man:logrotate.conf(5)
 
 [Timer]
-OnCalendar=30min
-AccuracySec=1min
+OnCalendar=hourly
+AccuracySec=5min
 Persistent=true
 
 [Install]
