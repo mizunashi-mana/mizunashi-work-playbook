@@ -168,14 +168,8 @@ nginx_site_local_proxy_entries: "fluentd": {
 fluentd_input_auth_log_tag: "node.auth"
 fluentd_input_nginx_log_error_tag: "nginx.error"
 
-#fluentd_input_nginx_log_access_stub_status_tag: "nginx.access.stub_status"
-fluentd_input_nginx_log_access_entries: "\(#fluentd_input_nginx_log_access_stub_status_tag)": {
-  log_file: "/var/log/nginx/access.stub_status.log"
-}
-fluentd_input_nginx_log_access_entries: "nginx.access.local_proxy": {
-  log_file: "/var/log/nginx/access.local_proxy.log"
-}
-fluentd_input_nginx_log_access_entries: "nginx.access.http_redirector": {
+#fluentd_input_nginx_log_access_http_redirector_tag: "nginx.access.http_redirector"
+fluentd_input_nginx_log_access_entries: "\(#fluentd_input_nginx_log_access_http_redirector_tag)": {
   log_file: "/var/log/nginx/access.http_redirector.log"
 }
 
@@ -196,3 +190,4 @@ $ANSIBLE_VAULT;1.1;AES256
 
 fluentd_output_elasticsearch_entries: "\(fluentd_input_auth_log_tag)": {}
 fluentd_output_elasticsearch_entries: "\(fluentd_input_nginx_log_error_tag)": {}
+fluentd_output_elasticsearch_entries: "\(#fluentd_input_nginx_log_access_http_redirector_tag)": {}

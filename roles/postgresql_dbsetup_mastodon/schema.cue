@@ -1,4 +1,4 @@
-package postgresql_mastodon
+package postgresql_dbsetup_mastodon
 
 import "mizunashi.work/pkg/cue_types"
 

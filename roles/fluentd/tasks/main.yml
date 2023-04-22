@@ -102,6 +102,18 @@
   notify:
   - Reload td-agent
 
+- name: Install prometheus output for fluent logs
+  ansible.builtin.template:
+    src: etc/td-agent/conf.d/output_prometheus_fluent_log.conf
+    dest: /etc/td-agent/conf.d/output_prometheus_fluent_log.conf
+    owner: td-agent
+    group: td-agent
+    mode: '0640'
+    backup: true
+  become: true
+  notify:
+  - Reload td-agent
+
 - name: Notify restart td-agent if not started
   ansible.builtin.command: systemctl status td-agent
   become: true
