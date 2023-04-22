@@ -17,10 +17,10 @@ grafana_provisioning_datasources: [string]: #DataSourceEntry
 } & ({
   type: "prometheus"
   prometheus_type: "Prometheus"
-  prometheus_version: "2.24.x"
+  prometheus_version: "2.24.0"
 } | {
   type: "elasticsearch"
-  es_version: "8.x"
+  es_version: "8.7.0"
   time_field: string | *"@timestamp"
   max_concurrent_shard_requests: uint | *5
 })

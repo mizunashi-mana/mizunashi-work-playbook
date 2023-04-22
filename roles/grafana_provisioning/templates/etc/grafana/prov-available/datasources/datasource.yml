@@ -8,40 +8,40 @@ apiVersion: 1
 
 datasources:
 {% for name, entry in grafana_provisioning_datasources.items() %}
-  - name: {{ name|to_yaml }}
-    type: {{ entry.type|to_yaml }}
+  - name: {{ name|to_json }}
+    type: {{ entry.type|to_json }}
     access: proxy
     orgId: {{ entry.orgId|to_yaml }}
-    url: {{ entry.url|to_yaml }}
+    url: {{ entry.url|to_json }}
     isDefault: {{ entry.is_default|to_yaml }}
-    version: {{ entry.version|to_yaml }}
+    version: {{ entry.version|to_json }}
     editable: {{ entry.editable|to_yaml }}
 
 {% if 'basic_auth' in entry %}
     basicAuth: true
-    basicAuthUser: {{ entry.basic_auth.user|to_yaml }}
+    basicAuthUser: {{ entry.basic_auth.user|to_json }}
 {% endif %}
 
     secureJsonData:
 {% if 'basic_auth' in entry %}
-      basicAuthPassword: {{ entry.basic_auth.password|string|to_yaml }}
+      basicAuthPassword: {{ entry.basic_auth.password|string|to_json }}
 {% endif %}
 
     jsonData:
 {% if 'prometheus_type' in entry %}
-      prometheusType: {{ entry.prometheus_type|to_yaml }}
+      prometheusType: {{ entry.prometheus_type|to_json }}
 {% endif %}
 {% if 'prometheus_version' in entry %}
-      prometheusVersion: {{ entry.prometheus_version|to_yaml }}
+      prometheusVersion: {{ entry.prometheus_version|to_json }}
 {% endif %}
 
 {% if 'es_version' in entry %}
-      esVersion: {{ entry.es_version|to_yaml }}
+      esVersion: {{ entry.es_version|to_json }}
 {% endif %}
 {% if 'time_field' in entry %}
-      timeField: {{ entry.time_field|to_yaml }}
+      timeField: {{ entry.time_field|to_json }}
 {% endif %}
 {% if 'max_concurrent_shard_requests' in entry %}
-      maxConcurrentShardRequests: {{ entry.max_concurrent_shard_requests|to_yaml }}
+      maxConcurrentShardRequests: {{ entry.max_concurrent_shard_requests|to_json }}
 {% endif %}
 {% endfor %}
