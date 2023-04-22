@@ -13,7 +13,6 @@ ExecStart=/usr/bin/prometheus-elasticsearch-exporter \
   --es.cluster_settings true \
   --es.indices true \
   --es.indices_settings true \
-  --es.indices_mappings true \
   --es.shards true \
   $EXTRA_ARGS
 
