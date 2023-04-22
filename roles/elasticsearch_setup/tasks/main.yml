@@ -15,15 +15,12 @@
         | list
         }}
 
-- debug:
-    var: elasticsearch_setup_exists_users
-
 - name: Create users
   ansible.builtin.command: |
     /usr/share/elasticsearch/bin/elasticsearch-users useradd
-      --password '{{ item.value.password }}'
-      --roles '{{ item.value.roles|join(",") }}'
-      '{{ item.key }}'
+      --password '{{ elasticsearch_setup_users[item].password }}'
+      --roles '{{ elasticsearch_setup_users[item].roles|join(",") }}'
+      '{{ item }}'
   become: true
-  when: not item.key in elasticsearch_setup_exists_users
-  loop: '{{ elasticsearch_setup_users|dict2items }}'
+  when: not item in elasticsearch_setup_exists_users
+  loop: '{{ elasticsearch_setup_users|dict2items|map(attribute="key") }}'
