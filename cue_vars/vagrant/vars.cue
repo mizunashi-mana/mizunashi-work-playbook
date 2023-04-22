@@ -191,5 +191,7 @@ $ANSIBLE_VAULT;1.1;AES256
 """
 
 fluentd_output_elasticsearch_entries: "\(fluentd_input_auth_log_tag)": {}
+fluentd_output_elasticsearch_entries: "\(fluentd_input_kern_log_tag)": {}
+fluentd_output_elasticsearch_entries: "\(fluentd_input_kern_log_nftables_tag)": {}
 fluentd_output_elasticsearch_entries: "\(fluentd_input_nginx_log_error_tag)": {}
 fluentd_output_elasticsearch_entries: "\(#fluentd_input_nginx_log_access_http_redirector_tag)": {}
