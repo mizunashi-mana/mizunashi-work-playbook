@@ -9,10 +9,11 @@
 - name: Pickup exists users
   ansible.builtin.set_fact:
     elasticsearch_setup_exists_users: |
-      {{ elasticsearch_setup_select_users_result.stdout_lines |  map('regex_replace', '^([^:]+)\s*:', '\\1') }}
-
-- debug:
-    var: elasticsearch_setup_exists_users
+      {{
+        elasticsearch_setup_select_users_result.stdout_lines
+        | map('regex_replace', '^([^:]+)\s*:.*$', '\1')
+        | list
+        }}
 
 - name: Create users
   ansible.builtin.command: |
