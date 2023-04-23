@@ -1,14 +1,10 @@
 # config file version
 apiVersion: 1
 
-# # list of datasources that should be deleted from the database
-# deleteDatasources:
-#   - name: Graphite
-#     orgId: 1
-
 datasources:
-{% for name, entry in grafana_provisioning_datasources.items() %}
-  - name: {{ name|to_json }}
+{% for uid, entry in grafana_provisioning_datasources.items() %}
+  - uid: {{ uid|to_json }}
+    name: {{ entry.name|to_json }}
     type: {{ entry.type|to_json }}
     access: proxy
     orgId: {{ entry.orgId|to_yaml }}

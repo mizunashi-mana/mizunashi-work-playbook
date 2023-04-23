@@ -225,16 +225,18 @@ let grafana_elasticsearch_datasource_user = {
   """
 
   grafana_provisioning_datasources: {
-    "Prometheus": {
+    "prometheus": {
       type: "prometheus"
+      name: "Prometheus"
       orgId: 1
       url: "http://127.0.0.1:9090"
       is_default: true
       version: 1
       editable: false
     },
-    "ElasticSearch": {
+    "elasticsearch": {
       type: "elasticsearch"
+      name: "ElasticSearch"
       orgId: 1
       url: "http://127.0.0.1:9200"
       version: 1

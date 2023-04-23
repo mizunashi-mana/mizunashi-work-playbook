@@ -73,6 +73,9 @@
       - redis-exporter
       - elasticsearch-exporter
 
+    grafana_provisioning_alertings:
+      - prometheus
+
 - name: Copy dashboards
   ansible.builtin.copy:
     src: var/lib/grafana/dashboards/{{ item }}.json
@@ -83,6 +86,19 @@
     backup: true
   become: true
   loop: '{{ grafana_provisioning_dashboards }}'
+  notify:
+  - Restart grafana
+
+- name: Copy alertings
+  ansible.builtin.copy:
+    src: var/lib/grafana/alerting/{{ item }}.json
+    dest: /var/lib/grafana/alerting/{{ item }}.json
+    owner: grafana
+    group: grafana
+    mode: '0640'
+    backup: true
+  become: true
+  loop: '{{ grafana_provisioning_alertings }}'
   notify:
   - Restart grafana
 
@@ -101,5 +117,15 @@
     dest: /etc/grafana/provisioning/dashboards/generic.yml
     state: link
   become: true
+  notify:
+  - Restart grafana
+
+- name: Enable alertings
+  ansible.builtin.file:
+    src: '/etc/grafana/prov-available/alerting/{{ item }}.yml'
+    dest: '/etc/grafana/provisioning/alerting/{{ item }}.yml'
+    state: link
+  become: true
+  loop: '{{ grafana_provisioning_alertings }}'
   notify:
   - Restart grafana
