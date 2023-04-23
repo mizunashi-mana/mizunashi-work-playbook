@@ -17,9 +17,18 @@
     mode: '0750'
   become: true
 
-- name: Directory of available datasources is available
+- name: Directory of available dashboards is available
   ansible.builtin.file:
     path: /etc/grafana/prov-available/dashboards
+    state: directory
+    owner: root
+    group: grafana
+    mode: '0750'
+  become: true
+
+- name: Directory of available alertings is available
+  ansible.builtin.file:
+    path: /etc/grafana/prov-available/alerting
     state: directory
     owner: root
     group: grafana
