@@ -3,17 +3,23 @@ apiVersion: 1
 groups:
   - orgId: 1
     name: 'Prometheus: Instantly'
-    folder: Alert
     interval: 1m
 
     rules:
-      - uid: 'alert_prometheus_ExporterDown'
+      - uid: 'alert_Prometheus_ExporterDown'
         title: 'Prometheus: Exporter Down'
         condition: C
-        for: 5m
+        for: 2m
         isPaused: false
         noDataState: NoData
         execErrState: Error
+
+        annotations:
+          __dashboardUid__: PrometheusStats
+          __panelId__: "42"
+          summary: 'Exporter on the instance {{ "{{ $labels.instance }}" }} is down'
+        labels:
+          severity: error
 
         data:
           - refId: A
