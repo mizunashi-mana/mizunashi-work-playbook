@@ -2,12 +2,12 @@ apiVersion: 1
 
 groups:
   - orgId: 1
-    name: instantly
+    name: 'Prometheus: Instantly'
     folder: Alert
     interval: 1m
 
     rules:
-      - uid: 'AlertPrometheusExporterDown'
+      - uid: 'alert_prometheus_ExporterDown'
         title: 'Prometheus: Exporter Down'
         condition: C
         for: 5m
@@ -20,7 +20,7 @@ groups:
             relativeTimeRange:
               from: 600
               to: 0
-            datasourceUid: prometheus
+            datasourceUid: ds_prometheus
             model:
               refId: A
               expr: up

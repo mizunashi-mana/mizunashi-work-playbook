@@ -4,7 +4,7 @@ import "mizunashi.work/pkg/cue_types"
 
 grafana_provisioning_datasources: [string]: #DataSourceEntry
 
-grafana_provisioning_datasources: "prometheus": {
+grafana_provisioning_datasources: "ds_prometheus": {
   name: "Prometheus"
   type: "prometheus"
   orgId: 1
@@ -20,7 +20,7 @@ grafana_provisioning_datasources: "prometheus": {
   prometheus_version: "2.24.0"
 }
 
-grafana_provisioning_datasources: "elasticsearch": {
+grafana_provisioning_datasources: "ds_elasticsearch": {
   name: "ElasticSearch"
   type: "elasticsearch"
   orgId: 1
