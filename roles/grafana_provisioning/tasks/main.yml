@@ -91,8 +91,8 @@
 
 - name: Copy alertings
   ansible.builtin.copy:
-    src: var/lib/grafana/alerting/{{ item }}.yml
-    dest: /var/lib/grafana/alerting/{{ item }}.yml
+    src: 'etc/grafana/prov-available/alerting/{{ item }}.yml'
+    dest: '/etc/grafana/prov-available/alerting/{{ item }}.yml'
     owner: grafana
     group: grafana
     mode: '0640'
