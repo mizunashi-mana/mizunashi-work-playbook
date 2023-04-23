@@ -225,7 +225,7 @@ let grafana_elasticsearch_datasource_user = {
   """
 
   grafana_provisioning_datasources: {
-    "prometheus": {
+    "ds_prometheus": {
       type: "prometheus"
       name: "Prometheus"
       orgId: 1
@@ -234,7 +234,7 @@ let grafana_elasticsearch_datasource_user = {
       version: 1
       editable: false
     },
-    "elasticsearch": {
+    "ds_elasticsearch": {
       type: "elasticsearch"
       name: "ElasticSearch"
       orgId: 1
