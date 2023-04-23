@@ -84,6 +84,7 @@
 
     grafana_provisioning_alertings:
       - prometheus
+      - node-exporter
 
 - name: Copy dashboards
   ansible.builtin.copy:
