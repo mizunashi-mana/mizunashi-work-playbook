@@ -29,7 +29,7 @@
     path: /etc/hosts
     search_string: '{{ item[0] }} '
     line: |
-      {{ item[0] }} {{ item[1]|map(attribute="key")|join(" ") }}'
+      {{ item[0] }} {{ item[1]|map(attribute="key")|join(" ") }}
     owner: root
     group: root
     mode: '0644'
