@@ -17,6 +17,18 @@
   notify:
   - Restart elasticsearch
 
+- name: Copy jvm options
+  ansible.builtin.template:
+    src: etc/elasticsearch/jvm.options
+    dest: /etc/elasticsearch/jvm.options
+    owner: root
+    group: elasticsearch
+    mode: '0660'
+    backup: true
+  become: true
+  notify:
+  - Restart elasticsearch
+
 - name: Copy elasticsearch roles
   ansible.builtin.template:
     src: etc/elasticsearch/roles.yml

@@ -2,7 +2,6 @@ package group_vars_internal
 
 import "mizunashi.work/pkg/schemas/group_vars_all"
 
-import "mizunashi.work/pkg/roles/dnsmasq"
 import "mizunashi.work/pkg/roles/minio"
 import "mizunashi.work/pkg/roles/minio_setup"
 import "mizunashi.work/pkg/roles/elasticsearch"
@@ -18,7 +17,6 @@ import "mizunashi.work/pkg/roles/nginx_site_minio_server"
 import "mizunashi.work/pkg/roles/nginx_site_elasticsearch"
 
 group_vars_all
-dnsmasq
 minio
 minio_setup
 elasticsearch

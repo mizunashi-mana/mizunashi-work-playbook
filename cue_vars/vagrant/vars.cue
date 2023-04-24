@@ -63,14 +63,11 @@ group_vars_all
   }
 }
 
-#public_dns_resolver_ipv4: "4.2.2.1"
-#public_dns_resolver_ipv6: "2001:4860:4860::8844"
-#public_dns_resolvers: [
-  #public_dns_resolver_ipv4,
-  #public_dns_resolver_ipv6,
+#dns_resolver_primary_ipv4: "4.2.2.1"
+#dns_resolver_primary_ipv6: "2001:4860:4860::8844"
+#dns_resolvers_secondary: [
   "4.2.2.2",
 ]
-#internal_dns_resolver: #host_entries.internal001.internal_ipv4
 
 #private_acme_challenge_hostname: "acme.\(#private_domain)"
 #private_acme_challenge_url:  "https://\(#private_acme_challenge_hostname):\(#private_acme_server_https_port)/acme/local/directory"
@@ -110,8 +107,20 @@ network_public_iface: "eth1"
 network_internal_iface: "eth2"
 network_internal_ipv4_netmask: "255.255.255.0"
 
-systemd_resolved_internal_dns: #internal_dns_resolver
-systemd_resolved_fallback_dns: #public_dns_resolvers
+systemd_resolved_primary_dns: #dns_resolver_primary_ipv4
+systemd_resolved_fallback_dns: [
+  #dns_resolver_primary_ipv6,
+  for entry in #dns_resolvers_secondary {
+    entry
+  },
+]
+
+for _, entry in #host_entries {
+  base_hosts_to_ips: "\(entry.internal_host)": entry.internal_ipv4
+}
+base_hosts_to_ips: "\(#private_acme_challenge_hostname)": #host_entries.internal001.internal_ipv4
+base_hosts_to_ips: "\(#minio_server_hostname)": #host_entries.internal001.internal_ipv4
+base_hosts_to_ips: "\(#elasticsearch_hostname)": #host_entries.internal001.internal_ipv4
 
 nftables_accept_tcp_ports: [#ssh_port, ...uint]
 nftables_accept_ports_with_iif: "internal_local_proxy": {
@@ -140,7 +149,7 @@ $ANSIBLE_VAULT;1.1;AES256
 apticron_notification_email: #notification_email
 certbot_acme_notification_email: #notification_email
 
-nginx_resolver: #internal_dns_resolver
+nginx_resolver: #dns_resolver_primary_ipv4
 
 nginx_site_http_redirector_listen_port: #http_port
 

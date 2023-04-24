@@ -8,8 +8,6 @@ let ca_vars = private_ca_vagrant
 #Schema: group_vars_internal
 #Schema: vagrant
 
-let dns_port = #Schema.dnsmasq_listen_port
-
 let local_proxy_scrape_configs = {
   "prometheus": {
     metrics_path: "/metrics"
@@ -98,35 +96,9 @@ let grafana_elasticsearch_datasource_user = {
   nftables_accept_ports_with_iif: "internal_services": {
     iif: #Schema.network_internal_iface
     tcp_ports: [
-      dns_port,
       #Schema.#private_acme_server_https_port,
     ]
-    udp_ports: [
-      dns_port,
-    ]
   }
-
-  dnsmasq_hosts_entries: [
-    for _, entry in #Schema.#host_entries {
-      {
-        domain: entry.internal_host
-        ip: entry.internal_ipv4
-      }
-    },
-    {
-      domain: #Schema.#private_acme_challenge_hostname
-      ip: #Schema.#host_entries.internal001.internal_ipv4
-    },
-    {
-      domain: #Schema.#minio_server_hostname
-      ip: #Schema.#host_entries.internal001.internal_ipv4
-    },
-    {
-      domain: #Schema.#elasticsearch_hostname
-      ip: #Schema.#host_entries.internal001.internal_ipv4
-    },
-  ]
-  dnsmasq_nameservers: #Schema.#public_dns_resolvers
 
   caddy_pki_ca_local_name: "mizunashi-work-playbook Local Authority"
   caddy_pki_ca_local_root_cn: "mizunashi-work-playbook - 2023 ECC Root"
@@ -316,19 +288,6 @@ let grafana_elasticsearch_datasource_user = {
       static_configs: [{
         targets: [
           "https://\(#Schema.#www_hostname):\(#Schema.#https_port)/",
-        ]
-      }]
-    },
-    #BlackboxExporterScrapeConfig & {
-      job_name: "blackbox_tcp_connect"
-      params: {
-        module: ["tcp_connect"]
-      }
-      static_configs: [{
-        targets: [
-          for _, host_entry in #Schema.#internal_host_entries {
-            "\(host_entry.internal_host):\(dns_port)",
-          },
         ]
       }]
     },

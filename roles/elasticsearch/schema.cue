@@ -3,6 +3,8 @@ package elasticsearch
 elasticsearch_listen_port: uint | *9200
 elasticsearch_domain: string
 
+elasticsearch_heapsize: string | *"500m"
+
 elasticsearch_roles: [string]: #RoleEntry
 elasticsearch_roles: logstash_upload: {
   cluster: [
@@ -27,6 +29,8 @@ elasticsearch_roles: logstash_upload: {
 elasticsearch_roles: elasticsearch_exporter: {
   cluster: [
     "monitor",
+    "monitor_snapshot",
+    "read_slm",
   ]
   indices: [
     {

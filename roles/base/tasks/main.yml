@@ -23,3 +23,15 @@
     group: root
     state: link
   become: true
+
+- name: Hosts are available
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    search_string: '{{ item[0] }} '
+    line: |
+      {{ item[0] }} {{ item[1]|map(attribute="key")|join(" ") }}'
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  loop: '{{ base_hosts_to_ips|dict2items|groupby("value") }}'
