@@ -8,10 +8,10 @@
     mode: '0755'
   become: true
 
-- name: Register internal DNS
+- name: Register DNS
   ansible.builtin.template:
-    src: etc/systemd/resolved.conf.d/internal_dns.conf
-    dest: /etc/systemd/resolved.conf.d/internal_dns.conf
+    src: etc/systemd/resolved.conf.d/main.conf
+    dest: /etc/systemd/resolved.conf.d/main.conf
     owner: root
     group: root
     mode: '0644'
