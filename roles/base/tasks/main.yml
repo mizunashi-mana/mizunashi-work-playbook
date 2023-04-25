@@ -24,6 +24,15 @@
     state: link
   become: true
 
+- name: Directory of optional bin is available
+  ansible.builtin.file:
+    path: /opt/bin
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
 - name: Hosts are available
   ansible.builtin.lineinfile:
     path: /etc/hosts
