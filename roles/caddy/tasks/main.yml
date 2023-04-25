@@ -150,6 +150,24 @@
   notify:
   - Reload caddy
 
+- name: Find caddy logs
+  ansible.builtin.find:
+    paths: /var/log/caddy
+    file_type: file
+    use_regex: true
+    patterns: '^*.log$'
+  become: true
+  register: caddy_log_files
+
+- name: Make correct permissions of caddy logs
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: file
+    owner: caddy
+    group: adm
+    mode: '0640'
+  loop: '{{ caddy_log_files.files }}'
+
 - name: Notify restart caddy if not started
   ansible.builtin.command: systemctl status caddy
   become: true

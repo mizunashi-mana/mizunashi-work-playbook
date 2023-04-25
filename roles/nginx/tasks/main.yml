@@ -183,6 +183,24 @@
   notify:
     - Reload nginx
 
+- name: Find nginx logs
+  ansible.builtin.find:
+    paths: /var/log/nginx
+    file_type: file
+    use_regex: true
+    patterns: '^*.log$'
+  become: true
+  register: nginx_log_files
+
+- name: Make correct permissions of nginx logs
+  ansible.builtin.file:
+    path: '{{ item }}'
+    state: file
+    owner: www-data
+    group: adm
+    mode: '0640'
+  loop: '{{ nginx_log_files.files }}'
+
 - name: Notify restart nginx if not started
   ansible.builtin.command: systemctl status nginx
   become: true
