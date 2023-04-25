@@ -14,8 +14,8 @@ FILENAME="$1"
 TMPFILE="$(mktemp "/tmp/$(basename "$0").tmp.XXXXXX")"
 
 sed \
-  "s|error_log /var/log/nginx/error.log;|error_log /var/log/nginx/error.log;include $FILENAME;|" \
+  "s|#include TESTFILE;|include $FILENAME;|" \
   /etc/nginx/nginx.conf \
-  | cat "$TMPFILE"
+  | tee "$TMPFILE"
 
 nginx -t -c "$TMPFILE"
