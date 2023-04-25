@@ -3,6 +3,7 @@
 
   roles:
   - base
+  - systemd
   - network
   - sudo
   - ca_certs
