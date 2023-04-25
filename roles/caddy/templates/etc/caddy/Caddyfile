@@ -3,7 +3,9 @@
 	skip_install_trust
 
 	log default {
-		output file /var/log/caddy/default.log
+		output file /var/log/caddy/default.log {
+			roll_disabled
+		}
 		format json
 	}
 

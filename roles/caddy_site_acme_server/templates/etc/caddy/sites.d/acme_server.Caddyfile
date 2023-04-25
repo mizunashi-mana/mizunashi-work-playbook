@@ -1,6 +1,8 @@
 {{ caddy_site_acme_server_name }}:{{ caddy_site_acme_server_listen_port }} {
 	log {
-		output file /var/log/caddy/access.acme_server.log
+		output file /var/log/caddy/access.acme_server.log {
+			roll_disabled
+		}
 	}
 
 	tls internal

@@ -5,6 +5,16 @@
     state: present
   become: true
 
+- name: Install logrotate validate
+  ansible.builtin.copy:
+    src: opt/bin/logrotate-validate
+    dest: /opt/bin/logrotate-validate
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
+  become: true
+
 - name: Install logrotate timer
   ansible.builtin.template:
     src: usr/lib/systemd/system/logrotate.timer

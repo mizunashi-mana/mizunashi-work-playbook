@@ -151,6 +151,17 @@
   notify:
     - Reload nginx
 
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate.d/nginx
+    dest: /etc/logrotate.d/nginx
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
 - name: Notify restart nginx if not started
   ansible.builtin.command: systemctl status nginx
   become: true

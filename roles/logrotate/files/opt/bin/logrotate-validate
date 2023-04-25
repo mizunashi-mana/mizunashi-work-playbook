@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+[ "$TRACE" = 'true' ] && set -x
+set -euo pipefail
+
+FILENAME="$1"
+
+LOGROTATE_DEBUG="$(logrotate --debug "$FILENAME" 2>&1)"
+
+echo "$LOGROTATE_DEBUG"
+
+[ "$(echo "$LOGROTATE_DEBUG" | grep '^error:' | wc -l)" = '0' ]

@@ -33,6 +33,17 @@
     state: present
   become: true
 
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate.d/caddy
+    dest: /etc/logrotate.d/caddy
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
 - name: Directory of caddy is available
   ansible.builtin.file:
     path: /etc/caddy/sites.d

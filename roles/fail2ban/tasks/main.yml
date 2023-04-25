@@ -5,6 +5,17 @@
     state: present
   become: true
 
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate.d/fail2ban
+    dest: /etc/logrotate.d/fail2ban
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
 - name: Copy fail2ban config
   ansible.builtin.template:
     src: etc/fail2ban/jail.d/sshd.conf

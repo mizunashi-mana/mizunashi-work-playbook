@@ -1,1 +1,3 @@
+{% if exim_smarthost is defined %}
 {{ exim_smarthost_hostname }}:{{ exim_smarthost_auth_userid }}:{{ exim_smarthost_auth_password }}
+{% endif %}

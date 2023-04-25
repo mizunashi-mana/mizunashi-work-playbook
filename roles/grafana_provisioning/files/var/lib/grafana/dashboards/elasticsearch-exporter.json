@@ -173,7 +173,7 @@
           ]
         },
         "refresh": 1,
-        "definition": "label_values(elasticsearch_indices_docs{job=\"$job\",instance=~\"$instance\"},cluster)",
+        "definition": "label_values(elasticsearch_cluster_health_status{job=\"$job\",instance=~\"$instance\"},cluster)",
         "includeAll": true,
         "multi": true,
         "options": [],
@@ -192,7 +192,7 @@
         },
         "query": {
           "refId": "Prometheus-name-Variable-Query",
-          "query": "label_values(elasticsearch_indices_docs{job=\"$job\",instance=~\"$instance\",cluster=~\"$cluster\",name!=\"\"},name)"
+          "query": "label_values(elasticsearch_indices_docs_total{job=\"$job\",instance=~\"$instance\",cluster=~\"$cluster\",name!=\"\"},name)"
         },
         "current": {
           "selected": true,
@@ -204,7 +204,7 @@
           ]
         },
         "refresh": 1,
-        "definition": "label_values(elasticsearch_indices_docs{job=\"$job\",instance=~\"$instance\",cluster=~\"$cluster\",name!=\"\"},name)",
+        "definition": "label_values(elasticsearch_indices_docs_total{job=\"$job\",instance=~\"$instance\",cluster=~\"$cluster\",name!=\"\"},name)",
         "includeAll": true,
         "multi": true,
         "options": [],

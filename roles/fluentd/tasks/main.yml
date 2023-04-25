@@ -36,6 +36,17 @@
     append: true
   become: true
 
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate.d/td-agent
+    dest: /etc/logrotate.d/td-agent
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
 - name: Install fluentd
   community.general.gem:
     executable: /usr/sbin/td-agent-gem
