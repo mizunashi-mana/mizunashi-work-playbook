@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+
+[ "$TRACE" = 'true' ] && set -x
+set -euo pipefail
+
+atexit() {
+  [ -n "${TMPFILE:-}" ] && rm -rf "$TMPFILE"
+}
+
+trap atexit EXIT
+trap atexit SIGTERM
+
+SYSTEMD_TYPE="service"
+
+while getopts t: opt; do
+  case "$opt" in
+    't' )
+      SYSTEMD_TYPE="$OPTARG"
+      ;;
+    \? )
+      echo "Usage: $0 [-t TYPE] FILE"
+      exit 0
+      ;;
+    * )
+      echo "Unknown option: $OPTARG"
+      echo "Usage: $0 [-t TYPE] FILE"
+      exit 1
+      ;;
+  esac
+done
+
+shift "$(($OPTIND - 1))"
+
+FILENAME="$1"
+TMPFILE="$(mktemp "/tmp/$(basename "$0").tmp.XXXXXX.${SYSTEMD_TYPE}")"
+
+cp "$FILENAME" "$TMPFILE"
+
+systemd-analyze verify "$TMPFILE"

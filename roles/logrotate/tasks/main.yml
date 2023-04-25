@@ -5,16 +5,6 @@
     state: present
   become: true
 
-- name: Install logrotate validate
-  ansible.builtin.copy:
-    src: opt/bin/logrotate-validate
-    dest: /opt/bin/logrotate-validate
-    owner: root
-    group: root
-    mode: '0755'
-    backup: true
-  become: true
-
 - name: Directory of links is available
   ansible.builtin.file:
     path: /etc/logrotate-available.d
@@ -32,6 +22,17 @@
     group: root
     mode: '0644'
     backup: true
+    validate: /opt/bin/systemd-validate -t timer %s
   become: true
   notify:
   - Reload logrotate.timer
+
+- name: Install logrotate validate
+  ansible.builtin.copy:
+    src: opt/bin/logrotate-validate
+    dest: /opt/bin/logrotate-validate
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
+  become: true

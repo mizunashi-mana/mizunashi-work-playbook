@@ -195,6 +195,7 @@
     group: root
     mode: '0644'
     backup: true
+    validate: /opt/bin/systemd-validate %s
   become: true
   notify:
     - Restart mastodon-sidekiq
@@ -207,6 +208,7 @@
     group: root
     mode: '0644'
     backup: true
+    validate: /opt/bin/systemd-validate %s
   become: true
   notify:
     - Restart mastodon-web
@@ -219,18 +221,20 @@
     group: root
     mode: '0644'
     backup: true
+    validate: /opt/bin/systemd-validate %s
   become: true
   notify:
     - Restart mastodon-streaming
 
 - name: Install tootctl proxy
-  ansible.builtin.template:
+  ansible.builtin.copy:
     src: usr/local/bin/tootctl
     dest: /usr/local/bin/tootctl
     owner: mastodon
     group: mastodon
     mode: '0744'
     backup: true
+    validate: ruby -c %s
   become: true
 
 - name: Notify restart mastodon-sidekiq if not started

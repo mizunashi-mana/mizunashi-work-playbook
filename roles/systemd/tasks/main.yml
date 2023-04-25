@@ -1,0 +1,10 @@
+---
+- name: Install systemd validate
+  ansible.builtin.copy:
+    src: opt/bin/systemd-validate
+    dest: /opt/bin/systemd-validate
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
+  become: true

@@ -25,6 +25,7 @@
     group: root
     mode: '0755'
     backup: true
+    validate: bash -n %s
   become: true
 
 - name: Directory of node exporter custom collector is available
@@ -44,6 +45,7 @@
     group: root
     mode: '0644'
     backup: true
+    validate: /opt/bin/systemd-validate %s
   become: true
   notify:
     - Restart node-exporter

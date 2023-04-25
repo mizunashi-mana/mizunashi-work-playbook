@@ -25,6 +25,7 @@
     group: root
     mode: '0644'
     backup: true
+    validate: /opt/bin/systemd-validate %s
   become: true
   notify:
     - Restart elasticsearch-exporter

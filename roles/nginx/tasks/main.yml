@@ -5,6 +5,27 @@
     state: present
   become: true
 
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate-available.d/nginx
+    dest: /etc/logrotate-available.d/nginx
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/nginx
+    dest: /etc/logrotate.d/nginx
+    owner: root
+    group: root
+    state: link
+    force: true
+  become: true
+
 - name: Copy mime types
   ansible.builtin.copy:
     src: etc/nginx/mime.types
@@ -28,6 +49,15 @@
   become: true
   notify:
     - Reload nginx
+
+- name: Directory of nginx cache is available
+  ansible.builtin.file:
+    path: /var/cache/nginx
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+  become: true
 
 - name: Copy gzip config
   ansible.builtin.template:
@@ -89,38 +119,6 @@
   notify:
     - Reload nginx
 
-- name: Directory of nginx cache is available
-  ansible.builtin.file:
-    path: /var/cache/nginx
-    state: directory
-    owner: www-data
-    group: www-data
-    mode: '0755'
-  become: true
-
-- name: Install stub status site
-  ansible.builtin.template:
-    src: etc/nginx/sites-available/stub_status.conf
-    dest: /etc/nginx/sites-available/stub_status.conf
-    owner: root
-    group: root
-    mode: '0644'
-    backup: true
-  become: true
-  notify:
-    - Reload nginx
-
-- name: Enable stub status site
-  ansible.builtin.file:
-    src: /etc/nginx/sites-available/stub_status.conf
-    dest: /etc/nginx/sites-enabled/stub_status.conf
-    owner: root
-    group: root
-    state: link
-  become: true
-  notify:
-    - Reload nginx
-
 - name: Copy nginx config
   ansible.builtin.template:
     src: etc/nginx/nginx.conf
@@ -143,6 +141,40 @@
     mode: '0700'
   become: true
 
+- name: Install nginx site validate
+  ansible.builtin.copy:
+    src: opt/bin/nginx-site-validate
+    dest: /opt/bin/nginx-site-validate
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
+  become: true
+
+- name: Install stub status site
+  ansible.builtin.template:
+    src: etc/nginx/sites-available/stub_status.conf
+    dest: /etc/nginx/sites-available/stub_status.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/nginx-site-validate %s
+  become: true
+  notify:
+    - Reload nginx
+
+- name: Enable stub status site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/stub_status.conf
+    dest: /etc/nginx/sites-enabled/stub_status.conf
+    owner: root
+    group: root
+    state: link
+  become: true
+  notify:
+    - Reload nginx
+
 - name: Remove default server
   ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default
@@ -150,27 +182,6 @@
   become: true
   notify:
     - Reload nginx
-
-- name: Install logrotate config
-  ansible.builtin.template:
-    src: etc/logrotate-available.d/nginx
-    dest: /etc/logrotate-available.d/nginx
-    owner: root
-    group: root
-    mode: '0644'
-    backup: true
-    validate: /opt/bin/logrotate-validate %s
-  become: true
-
-- name: Enable logrotate config
-  ansible.builtin.file:
-    src: /etc/logrotate-available.d/nginx
-    dest: /etc/logrotate.d/nginx
-    owner: root
-    group: root
-    state: link
-    force: true
-  become: true
 
 - name: Notify restart nginx if not started
   ansible.builtin.command: systemctl status nginx
