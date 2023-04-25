@@ -38,13 +38,23 @@
 
 - name: Install logrotate config
   ansible.builtin.template:
-    src: etc/logrotate.d/td-agent
-    dest: /etc/logrotate.d/td-agent
+    src: etc/logrotate-available.d/td-agent
+    dest: /etc/logrotate-available.d/td-agent
     owner: root
     group: root
     mode: '0644'
     backup: true
     validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/td-agent
+    dest: /etc/logrotate.d/td-agent
+    owner: root
+    group: root
+    state: link
+    force: true
   become: true
 
 - name: Install fluentd

@@ -7,13 +7,23 @@
 
 - name: Install logrotate config
   ansible.builtin.template:
-    src: etc/logrotate.d/exim4-base
-    dest: /etc/logrotate.d/exim4-base
+    src: etc/logrotate-available.d/exim4-base
+    dest: /etc/logrotate-available.d/exim4-base
     owner: root
     group: root
     mode: '0644'
     backup: true
     validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/exim4-base
+    dest: /etc/logrotate.d/exim4-base
+    owner: root
+    group: root
+    state: link
+    force: true
   become: true
 
 - name: Copy exim config

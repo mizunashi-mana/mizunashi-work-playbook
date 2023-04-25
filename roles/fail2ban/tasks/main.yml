@@ -7,13 +7,23 @@
 
 - name: Install logrotate config
   ansible.builtin.template:
-    src: etc/logrotate.d/fail2ban
-    dest: /etc/logrotate.d/fail2ban
+    src: etc/logrotate-available.d/fail2ban
+    dest: /etc/logrotate-available.d/fail2ban
     owner: root
     group: root
     mode: '0644'
     backup: true
     validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/fail2ban
+    dest: /etc/logrotate.d/fail2ban
+    owner: root
+    group: root
+    state: link
+    force: true
   become: true
 
 - name: Copy fail2ban config

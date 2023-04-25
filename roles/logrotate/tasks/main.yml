@@ -15,6 +15,15 @@
     backup: true
   become: true
 
+- name: Directory of links is available
+  ansible.builtin.file:
+    path: /etc/logrotate-available.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
 - name: Install logrotate timer
   ansible.builtin.template:
     src: usr/lib/systemd/system/logrotate.timer

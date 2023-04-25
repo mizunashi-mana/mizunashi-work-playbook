@@ -153,13 +153,23 @@
 
 - name: Install logrotate config
   ansible.builtin.template:
-    src: etc/logrotate.d/nginx
-    dest: /etc/logrotate.d/nginx
+    src: etc/logrotate-available.d/nginx
+    dest: /etc/logrotate-available.d/nginx
     owner: root
     group: root
     mode: '0644'
     backup: true
     validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/nginx
+    dest: /etc/logrotate.d/nginx
+    owner: root
+    group: root
+    state: link
+    force: true
   become: true
 
 - name: Notify restart nginx if not started
