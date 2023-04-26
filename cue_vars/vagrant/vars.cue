@@ -100,7 +100,9 @@ workuser_setup_ssh_authorized_keys: [
   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkqfF4qMFhr2fg+Yw3WLIqaRLqYzkCjWy2fdF4eQ5LG mizunashi-work-playbook"
 ]
 
-ca_certs_private_root_ca_cert: ca_vars.root_ca_certificate
+ca_certs_private_root_ca_certs: "private_root_ca_2023": {
+  cert: ca_vars.root_ca_certificate
+}
 
 network_public_iface: "eth1"
 
