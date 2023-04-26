@@ -154,8 +154,7 @@
   ansible.builtin.find:
     paths: /var/log/caddy
     file_type: file
-    use_regex: true
-    patterns: '^*.log$'
+    patterns: '*.log'
   become: true
   register: caddy_log_files
 
