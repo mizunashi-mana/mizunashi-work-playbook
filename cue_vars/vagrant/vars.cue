@@ -165,6 +165,8 @@ nginx_site_local_proxy_entries: "fluentd": {
 fluentd_input_auth_log_tag: "node.auth"
 fluentd_input_kern_log_tag: "node.kernel"
 fluentd_input_kern_log_nftables_tag: "node.kernel.nftables"
+fluentd_input_exim4_mainlog_tag: "exim.mainlog"
+fluentd_input_fail2ban_log_tag: "fail2ban.log"
 fluentd_input_nginx_log_error_tag: "nginx.error"
 
 #fluentd_input_nginx_log_access_http_redirector_tag: "nginx.access.http_redirector"

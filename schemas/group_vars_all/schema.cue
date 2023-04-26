@@ -16,6 +16,8 @@ import "mizunashi.work/pkg/roles/node_exporter"
 import "mizunashi.work/pkg/roles/fluentd"
 import "mizunashi.work/pkg/roles/fluentd_input_auth_log"
 import "mizunashi.work/pkg/roles/fluentd_input_kern_log"
+import "mizunashi.work/pkg/roles/fluentd_input_exim_log"
+import "mizunashi.work/pkg/roles/fluentd_input_fail2ban_log"
 import "mizunashi.work/pkg/roles/fluentd_input_nginx_log"
 import "mizunashi.work/pkg/roles/fluentd_output_elasticsearch"
 import "mizunashi.work/pkg/roles/nginx"
@@ -39,6 +41,8 @@ certbot
 fluentd
 fluentd_input_auth_log
 fluentd_input_kern_log
+fluentd_input_exim_log
+fluentd_input_fail2ban_log
 fluentd_input_nginx_log
 fluentd_output_elasticsearch
 nginx
