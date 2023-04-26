@@ -14,11 +14,6 @@
     mode: '0644'
   become: true
 
-- name: Get bundled certificate
-  ansible.builtin.command: |
-    cat '{{ ca_certs_public_bundle_file }}'
-  register: ca_certs_public_bundle_file_content
-
 - name: Directory of private certs is available
   ansible.builtin.file:
     path: '{{ ca_certs_private_certs_dir }}'
@@ -28,22 +23,51 @@
     mode: '0755'
   become: true
 
-- name: Install private root CA
+- name: Install private root CAs
   ansible.builtin.copy:
-    content: "{{ ca_certs_private_root_ca_cert }}\n"
-    dest: '{{ ca_certs_private_root_ca_cert_file }}'
+    content: "{{ item.value.cert }}\n"
+    dest: '{{ ca_certs_private_certs_dir }}/{{ item.key }}.crt'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  loop: '{{ ca_certs_private_root_ca_certs|dict2items }}'
+
+- name: Install private CA bundle
+  ansible.builtin.template:
+    src: etc/ssl/private-certs/private-ca-certificates.crt
+    dest: '{{ ca_certs_private_bundle_file }}'
     owner: root
     group: root
     mode: '0644'
     backup: true
   become: true
 
-- name: Install bundled private certificates
-  ansible.builtin.copy:
-    content: "{{ ca_certs_public_bundle_file_content.stdout }}\n{{ ca_certs_private_root_ca_cert }}\n"
-    dest: '{{ ca_certs_private_bundle_file }}'
+- name: Check update certificates
+  ansible.builtin.shell: |
+    cat \
+      '{{ ca_certs_private_bundle_file }}' \
+      '{{ ca_certs_public_bundle_file }}' \
+      | diff - '{{ ca_certs_bundle_file_with_private_ca }}'
+  changed_when: false
+  failed_when: false
+  register: ca_certs_check_update_bundle_file_result
+
+- name: Install CA bundle with private CAs
+  ansible.builtin.shell: |
+    cat \
+      '{{ ca_certs_private_bundle_file }}' \
+      '{{ ca_certs_public_bundle_file }}' \
+      > '{{ ca_certs_bundle_file_with_private_ca }}'
+  become: true
+  when: ca_certs_check_update_bundle_file_result.stdout_lines|length > 0
+
+- name: Bundled certificate with private CAs is available
+  ansible.builtin.file:
+    path: '{{ ca_certs_bundle_file_with_private_ca }}'
+    state: file
     owner: root
     group: root
     mode: '0644'
-    backup: true
   become: true
