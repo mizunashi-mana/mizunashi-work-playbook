@@ -61,7 +61,9 @@
       '{{ ca_certs_public_bundle_file }}' \
       > '{{ ca_certs_bundle_file_with_private_ca }}'
   become: true
-  when: ca_certs_check_update_bundle_file_result.stdout_lines|length > 0
+  when: |
+    ca_certs_check_update_bundle_file_result.rc != 0
+      or ca_certs_check_update_bundle_file_result.stdout_lines|length > 0
 
 - name: Bundled certificate with private CAs is available
   ansible.builtin.file:
