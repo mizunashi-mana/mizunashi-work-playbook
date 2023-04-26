@@ -8,6 +8,7 @@
     mode: '0640'
     backup: true
     validate: /opt/bin/td-agent-validate %s
+  diff: false
   become: true
   loop: '{{ fluentd_output_elasticsearch_entries|dict2items|map(attribute="key") }}'
   notify:
