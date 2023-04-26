@@ -177,7 +177,7 @@ fluentd_input_nginx_log_access_entries: "\(#fluentd_input_nginx_log_access_http_
 fluentd_output_elasticsearch_scheme: "https"
 fluentd_output_elasticsearch_domain: #elasticsearch_hostname
 fluentd_output_elasticsearch_port: #elasticsearch_https_port
-fluentd_output_elasticsearch_ca_file: group_vars_all.ca_certs_private_root_ca_cert_file
+fluentd_output_elasticsearch_ca_file: group_vars_all.ca_certs_bundle_file_with_private_ca
 
 fluentd_output_elasticsearch_user_name: "logstash_upload"
 fluentd_output_elasticsearch_user_password: "__ansible_vault": """

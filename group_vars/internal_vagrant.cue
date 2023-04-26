@@ -140,7 +140,7 @@ let grafana_elasticsearch_datasource_user = {
   """
   nginx_site_minio_server_domain: #Schema.#minio_server_hostname
   nginx_site_minio_server_acme_challenge_url: #Schema.#private_acme_challenge_url
-  nginx_site_minio_server_ca_bundle_path: #Schema.ca_certs_private_root_ca_cert_file
+  nginx_site_minio_server_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
 
   elasticsearch_exporter_elasticsearch_user_name: "elasticsearch_exporter"
   elasticsearch_exporter_elasticsearch_user_password: "__ansible_vault": """
@@ -176,7 +176,7 @@ let grafana_elasticsearch_datasource_user = {
 
   nginx_site_elasticsearch_listen_port: #Schema.#elasticsearch_https_port
   nginx_site_elasticsearch_acme_challenge_url: #Schema.#private_acme_challenge_url
-  nginx_site_elasticsearch_ca_bundle_path: #Schema.ca_certs_private_root_ca_cert_file
+  nginx_site_elasticsearch_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
 
   grafana_admin_password: "__ansible_vault": """
   $ANSIBLE_VAULT;1.1;AES256
@@ -231,7 +231,7 @@ let grafana_elasticsearch_datasource_user = {
           password: #Schema.#local_proxy_password
         }
         tls_config: {
-          ca_file: #Schema.ca_certs_private_root_ca_cert_file
+          ca_file: #Schema.ca_certs_bundle_file_with_private_ca
         }
         static_configs: [{
           targets: [
