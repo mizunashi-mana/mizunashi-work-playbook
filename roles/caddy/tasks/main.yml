@@ -161,7 +161,7 @@
 
 - name: Make correct permissions of caddy logs
   ansible.builtin.file:
-    path: '{{ item }}'
+    path: '{{ item.path }}'
     state: file
     owner: caddy
     group: adm
