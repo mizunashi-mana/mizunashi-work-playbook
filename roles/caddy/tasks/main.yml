@@ -165,6 +165,7 @@
     owner: caddy
     group: adm
     mode: '0640'
+  become: true
   loop: '{{ caddy_log_files.files }}'
 
 - name: Notify restart caddy if not started
