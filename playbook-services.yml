@@ -12,12 +12,6 @@
 
   - nginx_site_local_proxy
 
-  - fluentd_input_auth_log
-  - fluentd_input_exim_log
-  - fluentd_input_fail2ban_log
-  - fluentd_input_nginx_log
-  - fluentd_output_elasticsearch
-
   post_tasks:
   - name: Check
     ansible.builtin.command: echo check
@@ -63,6 +57,20 @@
 
   - nginx_site_mastodon_front
   - nginx_site_www_redirector
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check
+
+- hosts: all
+
+  roles:
+  - fluentd_input_auth_log
+  - fluentd_input_exim_log
+  - fluentd_input_fail2ban_log
+  - fluentd_input_nginx_log
+  - fluentd_output_elasticsearch
 
   post_tasks:
   - name: Check
