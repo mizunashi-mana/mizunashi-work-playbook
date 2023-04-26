@@ -1,4 +1,14 @@
 ---
+- name: Install td-agent validator
+  ansible.builtin.copy:
+    src: opt/bin/td-agent-validate
+    dest: /opt/bin/td-agent-validate
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
+  become: true
+
 - name: Copy td-agent gpg key
   ansible.builtin.copy:
     src: usr/share/keyrings/td-agent-archive-keyring.gpg
