@@ -97,6 +97,7 @@ let grafana_elasticsearch_datasource_user = {
     iif: #Schema.network_internal_iface
     tcp_ports: [
       #Schema.#private_acme_server_https_port,
+      #Schema.#elasticsearch_https_port,
     ]
   }
 
