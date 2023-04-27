@@ -9,6 +9,7 @@ EnvironmentFile=/etc/default/prometheus-blackbox-exporter
 ExecStart=/usr/bin/prometheus-blackbox-exporter \
   --config.file "$CONFIG_FILE" \
   --web.listen-address "$LISTEN_ADDRESS" \
+  --log.level "$LOG_LEVEL" \
   $EXTRA_ARGS
 ExecReload=/bin/kill -HUP $MAINPID
 
