@@ -131,6 +131,7 @@ let grafana_elasticsearch_datasource_user = {
     auth_password: #Schema.#local_proxy_password
   }
 
+  minio_server_url: #Schema.#minio_server_url
   minio_root_password: "__ansible_vault": """
   $ANSIBLE_VAULT;1.1;AES256
   62356637313731376334383336616332393936306231343930343163666366613062643330323366
