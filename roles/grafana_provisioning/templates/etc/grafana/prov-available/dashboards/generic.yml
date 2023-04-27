@@ -110,3 +110,13 @@ providers:
     options:
       path: /var/lib/grafana/dashboards/fluentd-stats.json
       foldersFromFilesStructure: false
+
+  - name: 'Blackbox Exporter'
+    orgId: 1
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards/blackbox-exporter.json
+      foldersFromFilesStructure: false
