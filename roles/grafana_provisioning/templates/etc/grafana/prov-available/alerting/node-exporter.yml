@@ -16,8 +16,8 @@ groups:
         execErrState: Error
 
         annotations:
-          __dashboardUid__: NodeExporter
-          __panelId__: "155"
+          __dashboardUid__: dashboard_NodeExporter
+          __panelId__: "77"
           summary: 'High CPU load (instance {{ "{{ $labels.instance }}" }})'
           description: 'CPU load is {{ "{{ $value }}" }}% > 80%.'
         labels:
@@ -106,8 +106,8 @@ groups:
         execErrState: Error
 
         annotations:
-          __dashboardUid__: NodeExporter
-          __panelId__: "155"
+          __dashboardUid__: dashboard_NodeExporter
+          __panelId__: "77"
           summary: 'High CPU load average (instance {{ "{{ $labels.instance }}" }})'
         labels:
           severity: warning
@@ -195,7 +195,7 @@ groups:
         execErrState: Error
 
         annotations:
-          __dashboardUid__: NodeExporter
+          __dashboardUid__: dashboard_NodeExporter
           __panelId__: "16"
           summary: 'Memory will fill up (instance {{ "{{ $labels.instance }}" }})'
         labels:
@@ -262,6 +262,273 @@ groups:
                     params:
                         - 20
                     type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                        - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+
+      - uid: 'alert_NodeExporter_DiskWillFill'
+        title: 'Node Exporter: Disk Will Fill'
+        condition: C
+        for: 1m
+        isPaused: false
+        noDataState: NoData
+        execErrState: Error
+
+        annotations:
+          __dashboardUid__: dashboard_NodeExporter
+          __panelId__: "43"
+          summary: 'Disk will fill up (instance {{ "{{ $labels.instance }}" }})'
+        labels:
+          severity: warning
+
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: ds_prometheus
+            model:
+              refId: A
+              expr: (1 - node_filesystem_free_bytes / node_filesystem_size_bytes) * 100
+              editorMode: code
+              hide: false
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: true
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              refId: B
+              type: reduce
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              conditions:
+                - evaluator:
+                    params: []
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                        - B
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: B
+              conditions:
+                - evaluator:
+                    params:
+                        - 60
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                        - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+
+      - uid: 'alert_NodeExporter_SomeSystemdUnitsFailed'
+        title: 'Node Exporter: Some Systemd Units Failed'
+        condition: C
+        for: 1m
+        isPaused: false
+        noDataState: NoData
+        execErrState: Error
+
+        annotations:
+          __dashboardUid__: dashboard_NodeExporter
+          __panelId__: "298"
+          summary: 'Some systemd units are failed (instance {{ "{{ $labels.instance }}" }})'
+        labels:
+          severity: warning
+
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: ds_prometheus
+            model:
+              refId: A
+              expr: node_systemd_units{state="failed"}
+              editorMode: code
+              hide: false
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: true
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              refId: B
+              type: reduce
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              conditions:
+                - evaluator:
+                    params: []
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                        - B
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: B
+              conditions:
+                - evaluator:
+                    params:
+                        - 0
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                        - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+
+      - uid: 'alert_NodeExporter_OOMKilledDetected'
+        title: 'Node Exporter: OOM Killed Detected'
+        condition: C
+        for: 1m
+        isPaused: false
+        noDataState: NoData
+        execErrState: Error
+
+        annotations:
+          __dashboardUid__: dashboard_NodeExporter
+          __panelId__: "307"
+          summary: 'OOM Killer killed some process (instance {{ "{{ $labels.instance }}" }})'
+        labels:
+          severity: warning
+
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: ds_prometheus
+            model:
+              refId: A
+              expr: increase(node_vmstat_oom_kill[5m])
+              editorMode: code
+              hide: false
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: true
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              refId: B
+              type: reduce
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              conditions:
+                - evaluator:
+                    params: []
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                        - B
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: B
+              conditions:
+                - evaluator:
+                    params:
+                        - 0
+                    type: gt
                   operator:
                     type: and
                   query:

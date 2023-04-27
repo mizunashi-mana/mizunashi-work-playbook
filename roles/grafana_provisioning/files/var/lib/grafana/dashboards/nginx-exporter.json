@@ -1,6 +1,6 @@
 {
   "id": null,
-  "uid": "NginxExporter",
+  "uid": "dashboard_NginxExporter",
   "version": 1,
   "revision": 1,
   "title": "Nginx Exporter",

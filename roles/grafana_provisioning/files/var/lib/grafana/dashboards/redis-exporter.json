@@ -1,6 +1,6 @@
 {
   "id": null,
-  "uid": "RedisExporter",
+  "uid": "dashboard_RedisExporter",
   "version": 1,
   "revision": 1,
   "title": "Redis Exporter",

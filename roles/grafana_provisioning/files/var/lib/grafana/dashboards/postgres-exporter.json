@@ -1,6 +1,6 @@
 {
   "id": null,
-  "uid": "PostgresExporter",
+  "uid": "dashboard_PostgresExporter",
   "version": 2,
   "revision": 1,
   "title": "Postgres Exporter",

@@ -1,6 +1,6 @@
 {
   "id": null,
-  "uid": "ElasticSearchExporter",
+  "uid": "dashboard_ElasticSearchExporter",
   "version": 1,
   "revision": 1,
   "title": "Elasticsearch Exporter",

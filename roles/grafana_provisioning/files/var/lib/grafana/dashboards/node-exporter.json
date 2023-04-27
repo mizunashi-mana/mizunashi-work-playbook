@@ -1,6 +1,6 @@
 {
   "id": null,
-  "uid": "NodeExporter",
+  "uid": "dashboard_NodeExporter",
   "version": 1,
   "revision": 1,
   "title": "Node Exporter",

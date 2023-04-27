@@ -16,7 +16,7 @@ groups:
         execErrState: Error
 
         annotations:
-          __dashboardUid__: PrometheusStats
+          __dashboardUid__: dashboard_PrometheusStats
           __panelId__: "42"
           summary: 'Exporter on the instance {{ "{{ $labels.instance }}" }} is down'
         labels:
