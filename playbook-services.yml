@@ -9,6 +9,7 @@
   - nginx_exporter
   - certbot
   - fluentd
+  - mc
 
   - nginx_site_local_proxy
 
