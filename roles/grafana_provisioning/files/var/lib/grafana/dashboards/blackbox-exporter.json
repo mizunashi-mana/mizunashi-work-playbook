@@ -1,6 +1,6 @@
 {
   "id": null,
-  "uid": "BlackboxExporter",
+  "uid": "dashboard_BlackboxExporter",
   "version": 1,
   "revision": 1,
   "title": "Prometheus Blackbox Exporter",
