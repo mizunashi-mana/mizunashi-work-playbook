@@ -12,6 +12,13 @@
     enabled: false
     masked: true
   become: true
+  register: certbot_systemd_timer_status
+
+- name: Reset failed timer
+  ansible.builtin.command: |
+    systemctl reset-failed certbot.timer
+  become: true
+  when: certbot_systemd_timer_status.status.ActiveState == "failed"
 
 - name: Disabled builtin renewal
   ansible.builtin.systemd:

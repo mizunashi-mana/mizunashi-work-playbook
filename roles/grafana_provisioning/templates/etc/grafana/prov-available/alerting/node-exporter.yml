@@ -82,8 +82,8 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                        - 80
-                    type: gt
+                        - 20
+                    type: lt
                   operator:
                     type: and
                   query:
