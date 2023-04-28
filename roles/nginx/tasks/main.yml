@@ -1,4 +1,14 @@
 ---
+- name: Install nginx site validate
+  ansible.builtin.copy:
+    src: opt/bin/nginx-site-validate
+    dest: /opt/bin/nginx-site-validate
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
+  become: true
+
 - name: Install nginx
   ansible.builtin.apt:
     name: 'nginx={{ nginx_version }}*'
@@ -141,16 +151,6 @@
     mode: '0700'
   become: true
 
-- name: Install nginx site validate
-  ansible.builtin.copy:
-    src: opt/bin/nginx-site-validate
-    dest: /opt/bin/nginx-site-validate
-    owner: root
-    group: root
-    mode: '0755'
-    backup: true
-  become: true
-
 - name: Install stub status site
   ansible.builtin.template:
     src: etc/nginx/sites-available/stub_status.conf
@@ -183,6 +183,15 @@
   notify:
     - Reload nginx
 
+- name: Notify restart nginx if not started
+  ansible.builtin.command: systemctl status nginx
+  become: true
+  register: nginx_service_status
+  changed_when: nginx_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart nginx
+
 - name: Find nginx logs
   ansible.builtin.find:
     paths: /var/log/nginx
@@ -200,12 +209,3 @@
     mode: '0640'
   become: true
   loop: '{{ nginx_log_files.files }}'
-
-- name: Notify restart nginx if not started
-  ansible.builtin.command: systemctl status nginx
-  become: true
-  register: nginx_service_status
-  changed_when: nginx_service_status.rc != 0
-  failed_when: false
-  notify:
-    - Restart nginx

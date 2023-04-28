@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+[ "$TRACE" = 'true' ] && set -x
+set -euo pipefail
+
+atexit() {
+  [ -n "${TMPFILE:-}" ] && rm -rf "$TMPFILE"
+}
+
+trap atexit EXIT
+trap atexit SIGTERM
+
+FILENAME="$1"
+TMPFILE="$(mktemp "/tmp/$(basename "$0").tmp.XXXXXX")"
+
+sed \
+  "s|import sites.d/\*.Caddyfile|import $FILENAME|" \
+  /etc/caddy/Caddyfile \
+  | tee "$TMPFILE"
+
+caddy validate \
+  --adapter caddyfile \
+  --config "$TMPFILE"
