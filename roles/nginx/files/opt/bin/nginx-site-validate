@@ -14,7 +14,7 @@ FILENAME="$1"
 TMPFILE="$(mktemp "/tmp/$(basename "$0").tmp.XXXXXX")"
 
 sed \
-  "s|#include TESTFILE;|include $FILENAME;|" \
+  "s|include /etc/nginx/sites-enabled/\*.conf;|include $FILENAME;|" \
   /etc/nginx/nginx.conf \
   | tee "$TMPFILE"
 
