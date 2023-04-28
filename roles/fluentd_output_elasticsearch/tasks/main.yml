@@ -1,8 +1,8 @@
 ---
 - name: Install output to ElasticSearch
   ansible.builtin.template:
-    src: etc/td-agent/conf.d/output_elasticsearch_xxx.conf
-    dest: '/etc/td-agent/conf.d/output_elasticsearch_{{ item }}.conf'
+    src: etc/td-agent/output-conf.d/elasticsearch_xxx.conf
+    dest: '/etc/td-agent/output-conf.d/elasticsearch_{{ item }}.conf'
     owner: td-agent
     group: td-agent
     mode: '0640'

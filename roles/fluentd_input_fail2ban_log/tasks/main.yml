@@ -1,8 +1,8 @@
 ---
 - name: Install input of fail2ban log
   ansible.builtin.template:
-    src: etc/td-agent/conf.d/input_fail2ban_log.conf
-    dest: /etc/td-agent/conf.d/input_fail2ban_log.conf
+    src: etc/td-agent/input-conf.d/fail2ban_log.conf
+    dest: /etc/td-agent/input-conf.d/fail2ban_log.conf
     owner: td-agent
     group: td-agent
     mode: '0640'

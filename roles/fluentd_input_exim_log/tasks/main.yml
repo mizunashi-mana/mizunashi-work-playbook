@@ -1,8 +1,8 @@
 ---
 - name: Install input of exim4 mainlog
   ansible.builtin.template:
-    src: etc/td-agent/conf.d/input_exim4_mainlog.conf
-    dest: /etc/td-agent/conf.d/input_exim4_mainlog.conf
+    src: etc/td-agent/input-conf.d/exim4_mainlog.conf
+    dest: /etc/td-agent/input-conf.d/exim4_mainlog.conf
     owner: td-agent
     group: td-agent
     mode: '0640'

@@ -1,8 +1,8 @@
 ---
 - name: Install input of nginx error.log
   ansible.builtin.template:
-    src: etc/td-agent/conf.d/input_nginx_error_log.conf
-    dest: /etc/td-agent/conf.d/input_nginx_error_log.conf
+    src: etc/td-agent/input-conf.d/nginx_error_log.conf
+    dest: /etc/td-agent/input-conf.d/nginx_error_log.conf
     owner: td-agent
     group: td-agent
     mode: '0640'
@@ -14,8 +14,8 @@
 
 - name: Install input of nginx access.log
   ansible.builtin.template:
-    src: etc/td-agent/conf.d/input_nginx_ltsv_access_log_xxx.conf
-    dest: '/etc/td-agent/conf.d/input_nginx_ltsv_access_log_{{ item }}.conf'
+    src: etc/td-agent/input-conf.d/nginx_ltsv_access_log_xxx.conf
+    dest: '/etc/td-agent/input-conf.d/nginx_ltsv_access_log_{{ item }}.conf'
     owner: td-agent
     group: td-agent
     mode: '0640'

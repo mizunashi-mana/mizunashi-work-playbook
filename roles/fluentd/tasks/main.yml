@@ -143,10 +143,37 @@
     mode: '0750'
   become: true
 
+- name: Directory of td-agent input configs is available
+  ansible.builtin.file:
+    path: /etc/td-agent/input-conf.d
+    state: directory
+    owner: td-agent
+    group: td-agent
+    mode: '0750'
+  become: true
+
+- name: Directory of td-agent filter configs is available
+  ansible.builtin.file:
+    path: /etc/td-agent/filter-conf.d
+    state: directory
+    owner: td-agent
+    group: td-agent
+    mode: '0750'
+  become: true
+
+- name: Directory of td-agent output configs is available
+  ansible.builtin.file:
+    path: /etc/td-agent/output-conf.d
+    state: directory
+    owner: td-agent
+    group: td-agent
+    mode: '0750'
+  become: true
+
 - name: Install filter of prometheus input monitor
   ansible.builtin.template:
-    src: etc/td-agent/conf.d/filter_prometheus_input_monitor.conf
-    dest: /etc/td-agent/conf.d/filter_prometheus_input_monitor.conf
+    src: etc/td-agent/filter-conf.d/prometheus_input_monitor.conf
+    dest: /etc/td-agent/filter-conf.d/prometheus_input_monitor.conf
     owner: td-agent
     group: td-agent
     mode: '0640'
@@ -158,8 +185,8 @@
 
 - name: Install prometheus output for fluent logs
   ansible.builtin.template:
-    src: etc/td-agent/conf.d/output_prometheus_fluent_log.conf
-    dest: /etc/td-agent/conf.d/output_prometheus_fluent_log.conf
+    src: etc/td-agent/output-conf.d/prometheus_fluent_log.conf
+    dest: /etc/td-agent/output-conf.d/prometheus_fluent_log.conf
     owner: td-agent
     group: td-agent
     mode: '0640'

@@ -1,8 +1,8 @@
 ---
 - name: Install input of kern.log
   ansible.builtin.template:
-    src: etc/td-agent/conf.d/input_kern_log.conf
-    dest: /etc/td-agent/conf.d/input_kern_log.conf
+    src: etc/td-agent/input-conf.d/kern_log.conf
+    dest: /etc/td-agent/input-conf.d/kern_log.conf
     owner: td-agent
     group: td-agent
     mode: '0640'
