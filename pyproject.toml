@@ -10,6 +10,7 @@ python = "^3.11"
 ansible = "^7.3.0"
 pyyaml = "^6.0"
 passlib = "^1.7.4"
+jmespath = "^1.0.1"
 
 
 [build-system]
