@@ -10,7 +10,7 @@
 
 - name: Select users
   ansible.builtin.command:
-    cmd: mcli admin user list minio_setup_target
+    cmd: mcli --json admin user list minio_setup_target
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
   changed_when: false
@@ -19,10 +19,12 @@
 - name: Extract users
   ansible.builtin.set_fact:
     minio_setup_current_users: |
-      {{
-        minio_setup_select_users_result.stdout_lines
-        | map('regex_replace', '^[^ ]+\s+([^ ]+)\s*$', '\1')
-        | list
+      {{ minio_setup_select_users_result.stdout
+        |regex_replace('^{$', "---\n{")
+        |from_yaml_all
+        |selectattr("userStatus", "defined")
+        |community.general.json_query("[].{key:accessKey,value:@}")
+        |items2dict
         }}
 
 - name: Add users
@@ -66,7 +68,7 @@
 - name: Check retension policy of buckets
   ansible.builtin.command:
     cmd: |
-      mcli retention info --default 'minio_setup_target/{{ item }}'
+      mcli --json retention info --default 'minio_setup_target/{{ item }}'
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
   changed_when: false
@@ -82,7 +84,7 @@
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
   when: |
-    item.stdout == "Object locking is not configured."
+    (item.stdout|from_json).mode == ""
   loop: '{{ minio_setup_bucket_retention_result.results }}'
 
 - name: Directory to provision minio is available
@@ -125,12 +127,15 @@
   when: not item in minio_setup_select_policies_result.stdout_lines
   loop: '{{ minio_setup_policy_entries|dict2items|map(attribute="key") }}'
 
-#- name: Attach policies
-#  ansible.builtin.command:
-#    cmd: |
-#      mcli admin policy attach minio_setup_target
-#        '{{ minio_setup_user_entries[item].attach_policy }}'
-#        --user '{{ item }}'
-#  environment:
-#    MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
-#  loop: '{{ minio_setup_user_entries|dict2items|map(attribute="key") }}'
+- name: Attach policies
+  ansible.builtin.command:
+    cmd: |
+      mcli admin policy attach minio_setup_target
+        '{{ minio_setup_user_entries[item].attach_policy }}'
+        --user '{{ item }}'
+  environment:
+    MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  when: |
+    (not item in minio_setup_current_users)
+      or (not "policyName" in minio_setup_current_users[item])
+  loop: '{{ minio_setup_user_entries|dict2items|map(attribute="key") }}'
