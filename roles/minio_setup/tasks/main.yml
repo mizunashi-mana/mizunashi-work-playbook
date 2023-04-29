@@ -102,6 +102,7 @@
     group: root
     mode: '0644'
     backup: true
+  become: true
   loop: '{{ minio_setup_policy_entries|dict2items }}'
 
 - name: Select policies
@@ -120,6 +121,7 @@
         '/etc/minio_provision/policy_{{ item }}.json'
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  become: true
   when: not item in minio_setup_select_policies_result.stdout_lines
   loop: '{{ minio_setup_policy_entries|dict2items|map(attribute="key") }}'
 
