@@ -69,6 +69,7 @@
       mcli retention info --default 'minio_setup_target/{{ item }}'
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  changed_when: false
   loop: '{{ minio_setup_bucket_entries|dict2items|map(attribute="key") }}'
   register: minio_setup_bucket_retention_result
 
@@ -83,3 +84,51 @@
   when: |
     item.stdout == "Object locking is not configured."
   loop: '{{ minio_setup_bucket_retention_result.results }}'
+
+- name: Directory to provision minio is available
+  ansible.builtin.file:
+    path: /etc/minio_provision
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Provision policies
+  ansible.builtin.template:
+    src: etc/minio_provision/policy_xxx.json
+    dest: '/etc/minio_provision/policy_{{ item.key }}.json'
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  loop: '{{ minio_setup_policy_entries|dict2items }}'
+
+- name: Select policies
+  ansible.builtin.command:
+    cmd: mcli admin policy list minio_setup_target
+  environment:
+    MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  changed_when: false
+  register: minio_setup_select_policies_result
+
+- name: Create policies
+  ansible.builtin.command:
+    cmd: |
+      mcli admin policy create minio_setup_target
+        '{{ item }}'
+        '/etc/minio_provision/policy_{{ item }}.json'
+  environment:
+    MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  when: not item in minio_setup_select_policies_result.stdout_lines
+  loop: '{{ minio_setup_policy_entries|dict2items|map(attribute="key") }}'
+
+#- name: Attach policies
+#  ansible.builtin.command:
+#    cmd: |
+#      mcli admin policy attach minio_setup_target
+#        '{{ minio_setup_user_entries[item].attach_policy }}'
+#        --user '{{ item }}'
+#  environment:
+#    MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+#  loop: '{{ minio_setup_user_entries|dict2items|map(attribute="key") }}'

@@ -1,0 +1,12 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+{% for statement in item.value.statement %}
+    {
+      "Effect": {{ statement.effect|to_json }},
+      "Action": {{ statement.action|to_json }},
+      "Resource": {{ statement.resource|to_json }}
+    }
+{% endfor %}
+  ]
+}
