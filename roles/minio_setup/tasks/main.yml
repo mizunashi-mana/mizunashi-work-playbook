@@ -70,7 +70,7 @@
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
   loop: '{{ minio_setup_bucket_entries|dict2items|map(attribute="key") }}'
-  register: minio_setup_bucket_retention_results
+  register: minio_setup_bucket_retention_result
 
 - name: Add retension policy of buckets
   ansible.builtin.command:
@@ -80,5 +80,6 @@
         'minio_setup_target/{{ item.item }}'
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
-  when:
-  loop: '{{ minio_setup_bucket_retention_results }}'
+  when: |
+    item.stdout == "Object locking is not configured."
+  loop: '{{ minio_setup_bucket_retention_result.results }}'
