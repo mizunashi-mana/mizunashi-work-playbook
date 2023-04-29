@@ -150,6 +150,7 @@ let grafana_elasticsearch_datasource_user = {
     3666
     """
   }
+  minio_setup_bucket_entries: "postgres_backup": {}
 
   nginx_site_minio_server_listen_port: #Schema.#minio_server_https_port
   nginx_site_minio_server_domain: #Schema.#minio_server_hostname
