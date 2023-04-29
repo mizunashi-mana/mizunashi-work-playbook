@@ -11,7 +11,6 @@ minio_setup_user_entries: [string]: #MinIoUserEntry
 minio_setup_bucket_entries: [string]: #MinIoBucketEntry
 
 #MinIoUserEntry: {
-  access_key: string
   secret_key: cue_types.#Vaulted
 }
 

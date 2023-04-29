@@ -27,7 +27,7 @@
 - name: Add users
   ansible.builtin.command:
     cmd: |
-      mcli admin user add '{{ item.key }}'
+      mcli admin user add minio_setup_target
         '{{ item.value.access_key }}'
         '{{ item.value.secret_key }}'
   environment:
