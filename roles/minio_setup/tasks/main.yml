@@ -21,7 +21,7 @@
     minio_setup_current_users: |
       {{
         minio_setup_select_users_result.stdout_lines
-        | map('regex_replace', '^[^ ]+\s+(.+)$', '\1')
+        | map('regex_replace', '^[^ ]+\s+([^ ]+)\s*$', '\1')
         | list
         }}
 
@@ -43,13 +43,13 @@
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
   changed_when: false
-  register: minio_setup_select_buckets
+  register: minio_setup_select_buckets_result
 
 - name: Extract buckets
   ansible.builtin.set_fact:
     minio_setup_current_buckets: |
       {{
-        minio_setup_select_users_result.stdout_lines
+        minio_setup_select_buckets_result.stdout_lines
         | map('regex_replace', '^minio_setup_target/(.+)$', '\1')
         | list
         }}
