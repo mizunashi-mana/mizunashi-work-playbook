@@ -141,6 +141,7 @@ let grafana_elasticsearch_datasource_user = {
   3666
   """
   minio_setup_user_entries: "postgres-backup": {
+    attach_policy: "postgres-backup"
     secret_key: "__ansible_vault": """
     $ANSIBLE_VAULT;1.1;AES256
     62356637313731376334383336616332393936306231343930343163666366613062643330323366
@@ -151,6 +152,18 @@ let grafana_elasticsearch_datasource_user = {
     """
   }
   minio_setup_bucket_entries: "postgres-backup": {}
+  minio_setup_policy_entries: "postgres-backup": {
+    statement: [
+      {
+        action: [
+          "s3:PutObject",
+        ]
+        resource: [
+          "arn:aws:s3:::postgres-backup",
+        ]
+      }
+    ]
+  }
 
   nginx_site_minio_server_listen_port: #Schema.#minio_server_https_port
   nginx_site_minio_server_domain: #Schema.#minio_server_hostname
