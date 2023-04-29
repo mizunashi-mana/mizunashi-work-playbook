@@ -141,7 +141,6 @@ let grafana_elasticsearch_datasource_user = {
   3666
   """
   minio_setup_user_entries: "postgres_backup": {
-    access_key: "postgres_backup"
     secret_key: "__ansible_vault": """
     $ANSIBLE_VAULT;1.1;AES256
     62356637313731376334383336616332393936306231343930343163666366613062643330323366
