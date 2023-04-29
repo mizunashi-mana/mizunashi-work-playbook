@@ -29,3 +29,39 @@
     cmd: mcli --config-dir /etc/mcli-public alias ls
     creates: /etc/mcli-public/config.json
   become: true
+
+- name: mcli config is available
+  ansible.builtin.file:
+    path: /etc/mcli-public/config.json
+    state: file
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+
+- name: Directory of mcli certs is available
+  ansible.builtin.file:
+    path: /etc/mcli-public/certs
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Directory of mcli CAs is available
+  ansible.builtin.file:
+    path: /etc/mcli-public/certs/CAs
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Install private CA for mc
+  ansible.builtin.file:
+    src: '{{ ca_certs_bundle_file_with_private_ca }}'
+    dest: /etc/mcli-public/certs/CAs/ca-certificates.crt
+    owner: root
+    group: root
+    state: link
+  become: true
