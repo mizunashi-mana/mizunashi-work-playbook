@@ -13,7 +13,16 @@
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
   changed_when: false
-  register: minio_setup_select_users
+  register: minio_setup_select_users_result
+
+- name: Extract users
+  ansible.builtin.set_fact:
+    minio_setup_current_users: |
+      {{
+        minio_setup_select_users_result.stdout_lines
+        | map('regex_replace', '^[^ ]+\s+(.+)$', '\1')
+        | list
+        }}
 
 - name: Add users
   ansible.builtin.command:
@@ -23,8 +32,8 @@
         '{{ item.value.secret_key }}'
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
-  when: not ('enable ' + item.key) in minio_setup_select_users.stdout_lines
-  loop: '{{ minio_user_entries|dict2items }}'
+  when: not item.key in minio_setup_current_users
+  loop: '{{ minio_setup_user_entries|dict2items }}'
 
 - name: Select buckets
   ansible.builtin.command:
@@ -33,3 +42,30 @@
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
   changed_when: false
   register: minio_setup_select_buckets
+
+- name: Extract buckets
+  ansible.builtin.set_fact:
+    minio_setup_current_buckets: |
+      {{
+        minio_setup_select_users_result.stdout_lines
+        | map('regex_replace', '^minio_setup_target/(.+)$', '\1')
+        | list
+        }}
+
+- name: Add buckets
+  ansible.builtin.command:
+    cmd: |
+      mcli mb --with-lock 'minio_setup_target/{{ item.key }}'
+  environment:
+    MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  when: not item.key in minio_setup_current_buckets
+  loop: '{{ minio_setup_bucket_entries|dict2items }}'
+
+- name: Check retension policy of buckets
+  ansible.builtin.command:
+    cmd: |
+      mcli retention info --default 'minio_setup_target/{{ item.key }}'
+  environment:
+    MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  loop: '{{ minio_setup_bucket_entries|dict2items }}'
+  register: minio_setup_bucket_retention_results

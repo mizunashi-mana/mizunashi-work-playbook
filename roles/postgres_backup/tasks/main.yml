@@ -1,1 +1,15 @@
 ---
+- name: Setup mc configs
+  ansible.builtin.command:
+    cmd: sudo -u postgres mcli alias ls
+    creates: /var/lib/postgresql/.mcli/config.json
+  become: true
+
+- name: Install private CA for mc
+  ansible.builtin.file:
+    src: '{{ ca_certs_bundle_file_with_private_ca }}'
+    dest: /var/lib/postgresql/.mcli/certs/CAs/ca-certificates.crt
+    owner: postgres
+    group: postgres
+    state: link
+  become: true

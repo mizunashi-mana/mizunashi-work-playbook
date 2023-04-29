@@ -55,6 +55,7 @@
   - mastodon
 
   - postgresql_dbsetup_postgres_exporter
+  - postgres_backup
 
   - nginx_site_mastodon_front
   - nginx_site_www_redirector

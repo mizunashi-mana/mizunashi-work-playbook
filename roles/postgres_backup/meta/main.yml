@@ -1,0 +1,4 @@
+---
+dependencies:
+  - role: mc
+  - role: ca_certs
