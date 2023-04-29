@@ -20,7 +20,7 @@
   ansible.builtin.set_fact:
     minio_setup_current_users: |
       {{ minio_setup_select_users_result.stdout
-        |regex_replace('^{$', "---\n{")
+        |regex_replace('^{', "---\n{", multiline=True)
         |from_yaml_all
         |selectattr("userStatus", "defined")
         |community.general.json_query("[].{key:accessKey,value:@}")
