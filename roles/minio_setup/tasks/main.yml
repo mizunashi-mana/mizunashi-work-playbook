@@ -6,6 +6,7 @@
   set_fact:
     minio_setup_target_endpoint: |
       http://{{ minio_root_user }}:{{ minio_root_password }}@127.0.0.1:{{ minio_server_listen_port }}
+  no_log: true
 
 - name: Select users
   ansible.builtin.command:
@@ -28,12 +29,13 @@
   ansible.builtin.command:
     cmd: |
       mcli admin user add minio_setup_target
-        '{{ item.key }}'
-        '{{ item.value.secret_key }}'
+        '{{ item }}'
+        '{{ minio_setup_user_entries[item].secret_key }}'
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
-  when: not item.key in minio_setup_current_users
-  loop: '{{ minio_setup_user_entries|dict2items }}'
+  when: not item in minio_setup_current_users
+  no_log: true
+  loop: '{{ minio_setup_user_entries|dict2items|map(attribute="key") }}'
 
 - name: Select buckets
   ansible.builtin.command:
@@ -55,17 +57,17 @@
 - name: Add buckets
   ansible.builtin.command:
     cmd: |
-      mcli mb --with-lock 'minio_setup_target/{{ item.key }}'
+      mcli mb --with-lock 'minio_setup_target/{{ item }}'
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
-  when: not item.key in minio_setup_current_buckets
-  loop: '{{ minio_setup_bucket_entries|dict2items }}'
+  when: not item in minio_setup_current_buckets
+  loop: '{{ minio_setup_bucket_entries|dict2items|map(attribute="key") }}'
 
 - name: Check retension policy of buckets
   ansible.builtin.command:
     cmd: |
-      mcli retention info --default 'minio_setup_target/{{ item.key }}'
+      mcli retention info --default 'minio_setup_target/{{ item }}'
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
-  loop: '{{ minio_setup_bucket_entries|dict2items }}'
+  loop: '{{ minio_setup_bucket_entries|dict2items|map(attribute="key") }}'
   register: minio_setup_bucket_retention_results
