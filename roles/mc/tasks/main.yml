@@ -14,3 +14,18 @@
   become: true
   when: |
     'msg' in mc_installed_check and mc_installed_check.msg is search('No package')
+
+- name: Directory of mcli config is available
+  ansible.builtin.file:
+    path: /etc/mcli-public
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Setup mc configs
+  ansible.builtin.command:
+    cmd: mcli --config-dir /etc/mcli-public alias ls
+    creates: /etc/mcli-public/config.json
+  become: true
