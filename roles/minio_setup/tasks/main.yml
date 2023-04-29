@@ -71,3 +71,14 @@
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
   loop: '{{ minio_setup_bucket_entries|dict2items|map(attribute="key") }}'
   register: minio_setup_bucket_retention_results
+
+- name: Add retension policy of buckets
+  ansible.builtin.command:
+    cmd: |
+      mcli retention set --default GOVERNANCE
+        '{{ minio_setup_bucket_entries[item.item].retension_days }}d'
+        'minio_setup_target/{{ item.item }}'
+  environment:
+    MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
+  when:
+  loop: '{{ minio_setup_bucket_retention_results }}'
