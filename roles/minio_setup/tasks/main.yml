@@ -28,7 +28,7 @@
   ansible.builtin.command:
     cmd: |
       mcli admin user add minio_setup_target
-        '{{ item.value.access_key }}'
+        '{{ item.key }}'
         '{{ item.value.secret_key }}'
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
