@@ -12,9 +12,16 @@ TIMESTAMP="${TIMESTAMP:-"$(env TZ=UTC date '+%Y%m%d-%s')"}"
 
 DUMP_DIR="${DUMP_DIR:-"$BACKUP_DIR/dump-$TIMESTAMP"}"
 
-mkdir -p "$BACKUP_DIR"
+if ! [ -d "$BACKUP_DIR" ]; then
+  mkdir "$BACKUP_DIR"
+  chmod 0700 "$BACKUP_DIR"
+fi
 
-/opt/bin/postgres-archive-dump "$DUMP_DIR"
+if ! [ -d "$DUMP_DIR" ]; then
+  mkdir "$DUMP_DIR"
+  chmod 0700 "$DUMP_DIR"
+fi
+/usr/local/bin/postgres-archive-dump "$DUMP_DIR"
 
 env "MC_HOST_minio_target=$S3_URL" \
   mcli --config-dir /etc/mcli-public \
