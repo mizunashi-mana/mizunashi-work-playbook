@@ -15,6 +15,7 @@ import "mizunashi.work/pkg/roles/caddy"
 import "mizunashi.work/pkg/roles/caddy_site_acme_server"
 import "mizunashi.work/pkg/roles/nginx_site_minio_server"
 import "mizunashi.work/pkg/roles/nginx_site_elasticsearch"
+import "mizunashi.work/pkg/roles/fluentd_input_caddy_log"
 
 group_vars_all
 minio
@@ -30,3 +31,4 @@ caddy
 caddy_site_acme_server
 nginx_site_minio_server
 nginx_site_elasticsearch
+fluentd_input_caddy_log
