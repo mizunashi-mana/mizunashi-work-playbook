@@ -121,7 +121,7 @@
     cmd: |
       mcli admin policy create minio_setup_target
         '{{ item.item.key }}'
-        '{{ item.path }}'
+        '{{ item.dest }}'
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
   become: true
