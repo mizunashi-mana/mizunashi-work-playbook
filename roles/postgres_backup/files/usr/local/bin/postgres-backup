@@ -12,11 +12,6 @@ TIMESTAMP="${TIMESTAMP:-"$(env TZ=UTC date '+%Y%m%d-%s')"}"
 
 DUMP_DIR="${DUMP_DIR:-"$BACKUP_DIR/dump-$TIMESTAMP"}"
 
-if ! [ -d "$BACKUP_DIR" ]; then
-  mkdir "$BACKUP_DIR"
-  chmod 0700 "$BACKUP_DIR"
-fi
-
 if ! [ -d "$DUMP_DIR" ]; then
   mkdir "$DUMP_DIR"
   chmod 0700 "$DUMP_DIR"

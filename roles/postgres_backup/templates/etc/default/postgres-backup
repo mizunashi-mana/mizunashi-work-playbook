@@ -1,3 +1,3 @@
-BACKUP_DIR=/var/lib/postgresql/backup
+BACKUP_DIR=/var/lib/postgres-backup
 S3_URL={{ postgres_backup_s3_scheme }}://{{ postgres_backup_s3_access_key }}:{{ postgres_backup_s3_secret_key }}@{{ postgres_backup_s3_hostname }}:{{ postgres_backup_s3_port }}
 S3_BUCKET={{ postgres_backup_s3_bucket }}

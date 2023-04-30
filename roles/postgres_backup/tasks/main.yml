@@ -19,6 +19,15 @@
     backup: true
   become: true
 
+- name: Directory of postgres backups is available
+  ansible.builtin.file:
+    path: /var/lib/postgres-backup
+    state: directory
+    owner: postgres
+    group: postgres
+    mode: '0700'
+  become: true
+
 - name: Put postgres backup config
   ansible.builtin.template:
     src: etc/default/postgres-backup
