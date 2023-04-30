@@ -9,3 +9,4 @@ MINIO_ROOT_PASSWORD={{ minio_root_password }}
 MINIO_PROMETHEUS_AUTH_TYPE=public
 
 MINIO_SERVER_URL={{ minio_server_url }}
+MINIO_BROWSER=off
