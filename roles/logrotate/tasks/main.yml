@@ -36,3 +36,9 @@
     mode: '0755'
     backup: true
   become: true
+
+- name: Start logrotate if not started
+  ansible.builtin.command:
+    cmd: systemctl start logrotate
+    creates: /var/lib/logrotate/status
+  become: true
