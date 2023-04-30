@@ -45,7 +45,7 @@
     group: root
     mode: '0644'
     backup: true
-    validate: /opt/bin/systemd-validate %s
+    validate: /opt/bin/systemd-validate -t timer %s
   become: true
   register: certbot_install_acme_cert_timer_result
 
