@@ -18,3 +18,54 @@
     mode: '0755'
     backup: true
   become: true
+
+- name: Put postgres backup config
+  ansible.builtin.template:
+    src: etc/default/postgres-backup
+    dest: /etc/default/postgres-backup
+    owner: root
+    group: root
+    mode: '0700'
+    backup: true
+  become: true
+
+- name: Install service
+  ansible.builtin.template:
+    src: etc/systemd/system/postgres-backup.service
+    dest: /etc/systemd/system/postgres-backup.service
+    owner: root
+    group: root
+    mode: '0600'
+    backup: true
+    validate: /opt/bin/systemd-validate %s
+  become: true
+  register: postgres_backup_service_result
+
+- name: Install timer
+  ansible.builtin.template:
+    src: etc/systemd/system/postgres-backup.timer
+    dest: /etc/systemd/system/postgres-backup.timer
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/systemd-validate %s
+  become: true
+  register: postgres_backup_timer_result
+
+- name: Reload service
+  ansible.builtin.systemd:
+    name: postgres-backup.service
+    enabled: true
+    daemon_reload: true
+  become: true
+  when: postgres_backup_service_result.changed
+
+- name: Reload timer
+  ansible.builtin.systemd:
+    name: postgres-backup.timer
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  when: postgres_backup_timer_result.changed
