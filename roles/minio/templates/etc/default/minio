@@ -1,5 +1,4 @@
 SERVER_LISTEN_ADDRESS=127.0.0.1:{{ minio_server_listen_port }}
-CONSOLE_LISTEN_ADDRESS=127.0.0.1:{{ minio_console_listen_port }}
 
 MINIO_VOLUMES=/var/lib/minio/volumes
 
