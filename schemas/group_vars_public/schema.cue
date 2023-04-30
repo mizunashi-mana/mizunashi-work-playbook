@@ -8,6 +8,7 @@ import "mizunashi.work/pkg/roles/redis_exporter"
 import "mizunashi.work/pkg/roles/postgresql"
 import "mizunashi.work/pkg/roles/postgres_exporter"
 import "mizunashi.work/pkg/roles/statsd_exporter"
+import "mizunashi.work/pkg/roles/postgres_backup"
 import "mizunashi.work/pkg/roles/nginx_site_mastodon_front"
 import "mizunashi.work/pkg/roles/nginx_site_www_redirector"
 import "mizunashi.work/pkg/roles/nginx_site_root_front"
@@ -21,6 +22,7 @@ redis_exporter
 postgresql
 postgres_exporter
 statsd_exporter
+postgres_backup
 nginx_site_mastodon_front
 nginx_site_www_redirector
 nginx_site_root_front

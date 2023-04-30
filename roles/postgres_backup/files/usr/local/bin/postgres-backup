@@ -3,7 +3,11 @@
 set -euo pipefail
 [ "${TRACE:-false}" = 'true' ] && set -x
 
-BACKUP_DIR="${BACKUP_DIR:-"/var/lib/postgresql/backup"}"
+if [ -z "${BACKUP_DIR:-}" ] || [ -z "${S3_URL:-}" ] || [ -z "${S3_BUCKET}" ]; then
+  echo "Not enough variables."
+  exit 1
+fi
+
 TIMESTAMP="${TIMESTAMP:-"$(env TZ=UTC date '+%Y%m%d-%s')"}"
 
 DUMP_DIR="${DUMP_DIR:-"$BACKUP_DIR/dump-$TIMESTAMP"}"

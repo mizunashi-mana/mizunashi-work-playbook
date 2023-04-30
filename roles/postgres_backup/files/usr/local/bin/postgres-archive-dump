@@ -3,14 +3,15 @@
 set -euo pipefail
 [ "${TRACE:-false}" = 'true' ] && set -x
 
+DATABASE_ARR=()
 if [ -n "${DATABASES:-}" ]; then
   DATABASE_ARR=($DATABASES)
 else
-  DATABASE_ARR=()
-  psql --command 'SELECT datname FROM pg_database;' --csv | tail -n +2 \
-    | while IFS= read -r datname; do
+  while IFS= read -r datname; do
+    if [ "$datname" != 'template0' ]; then
       DATABASE_ARR+=("$datname")
-    done
+    fi
+  done < <(psql --command 'SELECT datname FROM pg_database;' --csv | tail -n +2)
 fi
 
 DEST_DIR="$1"

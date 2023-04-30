@@ -1,0 +1,7 @@
+[Unit]
+Description=PostgreSQL backup service
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/default/postgres-backup
+ExecStart=/usr/local/bin/postgres-backup

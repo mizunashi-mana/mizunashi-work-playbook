@@ -1,0 +1,10 @@
+[Unit]
+Description=Timer of PostgreSQL backup
+ConditionPathExists=/var/lib/postgresql/backup
+
+[Timer]
+OnCalendar={{ postgres_backup_on_calendar }}
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -46,6 +46,13 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
   nginx_site_root_front_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_root_front_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
 
+  postgres_backup_s3_scheme: "https"
+  postgres_backup_s3_access_key: #Schema.#postgres_backup_config.access_key
+  postgres_backup_s3_secret_key: #Schema.#postgres_backup_config.secret_key
+  postgres_backup_s3_hostname: #Schema.#minio_server_hostname
+  postgres_backup_s3_port: #Schema.#minio_server_https_port
+  postgres_backup_s3_bucket: #Schema.#postgres_backup_config.bucket
+
   mastodon_single_user_mode: "true"
 
   mastodon_db_user_password: "__ansible_vault": """
