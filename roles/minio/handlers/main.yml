@@ -21,10 +21,3 @@
     state: started
     timeout: 60
   listen: Check
-
-- name: Check listen port
-  ansible.builtin.wait_for:
-    port: '{{ minio_console_listen_port }}'
-    state: started
-    timeout: 60
-  listen: Check
