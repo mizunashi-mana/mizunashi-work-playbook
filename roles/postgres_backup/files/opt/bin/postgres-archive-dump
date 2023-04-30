@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+[ "${TRACE:-false}" = 'true' ] && set -x
+
+if [ -n "${DATABASES:-}" ]; then
+  DATABASE_ARR=($DATABASES)
+else
+  DATABASE_ARR=()
+  psql --command 'SELECT datname FROM pg_database;' --csv | tail -n +2 \
+    | while IFS= read -r datname; do
+      DATABASE_ARR+=("$datname")
+    done
+fi
+
+DEST_DIR="$1"
+
+mkdir -p "$DEST_DIR"
+
+pg_dumpall --globals-only | gzip --stdout > "$DEST_DIR/globals.sql.gz"
+pg_dumpall --schema-only | gzip --stdout > "$DEST_DIR/schema.sql.gz"
+
+if [ "${#DATABASE_ARR[@]}" -gt 0 ]; then
+  for datname in "${DATABASE_ARR[@]}"; do
+    pg_dump "$datname" | gzip --stdout > "$DEST_DIR/db_$datname.sql.gz"
+  done
+fi

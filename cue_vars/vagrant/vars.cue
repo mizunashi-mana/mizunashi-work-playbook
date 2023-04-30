@@ -75,6 +75,7 @@ group_vars_all
 
 #mastodon_hostname: "mstdn-local.mizunashi.work"
 #www_hostname: "www-local.mizunashi.work"
+#root_hostname: "local.mizunashi.work"
 
 #minio_server_hostname: "minio.\(#private_domain)"
 #minio_server_url: "https://\(#minio_server_hostname):\(#minio_server_https_port)"

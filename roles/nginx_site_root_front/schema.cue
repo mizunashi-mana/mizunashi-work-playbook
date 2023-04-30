@@ -1,0 +1,8 @@
+package nginx_site_root_front
+
+nginx_site_root_front_listen_port: uint
+nginx_site_root_front_domain: string
+nginx_site_root_front_url: string
+
+nginx_site_root_front_acme_challenge_url: string
+nginx_site_root_front_ca_bundle_path: string

@@ -11,6 +11,8 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
 
   nginx_site_http_redirector_listen_port: #Schema.#http_port
   nginx_site_mastodon_front_listen_port: #Schema.#https_port
+  nginx_site_www_redirector_listen_port: #Schema.#https_port
+  nginx_site_root_front_listen_port: #Schema.#https_port
 
   nftables_accept_tcp_ports: [
     #Schema.#ssh_port,
@@ -34,11 +36,15 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
   nginx_site_mastodon_front_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_mastodon_front_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
 
-  nginx_site_www_redirector_listen_port: #Schema.#https_port
   nginx_site_www_redirector_domain: #Schema.#www_hostname
   nginx_site_www_redirector_url: "https://mizunashi-mana.github.io"
   nginx_site_www_redirector_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_www_redirector_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
+
+  nginx_site_root_front_domain: #Schema.#root_hostname
+  nginx_site_root_front_url: "https://\(#Schema.#www_hostname)"
+  nginx_site_root_front_acme_challenge_url: #Schema.#private_acme_challenge_url
+  nginx_site_root_front_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
 
   mastodon_single_user_mode: "true"
 

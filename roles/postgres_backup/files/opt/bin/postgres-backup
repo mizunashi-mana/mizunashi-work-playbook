@@ -1,1 +1,17 @@
 #!/usr/bin/env bash
+
+set -euo pipefail
+[ "${TRACE:-false}" = 'true' ] && set -x
+
+BACKUP_DIR="${BACKUP_DIR:-"/var/lib/postgresql/backup"}"
+TIMESTAMP="${TIMESTAMP:-"$(env TZ=UTC date '+%Y%m%d-%s')"}"
+
+DUMP_DIR="${DUMP_DIR:-"$BACKUP_DIR/dump-$TIMESTAMP"}"
+
+mkdir -p "$BACKUP_DIR"
+
+/opt/bin/postgres-archive-dump "$DUMP_DIR"
+
+env "MC_HOST_minio_target=$S3_URL" \
+  mcli --config-dir /etc/mcli-public \
+    cp "$DUMP_DIR" "minio_target/$S3_BUCKET/"
