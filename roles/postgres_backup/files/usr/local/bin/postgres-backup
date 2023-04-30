@@ -25,4 +25,4 @@ fi
 
 env "MC_HOST_minio_target=$S3_URL" \
   mcli --config-dir /etc/mcli-public \
-    cp "$DUMP_DIR" "minio_target/$S3_BUCKET/"
+    cp --recursive "$DUMP_DIR" "minio_target/$S3_BUCKET/"
