@@ -1,8 +1,8 @@
 ---
 - name: Install postgres dump script
   ansible.builtin.copy:
-    src: opt/bin/postgres-archive-dump
-    dest: /opt/bin/postgres-archive-dump
+    src: usr/local/bin/postgres-archive-dump
+    dest: /usr/local/bin/postgres-archive-dump
     owner: root
     group: root
     mode: '0755'
@@ -11,8 +11,8 @@
 
 - name: Install postgres backup script
   ansible.builtin.copy:
-    src: opt/bin/postgres-backup
-    dest: /opt/bin/postgres-backup
+    src: usr/local/bin/postgres-backup
+    dest: /usr/local/bin/postgres-backup
     owner: root
     group: root
     mode: '0755'
