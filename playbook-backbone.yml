@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  max_fail_percentage: 30
 
   roles:
   - systemd_resolved
@@ -13,6 +14,7 @@
     notify: Check
 
 - hosts: internal
+  max_fail_percentage: 30
 
   roles:
   - caddy

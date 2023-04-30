@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  max_fail_percentage: 30
 
   roles:
   - logrotate
@@ -13,12 +14,18 @@
 
   - nginx_site_local_proxy
 
+  - fluentd_input_auth_log
+  - fluentd_input_exim_log
+  - fluentd_input_fail2ban_log
+  - fluentd_input_nginx_log
+
   post_tasks:
   - name: Check
     ansible.builtin.command: echo check
     notify: Check
 
 - hosts: internal
+  max_fail_percentage: 30
 
   roles:
   - minio
@@ -43,6 +50,7 @@
     notify: Check
 
 - hosts: public
+  max_fail_percentage: 30
 
   roles:
   - nodejs
@@ -69,12 +77,9 @@
     notify: Check
 
 - hosts: all
+  max_fail_percentage: 30
 
   roles:
-  - fluentd_input_auth_log
-  - fluentd_input_exim_log
-  - fluentd_input_fail2ban_log
-  - fluentd_input_nginx_log
   - fluentd_output_elasticsearch
 
   post_tasks:
