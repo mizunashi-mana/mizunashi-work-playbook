@@ -106,6 +106,7 @@
     backup: true
   become: true
   loop: '{{ minio_setup_policy_entries|dict2items }}'
+  register: minio_setup_provision_policies_result
 
 - name: Select policies
   ansible.builtin.command:
@@ -119,13 +120,15 @@
   ansible.builtin.command:
     cmd: |
       mcli admin policy create minio_setup_target
-        '{{ item }}'
-        '/etc/minio_provision/policy_{{ item }}.json'
+        '{{ item.item.key }}'
+        '{{ item.path }}'
   environment:
     MC_HOST_minio_setup_target: '{{ minio_setup_target_endpoint }}'
   become: true
-  when: not item in minio_setup_select_policies_result.stdout_lines
-  loop: '{{ minio_setup_policy_entries|dict2items|map(attribute="key") }}'
+  when: |
+    item.changed
+      or not item.item.key in minio_setup_select_policies_result.stdout_lines
+  loop: '{{ minio_setup_provision_policies_result.results }}'
 
 - name: Attach policies
   ansible.builtin.command:

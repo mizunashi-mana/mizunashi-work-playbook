@@ -149,10 +149,11 @@ let grafana_elasticsearch_datasource_user = {
     statement: [
       {
         action: [
+          "s3:GetObject",
           "s3:PutObject",
         ]
         resource: [
-          "arn:aws:s3:::\(#Schema.#postgres_backup_config.bucket)",
+          "arn:aws:s3:::\(#Schema.#postgres_backup_config.bucket)/*",
         ]
       }
     ]
