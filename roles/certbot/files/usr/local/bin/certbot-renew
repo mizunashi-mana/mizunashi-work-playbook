@@ -6,15 +6,25 @@ if [ -n "$REQUESTS_CA_BUNDLE" ]; then
   export REQUESTS_CA_BUNDLE="$REQUESTS_CA_BUNDLE"
 fi
 
-certbot renew --cert-name "$DOMAIN"
+case "${HOOK_TYPE:-}" in
+  'nginx' )
+    POST_HOOK="systemctl reload nginx"
+    ;;
+esac
+
+CERTBOT_REWEW_ARGS=(
+  --cert-name "$DOMAIN"
+)
+if [ -n "${PRE_HOOK:-}" ]; then
+  CERTBOT_REWEW_ARGS+=(--pre-hook "$PRE_HOOK")
+fi
+if [ -n "${POST_HOOK:-}" ]; then
+  CERTBOT_REWEW_ARGS+=(--post-hook "$POST_HOOK")
+fi
+
+certbot renew "${CERTBOT_RENEW_ARGS[@]}"
 
 CERT_DIR="/etc/letsencrypt/live/$DOMAIN"
-
-if [ -e "$CERT_DIR/cert.pem" ] && [ -e "$CERT_DIR/privkey.pem" ] && [ -e "$CERT_DIR/chain.pem" ]
-then
-  echo "Certificates are not available."
-  exit 1
-fi
 
 /usr/local/bin/node_exporter_custom_collector -c 'echo' \
   -d "$DESTINATION_PROMFILE"

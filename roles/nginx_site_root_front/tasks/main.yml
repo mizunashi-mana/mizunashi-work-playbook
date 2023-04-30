@@ -10,6 +10,7 @@
     certbot_install_acme_cert_domain: '{{ nginx_site_root_front_domain }}'
     certbot_install_acme_cert_ca_bundle: '{{ nginx_site_root_front_ca_bundle_path }}'
     certbot_install_acme_cert_on_calendar: '{{ certbot_renew_on_calendar }}'
+    certbot_install_hook_type: nginx
 
 - name: Install root front site
   ansible.builtin.template:
