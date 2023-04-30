@@ -199,6 +199,13 @@ let grafana_elasticsearch_datasource_user = {
   nginx_site_elasticsearch_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_elasticsearch_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
 
+  #fluentd_input_caddy_log_access_default_tag: "caddy.default"
+  fluentd_input_caddy_log_access_entries: "\(#fluentd_input_caddy_log_access_default_tag)": {
+    log_file: "/var/log/caddy/default.log"
+  }
+
+  fluentd_output_elasticsearch_entries: "\(#fluentd_input_caddy_log_access_default_tag)": {}
+
   grafana_admin_password: "__ansible_vault": """
   $ANSIBLE_VAULT;1.1;AES256
   62356637313731376334383336616332393936306231343930343163666366613062643330323366
