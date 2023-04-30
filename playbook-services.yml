@@ -35,6 +35,8 @@
   - nginx_site_minio_server
   - nginx_site_elasticsearch
 
+  - fluentd_input_caddy_log
+
   post_tasks:
   - name: Check
     ansible.builtin.command: echo check
@@ -73,7 +75,6 @@
   - fluentd_input_exim_log
   - fluentd_input_fail2ban_log
   - fluentd_input_nginx_log
-  - fluentd_input_caddy_log
   - fluentd_output_elasticsearch
 
   post_tasks:
