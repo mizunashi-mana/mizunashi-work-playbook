@@ -6,6 +6,7 @@
   "title": "Prometheus Blackbox Exporter",
   "description": "Prometheus Blackbox Exporter Overview",
   "schemaVersion": 38,
+  "gnetId": 7587,
   "tags": [
     "blackbox-exporter",
     "Prometheus"
@@ -1085,6 +1086,5 @@
       },
       "repeatDirection": "h"
     }
-  ],
-  "gnetId": 7587
+  ]
 }

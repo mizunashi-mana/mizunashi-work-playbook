@@ -52,6 +52,7 @@ dashboard_json_keys = [
   "description",
   "schemaVersion",
   "pluginVersion",
+  "gnetId",
   "name",
   "type",
   "label",

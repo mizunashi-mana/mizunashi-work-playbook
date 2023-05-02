@@ -95,3 +95,92 @@ groups:
               hide: false
               intervalMs: 1000
               maxDataPoints: 43200
+
+      - uid: 'alert_BlackboxExporter_SSLCertExpireSoon'
+        title: 'BlackboxExpoter: SSL Certificate Expire Soon'
+        condition: C
+        for: 2m
+        isPaused: false
+        noDataState: NoData
+        execErrState: Error
+
+        annotations:
+          __dashboardUid__: dashboard_BlackboxExporter
+          __panelId__: "19"
+          summary: 'SSL certificate of {{ "{{ $labels.instance }}" }} will expire soon'
+        labels:
+          severity: error
+
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: ds_prometheus
+            model:
+              refId: A
+              expr: (probe_ssl_earliest_cert_expiry - time()) / 60 / 60 / 24
+              editorMode: code
+              hide: false
+              intervalMs: 1000
+              legendFormat: __auto
+              maxDataPoints: 43200
+              range: true
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              refId: B
+              type: reduce
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              conditions:
+                - evaluator:
+                    params: []
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                        - B
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: B
+              conditions:
+                - evaluator:
+                    params:
+                        - 3
+                    type: lt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                        - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200

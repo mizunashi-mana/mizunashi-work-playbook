@@ -8,9 +8,10 @@ if [ -z "${BACKUP_DIR:-}" ] || [ -z "${S3_URL:-}" ] || [ -z "${S3_BUCKET}" ]; th
   exit 1
 fi
 
-TIMESTAMP="${TIMESTAMP:-"$(env TZ=UTC date '+%Y%m%d-%s')"}"
+find "$BACKUP_DIR/" -maxdepth 1 -mtime +7 -delete
 
-DUMP_DIR="${DUMP_DIR:-"$BACKUP_DIR/dump-$TIMESTAMP"}"
+TIMESTAMP="$(env TZ=UTC date '+%Y%m%d-%s')"
+DUMP_DIR="$BACKUP_DIR/dump-$TIMESTAMP"
 
 if ! [ -d "$DUMP_DIR" ]; then
   mkdir "$DUMP_DIR"

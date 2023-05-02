@@ -6,6 +6,7 @@
   "title": "Redis Exporter",
   "description": "A quickstart to setup the Prometheus Redis Exporter with preconfigured dashboards, alerting rules, and recording rules.",
   "schemaVersion": 38,
+  "gnetId": 14091,
   "tags": [
     "redis-exporter",
     "Redis",
@@ -1377,6 +1378,5 @@
         "align": false
       }
     }
-  ],
-  "gnetId": 14091
+  ]
 }

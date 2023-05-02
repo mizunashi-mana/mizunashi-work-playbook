@@ -6,6 +6,7 @@
   "title": "Postgres Exporter",
   "description": "This dashboard works with postgres_exporter for prometheus",
   "schemaVersion": 38,
+  "gnetId": 9628,
   "tags": [
     "PostgreSQL",
     "DB",
@@ -3168,6 +3169,5 @@
         "align": false
       }
     }
-  ],
-  "gnetId": 9628
+  ]
 }

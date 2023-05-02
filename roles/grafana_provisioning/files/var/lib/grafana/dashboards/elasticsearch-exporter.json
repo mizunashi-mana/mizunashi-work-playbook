@@ -6,6 +6,7 @@
   "title": "Elasticsearch Exporter",
   "description": "A quickstart to setup the Prometheus Elasticsearch Exporter with preconfigured dashboards, alerting rules, and recording rules.",
   "schemaVersion": 38,
+  "gnetId": 14191,
   "tags": [
     "ElasticSearch",
     "Java",
@@ -6200,6 +6201,5 @@
         "y": 65
       }
     }
-  ],
-  "gnetId": 14191
+  ]
 }

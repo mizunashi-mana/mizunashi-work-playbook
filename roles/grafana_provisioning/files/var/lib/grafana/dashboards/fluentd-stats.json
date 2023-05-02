@@ -6,6 +6,7 @@
   "title": "Fluentd Stats",
   "description": "fluentd scraped by prometheus",
   "schemaVersion": 38,
+  "gnetId": 13042,
   "tags": [
     "fluentd",
     "logging",
@@ -3419,6 +3420,5 @@
         "y": 25
       }
     }
-  ],
-  "gnetId": 13042
+  ]
 }
