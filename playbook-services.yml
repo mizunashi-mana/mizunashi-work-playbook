@@ -18,6 +18,7 @@
   - fluentd_input_exim_log
   - fluentd_input_fail2ban_log
   - fluentd_input_nginx_log
+  - fluentd_input_nftables_log
 
   post_tasks:
   - name: Check

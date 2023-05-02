@@ -1,0 +1,22 @@
+/var/log/ulog/*.log /var/log/ulog/*.pcap {
+  daily
+  dateext
+  dateformat -%Y%m%d-%s
+  rotate 10
+  maxsize 1M
+  maxage 7
+
+  missingok
+  compress
+  delaycompress
+  notifempty
+  create 640 root adm
+  sharedscripts
+  postrotate
+    if [ -d /run/systemd/system ] && command systemctl >/dev/null 2>&1 && systemctl is-active --quiet ulogd2.service; then
+      systemctl kill --kill-who main --signal=SIGHUP ulogd2.service
+    else
+      invoke-rc.d ulogd2 reload > /dev/null
+    fi
+  endscript
+}

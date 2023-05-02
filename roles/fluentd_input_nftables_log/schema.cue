@@ -1,0 +1,3 @@
+package fluentd_input_nftables_log
+
+fluentd_input_nftables_log_tag: string

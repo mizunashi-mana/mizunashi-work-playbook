@@ -5,6 +5,14 @@
     state: present
   become: true
 
+- name: Install ulogd
+  ansible.builtin.apt:
+    name:
+    - 'ulogd2={{ nftables_ulogd_version }}*'
+    - 'ulogd2-json={{ nftables_ulogd_version }}*'
+    state: present
+  become: true
+
 - name: Directory of nftables inbound configs is available
   ansible.builtin.file:
     path: /etc/nftables-inbound.d
@@ -72,6 +80,39 @@
   notify:
     - Restart nftables
 
+- name: Copy nftables restricted accept config
+  ansible.builtin.copy:
+    src: etc/ulogd.conf
+    dest: /etc/ulogd.conf
+    owner: root
+    group: root
+    mode: '0600'
+    backup: true
+  become: true
+  notify:
+    - Restart ulogd
+
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate-available.d/ulogd2
+    dest: /etc/logrotate-available.d/ulogd2
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/ulogd2
+    dest: /etc/logrotate.d/ulogd2
+    owner: root
+    group: root
+    state: link
+    force: true
+  become: true
+
 - name: Notify restart nftables if not started
   ansible.builtin.command: systemctl status nftables
   become: true
@@ -80,3 +121,12 @@
   failed_when: false
   notify:
     - Restart nftables
+
+- name: Notify restart ulogd if not started
+  ansible.builtin.command: systemctl status ulogd
+  become: true
+  register: nftables_ulogd_service_status
+  changed_when: nftables_ulogd_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart ulogd

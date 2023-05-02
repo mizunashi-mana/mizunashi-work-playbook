@@ -2,7 +2,7 @@
   daily
   dateext
   dateformat -%Y%m%d-%s
-  rotate 14
+  rotate 10
   maxsize 1M
   maxage 7
 

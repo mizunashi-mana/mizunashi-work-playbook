@@ -19,6 +19,7 @@ import "mizunashi.work/pkg/roles/fluentd_input_kern_log"
 import "mizunashi.work/pkg/roles/fluentd_input_exim_log"
 import "mizunashi.work/pkg/roles/fluentd_input_fail2ban_log"
 import "mizunashi.work/pkg/roles/fluentd_input_nginx_log"
+import "mizunashi.work/pkg/roles/fluentd_input_nftables_log"
 import "mizunashi.work/pkg/roles/fluentd_output_elasticsearch"
 import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/nginx_exporter"
@@ -44,6 +45,7 @@ fluentd_input_kern_log
 fluentd_input_exim_log
 fluentd_input_fail2ban_log
 fluentd_input_nginx_log
+fluentd_input_nftables_log
 fluentd_output_elasticsearch
 nginx
 nginx_exporter
