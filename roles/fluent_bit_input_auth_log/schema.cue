@@ -1,0 +1,3 @@
+package fluent_bit_input_auth_log
+
+fluent_bit_input_auth_log_tag: string

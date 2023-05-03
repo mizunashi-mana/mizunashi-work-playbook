@@ -1,0 +1,3 @@
+package fluent_bit_input_kern_log
+
+fluent_bit_input_kern_log_tag: string

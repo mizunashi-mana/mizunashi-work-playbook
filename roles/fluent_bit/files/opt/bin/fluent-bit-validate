@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+[ "$TRACE" = 'true' ] && set -x
+set -euo pipefail
+
+FILENAME="$1"
+
+/opt/fluent-bit/bin/fluent-bit --dry-run -c "$FILENAME"

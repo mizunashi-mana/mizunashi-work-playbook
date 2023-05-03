@@ -1,0 +1,3 @@
+package fluent_bit_input_fail2ban_log
+
+fluent_bit_input_fail2ban_log_tag: string

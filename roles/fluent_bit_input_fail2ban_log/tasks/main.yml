@@ -1,0 +1,13 @@
+---
+- name: Install input config of fail2ban.log
+  ansible.builtin.template:
+    src: etc/fluent-bit/input-conf.d/fail2ban_log.conf
+    dest: /etc/fluent-bit/input-conf.d/fail2ban_log.conf
+    owner: root
+    group: root
+    mode: '0640'
+    backup: true
+    validate: /opt/bin/fluent-bit-validate %s
+  become: true
+  notify:
+  - Reload td-agent

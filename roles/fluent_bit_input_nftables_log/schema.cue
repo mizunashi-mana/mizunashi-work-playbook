@@ -1,0 +1,3 @@
+package fluent_bit_input_nftables_log
+
+fluent_bit_input_nftables_log_tag: string

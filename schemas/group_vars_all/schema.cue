@@ -13,6 +13,7 @@ import "mizunashi.work/pkg/roles/nftables"
 import "mizunashi.work/pkg/roles/fail2ban"
 import "mizunashi.work/pkg/roles/certbot"
 import "mizunashi.work/pkg/roles/node_exporter"
+import "mizunashi.work/pkg/roles/fluent_bit"
 import "mizunashi.work/pkg/roles/fluentd"
 import "mizunashi.work/pkg/roles/fluentd_input_auth_log"
 import "mizunashi.work/pkg/roles/fluentd_input_kern_log"
@@ -39,6 +40,7 @@ node_exporter
 exim
 apticron
 certbot
+fluent_bit
 fluentd
 fluentd_input_auth_log
 fluentd_input_kern_log
