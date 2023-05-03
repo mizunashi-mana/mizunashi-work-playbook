@@ -1,0 +1,29 @@
+---
+- name: Reload fluent-bit
+  ansible.builtin.set_fact:
+    fluent_bit_handler_state: reloaded
+  become: true
+  listen: Reload fluent-bit
+
+- name: Restart fluent-bit
+  ansible.builtin.set_fact:
+    fluent_bit_handler_state: restarted
+  become: true
+  listen: Restart fluent-bit
+
+- name: Restart or reload fluent-bit
+  ansible.builtin.systemd:
+    name: fluent-bit
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  become: true
+  listen:
+  - Reload fluent-bit
+  - Restart fluent-bit
+
+- name: Check systemd service
+  ansible.builtin.command: systemctl status fluent-bit
+  become: true
+  changed_when: false
+  listen: Check
