@@ -37,15 +37,6 @@
     backup: true
   become: true
 
-- name: Directory of parser configs is available
-  ansible.builtin.file:
-    path: /etc/fluent-bit/parser-conf.d
-    state: directory
-    owner: root
-    group: root
-    mode: '0750'
-  become: true
-
 - name: Directory of input configs is available
   ansible.builtin.file:
     path: /etc/fluent-bit/input-conf.d
@@ -64,6 +55,18 @@
     mode: '0750'
   become: true
 
+- name: Copy parsers config
+  ansible.builtin.template:
+    src: etc/fluent-bit/parsers.conf
+    dest: /etc/fluent-bit/parsers.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart fluent-bit
+
 - name: Copy fluent-bit config
   ansible.builtin.template:
     src: etc/fluent-bit/fluent-bit.conf
@@ -74,29 +77,6 @@
     backup: true
     validate: /opt/bin/fluent-bit-validate %s
   become: true
-  notify:
-    - Restart fluent-bit
-
-- name: Set custom parsers
-  set_fact:
-    fluent_bit_custom_parsers:
-      - fail2ban
-      - syslog-rfc3164-kernel
-      - syslog-rfc3164-wo-pri
-      - exim
-      - nginx-error
-
-- name: Copy parser configs
-  ansible.builtin.template:
-    src: 'etc/fluent-bit/parser-conf.d/{{ item }}.conf'
-    dest: '/etc/fluent-bit/parser-conf.d/{{ item }}.conf'
-    owner: root
-    group: root
-    mode: '0644'
-    backup: true
-    validate: /opt/bin/fluent-bit-validate %s
-  become: true
-  loop: '{{ fluent_bit_custom_parsers }}'
   notify:
     - Restart fluent-bit
 
