@@ -11,6 +11,8 @@
     capability: cap_net_raw+ep
     state: present
   become: true
+  notify:
+    - Restart blackbox-exporter
 
 - name: Copy blackbox exporter environment
   ansible.builtin.template:

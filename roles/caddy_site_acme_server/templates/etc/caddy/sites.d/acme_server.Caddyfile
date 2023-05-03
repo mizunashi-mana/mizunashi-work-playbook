@@ -5,8 +5,10 @@
 		}
 	}
 
-	tls internal {
-		lifetime 3d
+	tls {
+		issuer internal {
+			lifetime 3d
+		}
 	}
 
 	acme_server {
