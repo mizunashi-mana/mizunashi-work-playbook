@@ -321,5 +321,18 @@ let grafana_elasticsearch_datasource_user = {
         ]
       }]
     },
+    #BlackboxExporterScrapeConfig & {
+      job_name: "blackbox_icmp"
+      params: {
+        module: ["icmp"]
+      }
+      static_configs: [{
+        targets: [
+          for _, host_entry in #Schema.#host_entries {
+            host_entry.internal_host
+          },
+        ]
+      }]
+    },
   ]
 }
