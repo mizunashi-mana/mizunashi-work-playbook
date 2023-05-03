@@ -15,6 +15,7 @@ group_vars_all
 #node_exporter_http_port: node_exporter_listen_port
 #nginx_exporter_http_port: nginx_exporter_listen_port
 #fluentd_metrics_http_port: fluentd_metrics_listen_port
+#fluent_bit_metrics_http_port: fluent_bit_metrics_listen_port
 #private_acme_server_https_port: 6100
 #minio_server_https_port: 6210
 #elasticsearch_https_port: 6310
@@ -178,6 +179,12 @@ nginx_site_local_proxy_entries: "nginx": {
 fluentd_metrics_listen_port: #fluentd_metrics_http_port
 nginx_site_local_proxy_entries: "fluentd": {
   upstream_port: #fluentd_metrics_http_port
+  auth_password: #local_proxy_password
+}
+
+fluent_bit_metrics_listen_port: #fluent_bit_metrics_http_port
+nginx_site_local_proxy_entries: "fluent-bit": {
+  upstream_port: #fluent_bit_metrics_http_port
   auth_password: #local_proxy_password
 }
 

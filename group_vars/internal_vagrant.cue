@@ -52,7 +52,11 @@ let local_proxy_scrape_configs = {
   "elasticsearch": {
     metrics_path: "/metrics"
     host_entries: #Schema.#internal_host_entries
-  }
+  },
+  "fluent-bit": {
+    metrics_path: "/api/v1/metrics/prometheus"
+    host_entries: #Schema.#host_entries
+  },
 }
 
 let blackbox_exporter_relabel_configs = [
@@ -319,6 +323,18 @@ let grafana_elasticsearch_datasource_user = {
         targets: [
           "https://\(#Schema.#www_hostname):\(#Schema.#https_port)/",
           "https://\(#Schema.#root_hostname):\(#Schema.#https_port)/",
+        ]
+      }]
+    },
+    #BlackboxExporterScrapeConfig & {
+      job_name: "blackbox_private_http_not_authed"
+      params: {
+        module: ["private_http_not_authed"]
+      }
+      static_configs: [{
+        targets: [
+          #Schema.#minio_server_url,
+          "https://\(#Schema.#elasticsearch_hostname):\(#Schema.#elasticsearch_https_port)/",
         ]
       }]
     },

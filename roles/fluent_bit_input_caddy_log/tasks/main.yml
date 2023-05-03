@@ -1,0 +1,14 @@
+---
+- name: Install input config of caddy access.log
+  ansible.builtin.template:
+    src: etc/fluent-bit/input-conf.d/caddy_json_access_log_xxx.conf
+    dest: '/etc/fluent-bit/input-conf.d/caddy_json_access_log_{{ item }}.conf'
+    owner: root
+    group: root
+    mode: '0640'
+    backup: true
+    validate: /opt/bin/fluent-bit-validate %s
+  become: true
+  loop: '{{ fluent_bit_input_caddy_log_access_entries|dict2items|map(attribute="key") }}'
+  notify:
+    - Restart fluent-bit

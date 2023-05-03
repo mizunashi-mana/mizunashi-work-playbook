@@ -1,8 +1,8 @@
 ---
-- name: Install input config of kern.log
+- name: Install input config of exim4/mainlog.log
   ansible.builtin.template:
-    src: etc/fluent-bit/input-conf.d/kern_log.conf
-    dest: /etc/fluent-bit/input-conf.d/kern_log.conf
+    src: etc/fluent-bit/input-conf.d/exim4_mainlog.conf
+    dest: /etc/fluent-bit/input-conf.d/exim4_mainlog.conf
     owner: root
     group: root
     mode: '0640'

@@ -1,0 +1,3 @@
+package fluent_bit_input_exim_log
+
+fluent_bit_input_exim4_mainlog_tag: string

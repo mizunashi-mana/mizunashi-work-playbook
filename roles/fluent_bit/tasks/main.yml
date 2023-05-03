@@ -83,6 +83,8 @@
       - fail2ban
       - syslog-rfc3164-kernel
       - syslog-rfc3164-wo-pri
+      - exim
+      - nginx-error
 
 - name: Copy parser configs
   ansible.builtin.template:

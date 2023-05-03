@@ -10,4 +10,4 @@
     validate: /opt/bin/fluent-bit-validate %s
   become: true
   notify:
-  - Reload td-agent
+    - Restart fluent-bit
