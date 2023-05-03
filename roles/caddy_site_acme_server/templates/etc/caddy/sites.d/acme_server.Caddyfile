@@ -5,7 +5,9 @@
 		}
 	}
 
-	tls internal
+	tls internal {
+		lifetime 3d
+	}
 
 	acme_server {
 		ca local
