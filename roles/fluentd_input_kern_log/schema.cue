@@ -1,3 +1,0 @@
-package fluentd_input_kern_log
-
-fluentd_input_kern_log_tag: string

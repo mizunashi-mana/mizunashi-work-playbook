@@ -1,3 +1,0 @@
-package fluentd_input_auth_log
-
-fluentd_input_auth_log_tag: string

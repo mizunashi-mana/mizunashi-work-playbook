@@ -1,3 +1,0 @@
-package fluentd_input_fail2ban_log
-
-fluentd_input_fail2ban_log_tag: string

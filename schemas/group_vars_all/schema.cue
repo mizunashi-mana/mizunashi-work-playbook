@@ -14,14 +14,13 @@ import "mizunashi.work/pkg/roles/fail2ban"
 import "mizunashi.work/pkg/roles/certbot"
 import "mizunashi.work/pkg/roles/node_exporter"
 import "mizunashi.work/pkg/roles/fluent_bit"
-import "mizunashi.work/pkg/roles/fluentd"
-import "mizunashi.work/pkg/roles/fluentd_input_auth_log"
-import "mizunashi.work/pkg/roles/fluentd_input_kern_log"
-import "mizunashi.work/pkg/roles/fluentd_input_exim_log"
-import "mizunashi.work/pkg/roles/fluentd_input_fail2ban_log"
-import "mizunashi.work/pkg/roles/fluentd_input_nginx_log"
-import "mizunashi.work/pkg/roles/fluentd_input_nftables_log"
-import "mizunashi.work/pkg/roles/fluentd_output_elasticsearch"
+import "mizunashi.work/pkg/roles/fluent_bit_input_auth_log"
+import "mizunashi.work/pkg/roles/fluent_bit_input_kern_log"
+import "mizunashi.work/pkg/roles/fluent_bit_input_exim_log"
+import "mizunashi.work/pkg/roles/fluent_bit_input_fail2ban_log"
+import "mizunashi.work/pkg/roles/fluent_bit_input_nginx_log"
+import "mizunashi.work/pkg/roles/fluent_bit_input_nftables_log"
+import "mizunashi.work/pkg/roles/fluent_bit_output_elasticsearch"
 import "mizunashi.work/pkg/roles/nginx"
 import "mizunashi.work/pkg/roles/nginx_exporter"
 import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
@@ -41,14 +40,13 @@ exim
 apticron
 certbot
 fluent_bit
-fluentd
-fluentd_input_auth_log
-fluentd_input_kern_log
-fluentd_input_exim_log
-fluentd_input_fail2ban_log
-fluentd_input_nginx_log
-fluentd_input_nftables_log
-fluentd_output_elasticsearch
+fluent_bit_input_auth_log
+fluent_bit_input_kern_log
+fluent_bit_input_exim_log
+fluent_bit_input_fail2ban_log
+fluent_bit_input_nginx_log
+fluent_bit_input_nftables_log
+fluent_bit_output_elasticsearch
 nginx
 nginx_exporter
 nginx_site_http_redirector

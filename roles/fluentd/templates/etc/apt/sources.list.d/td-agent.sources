@@ -1,5 +1,0 @@
-Types: deb
-URIs: https://packages.treasuredata.com/4/debian/{{ ansible_distribution_release }}/
-Suites: {{ ansible_distribution_release }}
-Components: contrib
-Signed-By: /usr/share/keyrings/td-agent-archive-keyring.gpg

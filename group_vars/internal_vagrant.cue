@@ -45,10 +45,6 @@ let local_proxy_scrape_configs = {
     metrics_path: "/minio/v2/metrics/cluster"
     host_entries: #Schema.#internal_host_entries
   },
-  "fluentd": {
-    metrics_path: "/metrics"
-    host_entries: #Schema.#host_entries
-  },
   "elasticsearch": {
     metrics_path: "/metrics"
     host_entries: #Schema.#internal_host_entries
@@ -180,11 +176,11 @@ let grafana_elasticsearch_datasource_user = {
 
   elasticsearch_domain: #Schema.#elasticsearch_hostname
   elasticsearch_setup_users: {
-    "\(#Schema.fluentd_output_elasticsearch_user_name)": {
+    "\(#Schema.fluent_bit_output_elasticsearch_user_name)": {
       roles: [
         "logstash_upload",
       ]
-      password: #Schema.fluentd_output_elasticsearch_user_password
+      password: #Schema.fluent_bit_output_elasticsearch_user_password
     }
     "\(elasticsearch_exporter_elasticsearch_user_name)": {
       roles: [
@@ -204,12 +200,12 @@ let grafana_elasticsearch_datasource_user = {
   nginx_site_elasticsearch_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_elasticsearch_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
 
-  #fluentd_input_caddy_log_access_default_tag: "caddy.default"
-  fluentd_input_caddy_log_access_entries: "\(#fluentd_input_caddy_log_access_default_tag)": {
+  #fluent_bit_input_caddy_log_access_default_tag: "caddy.default"
+  fluent_bit_input_caddy_log_access_entries: "\(#fluent_bit_input_caddy_log_access_default_tag)": {
     log_file: "/var/log/caddy/default.log"
   }
 
-  fluentd_output_elasticsearch_entries: "\(#fluentd_input_caddy_log_access_default_tag)": {}
+  fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_caddy_log_access_default_tag)": {}
 
   grafana_admin_password: "__ansible_vault": """
   $ANSIBLE_VAULT;1.1;AES256

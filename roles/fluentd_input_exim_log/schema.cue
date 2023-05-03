@@ -1,3 +1,0 @@
-package fluentd_input_exim_log
-
-fluentd_input_exim4_mainlog_tag: string

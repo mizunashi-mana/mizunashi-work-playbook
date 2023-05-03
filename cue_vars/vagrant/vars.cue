@@ -14,7 +14,6 @@ group_vars_all
 #local_proxy_https_port: nginx_site_local_proxy_listen_port
 #node_exporter_http_port: node_exporter_listen_port
 #nginx_exporter_http_port: nginx_exporter_listen_port
-#fluentd_metrics_http_port: fluentd_metrics_listen_port
 #fluent_bit_metrics_http_port: fluent_bit_metrics_listen_port
 #private_acme_server_https_port: 6100
 #minio_server_https_port: 6210
@@ -176,37 +175,32 @@ nginx_site_local_proxy_entries: "nginx": {
   auth_password: #local_proxy_password
 }
 
-fluentd_metrics_listen_port: #fluentd_metrics_http_port
-nginx_site_local_proxy_entries: "fluentd": {
-  upstream_port: #fluentd_metrics_http_port
-  auth_password: #local_proxy_password
-}
-
 fluent_bit_metrics_listen_port: #fluent_bit_metrics_http_port
 nginx_site_local_proxy_entries: "fluent-bit": {
   upstream_port: #fluent_bit_metrics_http_port
   auth_password: #local_proxy_password
 }
 
-fluentd_input_auth_log_tag: "node.auth"
-fluentd_input_kern_log_tag: "node.kernel"
-fluentd_input_nftables_log_tag: "node.nftables"
-fluentd_input_exim4_mainlog_tag: "exim.mainlog"
-fluentd_input_fail2ban_log_tag: "fail2ban.log"
-fluentd_input_nginx_log_error_tag: "nginx.error"
+fluent_bit_input_auth_log_tag: "node.auth"
+fluent_bit_input_kern_log_tag: "node.kernel"
+fluent_bit_input_nftables_log_tag: "node.nftables"
+fluent_bit_input_exim4_mainlog_tag: "exim.mainlog"
+fluent_bit_input_fail2ban_log_tag: "fail2ban.log"
+fluent_bit_input_nginx_log_error_tag: "nginx.error"
 
-#fluentd_input_nginx_log_access_http_redirector_tag: "nginx.access.http_redirector"
-fluentd_input_nginx_log_access_entries: "\(#fluentd_input_nginx_log_access_http_redirector_tag)": {
+#fluent_bit_input_nginx_log_access_http_redirector_tag: "nginx.access.http_redirector"
+fluent_bit_input_nginx_log_access_entries: "\(#fluent_bit_input_nginx_log_access_http_redirector_tag)": {
   log_file: "/var/log/nginx/access.http_redirector.log"
 }
 
-fluentd_output_elasticsearch_scheme: "https"
-fluentd_output_elasticsearch_domain: #elasticsearch_hostname
-fluentd_output_elasticsearch_port: #elasticsearch_https_port
-fluentd_output_elasticsearch_ca_file: group_vars_all.ca_certs_bundle_file_with_private_ca
+fluent_bit_output_elasticsearch_domain: #elasticsearch_hostname
+fluent_bit_output_elasticsearch_port: #elasticsearch_https_port
+fluent_bit_output_elasticsearch_tls: {
+  ca_file: group_vars_all.ca_certs_bundle_file_with_private_ca
+}
 
-fluentd_output_elasticsearch_user_name: "logstash_upload"
-fluentd_output_elasticsearch_user_password: "__ansible_vault": """
+fluent_bit_output_elasticsearch_user_name: "logstash_upload"
+fluent_bit_output_elasticsearch_user_password: "__ansible_vault": """
 $ANSIBLE_VAULT;1.1;AES256
 62356637313731376334383336616332393936306231343930343163666366613062643330323366
 3234626231666439646234653165393839306439326261370a346332316463623539623639623633
@@ -215,10 +209,10 @@ $ANSIBLE_VAULT;1.1;AES256
 3666
 """
 
-fluentd_output_elasticsearch_entries: "\(fluentd_input_auth_log_tag)": {}
-fluentd_output_elasticsearch_entries: "\(fluentd_input_kern_log_tag)": {}
-fluentd_output_elasticsearch_entries: "\(fluentd_input_nftables_log_tag)": {}
-fluentd_output_elasticsearch_entries: "\(fluentd_input_exim4_mainlog_tag)": {}
-fluentd_output_elasticsearch_entries: "\(fluentd_input_fail2ban_log_tag)": {}
-fluentd_output_elasticsearch_entries: "\(fluentd_input_nginx_log_error_tag)": {}
-fluentd_output_elasticsearch_entries: "\(#fluentd_input_nginx_log_access_http_redirector_tag)": {}
+fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_auth_log_tag)": {}
+fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_kern_log_tag)": {}
+fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_nftables_log_tag)": {}
+fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_exim4_mainlog_tag)": {}
+fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_fail2ban_log_tag)": {}
+fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_nginx_log_error_tag)": {}
+fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_http_redirector_tag)": {}
