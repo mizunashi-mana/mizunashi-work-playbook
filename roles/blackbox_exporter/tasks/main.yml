@@ -5,6 +5,13 @@
     state: present
   become: true
 
+- name: Allow ping to blackbox exporter
+  community.general.capabilities:
+    path: /usr/bin/prometheus-blackbox-exporter
+    capability: cap_net_raw+ep
+    state: present
+  become: true
+
 - name: Copy blackbox exporter environment
   ansible.builtin.template:
     src: etc/default/prometheus-blackbox-exporter
