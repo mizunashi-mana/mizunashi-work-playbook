@@ -318,6 +318,7 @@ let grafana_elasticsearch_datasource_user = {
       static_configs: [{
         targets: [
           "https://\(#Schema.#www_hostname):\(#Schema.#https_port)/",
+          "https://\(#Schema.#root_hostname):\(#Schema.#https_port)/",
         ]
       }]
     },

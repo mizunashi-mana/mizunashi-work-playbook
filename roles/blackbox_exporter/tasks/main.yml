@@ -5,12 +5,21 @@
     state: present
   become: true
 
+- name: Get capabilities of blackbox exporter
+  ansible.builtin.command:
+    cmd: getcap /usr/bin/prometheus-blackbox-exporter
+  become: true
+  changed_when: false
+  register: blackbox_exporter_current_caps_result
+
 - name: Allow ping to blackbox exporter
   community.general.capabilities:
     path: /usr/bin/prometheus-blackbox-exporter
-    capability: cap_net_raw+ep
+    capability: cap_net_raw=ep
     state: present
   become: true
+  when: |
+    not blackbox_exporter_current_caps_result.stdout is search('cap_net_raw=ep')
   notify:
     - Restart blackbox-exporter
 

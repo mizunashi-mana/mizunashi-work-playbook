@@ -38,6 +38,13 @@ modules:
       tls_config:
         ca_file: '{{ ca_certs_bundle_file_with_private_ca }}'
 
+  private_http_not_permitted:
+    prober: http
+    http:
+      valid_status_codes: [401,403]
+      tls_config:
+        ca_file: '{{ ca_certs_bundle_file_with_private_ca }}'
+
   ssh_banner:
     prober: tcp
     tcp:
