@@ -80,6 +80,26 @@
   notify:
     - Restart fluent-bit
 
+- name: Copy input empty config
+  ansible.builtin.copy:
+    content: ''
+    dest: /etc/fluent-bit/input-conf.d/empty.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Copy output empty config
+  ansible.builtin.copy:
+    content: ''
+    dest: /etc/fluent-bit/output-conf.d/empty.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
 - name: Notify restart fluent-bit if not started
   ansible.builtin.command: systemctl status fluent-bit
   become: true
