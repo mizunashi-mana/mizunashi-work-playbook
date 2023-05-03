@@ -67,19 +67,6 @@
   notify:
     - Restart fluent-bit
 
-- name: Copy fluent-bit config
-  ansible.builtin.template:
-    src: etc/fluent-bit/fluent-bit.conf
-    dest: /etc/fluent-bit/fluent-bit.conf
-    owner: root
-    group: root
-    mode: '0644'
-    backup: true
-    validate: /opt/bin/fluent-bit-validate %s
-  become: true
-  notify:
-    - Restart fluent-bit
-
 - name: Copy input empty config
   ansible.builtin.copy:
     content: ''
@@ -99,6 +86,19 @@
     mode: '0644'
     backup: true
   become: true
+
+- name: Copy fluent-bit config
+  ansible.builtin.template:
+    src: etc/fluent-bit/fluent-bit.conf
+    dest: /etc/fluent-bit/fluent-bit.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/fluent-bit-validate %s
+  become: true
+  notify:
+    - Restart fluent-bit
 
 - name: Notify restart fluent-bit if not started
   ansible.builtin.command: systemctl status fluent-bit
