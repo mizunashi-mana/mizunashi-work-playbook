@@ -1,8 +1,8 @@
 ---
 - name: Install input config of nginx access.log
   ansible.builtin.template:
-    src: etc/fluent-bit/input-conf.d/nginx_ltsv_access_log_xxx.conf
-    dest: '/etc/fluent-bit/input-conf.d/nginx_ltsv_access_log_{{ item }}.conf'
+    src: etc/fluent-bit/input-conf.d/nginx_json_access_log_xxx.conf
+    dest: '/etc/fluent-bit/input-conf.d/nginx_json_access_log_{{ item }}.conf'
     owner: root
     group: root
     mode: '0640'

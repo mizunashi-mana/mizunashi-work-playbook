@@ -101,14 +101,14 @@ providers:
       path: /var/lib/grafana/dashboards/elasticsearch-exporter.json
       foldersFromFilesStructure: false
 
-  - name: 'Fluentd Stats'
+  - name: 'FluentBit Stats'
     orgId: 1
     type: file
     disableDeletion: false
     updateIntervalSeconds: 10
     allowUiUpdates: false
     options:
-      path: /var/lib/grafana/dashboards/fluentd-stats.json
+      path: /var/lib/grafana/dashboards/fluent-bit-stats.json
       foldersFromFilesStructure: false
 
   - name: 'Blackbox Exporter'

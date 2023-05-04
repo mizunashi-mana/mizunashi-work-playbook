@@ -81,8 +81,8 @@
       - nginx-exporter
       - redis-exporter
       - elasticsearch-exporter
-      - fluentd-stats
       - blackbox-exporter
+      - fluent-bit-stats
 
     grafana_provisioning_alertings:
       - prometheus

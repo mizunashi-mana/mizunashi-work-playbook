@@ -27,3 +27,10 @@
   become: true
   changed_when: false
   listen: Check
+
+- name: Check listen port
+  ansible.builtin.wait_for:
+    port: '{{ fluent_bit_metrics_listen_port }}'
+    state: started
+    timeout: 60
+  listen: Check

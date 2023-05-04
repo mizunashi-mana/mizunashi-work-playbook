@@ -151,6 +151,13 @@
   become: true
   when: mastodon_db_version_stat.rc != 0
 
+- name: Check mastodon DB version
+  ansible.builtin.assert:
+    that: |
+      'Current version: {{ mastodon_db_version }}' in mastodon_db_version_stat.stdout_lines
+  become: true
+  when: mastodon_db_version_stat.rc == 0
+
 - name: Copy config of mastodon-sidekiq
   ansible.builtin.template:
     src: etc/default/mastodon-sidekiq
