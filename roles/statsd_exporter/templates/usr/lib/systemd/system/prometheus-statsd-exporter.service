@@ -13,6 +13,7 @@ ExecStart=/usr/bin/prometheus-statsd-exporter \
   --statsd.mapping-config "$MAPPING_CONFIG" \
   --log.level debug \
   $EXTRA_ARGS
+StandardOutput=file:/var/log/prometheus/prometheus-statsd-exporter.log
 
 [Install]
 WantedBy=multi-user.target

@@ -13,6 +13,7 @@ ExecStart=/usr/local/bin/bundle exec puma -C config/puma.rb
 ExecReload=/bin/kill -SIGUSR1 $MAINPID
 TimeoutSec=15
 Restart=always
+StandardOutput=file:/var/log/mastodon/mastodon-web.log
 
 # Proc filesystem
 ProcSubset=pid

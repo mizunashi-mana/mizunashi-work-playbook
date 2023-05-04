@@ -158,6 +158,15 @@
   become: true
   when: mastodon_db_version_stat.rc == 0
 
+- name: Directory of logs is available
+  ansible.builtin.file:
+    path: /var/log/mastodon
+    state: directory
+    owner: mastodon
+    group: adm
+    mode: '0755'
+  become: true
+
 - name: Copy config of mastodon-sidekiq
   ansible.builtin.template:
     src: etc/default/mastodon-sidekiq
@@ -242,6 +251,69 @@
     mode: '0744'
     backup: true
     validate: ruby -c %s
+  become: true
+
+- name: Install sidekiq logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate-available.d/mastodon-sidekiq
+    dest: /etc/logrotate-available.d/mastodon-sidekiq
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Install streaming logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate-available.d/mastodon-streaming
+    dest: /etc/logrotate-available.d/mastodon-streaming
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Install web logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate-available.d/mastodon-web
+    dest: /etc/logrotate-available.d/mastodon-web
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable sidekiq logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/mastodon-sidekiq
+    dest: /etc/logrotate.d/mastodon-sidekiq
+    owner: root
+    group: root
+    state: link
+    force: true
+  become: true
+
+- name: Enable streaming logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/mastodon-streaming
+    dest: /etc/logrotate.d/mastodon-streaming
+    owner: root
+    group: root
+    state: link
+    force: true
+  become: true
+
+- name: Enable web logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/mastodon-web
+    dest: /etc/logrotate.d/mastodon-web
+    owner: root
+    group: root
+    state: link
+    force: true
   become: true
 
 - name: Notify restart mastodon-sidekiq if not started

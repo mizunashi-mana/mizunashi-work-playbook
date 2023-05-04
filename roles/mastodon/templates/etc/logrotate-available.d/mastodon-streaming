@@ -1,0 +1,15 @@
+/var/log/mastodon/mastodon-streaming.log {
+  daily
+  dateext
+  dateformat -%Y%m%d-%s
+  rotate 10
+  maxsize 1M
+  maxage 10
+
+  missingok
+  compress
+  delaycompress
+  notifempty
+  create 640 mastodon adm
+  copytruncate
+}

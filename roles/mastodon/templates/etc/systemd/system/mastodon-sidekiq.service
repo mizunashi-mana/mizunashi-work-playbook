@@ -11,6 +11,7 @@ Environment="LD_PRELOAD=libjemalloc.so"
 EnvironmentFile=/etc/default/mastodon-sidekiq
 ExecStart=/usr/local/bin/bundle exec sidekiq -c 25
 TimeoutSec=15
+StandardOutput=file:/var/log/mastodon/mastodon-sidekiq.log
 
 # Proc filesystem
 ProcSubset=pid

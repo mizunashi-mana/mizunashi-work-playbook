@@ -1,0 +1,15 @@
+/var/log/prometheus/prometheus-statsd-exporter.log {
+  daily
+  dateext
+  dateformat -%Y%m%d-%s
+  rotate 10
+  maxsize 1M
+  maxage 10
+
+  missingok
+  compress
+  delaycompress
+  notifempty
+  create 640 root adm
+  copytruncate
+}
