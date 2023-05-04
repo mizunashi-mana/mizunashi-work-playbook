@@ -16,8 +16,6 @@ let host_entry = vars.#host_entries.internal001
 
   network_public_ipv6_address: host_entry.public_ipv6_address
   network_public_ipv6_netmask: host_entry.public_ipv6_netmask
-  network_public_ipv6_nameserver: vars.#dns_resolver_primary_ipv6
-  network_public_ipv6_search: vars.#primary_domain_ipv6
 
   network_internal_hostname: host_entry.internal_host
   network_internal_ipv4_address: host_entry.internal_ipv4

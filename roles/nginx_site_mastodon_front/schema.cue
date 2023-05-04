@@ -8,3 +8,5 @@ mastodon_web_listen_port: uint
 
 nginx_site_mastodon_front_acme_challenge_url: string
 nginx_site_mastodon_front_ca_bundle_path: string
+
+nginx_site_mastodon_front_maintenance_mode: bool

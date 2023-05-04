@@ -35,6 +35,7 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
 
   nginx_site_mastodon_front_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_mastodon_front_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
+  nginx_site_mastodon_front_maintenance_mode: false
 
   nginx_site_www_redirector_domain: #Schema.#www_hostname
   nginx_site_www_redirector_url: "https://mizunashi-mana.github.io"
