@@ -26,7 +26,7 @@
     backup: true
   become: true
   notify:
-  - Restart network
+    - Restart network
 
 - name: Install internal iface
   ansible.builtin.template:
@@ -38,19 +38,18 @@
     backup: true
   become: true
   notify:
-  - Restart network
+    - Restart network
 
-# TODO: Enable IPv6
-#- name: Enable public iface
-#  ansible.builtin.file:
-#    src: /etc/network/iface-available.d/public_iface.conf
-#    dest: /etc/network/interfaces.d/public_iface.conf
-#    owner: root
-#    group: root
-#    state: link
-#  become: true
-#  notify:
-#  - Restart network
+- name: Enable public iface
+  ansible.builtin.file:
+    src: /etc/network/iface-available.d/public_iface.conf
+    dest: /etc/network/interfaces.d/public_iface.conf
+    owner: root
+    group: root
+    state: link
+  become: true
+  notify:
+    - Restart network
 
 - name: Enable internal iface
   ansible.builtin.file:
@@ -61,4 +60,4 @@
     state: link
   become: true
   notify:
-  - Restart network
+    - Restart network
