@@ -37,6 +37,15 @@
     mode: '0755'
   become: true
 
+- name: Directory to work certbot renew is available
+  ansible.builtin.file:
+    path: '/var/lib/certbot-renew'
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
 - name: Copy letsencrypt config
   ansible.builtin.template:
     src: etc/letsencrypt/cli.ini
