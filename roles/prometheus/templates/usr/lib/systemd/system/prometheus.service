@@ -12,6 +12,7 @@ ExecStart=/usr/bin/prometheus \
 ExecReload=/bin/kill -HUP $MAINPID
 TimeoutStopSec=20s
 SendSIGKILL=no
+StandardOutput=file:/var/log/prometheus/prometheus.log
 
 # systemd hardening-options
 AmbientCapabilities=

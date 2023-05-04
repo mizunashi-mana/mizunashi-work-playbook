@@ -2,3 +2,4 @@
 dependencies:
   - role: ca_certs
   - role: systemd
+  - role: logrotate

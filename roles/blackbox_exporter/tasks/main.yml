@@ -23,6 +23,27 @@
   notify:
     - Restart blackbox-exporter
 
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate-available.d/prometheus-blackbox-exporter
+    dest: /etc/logrotate-available.d/prometheus-blackbox-exporter
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/prometheus-blackbox-exporter
+    dest: /etc/logrotate.d/prometheus-blackbox-exporter
+    owner: root
+    group: root
+    state: link
+    force: true
+  become: true
+
 - name: Copy blackbox exporter environment
   ansible.builtin.template:
     src: etc/default/prometheus-blackbox-exporter

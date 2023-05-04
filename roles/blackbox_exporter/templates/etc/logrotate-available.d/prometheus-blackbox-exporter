@@ -1,4 +1,4 @@
-/var/log/exim4/mainlog /var/log/exim4/rejectlog {
+/var/log/prometheus/prometheus-blackbox-exporter.log {
   daily
   dateext
   dateformat -%Y%m%d-%s
@@ -10,5 +10,6 @@
   compress
   delaycompress
   notifempty
-  nocreate
+  create 640 root adm
+  copytruncate
 }

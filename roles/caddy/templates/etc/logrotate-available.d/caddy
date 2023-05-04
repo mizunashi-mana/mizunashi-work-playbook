@@ -4,7 +4,7 @@
   dateformat -%Y%m%d-%s
   rotate 10
   maxsize 1M
-  maxage 7
+  maxage 10
 
   missingok
   compress

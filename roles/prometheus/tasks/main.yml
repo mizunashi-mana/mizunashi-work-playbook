@@ -18,6 +18,27 @@
   notify:
     - Restart prometheus
 
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate-available.d/prometheus
+    dest: /etc/logrotate-available.d/prometheus
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/prometheus
+    dest: /etc/logrotate.d/prometheus
+    owner: root
+    group: root
+    state: link
+    force: true
+  become: true
+
 - name: Copy prometheus environment
   ansible.builtin.template:
     src: etc/default/prometheus

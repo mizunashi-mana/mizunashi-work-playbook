@@ -12,6 +12,7 @@ ExecStart=/usr/bin/prometheus-blackbox-exporter \
   --log.level "$LOG_LEVEL" \
   $EXTRA_ARGS
 ExecReload=/bin/kill -HUP $MAINPID
+StandardOutput=file:/var/log/prometheus/prometheus-blackbox-exporter.log
 
 [Install]
 WantedBy=multi-user.target
