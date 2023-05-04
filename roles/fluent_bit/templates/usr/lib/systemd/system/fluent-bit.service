@@ -8,7 +8,9 @@ After=network.target
 Type=simple
 EnvironmentFile=-/etc/sysconfig/fluent-bit
 EnvironmentFile=-/etc/default/fluent-bit
-ExecStart=/opt/fluent-bit/bin/fluent-bit -c /etc/fluent-bit/fluent-bit.conf
+ExecStart=/opt/fluent-bit/bin/fluent-bit \
+  --config /etc/fluent-bit/fluent-bit.conf \
+  --log_file /var/log/fluent-bit.log
 Restart=always
 
 [Install]
