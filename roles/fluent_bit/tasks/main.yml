@@ -119,6 +119,16 @@
   notify:
     - Restart fluent-bit
 
+- name: Install service
+  ansible.builtin.template:
+    src: usr/lib/systemd/system/fluent-bit.service
+    dest: /usr/lib/systemd/system/fluent-bit.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
 - name: Notify restart fluent-bit if not started
   ansible.builtin.command: systemctl status fluent-bit
   become: true
