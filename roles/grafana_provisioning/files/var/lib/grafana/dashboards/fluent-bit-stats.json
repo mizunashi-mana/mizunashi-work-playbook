@@ -5,7 +5,10 @@
   "revision": 1,
   "title": "FluentBit Stats",
   "schemaVersion": 38,
-  "tags": [],
+  "tags": [
+    "Prometheus",
+    "fluent-bit"
+  ],
   "links": [],
   "editable": false,
   "style": "dark",
