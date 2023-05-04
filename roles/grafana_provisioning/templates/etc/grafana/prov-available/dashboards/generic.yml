@@ -120,3 +120,13 @@ providers:
     options:
       path: /var/lib/grafana/dashboards/blackbox-exporter.json
       foldersFromFilesStructure: false
+
+  - name: 'Log: Authentications'
+    orgId: 1
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards/log-authentications.json
+      foldersFromFilesStructure: false

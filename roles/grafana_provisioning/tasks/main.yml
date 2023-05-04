@@ -83,6 +83,7 @@
       - elasticsearch-exporter
       - blackbox-exporter
       - fluent-bit-stats
+      - log-authentications
 
     grafana_provisioning_alertings:
       - prometheus
