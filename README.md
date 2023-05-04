@@ -3,9 +3,9 @@
 ## Test on local
 
 ```
-make vagrant-up \
-  || vagrant reload && make vagrant-up \
-  || vagrant reload && make vagrant-up
+make vagrant-up; \
+  vagrant reload && make vagrant-up; \
+  vagrant reload && make vagrant-up
 ```
 
 ## License
