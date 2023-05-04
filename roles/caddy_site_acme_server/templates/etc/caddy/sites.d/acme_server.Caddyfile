@@ -7,7 +7,7 @@
 
 	tls {
 		issuer internal {
-			lifetime 3d
+			lifetime 7d
 		}
 	}
 
