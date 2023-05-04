@@ -46,6 +46,15 @@
     mode: '0750'
   become: true
 
+- name: Directory of filter configs is available
+  ansible.builtin.file:
+    path: /etc/fluent-bit/filter-conf.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0750'
+  become: true
+
 - name: Directory of output configs is available
   ansible.builtin.file:
     path: /etc/fluent-bit/output-conf.d
@@ -71,6 +80,16 @@
   ansible.builtin.copy:
     content: ''
     dest: /etc/fluent-bit/input-conf.d/empty.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Copy hostname append config
+  ansible.builtin.template:
+    src: etc/fluent-bit/filter-conf.d/append_hostname.conf
+    dest: /etc/fluent-bit/filter-conf.d/append_hostname.conf
     owner: root
     group: root
     mode: '0644'
