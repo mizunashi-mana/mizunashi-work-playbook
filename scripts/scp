@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+[ "${TRACE:-false}" = 'true' ] && set -x
+
+PROJECT_DIR="$(cd "$(dirname "$(dirname "$0")")" && pwd)"
+
+exec scp \
+  -i "$PROJECT_DIR/assets/vagrant_ssh_privkey" \
+  "$@"
