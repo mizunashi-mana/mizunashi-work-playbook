@@ -23,6 +23,6 @@ pg_dumpall --schema-only | gzip --stdout > "$DEST_DIR/schema.sql.gz"
 
 if [ "${#DATABASE_ARR[@]}" -gt 0 ]; then
   for datname in "${DATABASE_ARR[@]}"; do
-    pg_dump "$datname" | gzip --stdout > "$DEST_DIR/db_$datname.sql.gz"
+    pg_dump --format custom --file "$DEST_DIR/db_$datname.dump" "$datname"
   done
 fi

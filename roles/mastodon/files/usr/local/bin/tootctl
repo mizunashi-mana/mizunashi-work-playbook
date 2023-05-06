@@ -8,8 +8,10 @@ if [ "${USER:-}" != 'mastodon' ]; then
   exit 1
 fi
 
+export RAILS_ENV="${RAILS_ENV:-"production"}"
+
 MASTODON_LIVE_DIR="${MASTODON_LIVE_DIR:-"/var/lib/mastodon/live"}"
 
 cd "$MASTODON_LIVE_DIR"
 
-./bin/tootctl "$@"
+bundle exec -- ./bin/tootctl "$@"
