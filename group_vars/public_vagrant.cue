@@ -20,21 +20,21 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
     #Schema.#https_port,
   ]
 
-  nginx_site_local_proxy_entries: "redis": {
+  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.redis.name)": {
     upstream_port: #Schema.redis_exporter_listen_port
-    auth_password: #Schema.#local_proxy_password
+    auth_password: #Schema.#local_proxy_jobs.redis.password
   }
-  nginx_site_local_proxy_entries: "postgres": {
+  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.postgres.name)": {
     upstream_port: #Schema.postgres_exporter_listen_port
-    auth_password: #Schema.#local_proxy_password
+    auth_password: #Schema.#local_proxy_jobs.postgres.password
   }
-  nginx_site_local_proxy_entries: "statsd": {
+  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.statsd.name)": {
     upstream_port: #Schema.statsd_exporter_web_listen_port
-    auth_password: #Schema.#local_proxy_password
+    auth_password: #Schema.#local_proxy_jobs.statsd.password
   }
-  nginx_site_local_proxy_entries: "mastodon-streaming": {
+  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.mastodon_streaming.name)": {
     upstream_port: #Schema.mastodon_streaming_listen_port
-    auth_password: #Schema.#local_proxy_password
+    auth_password: #Schema.#local_proxy_jobs.mastodon_streaming.password
   }
 
   nginx_site_mastodon_front_acme_challenge_url: #Schema.#private_acme_challenge_url

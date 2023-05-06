@@ -9,65 +9,53 @@ let ca_vars = private_ca_vagrant
 #Schema: vagrant
 
 let local_proxy_scrape_configs = {
-  "\(#Schema.#local_proxy_jobs.prometheus.name)": {
+  prometheus: {
     metrics_path: "/metrics"
     host_entries: #Schema.#internal_host_entries
-    password: #Schema.#local_proxy_jobs.prometheus.password
   },
-  "\(#Schema.#local_proxy_jobs.grafana.name)": {
+  grafana: {
     metrics_path: "/metrics"
     host_entries: #Schema.#internal_host_entries
-    password: #Schema.#local_proxy_jobs.grafana.password
   },
-  "\(#Schema.#local_proxy_jobs.node.name)": {
+  node: {
     metrics_path: "/metrics"
     host_entries: #Schema.#host_entries
-    password: #Schema.#local_proxy_jobs.node.password
   },
-  "\(#Schema.#local_proxy_jobs.nginx.name)": {
+  nginx: {
     metrics_path: "/metrics"
     host_entries: #Schema.#host_entries
-    password: #Schema.#local_proxy_jobs.nginx.password
   },
-  "\(#Schema.#local_proxy_jobs.redis.name)": {
+  redis: {
     metrics_path: "/metrics"
     host_entries: #Schema.#public_host_entries
-    password: #Schema.#local_proxy_jobs.redis.password
   },
-  "\(#Schema.#local_proxy_jobs.postgres.name)": {
+  postgres: {
     metrics_path: "/metrics"
     host_entries: #Schema.#public_host_entries
-    password: #Schema.#local_proxy_jobs.postgres.password
   },
-  "\(#Schema.#local_proxy_jobs.statsd.name)": {
+  statsd: {
     metrics_path: "/metrics"
     host_entries: #Schema.#public_host_entries
-    password: #Schema.#local_proxy_jobs.statsd.password
   },
-  "\(#Schema.#local_proxy_jobs.caddy.name)": {
+  caddy: {
     metrics_path: "/metrics"
     host_entries: #Schema.#internal_host_entries
-    password: #Schema.#local_proxy_jobs.caddy.password
   },
-  "\(#Schema.#local_proxy_jobs.minio.name)": {
+  minio: {
     metrics_path: "/minio/v2/metrics/cluster"
     host_entries: #Schema.#internal_host_entries
-    password: #Schema.#local_proxy_jobs.minio.password
   },
-  "\(#Schema.#local_proxy_jobs.elasticsearch.name)": {
+  elasticsearch: {
     metrics_path: "/metrics"
     host_entries: #Schema.#internal_host_entries
-    password: #Schema.#local_proxy_jobs.elasticsearch.password
   },
-  "\(#Schema.#local_proxy_jobs.fluent_bit.name)": {
+  fluent_bit: {
     metrics_path: "/api/v1/metrics/prometheus"
     host_entries: #Schema.#host_entries
-    password: #Schema.#local_proxy_jobs.fluent_bit.password
   },
-  "\(#Schema.#local_proxy_jobs.mastodon_streaming.name)": {
+  mastodon_streaming: {
     metrics_path: "/metrics"
     host_entries: #Schema.#public_host_entries
-    password: #Schema.#local_proxy_jobs.mastodon_streaming.password
   },
 }
 
@@ -267,13 +255,13 @@ let grafana_elasticsearch_datasource_user = {
   }
 
   prometheus_scrape_configs: [
-    for job, entry in local_proxy_scrape_configs {
+    for job_key, entry in local_proxy_scrape_configs {
       {
-        job_name: job
+        job_name: #Schema.#local_proxy_jobs[job_key].name
         metrics_path: entry.metrics_path
         basic_auth: {
-          username: job
-          password: entry.password
+          username: #Schema.#local_proxy_jobs[job_key].name
+          password: #Schema.#local_proxy_jobs[job_key].password
         }
         tls_config: {
           ca_file: #Schema.ca_certs_bundle_file_with_private_ca
