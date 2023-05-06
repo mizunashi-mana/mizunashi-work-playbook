@@ -1,16 +1,15 @@
-#!/usr/bin/env ruby
-# frozen_string_literal: true
+#!/usr/bin/env bash
 
-if ENV["USER"] != "mastodon"
-  puts "Should run on mastodon user."
+set -euo pipefail
+[ "${TRACE:-}" = 'true' ] && set -x
+
+if [ "${USER:-}" != 'mastodon' ]; then
+  echo "Should run on mastodon user."
   exit 1
-end
+fi
 
-mastodon_live_dir = "/var/lib/mastodon/live"
-ENV["BUNDLE_GEMFILE"] ||= File.expand_path("./Gemfile", mastodon_live_dir)
-ENV["RAILS_ENV"] ||= "production"
+MASTODON_LIVE_DIR="${MASTODON_LIVE_DIR:-"/var/lib/mastodon/live"}"
 
-require "rubygems"
-require "bundler/setup"
+cd "$MASTODON_LIVE_DIR"
 
-load File.expand_path("./bin/tootctl", mastodon_live_dir)
+./bin/tootctl "$@"

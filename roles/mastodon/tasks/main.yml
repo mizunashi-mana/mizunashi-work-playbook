@@ -250,7 +250,7 @@
     group: mastodon
     mode: '0744'
     backup: true
-    validate: ruby -c %s
+    validate: bash -n %s
   become: true
 
 - name: Install sidekiq logrotate config
