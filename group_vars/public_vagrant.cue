@@ -32,6 +32,10 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
     upstream_port: #Schema.statsd_exporter_web_listen_port
     auth_password: #Schema.#local_proxy_password
   }
+  nginx_site_local_proxy_entries: "mastodon-streaming": {
+    upstream_port: #Schema.mastodon_streaming_listen_port
+    auth_password: #Schema.#local_proxy_password
+  }
 
   nginx_site_mastodon_front_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_mastodon_front_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca

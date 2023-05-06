@@ -85,6 +85,55 @@ group_vars_all
 #account_email: "\(#workuser_name)@localhost"
 #notification_email: "\(#workuser_name)@localhost"
 
+#local_proxy_jobs: prometheus: {
+  name: "prometheus"
+  password: #local_proxy_password
+}
+#local_proxy_jobs: grafana: {
+  name: "grafana"
+  password: #local_proxy_password
+}
+#local_proxy_jobs: node: {
+  name: "node"
+  password: #local_proxy_password
+}
+#local_proxy_jobs: nginx: {
+  name: "nginx"
+  password: #local_proxy_password
+}
+#local_proxy_jobs: redis: {
+  name: "redis"
+  password: #local_proxy_password
+}
+#local_proxy_jobs: postgres: {
+  name: "postgres"
+  password: #local_proxy_password
+}
+#local_proxy_jobs: statsd: {
+  name: "statsd"
+  password: #local_proxy_password
+}
+#local_proxy_jobs: caddy: {
+  name: "caddy"
+  password: #local_proxy_password
+}
+#local_proxy_jobs: minio: {
+  name: "minio"
+  password: #local_proxy_password
+}
+#local_proxy_jobs: elasticsearch: {
+  name: "elasticsearch"
+  password: #local_proxy_password
+}
+#local_proxy_jobs: fluent_bit: {
+  name: "fluent-bit"
+  password: #local_proxy_password
+}
+#local_proxy_jobs: mastodon_streaming: {
+  name: "mastodon-streaming"
+  password: #local_proxy_password
+}
+
 #local_proxy_password: "__ansible_vault": """
 $ANSIBLE_VAULT;1.1;AES256
 36633436613662373337636363313865306635333737366632303932333939303065626239323236
@@ -164,21 +213,21 @@ nginx_site_local_proxy_listen_port: #local_proxy_https_port
 nginx_site_local_proxy_acme_challenge_url: #private_acme_challenge_url
 
 node_exporter_listen_port: #node_exporter_http_port
-nginx_site_local_proxy_entries: "node": {
+nginx_site_local_proxy_entries: "\(#local_proxy_jobs.node.name)": {
   upstream_port: #node_exporter_http_port
-  auth_password: #local_proxy_password
+  auth_password: #local_proxy_jobs.node.password
 }
 
 nginx_exporter_listen_port: #nginx_exporter_http_port
-nginx_site_local_proxy_entries: "nginx": {
+nginx_site_local_proxy_entries: "\(#local_proxy_jobs.nginx.name)": {
   upstream_port: #nginx_exporter_http_port
-  auth_password: #local_proxy_password
+  auth_password: #local_proxy_jobs.nginx.password
 }
 
 fluent_bit_metrics_listen_port: #fluent_bit_metrics_http_port
-nginx_site_local_proxy_entries: "fluent-bit": {
+nginx_site_local_proxy_entries: "\(#local_proxy_jobs.fluent_bit.name)": {
   upstream_port: #fluent_bit_metrics_http_port
-  auth_password: #local_proxy_password
+  auth_password: #local_proxy_jobs.fluent_bit.password
 }
 
 fluent_bit_input_auth_log_tag: "node.auth"
