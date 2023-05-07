@@ -13,6 +13,15 @@
     state: present
   become: true
 
+- name: Directory of nftables chain configs is available
+  ansible.builtin.file:
+    path: /etc/nftables-chain.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
 - name: Directory of nftables inbound configs is available
   ansible.builtin.file:
     path: /etc/nftables-inbound.d
@@ -22,9 +31,9 @@
     mode: '0755'
   become: true
 
-- name: Directory of nftables chain configs is available
+- name: Directory of nftables outbound configs is available
   ansible.builtin.file:
-    path: /etc/nftables-chain.d
+    path: /etc/nftables-outbound.d
     state: directory
     owner: root
     group: root
@@ -44,6 +53,30 @@
   notify:
     - Restart nftables
 
+- name: Copy nftables restricted accept config
+  ansible.builtin.template:
+    src: etc/nftables-chain.d/accept_ports_with_iif.conf
+    dest: /etc/nftables-chain.d/accept_ports_with_iif.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart nftables
+
+- name: Copy nftables outbound filter config
+  ansible.builtin.template:
+    src: etc/nftables-chain.d/outbound_filter_and_logging.conf
+    dest: /etc/nftables-chain.d/outbound_filter_and_logging.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart nftables
+
 - name: Copy nftables tcp accept config
   ansible.builtin.template:
     src: etc/nftables-inbound.d/accept_tcp_dports.conf
@@ -56,7 +89,7 @@
   notify:
     - Restart nftables
 
-- name: Copy nftables chain jump config
+- name: Copy nftables inbound jump configs
   ansible.builtin.template:
     src: etc/nftables-inbound.d/jump_chains.conf
     dest: /etc/nftables-inbound.d/jump_chains.conf
@@ -68,10 +101,10 @@
   notify:
     - Restart nftables
 
-- name: Copy nftables restricted accept config
+- name: Copy nftables outbound jump configs
   ansible.builtin.template:
-    src: etc/nftables-chain.d/accept_ports_with_iif.conf
-    dest: /etc/nftables-chain.d/accept_ports_with_iif.conf
+    src: etc/nftables-outbound.d/jump_chains.conf
+    dest: /etc/nftables-outbound.d/jump_chains.conf
     owner: root
     group: root
     mode: '0644'

@@ -93,6 +93,7 @@
       - nginx-exporter
       - postgres-exporter
       - redis-exporter
+      - statsd-exporter-mastodon
 
 - name: Copy dashboards
   ansible.builtin.copy:

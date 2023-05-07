@@ -30,7 +30,7 @@
     enabled: true
   become: true
   listen:
-  - Restart ulogd
+    - Restart ulogd
 
 - name: Check systemd service
   ansible.builtin.command: systemctl status nftables

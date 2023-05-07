@@ -25,6 +25,8 @@ group_vars_all
 #primary_domain_ipv6: "mizunashi-work.vagrant"
 #private_domain: "mizunashi-local.private"
 
+#internal_ipv4_subnet: "192.168.62.0/8"
+
 #internal_host_entries: {
   internal001: {
     host: "internal.\(#primary_domain_ipv4)"
@@ -199,6 +201,14 @@ nftables_accept_ports_with_iif: "internal_local_proxy": {
     #local_proxy_https_port
   ]
 }
+nftables_outbound_logging_filter_entries: "internal_network": {
+  oif: network_internal_iface
+  daddr: #internal_ipv4_subnet
+  tcp_dports: [
+    #local_proxy_https_port,
+    #private_acme_server_https_port,
+  ]
+}
 
 openssh_server_listen_port: #ssh_port
 
@@ -234,7 +244,8 @@ nginx_site_local_proxy_entries: "\(#local_proxy_jobs.fluent_bit.name)": {
 
 fluent_bit_input_auth_log_tag: "node.auth"
 fluent_bit_input_kern_log_tag: "node.kernel"
-fluent_bit_input_nftables_log_tag: "node.nftables"
+fluent_bit_input_nftables_filter_log_tag: "nftables.filter"
+fluent_bit_input_nftables_output_log_tag: "nftables.output"
 fluent_bit_input_exim4_mainlog_tag: "exim.mainlog"
 fluent_bit_input_fail2ban_log_tag: "fail2ban.log"
 fluent_bit_input_nginx_log_error_tag: "nginx.error"
@@ -262,7 +273,8 @@ $ANSIBLE_VAULT;1.1;AES256
 
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_auth_log_tag)": {}
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_kern_log_tag)": {}
-fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_nftables_log_tag)": {}
+fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_nftables_filter_log_tag)": {}
+fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_nftables_output_log_tag)": {}
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_exim4_mainlog_tag)": {}
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_fail2ban_log_tag)": {}
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_nginx_log_error_tag)": {}

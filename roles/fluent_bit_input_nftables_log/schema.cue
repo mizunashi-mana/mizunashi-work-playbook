@@ -1,3 +1,4 @@
 package fluent_bit_input_nftables_log
 
-fluent_bit_input_nftables_log_tag: string
+fluent_bit_input_nftables_filter_log_tag: string
+fluent_bit_input_nftables_output_log_tag: string

@@ -1,1 +1,2 @@
+BIND=[::1]
 PORT={{ mastodon_web_listen_port }}
