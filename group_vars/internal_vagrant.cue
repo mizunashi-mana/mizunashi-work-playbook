@@ -71,7 +71,7 @@ let blackbox_exporter_relabel_configs = [
   },
   {
     target_label: "__address__"
-    replacement: "127.0.0.1:\(#Schema.blackbox_exporter_listen_port)"
+    replacement: "[::1]:\(#Schema.blackbox_exporter_listen_port)"
   },
 ]
 
@@ -235,7 +235,7 @@ let grafana_elasticsearch_datasource_user = {
       type: "prometheus"
       name: "Prometheus"
       orgId: 1
-      url: "http://127.0.0.1:9090"
+      url: "http://[::1]:9090"
       is_default: true
       version: 1
       editable: false
@@ -244,7 +244,7 @@ let grafana_elasticsearch_datasource_user = {
       type: "elasticsearch"
       name: "ElasticSearch"
       orgId: 1
-      url: "http://127.0.0.1:9200"
+      url: "http://[::1]:9200"
       version: 1
       editable: false
       basic_auth: {

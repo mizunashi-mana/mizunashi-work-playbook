@@ -14,6 +14,8 @@ ansible_groups = {
   "internal" => [internal_node_name]
 }
 
+eth3_private_network_name = "mizunashi-work-playbook-net-local"
+
 Vagrant.configure(2) do |config|
   config.vm.define internal_node_name do |node|
     node.vm.box = "generic/debian11"
@@ -21,7 +23,7 @@ Vagrant.configure(2) do |config|
     node.vm.network :private_network, ip: "192.168.61.34"
     node.vm.network :private_network,
       auto_config: false,
-      virtualbox__intnet: "mizunashi-work-playbook-net"
+      virtualbox__intnet: eth3_private_network_name
   end
   config.vm.define public_node_name do |node|
     node.vm.box = "generic/debian11"
@@ -29,7 +31,7 @@ Vagrant.configure(2) do |config|
     node.vm.network :private_network, ip: "192.168.61.33"
     node.vm.network :private_network,
       auto_config: false,
-      virtualbox__intnet: "mizunashi-work-playbook-net"
+      virtualbox__intnet: eth3_private_network_name
   end
 
   config.vm.provision "ansible" do |ansible|

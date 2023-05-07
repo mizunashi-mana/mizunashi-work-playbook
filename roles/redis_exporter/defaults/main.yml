@@ -1,4 +1,2 @@
 ---
-redis_exporter_version: 1.16.0
-
-redis_exporter_listen_address: 127.0.0.1
+redis_exporter_version: '1.16.0'

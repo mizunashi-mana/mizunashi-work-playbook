@@ -1,4 +1,2 @@
 ---
 elasticsearch_exporter_version: '1.1.0'
-
-elasticsearch_exporter_listen_address: '127.0.0.1'

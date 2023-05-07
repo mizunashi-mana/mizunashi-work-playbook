@@ -21,5 +21,3 @@ nginx_default_ssl_ciphers:
   - DHE-RSA-AES256-GCM-SHA384
 nginx_default_ssl_prefer_server_ciphers: false
 nginx_default_ssl_session_timeout: 1d
-
-nginx_status_listen_address: 127.0.0.1

@@ -14,7 +14,6 @@ ProtectProc=invisible
 
 EnvironmentFile=/etc/default/minio
 ExecStart=/usr/local/bin/minio server \
-  --address "$SERVER_LISTEN_ADDRESS" \
   $MINIO_VOLUMES
 
 # Let systemd restart this service always

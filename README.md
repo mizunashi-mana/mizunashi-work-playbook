@@ -2,7 +2,7 @@
 
 ## Test on local
 
-```
+```bash
 make vagrant-up; \
   vagrant reload && make vagrant-up; \
   vagrant reload && make vagrant-up

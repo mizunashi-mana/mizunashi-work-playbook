@@ -5,7 +5,7 @@
 - name: Set MC host
   set_fact:
     minio_setup_target_endpoint: |
-      http://{{ minio_root_user }}:{{ minio_root_password }}@127.0.0.1:{{ minio_server_listen_port }}
+      http://{{ minio_root_user }}:{{ minio_root_password }}@[::1]:{{ minio_server_listen_port }}
   no_log: true
 
 - name: Select users

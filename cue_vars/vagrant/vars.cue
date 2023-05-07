@@ -30,6 +30,7 @@ group_vars_all
     host: "internal.\(#primary_domain_ipv4)"
 
     public_ipv4_address: "192.168.61.34"
+    public_ipv4_gateway: "10.0.2.1"
     public_ipv4_netmask: "255.255.255.0"
 
     public_ipv6_address: "fde4:8dba:82e1:1005::1"
@@ -45,6 +46,7 @@ group_vars_all
     host: "public.\(#primary_domain_ipv4)"
 
     public_ipv4_address: "192.168.61.33"
+    public_ipv4_gateway: "10.0.2.1"
     public_ipv4_netmask: "255.255.255.0"
 
     public_ipv6_address: "fde4:8dba:82e1:1005::2"

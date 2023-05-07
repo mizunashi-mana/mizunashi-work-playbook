@@ -1,6 +1,7 @@
 ---
 - name: Check listen port
   ansible.builtin.wait_for:
+    host: '::1'
     port: '{{ caddy_site_acme_server_listen_port }}'
     state: started
     timeout: 60

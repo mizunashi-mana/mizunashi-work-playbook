@@ -54,6 +54,7 @@
 
 - name: Check listen port
   ansible.builtin.wait_for:
+    host: '::1'
     port: '{{ caddy_metrics_listen_port }}'
     state: started
     timeout: 60

@@ -30,6 +30,7 @@
 
 - name: Check listen port
   ansible.builtin.wait_for:
+    host: '::1'
     port: '{{ statsd_exporter_web_listen_port }}'
     state: started
     timeout: 60
@@ -37,6 +38,7 @@
 
 - name: Check listen port
   ansible.builtin.wait_for:
+    host: '::1'
     port: '{{ statsd_exporter_statsd_listen_tcp_port }}'
     state: started
     timeout: 60

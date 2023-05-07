@@ -1,5 +1,5 @@
 :{{ caddy_metrics_listen_port }} {
-	bind {{ caddy_metrics_listen_address }}
+	bind [::1] 127.0.0.1
 
 	log {
 		output file /var/log/caddy/access.metrics.log {

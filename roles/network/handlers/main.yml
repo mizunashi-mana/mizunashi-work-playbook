@@ -15,8 +15,7 @@
   failed_when: |
     network_check_public_ip_stats.rc != 0
       or not network_check_public_ip_stats.stdout is search(network_public_ipv4_address)
-# TODO: Enable IPv6
-#      or not network_check_public_ip_stats.stdout is search(network_public_ipv6_address)
+      or not network_check_public_ip_stats.stdout is search(network_public_ipv6_address)
   listen: Check
 
 - name: Check internal IP

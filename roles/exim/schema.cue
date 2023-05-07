@@ -9,5 +9,4 @@ exim_smarthost?: {
   auth_password: cue_types.#Vaulted
 }
 
-// Cannot change port
-exim_listen_port: 25
+exim_listen_port: uint | *25

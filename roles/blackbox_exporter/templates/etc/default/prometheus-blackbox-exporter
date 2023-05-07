@@ -1,4 +1,4 @@
 CONFIG_FILE=/etc/prometheus/blackbox.yml
-LISTEN_ADDRESS={{ blackbox_exporter_listen_address }}:{{ blackbox_exporter_listen_port }}
+LISTEN_ADDRESS=[::1]:{{ blackbox_exporter_listen_port }}
 LOG_LEVEL=debug
 EXTRA_ARGS=

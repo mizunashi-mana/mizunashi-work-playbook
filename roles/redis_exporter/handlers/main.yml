@@ -30,6 +30,7 @@
 
 - name: Check listen port
   ansible.builtin.wait_for:
+    host: '::1'
     port: '{{ redis_exporter_listen_port }}'
     state: started
     timeout: 60

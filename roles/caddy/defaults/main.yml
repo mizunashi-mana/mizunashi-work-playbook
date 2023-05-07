@@ -1,3 +1,2 @@
 ---
-caddy_version: 2.6.4
-caddy_metrics_listen_address: 127.0.0.1
+caddy_version: '2.6.4'

@@ -1,3 +1,3 @@
-DATA_SOURCE_NAME=postgresql://{{ postgres_exporter_user_name }}:{{ postgres_exporter_user_password }}@127.0.0.1:{{ postgresql_listen_port }}/postgres?sslmode=disable
-LISTEN_ADDRESS={{ postgres_exporter_listen_address }}:{{ postgres_exporter_listen_port }}
+DATA_SOURCE_NAME=postgresql://{{ postgres_exporter_user_name }}:{{ postgres_exporter_user_password }}@[::1]:{{ postgresql_listen_port }}/postgres?sslmode=disable
+LISTEN_ADDRESS=[::1]:{{ postgres_exporter_listen_port }}
 EXTRA_ARGS=''

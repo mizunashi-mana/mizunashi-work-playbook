@@ -30,6 +30,7 @@
 
 - name: Check listen port
   ansible.builtin.wait_for:
+    host: '::1'
     port: '{{ nginx_status_listen_port }}'
     state: started
     timeout: 60
