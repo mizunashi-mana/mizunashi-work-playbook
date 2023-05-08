@@ -122,12 +122,12 @@ let grafana_elasticsearch_datasource_user = {
   nftables_outbound_logging_filter_entries: "public_network_for_internal": {
     oif: #Schema.network_public_iface
     ip_cond: {
-      ipv4_daddrs: [        
+      ipv4_daddrs: [
         for _, host_entry in #Schema.#public_host_entries {
           host_entry.public_ipv4_address
         }
       ]
-      ipv6_daddrs: [        
+      ipv6_daddrs: [
         for _, host_entry in #Schema.#public_host_entries {
           host_entry.public_ipv6_address
         }
@@ -288,6 +288,7 @@ let grafana_elasticsearch_datasource_user = {
       }
     }
   }
+  grafana_provisioning_notification_email: #Schema.#notification_email
 
   prometheus_scrape_configs: [
     for job_key, entry in local_proxy_scrape_configs {

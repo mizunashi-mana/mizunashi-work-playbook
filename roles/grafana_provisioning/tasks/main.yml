@@ -17,7 +17,7 @@
     mode: '0750'
   become: true
 
-- name: Directory of available dashboards is available
+- name: Directory of available dashboards provisioning is available
   ansible.builtin.file:
     path: /etc/grafana/prov-available/dashboards
     state: directory
@@ -35,7 +35,16 @@
     mode: '0750'
   become: true
 
-- name: Directory of provisioning available is available
+- name: Directory of available notifiers is available
+  ansible.builtin.file:
+    path: /etc/grafana/prov-available/notifiers
+    state: directory
+    owner: grafana
+    group: grafana
+    mode: '0750'
+  become: true
+
+- name: Directory of available dashboards is available
   ansible.builtin.file:
     path: /var/lib/grafana/dashboards
     state: directory
@@ -122,6 +131,18 @@
   notify:
   - Restart grafana
 
+- name: Copy notifiers of generic folder
+  ansible.builtin.template:
+    src: etc/grafana/prov-available/notifiers/generic.yml
+    dest: /etc/grafana/prov-available/notifiers/generic.yml
+    owner: root
+    group: grafana
+    mode: '0640'
+    backup: true
+  become: true
+  notify:
+  - Restart grafana
+
 - name: Enable datasource
   ansible.builtin.file:
     src: /etc/grafana/prov-available/datasources/datasource.yml
@@ -147,5 +168,14 @@
     state: link
   become: true
   loop: '{{ grafana_provisioning_alertings }}'
+  notify:
+  - Restart grafana
+
+- name: Enable notifiers
+  ansible.builtin.file:
+    src: /etc/grafana/prov-available/notifiers/generic.yml
+    dest: /etc/grafana/provisioning/notifiers/generic.yml
+    state: link
+  become: true
   notify:
   - Restart grafana

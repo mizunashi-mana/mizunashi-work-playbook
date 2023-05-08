@@ -3,6 +3,7 @@ package grafana_provisioning
 import "mizunashi.work/pkg/cue_types"
 
 grafana_provisioning_datasources: [string]: #DataSourceEntry
+grafana_provisioning_notification_email: string
 
 grafana_provisioning_datasources: "ds_prometheus": {
   name: "Prometheus"

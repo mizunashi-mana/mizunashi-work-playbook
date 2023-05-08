@@ -1,0 +1,11 @@
+# # config file version
+apiVersion: 1
+
+notifiers:
+  - name: default-email
+    type: email
+    org_id: 1
+    uid: notifier_DefaultMail
+    is_default: true
+    settings:
+      addresses: {{ grafana_provisioning_notification_email|to_json }}
