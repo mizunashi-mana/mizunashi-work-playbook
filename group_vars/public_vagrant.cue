@@ -69,16 +69,23 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
   nginx_site_www_redirector_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_www_redirector_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
 
-  #fluent_bit_input_nginx_log_access_www_redirector_tag: "nginx.access.www_redirector"
-  fluent_bit_input_nginx_log_access_entries: "\(#fluent_bit_input_nginx_log_access_www_redirector_tag)": {
-    log_file: "/var/log/nginx/access.www_redirector.log"
-  }
-  fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_www_redirector_tag)": {}
-
   nginx_site_root_front_domain: #Schema.#root_hostname
   nginx_site_root_front_url: "https://\(#Schema.#www_hostname)"
   nginx_site_root_front_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_root_front_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
+
+  #fluent_bit_input_nginx_log_access_mastodon_front_tag: "nginx.access.mastodon_front"
+  fluent_bit_input_nginx_log_access_entries: "\(#fluent_bit_input_nginx_log_access_mastodon_front_tag)": {
+    log_file: "/var/log/nginx/access.mastodon_front.log"
+  }
+
+  #fluent_bit_input_nginx_log_access_www_redirector_tag: "nginx.access.www_redirector"
+  fluent_bit_input_nginx_log_access_entries: "\(#fluent_bit_input_nginx_log_access_www_redirector_tag)": {
+    log_file: "/var/log/nginx/access.www_redirector.log"
+  }
+
+  fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_mastodon_front_tag)": {}
+  fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_www_redirector_tag)": {}
 
   postgres_backup_s3_scheme: "https"
   postgres_backup_s3_access_key: #Schema.#postgres_backup_config.access_key
