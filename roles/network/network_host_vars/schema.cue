@@ -11,7 +11,6 @@ network_public_ipv4_search: string
 network_public_ipv6_address: string
 network_public_ipv6_gateway?: string
 network_public_ipv6_netmask: string
-network_public_ipv6_nameserver: string
 
 network_internal_hostname: string
 network_internal_ipv4_address: string
