@@ -194,20 +194,65 @@ base_hosts_to_ips: "\(#private_acme_challenge_hostname)": #host_entries.internal
 base_hosts_to_ips: "\(#minio_server_hostname)": #host_entries.internal001.internal_ipv4
 base_hosts_to_ips: "\(#elasticsearch_hostname)": #host_entries.internal001.internal_ipv4
 
-nftables_accept_tcp_ports: [#ssh_port, ...uint]
+nftables_accept_tcp_ports: "\(#ssh_port)": {}
 nftables_accept_ports_with_iif: "internal_local_proxy": {
   iif: network_internal_iface
   tcp_ports: [
     #local_proxy_https_port
   ]
 }
-nftables_outbound_logging_filter_entries: "internal_network": {
+nftables_outbound_logging_filter_entries: "local_network_for_all": {
+  oif: "lo"
+  ip_cond: {
+    all: true
+  }
+  proto_cond: {
+    tcp_sports: [
+      #fluent_bit_metrics_http_port,
+    ]
+  }
+}
+nftables_outbound_logging_filter_entries: "nat_network_for_all": {
+  oif: "eth0"
+  ip_cond: {
+    all: true
+  }
+  proto_cond: {
+    tcp_sports: [
+      #ssh_port,
+    ]
+  }
+}
+nftables_outbound_logging_filter_entries: "open_public_network_for_all": {
+  oif: network_public_iface
+  ip_cond: {
+    all: true
+  }
+  proto_cond: {
+    tcp_sports: [
+      #ssh_port,
+    ]
+  }
+}
+nftables_outbound_logging_filter_entries: "internal_network_for_all": {
   oif: network_internal_iface
-  daddr: #internal_ipv4_subnet
-  tcp_dports: [
-    #local_proxy_https_port,
-    #private_acme_server_https_port,
-  ]
+  ip_cond: {
+    ipv4_daddrs: [
+      #internal_ipv4_subnet,
+    ]
+  }
+  proto_cond: {
+    icmp: true
+    tcp_sports: [
+      #http_port,
+      #local_proxy_https_port,
+    ]
+    tcp_dports: [
+      #local_proxy_https_port,
+      #private_acme_server_https_port,
+      #elasticsearch_https_port,
+    ]
+  }
 }
 
 openssh_server_listen_port: #ssh_port

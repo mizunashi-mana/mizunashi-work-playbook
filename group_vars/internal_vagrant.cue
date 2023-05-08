@@ -93,10 +93,6 @@ let grafana_elasticsearch_datasource_user = {
 #BlackboxExporterScrapeConfig: relabel_configs: blackbox_exporter_relabel_configs
 
 #Schema & {
-  nftables_accept_tcp_ports: [
-    #Schema.#ssh_port,
-  ]
-
   nftables_accept_ports_with_iif: "internal_services": {
     iif: #Schema.network_internal_iface
     tcp_ports: [
@@ -104,6 +100,40 @@ let grafana_elasticsearch_datasource_user = {
       #Schema.#elasticsearch_https_port,
       #Schema.#minio_server_https_port,
     ]
+  }
+  nftables_outbound_logging_filter_entries: "internal_network_for_internal": {
+    oif: #Schema.network_internal_iface
+    ip_cond: {
+      ipv4_daddrs: [
+        #Schema.#internal_ipv4_subnet,
+      ]
+    }
+    proto_cond: {
+      tcp_sports: [
+        #Schema.#private_acme_server_https_port,
+        #Schema.#elasticsearch_https_port,
+        #Schema.#minio_server_https_port,
+      ]
+      tcp_dports: [
+        #Schema.#http_port,
+      ]
+    }
+  }
+  nftables_outbound_logging_filter_entries: "public_network_for_internal": {
+    oif: #Schema.network_public_iface
+    ip_cond: {
+      ipv4_daddrs: [        
+        for _, host_entry in #Schema.#public_host_entries {
+          host_entry.public_ipv4_address
+        }
+      ]
+    }
+    proto_cond: {
+      tcp_dports: [
+        #Schema.#http_port,
+        #Schema.#https_port,
+      ]
+    }
   }
 
   caddy_pki_ca_local_name: "mizunashi-work-playbook Local Authority"

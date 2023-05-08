@@ -10,7 +10,7 @@
   compress
   delaycompress
   notifempty
-  create 640 root adm
+  create 640 ulog adm
   sharedscripts
   postrotate
     if [ -d /run/systemd/system ] && command systemctl >/dev/null 2>&1 && systemctl is-active --quiet ulogd2.service; then

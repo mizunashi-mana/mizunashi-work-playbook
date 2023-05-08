@@ -1,6 +1,6 @@
 package nftables
 
-nftables_accept_tcp_ports: [...uint]
+nftables_accept_tcp_ports: [=~"^[0-9]+$"]: {}
 nftables_accept_ports_with_iif: [string]: #AcceptPortsWithIif
 nftables_outbound_logging_filter_entries: [string]: #OutboundLoggingAndFilterEntry
 
@@ -12,7 +12,15 @@ nftables_outbound_logging_filter_entries: [string]: #OutboundLoggingAndFilterEnt
 
 #OutboundLoggingAndFilterEntry: {
   oif: string
-  daddr: string
-  tcp_dports: [...uint]
-  udp_dports: [...uint]
+  ip_cond: {
+    all: bool | *false
+    ipv4_daddrs: [...string]
+  }
+  proto_cond: {
+    icmp: bool | *false
+    tcp_sports: [...uint]
+    tcp_dports: [...uint]
+    udp_sports: [...uint]
+    udp_dports: [...uint]
+  }
 }

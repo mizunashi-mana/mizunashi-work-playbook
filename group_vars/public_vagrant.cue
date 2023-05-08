@@ -14,11 +14,34 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
   nginx_site_www_redirector_listen_port: #Schema.#https_port
   nginx_site_root_front_listen_port: #Schema.#https_port
 
-  nftables_accept_tcp_ports: [
-    #Schema.#ssh_port,
-    #Schema.#http_port,
-    #Schema.#https_port,
-  ]
+  nftables_accept_tcp_ports: "\(#Schema.#http_port)": {}
+  nftables_accept_tcp_ports: "\(#Schema.#https_port)": {}
+  nftables_outbound_logging_filter_entries: "local_network_for_public": {
+    oif: "lo"
+    ip_cond: {
+      all: true
+    }
+    proto_cond: {
+      tcp_sports: [
+        #Schema.redis_server_listen_port,
+      ]
+      tcp_dports: [
+        #Schema.redis_server_listen_port,
+      ]
+    }
+  }
+  nftables_outbound_logging_filter_entries: "open_public_network_for_public": {
+    oif: #Schema.network_public_iface
+    ip_cond: {
+      all: true
+    }
+    proto_cond: {
+      tcp_sports: [
+        #Schema.#http_port,
+        #Schema.#https_port,
+      ]
+    }
+  }
 
   nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.redis.name)": {
     upstream_port: #Schema.redis_exporter_listen_port
