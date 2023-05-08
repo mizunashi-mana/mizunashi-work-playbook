@@ -130,3 +130,13 @@ providers:
     options:
       path: /var/lib/grafana/dashboards/log-authentications.json
       foldersFromFilesStructure: false
+
+  - name: 'Log: Nftables'
+    orgId: 1
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards/log-nftables.json
+      foldersFromFilesStructure: false

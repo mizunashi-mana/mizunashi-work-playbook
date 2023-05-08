@@ -84,6 +84,7 @@
       - blackbox-exporter
       - fluent-bit-stats
       - log-authentications
+      - log-nftables
 
     grafana_provisioning_alertings:
       - prometheus
