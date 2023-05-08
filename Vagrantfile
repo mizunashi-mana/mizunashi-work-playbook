@@ -14,7 +14,8 @@ ansible_groups = {
   "internal" => [internal_node_name]
 }
 
-eth3_private_network_name = "mizunashi-work-playbook-net-local"
+eth2_private_network_name = "mizunashi-work-playbook-net-local"
+eth3_nat_network_name = "mizunashi-work-playbook-net-nat"
 
 Vagrant.configure(2) do |config|
   config.vm.define internal_node_name do |node|
@@ -23,7 +24,12 @@ Vagrant.configure(2) do |config|
     node.vm.network :private_network, ip: "192.168.61.34"
     node.vm.network :private_network,
       auto_config: false,
-      virtualbox__intnet: eth3_private_network_name
+      virtualbox__intnet: eth2_private_network_name
+
+    node.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--nic4", "natnetwork"]
+      vb.customize ["modifyvm", :id, "--nat-network4", eth3_nat_network_name]
+    end
   end
   config.vm.define public_node_name do |node|
     node.vm.box = "generic/debian11"
@@ -31,8 +37,19 @@ Vagrant.configure(2) do |config|
     node.vm.network :private_network, ip: "192.168.61.33"
     node.vm.network :private_network,
       auto_config: false,
-      virtualbox__intnet: eth3_private_network_name
+      virtualbox__intnet: eth2_private_network_name
+  
+    node.vm.provider :virtualbox do |vb|
+      vb.customize ["modifyvm", :id, "--nic4", "natnetwork"]
+      vb.customize ["modifyvm", :id, "--nat-network4", eth3_nat_network_name]
+    end
   end
+
+  config.vm.provision "shell", inline: <<~SHELL
+    set -exuo pipefail
+    ETH3_IPV4_ADDR="$(ip -family inet -o addr show dev eth0 | sed -E 's|^.* inet 10\\.0\\.2\\.([0-9]+)/24 brd .*$|10.100.10.\\1|')"
+    echo "allow-hotplug eth3\niface eth3 inet static\n  address $ETH3_IPV4_ADDR\n  netmask 255.255.255.0\n" > /etc/network/interfaces.d/natnetwork4.conf
+  SHELL
 
   config.vm.provision "ansible" do |ansible|
     ansible.verbose = "vv"

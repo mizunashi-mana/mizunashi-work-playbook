@@ -104,8 +104,8 @@ let grafana_elasticsearch_datasource_user = {
   nftables_outbound_logging_filter_entries: "internal_network_for_internal": {
     oif: #Schema.network_internal_iface
     ip_cond: {
-      ipv4_daddrs: [
-        #Schema.#internal_ipv4_subnet,
+      ipv6_daddrs: [
+        #Schema.#internal_ipv6_subnet,
       ]
     }
     proto_cond: {
@@ -125,6 +125,11 @@ let grafana_elasticsearch_datasource_user = {
       ipv4_daddrs: [        
         for _, host_entry in #Schema.#public_host_entries {
           host_entry.public_ipv4_address
+        }
+      ]
+      ipv6_daddrs: [        
+        for _, host_entry in #Schema.#public_host_entries {
+          host_entry.public_ipv6_address
         }
       ]
     }

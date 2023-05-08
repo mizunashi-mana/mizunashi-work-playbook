@@ -26,5 +26,5 @@
   changed_when: false
   failed_when: |
     network_check_internal_ip_stats.rc != 0
-      or not network_check_internal_ip_stats.stdout is search(network_internal_ipv4_address)
+      or not network_check_internal_ip_stats.stdout is search(network_internal_ipv6_address)
   listen: Check

@@ -25,21 +25,21 @@ group_vars_all
 #primary_domain_ipv6: "mizunashi-work.vagrant"
 #private_domain: "mizunashi-local.private"
 
-#internal_ipv4_subnet: "192.168.62.0/8"
+#internal_ipv6_subnet: "fde4:8dba:82e1:1006::/64"
 
 #internal_host_entries: {
   internal001: {
     host: "internal.\(#primary_domain_ipv4)"
 
     public_ipv4_address: "192.168.61.34"
-    public_ipv4_gateway: "10.0.2.1"
+    public_ipv4_gateway: "10.0.2.2"
     public_ipv4_netmask: "255.255.255.0"
 
-    public_ipv6_address: "fde4:8dba:82e1:1005::1"
+    public_ipv6_address: "fde4:8dba:82e1:1005::34"
     public_ipv6_netmask: "64"
 
     internal_host: "internal001.\(#private_domain)"
-    internal_ipv4: "192.168.62.1"
+    internal_ipv6_address: "fde4:8dba:82e1:1006::1"
   }
 }
 
@@ -48,14 +48,14 @@ group_vars_all
     host: "public.\(#primary_domain_ipv4)"
 
     public_ipv4_address: "192.168.61.33"
-    public_ipv4_gateway: "10.0.2.1"
+    public_ipv4_gateway: "10.0.2.2"
     public_ipv4_netmask: "255.255.255.0"
 
-    public_ipv6_address: "fde4:8dba:82e1:1005::2"
+    public_ipv6_address: "fde4:8dba:82e1:1005::33"
     public_ipv6_netmask: "64"
 
     internal_host: "public001.\(#private_domain)"
-    internal_ipv4: "192.168.62.2"
+    internal_ipv6_address: "fde4:8dba:82e1:1006::2"
   }
 }
 
@@ -177,7 +177,7 @@ ca_certs_private_root_ca_certs: "private_root_ca_2023": {
 network_public_iface: "eth1"
 
 network_internal_iface: "eth2"
-network_internal_ipv4_netmask: "255.255.255.0"
+network_internal_ipv6_netmask: "64"
 
 systemd_resolved_primary_dns: #dns_resolver_primary_ipv4
 systemd_resolved_fallback_dns: [
@@ -188,11 +188,11 @@ systemd_resolved_fallback_dns: [
 ]
 
 for _, entry in #host_entries {
-  base_hosts_to_ips: "\(entry.internal_host)": entry.internal_ipv4
+  base_hosts_to_ips: "\(entry.internal_host)": entry.internal_ipv6_address
 }
-base_hosts_to_ips: "\(#private_acme_challenge_hostname)": #host_entries.internal001.internal_ipv4
-base_hosts_to_ips: "\(#minio_server_hostname)": #host_entries.internal001.internal_ipv4
-base_hosts_to_ips: "\(#elasticsearch_hostname)": #host_entries.internal001.internal_ipv4
+base_hosts_to_ips: "\(#private_acme_challenge_hostname)": #host_entries.internal001.internal_ipv6_address
+base_hosts_to_ips: "\(#minio_server_hostname)": #host_entries.internal001.internal_ipv6_address
+base_hosts_to_ips: "\(#elasticsearch_hostname)": #host_entries.internal001.internal_ipv6_address
 
 nftables_accept_tcp_ports: "\(#ssh_port)": {}
 nftables_accept_ports_with_iif: "internal_local_proxy": {
@@ -237,8 +237,8 @@ nftables_outbound_logging_filter_entries: "open_public_network_for_all": {
 nftables_outbound_logging_filter_entries: "internal_network_for_all": {
   oif: network_internal_iface
   ip_cond: {
-    ipv4_daddrs: [
-      #internal_ipv4_subnet,
+    ipv6_daddrs: [
+      #internal_ipv6_subnet,
     ]
   }
   proto_cond: {

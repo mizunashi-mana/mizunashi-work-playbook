@@ -15,6 +15,7 @@ nftables_outbound_logging_filter_entries: [string]: #OutboundLoggingAndFilterEnt
   ip_cond: {
     all: bool | *false
     ipv4_daddrs: [...string]
+    ipv6_daddrs: [...string]
   }
   proto_cond: {
     icmp: bool | *false

@@ -19,5 +19,5 @@ let host_entry = vars.#host_entries.public001
   network_public_ipv6_netmask: host_entry.public_ipv6_netmask
 
   network_internal_hostname: host_entry.internal_host
-  network_internal_ipv4_address: host_entry.internal_ipv4
+  network_internal_ipv6_address: host_entry.internal_ipv6_address
 }

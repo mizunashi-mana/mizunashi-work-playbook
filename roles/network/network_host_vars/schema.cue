@@ -13,4 +13,4 @@ network_public_ipv6_gateway?: string
 network_public_ipv6_netmask: string
 
 network_internal_hostname: string
-network_internal_ipv4_address: string
+network_internal_ipv6_address: string
