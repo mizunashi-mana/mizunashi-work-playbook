@@ -4,6 +4,7 @@
     name: 'elasticsearch={{ elasticsearch_version }}*'
     state: present
   become: true
+  no_log: true
 
 - name: Copy elasticsearch config
   ansible.builtin.template:

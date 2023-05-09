@@ -51,6 +51,7 @@
     mode: '0600'
     backup: true
   become: true
+  diff: false
   notify:
     - Restart minio
 

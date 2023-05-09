@@ -23,4 +23,5 @@
       '{{ item }}'
   become: true
   when: not item in elasticsearch_setup_exists_users
+  no_log: true
   loop: '{{ elasticsearch_setup_users|dict2items|map(attribute="key") }}'

@@ -25,7 +25,8 @@ group_vars_all
 #primary_domain_ipv6: "mizunashi-work.vagrant"
 #private_domain: "mizunashi-local.private"
 
-#internal_ipv6_subnet: "fde4:8dba:82e1:1006::/64"
+#internal_ipv6_prefix64: "fde4:8dba:82e1:1006"
+#internal_ipv6_subnet: "\(#internal_ipv6_prefix64)::/64"
 
 #internal_host_entries: {
   internal001: {
@@ -39,7 +40,7 @@ group_vars_all
     public_ipv6_netmask: "64"
 
     internal_host: "internal001.\(#private_domain)"
-    internal_ipv6_address: "fde4:8dba:82e1:1006::1"
+    internal_ipv6_address: "\(#internal_ipv6_prefix64)::1001"
   }
 }
 
@@ -55,7 +56,7 @@ group_vars_all
     public_ipv6_netmask: "64"
 
     internal_host: "public001.\(#private_domain)"
-    internal_ipv6_address: "fde4:8dba:82e1:1006::2"
+    internal_ipv6_address: "\(#internal_ipv6_prefix64)::1002"
   }
 }
 

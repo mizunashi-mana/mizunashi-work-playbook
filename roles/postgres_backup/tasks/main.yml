@@ -37,6 +37,7 @@
     mode: '0700'
     backup: true
   become: true
+  diff: false
 
 - name: Install service
   ansible.builtin.template:

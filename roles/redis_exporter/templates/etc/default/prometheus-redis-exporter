@@ -1,4 +1,4 @@
 LISTEN_ADDRESS=[::1]:{{ redis_exporter_listen_port }}
-REDIS_ADDRESS=redis://[::1]:{{ redis_server_listen_port }}
+REDIS_ADDR=redis://[::1]:{{ redis_server_listen_port }}
 REDIS_PASSWORD={{ redis_server_auth_password }}
 EXTRA_ARGS=""

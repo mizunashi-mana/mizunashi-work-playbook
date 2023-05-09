@@ -8,8 +8,6 @@ User=prometheus
 EnvironmentFile=/etc/default/prometheus-redis-exporter
 ExecStart=/usr/bin/prometheus-redis-exporter \
   -web.listen-address "$LISTEN_ADDRESS" \
-  -redis.addr "$REDIS_ADDRESS" \
-  -redis.password "$REDIS_PASSWORD" \
   $EXTRA_ARGS
 ExecReload=/bin/kill -HUP $MAINPID
 TimeoutStopSec=20s
