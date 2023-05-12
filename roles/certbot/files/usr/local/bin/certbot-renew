@@ -15,14 +15,14 @@ case "${HOOK_TYPE:-}" in
     ;;
 esac
 
-CERTBOT_REWEW_ARGS=(
+CERTBOT_RENEW_ARGS=(
   --cert-name "$DOMAIN"
 )
 if [ -n "${PRE_HOOK:-}" ]; then
-  CERTBOT_REWEW_ARGS+=(--pre-hook "$PRE_HOOK")
+  CERTBOT_RENEW_ARGS+=(--pre-hook "$PRE_HOOK")
 fi
 if [ -n "${POST_HOOK:-}" ]; then
-  CERTBOT_REWEW_ARGS+=(--post-hook "$POST_HOOK")
+  CERTBOT_RENEW_ARGS+=(--post-hook "$POST_HOOK")
 fi
 
 flock --exclusive --timeout "$LOCK_TIMEOUT_SEC" "$LOCK_FILE" \

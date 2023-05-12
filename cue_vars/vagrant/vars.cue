@@ -251,6 +251,7 @@ nftables_outbound_logging_filter_entries: "internal_network_for_all": {
     tcp_dports: [
       #local_proxy_https_port,
       #private_acme_server_https_port,
+      #minio_server_https_port,
       #elasticsearch_https_port,
     ]
   }
