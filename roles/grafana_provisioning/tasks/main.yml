@@ -95,6 +95,7 @@
       - fluent-bit-stats
       - log-authentications
       - log-nftables
+      - log-nginx
 
     grafana_provisioning_alertings:
       - prometheus

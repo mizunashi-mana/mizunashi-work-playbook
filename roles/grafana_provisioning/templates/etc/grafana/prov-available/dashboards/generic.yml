@@ -140,3 +140,13 @@ providers:
     options:
       path: /var/lib/grafana/dashboards/log-nftables.json
       foldersFromFilesStructure: false
+
+  - name: 'Log: Nginx'
+    orgId: 1
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards/log-nginx.json
+      foldersFromFilesStructure: false
