@@ -6,7 +6,8 @@
   "schemaVersion": 38,
   "tags": [
     "log",
-    "nginx"
+    "nginx",
+    "ElasticSearch"
   ],
   "links": [],
   "editable": true,
