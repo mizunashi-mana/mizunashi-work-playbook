@@ -5,6 +5,18 @@
     state: present
   become: true
 
+- name: Copy pg tune config
+  ansible.builtin.template:
+    src: etc/postgresql/13/main/conf.d/pg_tune.conf
+    dest: /etc/postgresql/13/main/conf.d/pg_tune.conf
+    owner: postgres
+    group: postgres
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart postgresql
+
 - name: Notify restart postgresql if not started
   ansible.builtin.command: systemctl status postgresql
   become: true

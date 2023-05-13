@@ -87,6 +87,19 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
   fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_mastodon_front_tag)": {}
   fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_www_redirector_tag)": {}
 
+  postgresql_max_connections: 50
+  postgresql_shared_buffers: "128MB"
+  postgresql_effective_cache_size: "500MB"
+  postgresql_maintenance_work_mem: "40MB"
+  postgresql_checkpoint_completion_target: 0.9
+  postgresql_wal_buffers: "5MB"
+  postgresql_default_statistics_target: 100
+  postgresql_random_page_cost: 1.1
+  postgresql_effective_io_concurrency: 200
+  postgresql_work_mem: "768kB"
+  postgresql_min_wal_size: "1GB"
+  postgresql_max_wal_size: "4GB"
+
   postgres_backup_s3_scheme: "https"
   postgres_backup_s3_access_key: #Schema.#postgres_backup_config.access_key
   postgres_backup_s3_secret_key: #Schema.#postgres_backup_config.secret_key
