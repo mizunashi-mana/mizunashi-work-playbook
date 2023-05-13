@@ -71,7 +71,7 @@ group_vars_all
 
 #dns_resolver_primary_ipv4: "4.2.2.1"
 #dns_resolver_primary_ipv6: "2001:4860:4860::8844"
-#dns_resolvers_secondary: [
+#dns_resolvers_secondary_ipv4: [
   "4.2.2.2",
 ]
 
@@ -183,8 +183,8 @@ network_internal_ipv6_netmask: "64"
 systemd_resolved_primary_dns: #dns_resolver_primary_ipv4
 systemd_resolved_fallback_dns: [
   #dns_resolver_primary_ipv6,
-  for entry in #dns_resolvers_secondary {
-    entry
+  for resolver in #dns_resolvers_secondary_ipv4 {
+    resolver
   },
 ]
 
@@ -232,6 +232,28 @@ nftables_outbound_logging_filter_entries: "open_public_network_for_all": {
   proto_cond: {
     tcp_sports: [
       #ssh_port,
+    ]
+  }
+}
+nftables_outbound_logging_filter_entries: "dns_public_network_for_all": {
+  oif: network_public_iface
+  ip_cond: {
+    ipv4_daddrs: [
+      #dns_resolver_primary_ipv4,
+      for resolver in #dns_resolvers_secondary_ipv4 {
+        resolver
+      },
+    ]
+    ipv6_daddrs: [
+      #dns_resolver_primary_ipv6,
+    ]
+  }
+  proto_cond: {
+    tcp_dports: [
+      53,
+    ]
+    udp_dports: [
+      53
     ]
   }
 }
