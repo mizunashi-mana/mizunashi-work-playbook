@@ -84,8 +84,14 @@ import "mizunashi.work/pkg/schemas/group_vars_public"
     log_file: "/var/log/nginx/access.www_redirector.log"
   }
 
+  #fluent_bit_input_nginx_log_access_root_front_tag: "nginx.access.root_front"
+  fluent_bit_input_nginx_log_access_entries: "\(#fluent_bit_input_nginx_log_access_root_front_tag)": {
+    log_file: "/var/log/nginx/access.root_front.log"
+  }
+
   fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_mastodon_front_tag)": {}
   fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_www_redirector_tag)": {}
+  fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_root_front_tag)": {}
 
   postgresql_max_connections: 50
   postgresql_shared_buffers: "128MB"
