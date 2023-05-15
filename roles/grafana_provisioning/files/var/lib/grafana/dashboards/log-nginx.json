@@ -63,7 +63,7 @@
   "panels": [
     {
       "id": 3,
-      "title": "Errors by Levels",
+      "title": "Access by tags",
       "type": "timeseries",
       "datasource": {
         "uid": "${datasource}",
