@@ -10,7 +10,7 @@ Environment="NODE_ENV=production"
 EnvironmentFile=/etc/default/mastodon-streaming
 ExecStart=/usr/bin/node ./streaming
 TimeoutSec=15
-Restart=always
+Restart=on-failure
 StandardOutput=file:/var/log/mastodon/mastodon-streaming.log
 
 # Proc filesystem
