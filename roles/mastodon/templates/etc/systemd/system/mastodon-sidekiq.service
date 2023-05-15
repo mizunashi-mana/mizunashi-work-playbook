@@ -11,10 +11,10 @@ Environment="LD_PRELOAD=libjemalloc.so"
 EnvironmentFile=/etc/default/mastodon-sidekiq
 ExecStart=/usr/local/bin/bundle exec sidekiq \
   --concurrency "$SIDEKIQ_CONCURRENCY" \
-  --logfile /var/log/mastodon/mastodon-sidekiq.log \
   --timeout 25
 TimeoutSec=30
 Restart=on-failure
+StandardOutput=file:/var/log/mastodon/mastodon-sidekiq.log
 
 # Proc filesystem
 ProcSubset=pid
