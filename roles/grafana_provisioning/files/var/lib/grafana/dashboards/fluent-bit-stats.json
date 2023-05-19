@@ -91,7 +91,7 @@
     {
       "id": 2,
       "title": "Up Time",
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "9.5.1",
       "type": "stat",
       "datasource": {
         "uid": "${datasource}",
@@ -465,7 +465,100 @@
     },
     {
       "id": 14,
-      "title": "Input Rotate Count",
+      "title": "Input Files Open Count [1m]",
+      "type": "timeseries",
+      "datasource": {
+        "uid": "${datasource}",
+        "type": "prometheus"
+      },
+      "targets": [
+        {
+          "refId": "A",
+          "datasource": {
+            "uid": "${datasource}",
+            "type": "prometheus"
+          },
+          "expr": "sum(increase(fluentbit_input_files_opened_total{instance=~\"$instance\"} [1m])) by (name)",
+          "legendFormat": "__auto",
+          "editorMode": "code",
+          "range": true
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 15,
+      "title": "Input Files Rotate Count [1m]",
       "type": "timeseries",
       "datasource": {
         "uid": "${datasource}",
@@ -541,7 +634,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 9
+        "y": 17
       },
       "options": {
         "legend": {
@@ -566,7 +659,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 17
+        "y": 25
       }
     },
     {
@@ -647,7 +740,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 18
+        "y": 26
       },
       "options": {
         "legend": {
@@ -740,7 +833,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 26
       },
       "options": {
         "legend": {

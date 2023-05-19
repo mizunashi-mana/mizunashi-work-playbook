@@ -119,7 +119,7 @@ groups:
             datasourceUid: ds_prometheus
             model:
               refId: A
-              expr: increase(mastodon_sidekiq_enqueued [1m]) / increase(mastodon_sidekiq_processed [1m])
+              expr: increase(mastodon_sidekiq_enqueued [1m]) / (increase(mastodon_sidekiq_processed [1m]) + 1)
               editorMode: code
               hide: false
               intervalMs: 1000
