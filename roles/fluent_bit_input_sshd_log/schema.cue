@@ -1,0 +1,3 @@
+package fluent_bit_input_sshd_log
+
+fluent_bit_input_sshd_log_tag: string

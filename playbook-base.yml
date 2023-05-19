@@ -9,6 +9,7 @@
   - sudo
   - ca_certs
   - workuser_setup
+  - syslog
   - openssh_server
 
   post_tasks:

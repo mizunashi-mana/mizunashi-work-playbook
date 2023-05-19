@@ -31,6 +31,19 @@
   notify:
     - Reload openssh_server
 
+- name: Copy sshd auth config
+  ansible.builtin.copy:
+    src: etc/ssh/sshd_config.d/syslog_facility.conf
+    dest: /etc/ssh/sshd_config.d/syslog_facility.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: sshd -T -f %s
+  become: true
+  notify:
+    - Reload openssh_server
+
 - name: Notify restart openssh_server if not started
   ansible.builtin.command: systemctl status ssh
   become: true

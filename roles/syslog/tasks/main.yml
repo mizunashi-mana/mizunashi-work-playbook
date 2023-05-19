@@ -1,0 +1,12 @@
+---
+- name: Copy sshd config of syslog
+  ansible.builtin.template:
+    src: etc/rsyslog.d/sshd.conf
+    dest: /etc/rsyslog.d/sshd.conf
+    owner: root
+    group: root
+    mode: '0640'
+    backup: true
+  become: true
+  notify:
+    - Restart syslog

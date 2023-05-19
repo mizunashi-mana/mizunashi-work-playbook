@@ -1,0 +1,23 @@
+---
+- name: Reload syslog
+  ansible.builtin.set_fact:
+    syslog_handler_state: reloaded
+  become: true
+  listen: Reload syslog
+
+- name: Restart syslog
+  ansible.builtin.set_fact:
+    syslog_handler_state: restarted
+  become: true
+  listen: Restart syslog
+
+- name: Restart or reload syslog
+  ansible.builtin.systemd:
+    name: rsyslog
+    state: '{{ syslog_handler_state }}'
+    daemon_reload: true
+    enabled: true
+  become: true
+  listen:
+  - Restart syslog
+  - Reload syslog
