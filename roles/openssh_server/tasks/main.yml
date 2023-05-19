@@ -31,7 +31,7 @@
   notify:
     - Reload openssh_server
 
-- name: Copy sshd auth config
+- name: Copy sshd syslog facility config
   ansible.builtin.copy:
     src: etc/ssh/sshd_config.d/syslog_facility.conf
     dest: /etc/ssh/sshd_config.d/syslog_facility.conf
@@ -43,6 +43,39 @@
   become: true
   notify:
     - Reload openssh_server
+
+- name: Copy syslog config
+  ansible.builtin.copy:
+    src: etc/rsyslog.d/sshd.conf
+    dest: /etc/rsyslog.d/sshd.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart syslog
+
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate-available.d/sshd
+    dest: /etc/logrotate-available.d/sshd
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/sshd
+    dest: /etc/logrotate.d/sshd
+    owner: root
+    group: root
+    state: link
+    force: true
+  become: true
 
 - name: Notify restart openssh_server if not started
   ansible.builtin.command: systemctl status ssh

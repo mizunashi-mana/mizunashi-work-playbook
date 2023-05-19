@@ -15,6 +15,7 @@ import "mizunashi.work/pkg/roles/certbot"
 import "mizunashi.work/pkg/roles/node_exporter"
 import "mizunashi.work/pkg/roles/fluent_bit"
 import "mizunashi.work/pkg/roles/fluent_bit_input_auth_log"
+import "mizunashi.work/pkg/roles/fluent_bit_input_sshd_log"
 import "mizunashi.work/pkg/roles/fluent_bit_input_kern_log"
 import "mizunashi.work/pkg/roles/fluent_bit_input_exim_log"
 import "mizunashi.work/pkg/roles/fluent_bit_input_fail2ban_log"
@@ -41,6 +42,7 @@ apticron
 certbot
 fluent_bit
 fluent_bit_input_auth_log
+fluent_bit_input_sshd_log
 fluent_bit_input_kern_log
 fluent_bit_input_exim_log
 fluent_bit_input_fail2ban_log

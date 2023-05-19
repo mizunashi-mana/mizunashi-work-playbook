@@ -1,7 +1,7 @@
 ---
 - name: Copy sshd config of syslog
   ansible.builtin.template:
-    src: etc/rsyslog.d/sshd.conf
+    src: etc/logrotate
     dest: /etc/rsyslog.d/sshd.conf
     owner: root
     group: root
@@ -10,3 +10,24 @@
   become: true
   notify:
     - Restart syslog
+
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate-available.d/rsyslog
+    dest: /etc/logrotate-available.d/rsyslog
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/rsyslog
+    dest: /etc/logrotate.d/rsyslog
+    owner: root
+    group: root
+    state: link
+    force: true
+  become: true
