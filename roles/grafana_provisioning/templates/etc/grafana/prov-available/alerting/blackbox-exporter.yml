@@ -170,7 +170,7 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                        - 3
+                        - 2
                     type: lt
                   operator:
                     type: and

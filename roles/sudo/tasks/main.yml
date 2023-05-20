@@ -14,3 +14,24 @@
     mode: '0440'
     backup: true
   become: true
+
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate-available.d/sudo
+    dest: /etc/logrotate-available.d/sudo
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/sudo
+    dest: /etc/logrotate.d/sudo
+    owner: root
+    group: root
+    state: link
+    force: true
+  become: true

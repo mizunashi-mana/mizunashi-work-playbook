@@ -313,6 +313,7 @@ nginx_site_local_proxy_entries: "\(#local_proxy_jobs.fluent_bit.name)": {
 
 fluent_bit_input_auth_log_tag: "node.auth"
 fluent_bit_input_sshd_log_tag: "node.sshd"
+fluent_bit_input_sudo_log_tag: "node.sudo"
 fluent_bit_input_kern_log_tag: "node.kernel"
 fluent_bit_input_nftables_filter_log_tag: "nftables.filter"
 fluent_bit_input_nftables_output_log_tag: "nftables.output"
@@ -343,6 +344,7 @@ $ANSIBLE_VAULT;1.1;AES256
 
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_auth_log_tag)": {}
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_sshd_log_tag)": {}
+fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_sudo_log_tag)": {}
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_kern_log_tag)": {}
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_nftables_filter_log_tag)": {}
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_nftables_output_log_tag)": {}
