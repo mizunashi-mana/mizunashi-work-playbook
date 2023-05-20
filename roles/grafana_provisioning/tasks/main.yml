@@ -97,6 +97,7 @@
       - log-nftables
       - log-nginx
       - log-sshd
+      - log-sudo
 
     grafana_provisioning_alertings:
       - prometheus

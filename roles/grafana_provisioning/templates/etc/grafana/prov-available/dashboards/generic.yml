@@ -160,3 +160,13 @@ providers:
     options:
       path: /var/lib/grafana/dashboards/log-sshd.json
       foldersFromFilesStructure: false
+
+  - name: 'Log: Sudo'
+    orgId: 1
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards/log-sudo.json
+      foldersFromFilesStructure: false
