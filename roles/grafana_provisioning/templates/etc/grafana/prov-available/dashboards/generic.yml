@@ -150,3 +150,13 @@ providers:
     options:
       path: /var/lib/grafana/dashboards/log-nginx.json
       foldersFromFilesStructure: false
+
+  - name: 'Log: SSHd'
+    orgId: 1
+    type: file
+    disableDeletion: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /var/lib/grafana/dashboards/log-sshd.json
+      foldersFromFilesStructure: false

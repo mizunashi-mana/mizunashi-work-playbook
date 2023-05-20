@@ -96,6 +96,7 @@
       - log-authentications
       - log-nftables
       - log-nginx
+      - log-sshd
 
     grafana_provisioning_alertings:
       - prometheus
