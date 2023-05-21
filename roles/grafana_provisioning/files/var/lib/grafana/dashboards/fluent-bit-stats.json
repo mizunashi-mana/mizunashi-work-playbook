@@ -465,7 +465,7 @@
     },
     {
       "id": 14,
-      "title": "Input Files Open Count [1m]",
+      "title": "Input Files Open Count [10m]",
       "type": "timeseries",
       "datasource": {
         "uid": "${datasource}",
@@ -478,7 +478,7 @@
             "uid": "${datasource}",
             "type": "prometheus"
           },
-          "expr": "sum(increase(fluentbit_input_files_opened_total{instance=~\"$instance\"} [1m])) by (name)",
+          "expr": "sum(increase(fluentbit_input_files_opened_total{instance=~\"$instance\"} [10m])) by (name)",
           "legendFormat": "__auto",
           "editorMode": "code",
           "range": true
@@ -558,7 +558,7 @@
     },
     {
       "id": 15,
-      "title": "Input Files Rotate Count [1m]",
+      "title": "Input Files Rotate Count [10m]",
       "type": "timeseries",
       "datasource": {
         "uid": "${datasource}",
@@ -571,7 +571,7 @@
             "uid": "${datasource}",
             "type": "prometheus"
           },
-          "expr": "sum(increase(fluentbit_input_files_rotated_total{instance=~\"$instance\"} [1m])) by (name)",
+          "expr": "sum(increase(fluentbit_input_files_rotated_total{instance=~\"$instance\"} [10m])) by (name)",
           "legendFormat": "__auto",
           "editorMode": "code",
           "range": true
