@@ -1,9 +1,13 @@
 import "mizunashi.work/pkg/cue_vars/vagrant"
+import "mizunashi.work/pkg/cue_vars/vagrant_ids"
+import "mizunashi.work/pkg/cue_vars/vagrant_hosts"
 import "mizunashi.work/pkg/private_ca_vagrant"
 
 import "mizunashi.work/pkg/schemas/group_vars_internal"
 
 let ca_vars = private_ca_vagrant
+let ids = vagrant_ids
+let hosts = vagrant_hosts
 
 #Schema: group_vars_internal
 #Schema: vagrant
@@ -11,51 +15,51 @@ let ca_vars = private_ca_vagrant
 let local_proxy_scrape_configs = {
   prometheus: {
     metrics_path: "/metrics"
-    host_entries: #Schema.#internal_host_entries
+    host_entries: hosts.#internal_host_entries
   },
   grafana: {
     metrics_path: "/metrics"
-    host_entries: #Schema.#internal_host_entries
+    host_entries: hosts.#internal_host_entries
   },
   node: {
     metrics_path: "/metrics"
-    host_entries: #Schema.#host_entries
+    host_entries: hosts.#host_entries
   },
   nginx: {
     metrics_path: "/metrics"
-    host_entries: #Schema.#host_entries
+    host_entries: hosts.#host_entries
   },
   redis: {
     metrics_path: "/metrics"
-    host_entries: #Schema.#public_host_entries
+    host_entries: hosts.#public_host_entries
   },
   postgres: {
     metrics_path: "/metrics"
-    host_entries: #Schema.#public_host_entries
+    host_entries: hosts.#public_host_entries
   },
   statsd: {
     metrics_path: "/metrics"
-    host_entries: #Schema.#public_host_entries
+    host_entries: hosts.#public_host_entries
   },
   caddy: {
     metrics_path: "/metrics"
-    host_entries: #Schema.#internal_host_entries
+    host_entries: hosts.#internal_host_entries
   },
   minio: {
     metrics_path: "/minio/v2/metrics/cluster"
-    host_entries: #Schema.#internal_host_entries
+    host_entries: hosts.#internal_host_entries
   },
   elasticsearch: {
     metrics_path: "/metrics"
-    host_entries: #Schema.#internal_host_entries
+    host_entries: hosts.#internal_host_entries
   },
   fluent_bit: {
     metrics_path: "/api/v1/metrics/prometheus"
-    host_entries: #Schema.#host_entries
+    host_entries: hosts.#host_entries
   },
   mastodon_streaming: {
     metrics_path: "/metrics"
-    host_entries: #Schema.#public_host_entries
+    host_entries: hosts.#public_host_entries
   },
 }
 
@@ -75,18 +79,6 @@ let blackbox_exporter_relabel_configs = [
   },
 ]
 
-let grafana_elasticsearch_datasource_user = {
-  name: "grafana_datasource"
-  password: "__ansible_vault": """
-  $ANSIBLE_VAULT;1.1;AES256
-  62356637313731376334383336616332393936306231343930343163666366613062643330323366
-  3234626231666439646234653165393839306439326261370a346332316463623539623639623633
-  61656566353831363366653531383530663564633661363361306134346338643761386136316565
-  3033656435353263620a356264383762373763313464363235393734346261333666346234653832
-  3666
-  """
-}
-
 #BlackboxExporterScrapeConfig: #Schema.#ScrapeConfig
 #BlackboxExporterScrapeConfig: scheme: "http"
 #BlackboxExporterScrapeConfig: metrics_path: "/probe"
@@ -105,7 +97,7 @@ let grafana_elasticsearch_datasource_user = {
     oif: #Schema.network_internal_iface
     ip_cond: {
       ipv6_daddrs: [
-        #Schema.#internal_ipv6_subnet,
+        ids.#internal_ipv6_subnet,
       ]
     }
     proto_cond: {
@@ -123,12 +115,12 @@ let grafana_elasticsearch_datasource_user = {
     oif: #Schema.network_public_iface
     ip_cond: {
       ipv4_daddrs: [
-        for _, host_entry in #Schema.#public_host_entries {
+        for _, host_entry in hosts.#public_host_entries {
           host_entry.public_ipv4_address
         }
       ]
       ipv6_daddrs: [
-        for _, host_entry in #Schema.#public_host_entries {
+        for _, host_entry in hosts.#public_host_entries {
           host_entry.public_ipv6_address
         }
       ]
@@ -141,8 +133,8 @@ let grafana_elasticsearch_datasource_user = {
     }
   }
 
-  caddy_pki_ca_local_name: "mizunashi-work-playbook Local Authority"
-  caddy_pki_ca_local_root_cn: "mizunashi-work-playbook - 2023 ECC Root"
+  caddy_pki_ca_local_name: ids.#private_pki.ca_name
+  caddy_pki_ca_local_root_cn: ids.#private_pki.common_name
   caddy_pki_ca_local_root_cert: ca_vars.root_ca_certificate
   caddy_pki_ca_local_root_key: ca_vars.root_ca_privkey
 
@@ -171,20 +163,15 @@ let grafana_elasticsearch_datasource_user = {
   }
 
   minio_server_url: #Schema.#minio_server_url
-  minio_root_password: "__ansible_vault": """
-  $ANSIBLE_VAULT;1.1;AES256
-  62356637313731376334383336616332393936306231343930343163666366613062643330323366
-  3234626231666439646234653165393839306439326261370a346332316463623539623639623633
-  61656566353831363366653531383530663564633661363361306134346338643761386136316565
-  3033656435353263620a356264383762373763313464363235393734346261333666346234653832
-  3666
-  """
+  minio_root_password: ids.#minio_root_password
+
+  let postgres_backup_policy = "postgres-backup"
   minio_setup_user_entries: "\(#Schema.#postgres_backup_config.access_key)": {
-    attach_policy: "postgres-backup"
+    attach_policy: postgres_backup_policy
     secret_key: #Schema.#postgres_backup_config.secret_key
   }
   minio_setup_bucket_entries: "\(#Schema.#postgres_backup_config.bucket)": {}
-  minio_setup_policy_entries: "postgres-backup": {
+  minio_setup_policy_entries: "\(postgres_backup_policy)": {
     statement: [
       {
         action: [
@@ -203,15 +190,8 @@ let grafana_elasticsearch_datasource_user = {
   nginx_site_minio_server_acme_challenge_url: #Schema.#private_acme_challenge_url
   nginx_site_minio_server_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
 
-  elasticsearch_exporter_elasticsearch_user_name: "elasticsearch_exporter"
-  elasticsearch_exporter_elasticsearch_user_password: "__ansible_vault": """
-  $ANSIBLE_VAULT;1.1;AES256
-  62356637313731376334383336616332393936306231343930343163666366613062643330323366
-  3234626231666439646234653165393839306439326261370a346332316463623539623639623633
-  61656566353831363366653531383530663564633661363361306134346338643761386136316565
-  3033656435353263620a356264383762373763313464363235393734346261333666346234653832
-  3666
-  """
+  elasticsearch_exporter_elasticsearch_user_name: ids.#elasticsearch_elasticsearch_exporter_user.name
+  elasticsearch_exporter_elasticsearch_user_password: ids.#elasticsearch_elasticsearch_exporter_user.password
 
   elasticsearch_domain: #Schema.#elasticsearch_hostname
   elasticsearch_setup_users: {
@@ -227,11 +207,11 @@ let grafana_elasticsearch_datasource_user = {
       ]
       password: elasticsearch_exporter_elasticsearch_user_password
     }
-    "\(grafana_elasticsearch_datasource_user.name)": {
+    "\(ids.#elasticsearch_grafana_datasource_user.name)": {
       roles: [
         "grafana_datasource"
       ]
-      password: grafana_elasticsearch_datasource_user.password
+      password: ids.#elasticsearch_grafana_datasource_user.password
     }
   }
 
@@ -246,24 +226,9 @@ let grafana_elasticsearch_datasource_user = {
 
   fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_caddy_log_access_default_tag)": {}
 
-  grafana_admin_password: "__ansible_vault": """
-  $ANSIBLE_VAULT;1.1;AES256
-  62356637313731376334383336616332393936306231343930343163666366613062643330323366
-  3234626231666439646234653165393839306439326261370a346332316463623539623639623633
-  61656566353831363366653531383530663564633661363361306134346338643761386136316565
-  3033656435353263620a356264383762373763313464363235393734346261333666346234653832
-  3666
-  """
-  grafana_admin_email: #Schema.#account_email
-  grafana_secret_key: "__ansible_vault": """
-  $ANSIBLE_VAULT;1.1;AES256
-  31366134656464326563336233646561313931643962323836643336336563393733353764353338
-  3538376138313835363535623431633035613631623439300a386431613764613539316230313335
-  63643962313361376532653535326131366635663165646262646262613137613538613932366666
-  3230643631393831320a356131306564656134633161353562316165333533343030376531383136
-  39613832323838636132303962663638376162616364343630363665323462613434336164306336
-  6234396437353461323831646431373561373433373963333665
-  """
+  grafana_admin_password: ids.#grafana_admin_password
+  grafana_admin_email: ids.#account_email
+  grafana_secret_key: ids.#grafana_secret_key
 
   grafana_provisioning_datasources: {
     "ds_prometheus": {
@@ -283,12 +248,12 @@ let grafana_elasticsearch_datasource_user = {
       version: 1
       editable: false
       basic_auth: {
-        user: grafana_elasticsearch_datasource_user.name
-        password: grafana_elasticsearch_datasource_user.password
+        user: ids.#elasticsearch_grafana_datasource_user.name
+        password: ids.#elasticsearch_grafana_datasource_user.password
       }
     }
   }
-  grafana_provisioning_notification_email: #Schema.#notification_email
+  grafana_provisioning_notification_email: ids.#notification_email
 
   prometheus_scrape_configs: [
     for job_key, entry in local_proxy_scrape_configs {
@@ -328,10 +293,13 @@ let grafana_elasticsearch_datasource_user = {
       }
       static_configs: [{
         targets: [
-          for _, host_entry in #Schema.#host_entries {
+          for _, host_entry in hosts.#host_entries {
             "http://\(host_entry.internal_host):\(#Schema.#http_port)"
           },
-          "http://\(#Schema.#www_hostname):\(#Schema.#http_port)/",
+          "http://\(ids.#www_hostname)/",
+          "https://\(ids.#www_hostname)/",
+          "http://\(ids.#root_hostname)/",
+          "https://\(ids.#root_hostname)/",
         ]
       }]
     },
@@ -342,23 +310,11 @@ let grafana_elasticsearch_datasource_user = {
       }
       static_configs: [{
         targets: [
-          for _, host_entry in #Schema.#host_entries {
+          for _, host_entry in hosts.#host_entries {
             "https://\(host_entry.internal_host):\(#Schema.#local_proxy_https_port)/monitor/l7check"
           },
           #Schema.#private_acme_challenge_url,
-          "https://\(#Schema.#mastodon_hostname):\(#Schema.#https_port)/",
-        ]
-      }]
-    },
-    #BlackboxExporterScrapeConfig & {
-      job_name: "blackbox_private_http_redirect"
-      params: {
-        module: ["private_http_redirect"]
-      }
-      static_configs: [{
-        targets: [
-          "https://\(#Schema.#www_hostname):\(#Schema.#https_port)/",
-          "https://\(#Schema.#root_hostname):\(#Schema.#https_port)/",
+          "https://\(ids.#mastodon_hostname):\(#Schema.#https_port)/",
         ]
       }]
     },
@@ -381,7 +337,7 @@ let grafana_elasticsearch_datasource_user = {
       }
       static_configs: [{
         targets: [
-          for _, host_entry in #Schema.#host_entries {
+          for _, host_entry in hosts.#host_entries {
             host_entry.internal_host
           },
         ]

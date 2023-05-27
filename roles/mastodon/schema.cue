@@ -10,7 +10,7 @@ mastodon_local_domain: string
 mastodon_single_user_mode: "true" | "false"
 
 mastodon_db_name: string | *"mastodon_production"
-mastodon_db_user_name: string | *"mastodon"
+mastodon_db_user_name: string
 mastodon_db_user_password: cue_types.#Vaulted
 
 // Use `rake secret` to generate secrets

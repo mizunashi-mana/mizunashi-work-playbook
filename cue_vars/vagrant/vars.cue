@@ -1,10 +1,14 @@
 package vagrant
 
 import "mizunashi.work/pkg/private_ca_vagrant"
+import "mizunashi.work/pkg/cue_vars/vagrant_ids"
+import "mizunashi.work/pkg/cue_vars/vagrant_hosts"
 
 import "mizunashi.work/pkg/schemas/group_vars_all"
 
 let ca_vars = private_ca_vagrant
+let ids = vagrant_ids
+let hosts = vagrant_hosts
 
 group_vars_all
 
@@ -19,181 +23,100 @@ group_vars_all
 #minio_server_https_port: 6210
 #elasticsearch_https_port: 6310
 
-#workuser_name: "vagrant"
-
-#primary_domain_ipv4: "mizunashi-work.vagrant"
-#primary_domain_ipv6: "mizunashi-work.vagrant"
-#private_domain: "mizunashi-local.private"
-
-#internal_ipv6_prefix64: "fde4:8dba:82e1:1006"
-#internal_ipv6_subnet: "\(#internal_ipv6_prefix64)::/64"
-
-#internal_host_entries: {
-  internal001: {
-    host: "internal.\(#primary_domain_ipv4)"
-
-    public_ipv4_address: "192.168.61.34"
-    public_ipv4_gateway: "10.0.2.2"
-    public_ipv4_netmask: "255.255.255.0"
-
-    public_ipv6_address: "fde4:8dba:82e1:1005::34"
-    public_ipv6_netmask: "64"
-
-    internal_host: "internal001.\(#private_domain)"
-    internal_ipv6_address: "\(#internal_ipv6_prefix64)::1001"
-  }
-}
-
-#public_host_entries: {
-  public001: {
-    host: "public.\(#primary_domain_ipv4)"
-
-    public_ipv4_address: "192.168.61.33"
-    public_ipv4_gateway: "10.0.2.2"
-    public_ipv4_netmask: "255.255.255.0"
-
-    public_ipv6_address: "fde4:8dba:82e1:1005::33"
-    public_ipv6_netmask: "64"
-
-    internal_host: "public001.\(#private_domain)"
-    internal_ipv6_address: "\(#internal_ipv6_prefix64)::1002"
-  }
-}
-
-#host_entries: {
-  for host, entry in #internal_host_entries {
-    "\(host)": entry
-  }
-  for host, entry in #public_host_entries {
-    "\(host)": entry
-  }
-}
-
-#dns_resolver_primary_ipv4: "4.2.2.1"
-#dns_resolver_primary_ipv6: "2001:4860:4860::8844"
-#dns_resolvers_secondary_ipv4: [
-  "4.2.2.2",
-]
-
-#private_acme_challenge_hostname: "acme.\(#private_domain)"
+#private_acme_challenge_hostname: "acme.\(ids.#private_domain)"
 #private_acme_challenge_url:  "https://\(#private_acme_challenge_hostname):\(#private_acme_server_https_port)/acme/local/directory"
 
-#mastodon_hostname: "mstdn-local.mizunashi.work"
-#www_hostname: "www-local.mizunashi.work"
-#root_hostname: "local.mizunashi.work"
-
-#minio_server_hostname: "minio.\(#private_domain)"
+#minio_server_hostname: "minio.\(ids.#private_domain)"
 #minio_server_url: "https://\(#minio_server_hostname):\(#minio_server_https_port)"
 
-#elasticsearch_hostname: "elasticsearch.\(#private_domain)"
-
-#account_email: "\(#workuser_name)@localhost"
-#notification_email: "\(#workuser_name)@localhost"
+#elasticsearch_hostname: "elasticsearch.\(ids.#private_domain)"
 
 #local_proxy_jobs: prometheus: {
   name: "prometheus"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 #local_proxy_jobs: grafana: {
   name: "grafana"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 #local_proxy_jobs: node: {
   name: "node"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 #local_proxy_jobs: nginx: {
   name: "nginx"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 #local_proxy_jobs: redis: {
   name: "redis"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 #local_proxy_jobs: postgres: {
   name: "postgres"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 #local_proxy_jobs: statsd: {
   name: "statsd"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 #local_proxy_jobs: caddy: {
   name: "caddy"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 #local_proxy_jobs: minio: {
   name: "minio"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 #local_proxy_jobs: elasticsearch: {
   name: "elasticsearch"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 #local_proxy_jobs: fluent_bit: {
   name: "fluent-bit"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 #local_proxy_jobs: mastodon_streaming: {
   name: "mastodon-streaming"
-  password: #local_proxy_password
+  password: ids.#local_proxy_password
 }
 
-#local_proxy_password: "__ansible_vault": """
-$ANSIBLE_VAULT;1.1;AES256
-36633436613662373337636363313865306635333737366632303932333939303065626239323236
-3335333362613132666562323332623731646633366139610a666338373236393837636339323038
-33383462353635313337616537636239636430386165363664363435383631353962623135643231
-3965663439336432330a356139363465663438303430313733656431663232626433356136663632
-6164
-"""
-
 #postgres_backup_config: {
-  access_key: "postgres-backup"
-  secret_key: "__ansible_vault": """
-  $ANSIBLE_VAULT;1.1;AES256
-  62356637313731376334383336616332393936306231343930343163666366613062643330323366
-  3234626231666439646234653165393839306439326261370a346332316463623539623639623633
-  61656566353831363366653531383530663564633661363361306134346338643761386136316565
-  3033656435353263620a356264383762373763313464363235393734346261333666346234653832
-  3666
-  """
+  access_key: ids.#minio_postgres_backup_access.key_id
+  secret_key: ids.#minio_postgres_backup_access.secret_key
   bucket: "postgres-backup"
 }
 
 ansible_connection: "ssh"
 ansible_port: #ssh_port
-ansible_user: #workuser_name
+ansible_user: ids.#workuser_name
 
-workuser_setup_username: #workuser_name
+workuser_setup_username: ids.#workuser_name
 workuser_setup_home_directory: "/home/\(workuser_setup_username)"
-workuser_setup_ssh_authorized_keys: [
-  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkqfF4qMFhr2fg+Yw3WLIqaRLqYzkCjWy2fdF4eQ5LG mizunashi-work-playbook"
-]
+workuser_setup_ssh_authorized_keys: ids.#workuser_ssh_authorized_keys
 
 ca_certs_private_root_ca_certs: "private_root_ca_2023": {
   cert: ca_vars.root_ca_certificate
 }
 
-network_public_iface: "eth1"
+network_public_iface: hosts.#network_public_iface
 
-network_internal_iface: "eth2"
-network_internal_ipv6_netmask: "64"
+network_internal_iface: hosts.#network_internal_iface
+network_internal_ipv6_netmask: ids.#internal_ipv6_netmask
 
-systemd_resolved_primary_dns: #dns_resolver_primary_ipv4
+systemd_resolved_primary_dns: hosts.#dns_resolver_primary_ipv4
 systemd_resolved_fallback_dns: [
-  #dns_resolver_primary_ipv6,
-  for resolver in #dns_resolvers_secondary_ipv4 {
+  hosts.#dns_resolver_primary_ipv6,
+  for resolver in hosts.#dns_resolvers_secondary_ipv4 {
     resolver
   },
 ]
 
-for _, entry in #host_entries {
+for _, entry in hosts.#host_entries {
   base_hosts_to_ips: "\(entry.internal_host)": entry.internal_ipv6_address
 }
-base_hosts_to_ips: "\(#private_acme_challenge_hostname)": #host_entries.internal001.internal_ipv6_address
-base_hosts_to_ips: "\(#minio_server_hostname)": #host_entries.internal001.internal_ipv6_address
-base_hosts_to_ips: "\(#elasticsearch_hostname)": #host_entries.internal001.internal_ipv6_address
+base_hosts_to_ips: "\(#private_acme_challenge_hostname)": hosts.#host_entries.internal001.internal_ipv6_address
+base_hosts_to_ips: "\(#minio_server_hostname)": hosts.#host_entries.internal001.internal_ipv6_address
+base_hosts_to_ips: "\(#elasticsearch_hostname)": hosts.#host_entries.internal001.internal_ipv6_address
 
 nftables_accept_tcp_ports: "\(#ssh_port)": {}
 nftables_accept_ports_with_iif: "internal_local_proxy": {
@@ -239,13 +162,13 @@ nftables_outbound_logging_filter_entries: "dns_public_network_for_all": {
   oif: network_public_iface
   ip_cond: {
     ipv4_daddrs: [
-      #dns_resolver_primary_ipv4,
-      for resolver in #dns_resolvers_secondary_ipv4 {
+      hosts.#dns_resolver_primary_ipv4,
+      for resolver in hosts.#dns_resolvers_secondary_ipv4 {
         resolver
       },
     ]
     ipv6_daddrs: [
-      #dns_resolver_primary_ipv6,
+      hosts.#dns_resolver_primary_ipv6,
     ]
   }
   proto_cond: {
@@ -261,7 +184,7 @@ nftables_outbound_logging_filter_entries: "internal_network_for_all": {
   oif: network_internal_iface
   ip_cond: {
     ipv6_daddrs: [
-      #internal_ipv6_subnet,
+      ids.#internal_ipv6_subnet,
     ]
   }
   proto_cond: {
@@ -281,12 +204,12 @@ nftables_outbound_logging_filter_entries: "internal_network_for_all": {
 
 openssh_server_listen_port: #ssh_port
 
-sudo_mail_address: #notification_email
+sudo_mail_address: ids.#notification_email
 
-apticron_notification_email: #notification_email
-certbot_acme_notification_email: #notification_email
+apticron_notification_email: ids.#notification_email
+certbot_acme_notification_email: ids.#notification_email
 
-nginx_resolver: #dns_resolver_primary_ipv4
+nginx_resolver: hosts.#dns_resolver_primary_ipv4
 
 nginx_site_http_redirector_listen_port: #http_port
 
@@ -332,15 +255,8 @@ fluent_bit_output_elasticsearch_tls: {
   ca_file: group_vars_all.ca_certs_bundle_file_with_private_ca
 }
 
-fluent_bit_output_elasticsearch_user_name: "logstash_upload"
-fluent_bit_output_elasticsearch_user_password: "__ansible_vault": """
-$ANSIBLE_VAULT;1.1;AES256
-62356637313731376334383336616332393936306231343930343163666366613062643330323366
-3234626231666439646234653165393839306439326261370a346332316463623539623639623633
-61656566353831363366653531383530663564633661363361306134346338643761386136316565
-3033656435353263620a356264383762373763313464363235393734346261333666346234653832
-3666
-"""
+fluent_bit_output_elasticsearch_user_name: ids.#elasticsearch_log_upload_user.name
+fluent_bit_output_elasticsearch_user_password: ids.#elasticsearch_log_upload_user.password
 
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_auth_log_tag)": {}
 fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_sshd_log_tag)": {}
