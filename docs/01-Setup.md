@@ -12,3 +12,9 @@ $ su
 # echo 'Port PORT' | tee /etc/ssh/sshd_config.d/server.conf
 # systemctl reboot
 ```
+
+## Upgrade packages
+
+```
+sudo apt install --only-upgrade PACKAGE
+```
