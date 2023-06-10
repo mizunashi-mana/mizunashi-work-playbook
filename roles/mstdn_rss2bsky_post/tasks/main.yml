@@ -1,0 +1,53 @@
+---
+- name: Install mstdn-rss2bsky-post
+  ansible.builtin.get_url:
+    url: '{{ mstdn_rss2bsky_post_download_link }}'
+    dest: /usr/local/bin/mstdn-rss2bsky-post
+    checksum: '{{ mstdn_rss2bsky_post_checksum }}'
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Directory of data is available
+  ansible.builtin.file:
+    path: /var/lib/mstdn-rss2bsky-post
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Copy service
+  ansible.builtin.copy:
+    src: etc/systemd/system/mstdn-rss2bsky-post.service
+    dest: /etc/systemd/system/mstdn-rss2bsky-post.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+  - Reload mstdn-rss2bsky-post
+
+- name: Copy timer
+  ansible.builtin.copy:
+    src: etc/systemd/system/mstdn-rss2bsky-post.timer
+    dest: /etc/systemd/system/mstdn-rss2bsky-post.timer
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+  - Reload mstdn-rss2bsky-post.timer
+
+- name: Copy sysconfig
+  ansible.builtin.template:
+    src: etc/sysconfig/mstdn-rss2bsky-post
+    dest: /etc/sysconfig/mstdn-rss2bsky-post
+    owner: root
+    group: root
+    mode: '0600'
+    backup: true
+  become: true

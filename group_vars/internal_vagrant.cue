@@ -255,6 +255,11 @@ let blackbox_exporter_relabel_configs = [
   }
   grafana_provisioning_notification_email: ids.#notification_email
 
+  mstdn_rss2bsky_post_feed_url: "https://mstdn.mizunashi.work/@mizunashi_mana.rss"
+  mstdn_rss2bsky_post_dry_run: true
+  mstdn_rss2bsky_post_atproto_identifier: ids.#mstdn_rss2bsky_post_user.identifier
+  mstdn_rss2bsky_post_atproto_password: ids.#mstdn_rss2bsky_post_user.password
+
   prometheus_scrape_configs: [
     for job_key, entry in local_proxy_scrape_configs {
       {

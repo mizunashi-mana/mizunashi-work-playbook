@@ -1,0 +1,15 @@
+[Unit]
+Description=Mastodon RSS to Bluesky posts
+
+[Service]
+Type=oneshot
+Environment=FILELOCK_PATH=/var/lib/mstdn-rss2bsky-post/post.lock
+Environment=DB_PATH=/var/lib/mstdn-rss2bsky-post/db.txt
+Environment=DRY_RUN_ARGS=
+EnvironmentFile=/etc/default/mstdn-rss2bsky-post
+ExecStart=/usr/local/bin/mstdn-rss2bsky-post \
+    --filelock-path "$FILELOCK_PATH" \
+    --db-path "$DB_PATH" \
+    $DRY_RUN_ARGS \
+    run \
+    --feed-url "$FEED_URL"

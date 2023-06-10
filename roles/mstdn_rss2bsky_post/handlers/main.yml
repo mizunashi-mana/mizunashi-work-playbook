@@ -1,0 +1,19 @@
+---
+- name: Reload service
+  ansible.builtin.systemd:
+    name: 'mstdn-rss2bsky-post.service'
+    enabled: true
+    daemon_reload: true
+  become: true
+  listen:
+  - Reload mstdn-rss2bsky-post
+
+- name: Reload timer
+  ansible.builtin.systemd:
+    name: 'mstdn-rss2bsky-post.timer'
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  listen:
+  - Reload mstdn-rss2bsky-post.timer

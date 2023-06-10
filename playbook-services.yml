@@ -38,6 +38,7 @@
   - prometheus
   - elasticsearch
   - elasticsearch_exporter
+  - mstdn_rss2bsky_post
 
   - minio_setup
   - elasticsearch_setup
