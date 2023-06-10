@@ -53,6 +53,7 @@
     mode: '0600'
     backup: true
   become: true
+  diff: false
 
 - name: Notify reload timer if not started
   ansible.builtin.command: systemctl status mstdn-rss2bsky-post.timer
