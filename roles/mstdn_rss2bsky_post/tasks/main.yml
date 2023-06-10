@@ -42,10 +42,10 @@
   notify:
   - Reload mstdn-rss2bsky-post.timer
 
-- name: Copy sysconfig
+- name: Copy environment
   ansible.builtin.template:
-    src: etc/sysconfig/mstdn-rss2bsky-post
-    dest: /etc/sysconfig/mstdn-rss2bsky-post
+    src: etc/default/mstdn-rss2bsky-post
+    dest: /etc/default/mstdn-rss2bsky-post
     owner: root
     group: root
     mode: '0600'
