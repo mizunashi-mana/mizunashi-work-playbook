@@ -26,9 +26,10 @@
     group: root
     mode: '0644'
     backup: true
+    validate: /opt/bin/systemd-validate %s
   become: true
   notify:
-  - Reload mstdn-rss2bsky-post
+    - Reload mstdn-rss2bsky-post
 
 - name: Copy timer
   ansible.builtin.copy:
@@ -38,9 +39,10 @@
     group: root
     mode: '0644'
     backup: true
+    validate: /opt/bin/systemd-validate -t timer %s
   become: true
   notify:
-  - Reload mstdn-rss2bsky-post.timer
+    - Reload mstdn-rss2bsky-post.timer
 
 - name: Copy environment
   ansible.builtin.template:
@@ -51,3 +53,12 @@
     mode: '0600'
     backup: true
   become: true
+
+- name: Notify reload timer if not started
+  ansible.builtin.command: systemctl status mstdn-rss2bsky-post.timer
+  become: true
+  register: mstdn_rss2bsky_post_service_status
+  changed_when: mstdn_rss2bsky_post_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Reload mstdn-rss2bsky-post.timer
