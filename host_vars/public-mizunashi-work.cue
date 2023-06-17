@@ -1,7 +1,6 @@
-import "mizunashi.work/pkg/cue_vars/vagrant_hosts"
-import "mizunashi.work/pkg/schemas/host_vars"
+import "mizunashi.work/pkg/cue_vars/vagrant:hosts"
+import "mizunashi.work/pkg/schemas:host_vars"
 
-let hosts = vagrant_hosts
 let host_entry = hosts.#host_entries.public001
 
 #Schema: host_vars

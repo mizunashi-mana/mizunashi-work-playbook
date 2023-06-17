@@ -1,8 +1,6 @@
-package vagrant_hosts
+package hosts
 
-import "mizunashi.work/pkg/cue_vars/vagrant_ids"
-
-let ids = vagrant_ids
+import "mizunashi.work/pkg/cue_vars/vagrant:ids"
 
 #primary_domain_ipv4: "mizunashi-work.vagrant"
 #primary_domain_ipv6: "mizunashi-work.vagrant"

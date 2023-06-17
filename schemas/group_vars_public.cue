@@ -1,6 +1,6 @@
 package group_vars_public
 
-import "mizunashi.work/pkg/schemas/group_vars_all"
+import "mizunashi.work/pkg/schemas:group_vars_all"
 
 import "mizunashi.work/pkg/roles/mastodon"
 import "mizunashi.work/pkg/roles/redis_server"

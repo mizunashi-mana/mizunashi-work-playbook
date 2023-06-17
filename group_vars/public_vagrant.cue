@@ -1,13 +1,11 @@
-import "mizunashi.work/pkg/cue_vars/vagrant"
-import "mizunashi.work/pkg/cue_vars/vagrant_ids"
-import "mizunashi.work/pkg/private_ca_vagrant"
+import "mizunashi.work/pkg/cue_vars/vagrant:common"
+import "mizunashi.work/pkg/cue_vars/vagrant:ids"
+import "mizunashi.work/pkg/private_ca_vagrant:ca_vars"
 
-import "mizunashi.work/pkg/schemas/group_vars_public"
-
-let ids = vagrant_ids
+import "mizunashi.work/pkg/schemas:group_vars_public"
 
 #Schema: group_vars_public
-#Schema: vagrant
+#Schema: common
 
 #Schema & {
   mastodon_local_domain: ids.#mastodon_hostname

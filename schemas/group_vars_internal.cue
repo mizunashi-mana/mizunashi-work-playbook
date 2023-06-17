@@ -1,6 +1,6 @@
 package group_vars_internal
 
-import "mizunashi.work/pkg/schemas/group_vars_all"
+import "mizunashi.work/pkg/schemas:group_vars_all"
 
 import "mizunashi.work/pkg/roles/minio"
 import "mizunashi.work/pkg/roles/minio_setup"

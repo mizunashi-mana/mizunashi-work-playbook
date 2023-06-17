@@ -1,16 +1,12 @@
-import "mizunashi.work/pkg/cue_vars/vagrant"
-import "mizunashi.work/pkg/cue_vars/vagrant_ids"
-import "mizunashi.work/pkg/cue_vars/vagrant_hosts"
-import "mizunashi.work/pkg/private_ca_vagrant"
+import "mizunashi.work/pkg/cue_vars/vagrant:common"
+import "mizunashi.work/pkg/cue_vars/vagrant:ids"
+import "mizunashi.work/pkg/cue_vars/vagrant:hosts"
+import "mizunashi.work/pkg/private_ca_vagrant:ca_vars"
 
-import "mizunashi.work/pkg/schemas/group_vars_internal"
-
-let ca_vars = private_ca_vagrant
-let ids = vagrant_ids
-let hosts = vagrant_hosts
+import "mizunashi.work/pkg/schemas:group_vars_internal"
 
 #Schema: group_vars_internal
-#Schema: vagrant
+#Schema: common
 
 let local_proxy_scrape_configs = {
   prometheus: {

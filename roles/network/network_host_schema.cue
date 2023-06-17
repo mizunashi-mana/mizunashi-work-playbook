@@ -1,4 +1,4 @@
-package network_host_vars
+package network_host_schema
 
 network_hostname: string
 

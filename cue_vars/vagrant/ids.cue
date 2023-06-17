@@ -1,4 +1,4 @@
-package vagrant_ids
+package ids
 
 #private_domain: "mizunashi-local.private"
 
