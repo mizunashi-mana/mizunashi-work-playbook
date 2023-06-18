@@ -4,8 +4,8 @@ ROLE_SCHEMAS ?= $(wildcard ./roles/*/*.cue)
 VAR_SCHEMAS ?= $(wildcard ./schemas/*.cue)
 COMMON_VARS ?= \
 	$(wildcard ./cue_vars/*.cue) \
-	$(wildcard ./private_ca_vagrant/*.cue) \
-	$(wildcard ./cue_types/*.cue)
+	$(wildcard ./cue_types/*.cue) \
+	private_ca_vagrant/ca_vars.cue
 
 CUE ?= cue
 POETRY ?= poetry
@@ -32,8 +32,8 @@ all: $(STAMPS) $(GROUP_VARS_OUT) $(HOST_VARS_OUT)
 	$(POETRY) run ansible-galaxy collection install -r collections/requirements.yml
 	touch $@
 
-private_ca_vagrant/ca_vars.cue: private_ca_vagrant/gen-vars $(wildcard vagrant_private_ca/rootCA/*)
-	./private_ca_vagrant/gen-vars
+private_ca_%/ca_vars.cue: private_ca_%/gen-vars $(wildcard private_ca_%/*/*)
+	$<
 
 %.yml: %.cue $(ROLE_SCHEMAS) $(VAR_SCHEMAS) $(COMMON_VARS)
 	$(POETRY) run python3 -m cue_compiler $< $@
