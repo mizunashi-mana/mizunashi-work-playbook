@@ -32,8 +32,8 @@ all: $(STAMPS) $(GROUP_VARS_OUT) $(HOST_VARS_OUT)
 	$(POETRY) run ansible-galaxy collection install -r collections/requirements.yml
 	touch $@
 
-vagrant_private_ca/vars.cue: vagrant_private_ca/gen-vars $(wildcard vagrant_private_ca/*/*)
-	./vagrant_private_ca/gen-vars
+private_ca_vagrant/ca_vars.cue: private_ca_vagrant/gen-vars $(wildcard vagrant_private_ca/rootCA/*)
+	./private_ca_vagrant/gen-vars
 
 %.yml: %.cue $(ROLE_SCHEMAS) $(VAR_SCHEMAS) $(COMMON_VARS)
 	$(POETRY) run python3 -m cue_compiler $< $@
