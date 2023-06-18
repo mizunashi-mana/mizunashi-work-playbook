@@ -1,22 +1,24 @@
 import "mizunashi.work/pkg/cue_vars/vagrant:hosts"
 import "mizunashi.work/pkg/schemas:host_vars"
 
-let host_entry = hosts.#host_entries.public001
+let Schema = close({
+  host_vars
+})
 
-#Schema: host_vars
+#HostEntry: hosts.#host_entries.public001
 
-#Schema & {
-  network_hostname: host_entry.host
+Schema & {
+  network_hostname: #HostEntry.host
 
-  network_public_ipv4_address: host_entry.public_ipv4_address
-  network_public_ipv4_gateway: host_entry.public_ipv4_gateway
-  network_public_ipv4_netmask: host_entry.public_ipv4_netmask
+  network_public_ipv4_address: #HostEntry.public_ipv4_address
+  network_public_ipv4_gateway: #HostEntry.public_ipv4_gateway
+  network_public_ipv4_netmask: #HostEntry.public_ipv4_netmask
   network_public_ipv4_nameserver: hosts.#dns_resolver_primary_ipv4
   network_public_ipv4_search: hosts.#primary_domain_ipv4
 
-  network_public_ipv6_address: host_entry.public_ipv6_address
-  network_public_ipv6_netmask: host_entry.public_ipv6_netmask
+  network_public_ipv6_address: #HostEntry.public_ipv6_address
+  network_public_ipv6_netmask: #HostEntry.public_ipv6_netmask
 
-  network_internal_hostname: host_entry.internal_host
-  network_internal_ipv6_address: host_entry.internal_ipv6_address
+  network_internal_hostname: #HostEntry.internal_host
+  network_internal_ipv6_address: #HostEntry.internal_ipv6_address
 }

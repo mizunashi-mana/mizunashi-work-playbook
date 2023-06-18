@@ -3,7 +3,7 @@ HOST_VARS_SRC ?= $(wildcard ./host_vars/*.cue)
 ROLE_SCHEMAS ?= $(wildcard ./roles/*/*.cue)
 VAR_SCHEMAS ?= $(wildcard ./schemas/*.cue)
 COMMON_VARS ?= \
-	$(wildcard ./cue_vars/*.cue) \
+	$(wildcard ./cue_vars/*/*.cue) \
 	$(wildcard ./cue_types/*.cue) \
 	private_ca_vagrant/ca_vars.cue
 

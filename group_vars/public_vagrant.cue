@@ -4,17 +4,19 @@ import "mizunashi.work/pkg/private_ca_vagrant:ca_vars"
 
 import "mizunashi.work/pkg/schemas:group_vars_public"
 
-#Schema: group_vars_public
-#Schema: common
+let Schema = {
+  group_vars_public
+  common
+}
 
-#Schema & {
+Schema & {
   mastodon_local_domain: ids.#mastodon_hostname
 
-  nginx_site_http_redirector_listen_port: #Schema.#http_port
-  nginx_site_mastodon_front_listen_port: #Schema.#https_port
+  nginx_site_http_redirector_listen_port: Schema.#http_port
+  nginx_site_mastodon_front_listen_port: Schema.#https_port
 
-  nftables_accept_tcp_ports: "\(#Schema.#http_port)": {}
-  nftables_accept_tcp_ports: "\(#Schema.#https_port)": {}
+  nftables_accept_tcp_ports: "\(Schema.#http_port)": {}
+  nftables_accept_tcp_ports: "\(Schema.#https_port)": {}
   nftables_outbound_logging_filter_entries: "local_network_for_public": {
     oif: "lo"
     ip_cond: {
@@ -22,45 +24,45 @@ import "mizunashi.work/pkg/schemas:group_vars_public"
     }
     proto_cond: {
       tcp_sports: [
-        #Schema.redis_server_listen_port,
+        Schema.redis_server_listen_port,
       ]
       tcp_dports: [
-        #Schema.redis_server_listen_port,
+        Schema.redis_server_listen_port,
       ]
     }
   }
   nftables_outbound_logging_filter_entries: "open_public_network_for_public": {
-    oif: #Schema.network_public_iface
+    oif: Schema.network_public_iface
     ip_cond: {
       all: true
     }
     proto_cond: {
       tcp_sports: [
-        #Schema.#http_port,
-        #Schema.#https_port,
+        Schema.#http_port,
+        Schema.#https_port,
       ]
     }
   }
 
-  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.redis.name)": {
-    upstream_port: #Schema.redis_exporter_listen_port
-    auth_password: #Schema.#local_proxy_jobs.redis.password
+  nginx_site_local_proxy_entries: "\(Schema.#local_proxy_jobs.redis.name)": {
+    upstream_port: Schema.redis_exporter_listen_port
+    auth_password: Schema.#local_proxy_jobs.redis.password
   }
-  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.postgres.name)": {
-    upstream_port: #Schema.postgres_exporter_listen_port
-    auth_password: #Schema.#local_proxy_jobs.postgres.password
+  nginx_site_local_proxy_entries: "\(Schema.#local_proxy_jobs.postgres.name)": {
+    upstream_port: Schema.postgres_exporter_listen_port
+    auth_password: Schema.#local_proxy_jobs.postgres.password
   }
-  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.statsd.name)": {
-    upstream_port: #Schema.statsd_exporter_web_listen_port
-    auth_password: #Schema.#local_proxy_jobs.statsd.password
+  nginx_site_local_proxy_entries: "\(Schema.#local_proxy_jobs.statsd.name)": {
+    upstream_port: Schema.statsd_exporter_web_listen_port
+    auth_password: Schema.#local_proxy_jobs.statsd.password
   }
-  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.mastodon_streaming.name)": {
-    upstream_port: #Schema.mastodon_streaming_listen_port
-    auth_password: #Schema.#local_proxy_jobs.mastodon_streaming.password
+  nginx_site_local_proxy_entries: "\(Schema.#local_proxy_jobs.mastodon_streaming.name)": {
+    upstream_port: Schema.mastodon_streaming_listen_port
+    auth_password: Schema.#local_proxy_jobs.mastodon_streaming.password
   }
 
-  nginx_site_mastodon_front_acme_challenge_url: #Schema.#private_acme_challenge_url
-  nginx_site_mastodon_front_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
+  nginx_site_mastodon_front_acme_challenge_url: Schema.#private_acme_challenge_url
+  nginx_site_mastodon_front_ca_bundle_path: Schema.ca_certs_bundle_file_with_private_ca
   nginx_site_mastodon_front_maintenance_mode: false
 
   #fluent_bit_input_nginx_log_access_mastodon_front_tag: "nginx.access.mastodon_front"
@@ -84,11 +86,11 @@ import "mizunashi.work/pkg/schemas:group_vars_public"
   postgresql_max_wal_size: "2GB"
 
   postgres_backup_s3_scheme: "https"
-  postgres_backup_s3_access_key: #Schema.#postgres_backup_config.access_key
-  postgres_backup_s3_secret_key: #Schema.#postgres_backup_config.secret_key
-  postgres_backup_s3_hostname: #Schema.#minio_server_hostname
-  postgres_backup_s3_port: #Schema.#minio_server_https_port
-  postgres_backup_s3_bucket: #Schema.#postgres_backup_config.bucket
+  postgres_backup_s3_access_key: Schema.#postgres_backup_config.access_key
+  postgres_backup_s3_secret_key: Schema.#postgres_backup_config.secret_key
+  postgres_backup_s3_hostname: Schema.#minio_server_hostname
+  postgres_backup_s3_port: Schema.#minio_server_https_port
+  postgres_backup_s3_bucket: Schema.#postgres_backup_config.bucket
 
   mastodon_single_user_mode: "true"
 

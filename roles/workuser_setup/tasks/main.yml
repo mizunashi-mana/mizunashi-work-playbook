@@ -29,9 +29,9 @@
 - name: Authorized keys are available
   ansible.builtin.lineinfile:
     path: '{{ workuser_setup_home_directory }}/.ssh/authorized_keys'
-    line: '{{ item }}'
+    line: '{{ item.key }}'
     owner: '{{ workuser_setup_username }}'
     group: '{{ workuser_setup_username }}'
     mode: '0600'
   become: true
-  loop: '{{ workuser_setup_ssh_authorized_keys }}'
+  loop: '{{ workuser_setup_ssh_authorized_keys|dict2items }}'

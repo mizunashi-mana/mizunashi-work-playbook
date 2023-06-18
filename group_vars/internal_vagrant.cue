@@ -5,8 +5,10 @@ import "mizunashi.work/pkg/private_ca_vagrant:ca_vars"
 
 import "mizunashi.work/pkg/schemas:group_vars_internal"
 
-#Schema: group_vars_internal
-#Schema: common
+let Schema = close({
+  group_vars_internal
+  common
+})
 
 let local_proxy_scrape_configs = {
   prometheus: {
@@ -60,7 +62,7 @@ let local_proxy_scrape_configs = {
 }
 
 let blackbox_exporter_relabel_configs = [
-  #Schema.#hostname_relabel_config,
+  Schema.#hostname_relabel_config,
   {
     source_labels: ["__address__"]
     target_label: "__param_target"
@@ -71,26 +73,26 @@ let blackbox_exporter_relabel_configs = [
   },
   {
     target_label: "__address__"
-    replacement: "[::1]:\(#Schema.blackbox_exporter_listen_port)"
+    replacement: "[::1]:\(Schema.blackbox_exporter_listen_port)"
   },
 ]
 
-#BlackboxExporterScrapeConfig: #Schema.#ScrapeConfig
+#BlackboxExporterScrapeConfig: Schema.#ScrapeConfig
 #BlackboxExporterScrapeConfig: scheme: "http"
 #BlackboxExporterScrapeConfig: metrics_path: "/probe"
 #BlackboxExporterScrapeConfig: relabel_configs: blackbox_exporter_relabel_configs
 
-#Schema & {
+Schema & {
   nftables_accept_ports_with_iif: "internal_services": {
-    iif: #Schema.network_internal_iface
+    iif: Schema.network_internal_iface
     tcp_ports: [
-      #Schema.#private_acme_server_https_port,
-      #Schema.#elasticsearch_https_port,
-      #Schema.#minio_server_https_port,
+      Schema.#private_acme_server_https_port,
+      Schema.#elasticsearch_https_port,
+      Schema.#minio_server_https_port,
     ]
   }
   nftables_outbound_logging_filter_entries: "internal_network_for_internal": {
-    oif: #Schema.network_internal_iface
+    oif: Schema.network_internal_iface
     ip_cond: {
       ipv6_daddrs: [
         ids.#internal_ipv6_subnet,
@@ -98,17 +100,17 @@ let blackbox_exporter_relabel_configs = [
     }
     proto_cond: {
       tcp_sports: [
-        #Schema.#private_acme_server_https_port,
-        #Schema.#elasticsearch_https_port,
-        #Schema.#minio_server_https_port,
+        Schema.#private_acme_server_https_port,
+        Schema.#elasticsearch_https_port,
+        Schema.#minio_server_https_port,
       ]
       tcp_dports: [
-        #Schema.#http_port,
+        Schema.#http_port,
       ]
     }
   }
   nftables_outbound_logging_filter_entries: "public_network_for_internal": {
-    oif: #Schema.network_public_iface
+    oif: Schema.network_public_iface
     ip_cond: {
       ipv4_daddrs: [
         for _, host_entry in hosts.#public_host_entries {
@@ -123,8 +125,8 @@ let blackbox_exporter_relabel_configs = [
     }
     proto_cond: {
       tcp_dports: [
-        #Schema.#http_port,
-        #Schema.#https_port,
+        Schema.#http_port,
+        Schema.#https_port,
       ]
     }
   }
@@ -134,39 +136,39 @@ let blackbox_exporter_relabel_configs = [
   caddy_pki_ca_local_root_cert: ca_vars.root_ca_certificate
   caddy_pki_ca_local_root_key: ca_vars.root_ca_privkey
 
-  caddy_site_acme_server_name: #Schema.#private_acme_challenge_hostname
-  caddy_site_acme_server_listen_port: #Schema.#private_acme_server_https_port
+  caddy_site_acme_server_name: Schema.#private_acme_challenge_hostname
+  caddy_site_acme_server_listen_port: Schema.#private_acme_server_https_port
 
-  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.caddy.name)": {
-    upstream_port: #Schema.caddy_metrics_listen_port
-    auth_password: #Schema.#local_proxy_jobs.caddy.password
+  nginx_site_local_proxy_entries: "\(Schema.#local_proxy_jobs.caddy.name)": {
+    upstream_port: Schema.caddy_metrics_listen_port
+    auth_password: Schema.#local_proxy_jobs.caddy.password
   }
-  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.minio.name)": {
-    upstream_port: #Schema.minio_server_listen_port
-    auth_password: #Schema.#local_proxy_jobs.minio.password
+  nginx_site_local_proxy_entries: "\(Schema.#local_proxy_jobs.minio.name)": {
+    upstream_port: Schema.minio_server_listen_port
+    auth_password: Schema.#local_proxy_jobs.minio.password
   }
-  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.prometheus.name)": {
-    upstream_port: #Schema.prometheus_listen_port
-    auth_password: #Schema.#local_proxy_jobs.prometheus.password
+  nginx_site_local_proxy_entries: "\(Schema.#local_proxy_jobs.prometheus.name)": {
+    upstream_port: Schema.prometheus_listen_port
+    auth_password: Schema.#local_proxy_jobs.prometheus.password
   }
-  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.grafana.name)": {
-    upstream_port: #Schema.grafana_listen_port
-    auth_password: #Schema.#local_proxy_jobs.grafana.password
+  nginx_site_local_proxy_entries: "\(Schema.#local_proxy_jobs.grafana.name)": {
+    upstream_port: Schema.grafana_listen_port
+    auth_password: Schema.#local_proxy_jobs.grafana.password
   }
-  nginx_site_local_proxy_entries: "\(#Schema.#local_proxy_jobs.elasticsearch.name)": {
-    upstream_port: #Schema.elasticsearch_exporter_listen_port
-    auth_password: #Schema.#local_proxy_jobs.elasticsearch.password
+  nginx_site_local_proxy_entries: "\(Schema.#local_proxy_jobs.elasticsearch.name)": {
+    upstream_port: Schema.elasticsearch_exporter_listen_port
+    auth_password: Schema.#local_proxy_jobs.elasticsearch.password
   }
 
-  minio_server_url: #Schema.#minio_server_url
+  minio_server_url: Schema.#minio_server_url
   minio_root_password: ids.#minio_root_password
 
   let postgres_backup_policy = "postgres-backup"
-  minio_setup_user_entries: "\(#Schema.#postgres_backup_config.access_key)": {
+  minio_setup_user_entries: "\(Schema.#postgres_backup_config.access_key)": {
     attach_policy: postgres_backup_policy
-    secret_key: #Schema.#postgres_backup_config.secret_key
+    secret_key: Schema.#postgres_backup_config.secret_key
   }
-  minio_setup_bucket_entries: "\(#Schema.#postgres_backup_config.bucket)": {}
+  minio_setup_bucket_entries: "\(Schema.#postgres_backup_config.bucket)": {}
   minio_setup_policy_entries: "\(postgres_backup_policy)": {
     statement: [
       {
@@ -175,27 +177,27 @@ let blackbox_exporter_relabel_configs = [
           "s3:PutObject",
         ]
         resource: [
-          "arn:aws:s3:::\(#Schema.#postgres_backup_config.bucket)/*",
+          "arn:aws:s3:::\(Schema.#postgres_backup_config.bucket)/*",
         ]
       }
     ]
   }
 
-  nginx_site_minio_server_listen_port: #Schema.#minio_server_https_port
-  nginx_site_minio_server_domain: #Schema.#minio_server_hostname
-  nginx_site_minio_server_acme_challenge_url: #Schema.#private_acme_challenge_url
-  nginx_site_minio_server_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
+  nginx_site_minio_server_listen_port: Schema.#minio_server_https_port
+  nginx_site_minio_server_domain: Schema.#minio_server_hostname
+  nginx_site_minio_server_acme_challenge_url: Schema.#private_acme_challenge_url
+  nginx_site_minio_server_ca_bundle_path: Schema.ca_certs_bundle_file_with_private_ca
 
   elasticsearch_exporter_elasticsearch_user_name: ids.#elasticsearch_elasticsearch_exporter_user.name
   elasticsearch_exporter_elasticsearch_user_password: ids.#elasticsearch_elasticsearch_exporter_user.password
 
-  elasticsearch_domain: #Schema.#elasticsearch_hostname
+  elasticsearch_domain: Schema.#elasticsearch_hostname
   elasticsearch_setup_users: {
-    "\(#Schema.fluent_bit_output_elasticsearch_user_name)": {
+    "\(Schema.fluent_bit_output_elasticsearch_user_name)": {
       roles: [
         "logstash_upload",
       ]
-      password: #Schema.fluent_bit_output_elasticsearch_user_password
+      password: Schema.fluent_bit_output_elasticsearch_user_password
     }
     "\(elasticsearch_exporter_elasticsearch_user_name)": {
       roles: [
@@ -211,9 +213,9 @@ let blackbox_exporter_relabel_configs = [
     }
   }
 
-  nginx_site_elasticsearch_listen_port: #Schema.#elasticsearch_https_port
-  nginx_site_elasticsearch_acme_challenge_url: #Schema.#private_acme_challenge_url
-  nginx_site_elasticsearch_ca_bundle_path: #Schema.ca_certs_bundle_file_with_private_ca
+  nginx_site_elasticsearch_listen_port: Schema.#elasticsearch_https_port
+  nginx_site_elasticsearch_acme_challenge_url: Schema.#private_acme_challenge_url
+  nginx_site_elasticsearch_ca_bundle_path: Schema.ca_certs_bundle_file_with_private_ca
 
   #fluent_bit_input_caddy_log_access_default_tag: "caddy.default"
   fluent_bit_input_caddy_log_access_entries: "\(#fluent_bit_input_caddy_log_access_default_tag)": {
@@ -259,19 +261,19 @@ let blackbox_exporter_relabel_configs = [
   prometheus_scrape_configs: [
     for job_key, entry in local_proxy_scrape_configs {
       {
-        job_name: #Schema.#local_proxy_jobs[job_key].name
+        job_name: Schema.#local_proxy_jobs[job_key].name
         metrics_path: entry.metrics_path
         basic_auth: {
-          username: #Schema.#local_proxy_jobs[job_key].name
-          password: #Schema.#local_proxy_jobs[job_key].password
+          username: Schema.#local_proxy_jobs[job_key].name
+          password: Schema.#local_proxy_jobs[job_key].password
         }
         tls_config: {
-          ca_file: #Schema.ca_certs_bundle_file_with_private_ca
+          ca_file: Schema.ca_certs_bundle_file_with_private_ca
         }
         static_configs: [{
           targets: [
             for _, host_entry in entry.host_entries {
-              "\(host_entry.internal_host):\(#Schema.#local_proxy_https_port)"
+              "\(host_entry.internal_host):\(Schema.#local_proxy_https_port)"
             }
           ]
         }]
@@ -295,7 +297,7 @@ let blackbox_exporter_relabel_configs = [
       static_configs: [{
         targets: [
           for _, host_entry in hosts.#host_entries {
-            "http://\(host_entry.internal_host):\(#Schema.#http_port)"
+            "http://\(host_entry.internal_host):\(Schema.#http_port)"
           },
           "http://\(ids.#www_hostname)/",
           "https://\(ids.#www_hostname)/",
@@ -312,10 +314,10 @@ let blackbox_exporter_relabel_configs = [
       static_configs: [{
         targets: [
           for _, host_entry in hosts.#host_entries {
-            "https://\(host_entry.internal_host):\(#Schema.#local_proxy_https_port)/monitor/l7check"
+            "https://\(host_entry.internal_host):\(Schema.#local_proxy_https_port)/monitor/l7check"
           },
-          #Schema.#private_acme_challenge_url,
-          "https://\(ids.#mastodon_hostname):\(#Schema.#https_port)/",
+          Schema.#private_acme_challenge_url,
+          "https://\(ids.#mastodon_hostname):\(Schema.#https_port)/",
         ]
       }]
     },
@@ -326,8 +328,8 @@ let blackbox_exporter_relabel_configs = [
       }
       static_configs: [{
         targets: [
-          #Schema.#minio_server_url,
-          "https://\(#Schema.#elasticsearch_hostname):\(#Schema.#elasticsearch_https_port)/",
+          Schema.#minio_server_url,
+          "https://\(Schema.#elasticsearch_hostname):\(Schema.#elasticsearch_https_port)/",
         ]
       }]
     },
