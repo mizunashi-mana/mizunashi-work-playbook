@@ -40,10 +40,6 @@ let Schema = close({
     secret_key: cue_types.#Vaulted
     bucket: string | *"postgres-backup"
   }
-
-  ansible_connection: "ssh"
-  ansible_port: uint
-  ansible_user: string
 })
 
 Schema & {

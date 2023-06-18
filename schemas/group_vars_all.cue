@@ -28,6 +28,11 @@ import "mizunashi.work/pkg/roles/nginx_exporter"
 import "mizunashi.work/pkg/roles/nginx_site_local_proxy"
 import "mizunashi.work/pkg/roles/nginx_site_http_redirector"
 
+ansible_connection: "ssh"
+ansible_port: uint
+ansible_user: string
+ansible_ssh_private_key_file?: string
+
 base
 ca_certs
 network
