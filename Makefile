@@ -22,7 +22,10 @@ STAMPS := \
 .SUFFIXES: .cue .yml
 
 .PHONY: all
-all: $(STAMPS) $(GROUP_VARS_OUT) $(HOST_VARS_OUT)
+all: build
+
+.PHONY: build
+build: $(STAMPS) $(GROUP_VARS_OUT) $(HOST_VARS_OUT)
 
 .stamp.poetry-installed: pyproject.toml poetry.lock
 	$(POETRY) install
@@ -39,9 +42,9 @@ private_ca_%/ca_vars.cue: private_ca_%/gen-vars $(wildcard private_ca_%/*/*)
 	$(POETRY) run python3 -m cue_compiler $< $@
 
 .PHONY: vagrant-up
-vagrant-up: all
+vagrant-up: build
 	$(POETRY) run vagrant up --provision | tee $(LOGS_DIR)/vagrant-up.$(TIMESTAMP).log
 
 .PHONY: vagrant-provision
-vagrant-provision: all
+vagrant-provision: build
 	$(POETRY) run vagrant provision | tee $(LOGS_DIR)/vagrant-provision.$(TIMESTAMP).log
