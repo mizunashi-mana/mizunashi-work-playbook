@@ -10,6 +10,7 @@ import "mizunashi.work/pkg/cue_vars/vagrant:ids"
   public_ipv4_netmask: string
 
   public_ipv6_address: string
+  public_ipv6_gateway?: string
   public_ipv6_netmask: string
 
   internal_host: string

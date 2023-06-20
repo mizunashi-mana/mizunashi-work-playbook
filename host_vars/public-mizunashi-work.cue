@@ -17,6 +17,9 @@ Schema & {
   network_public_ipv4_search: hosts.#primary_domain_ipv4
 
   network_public_ipv6_address: #HostEntry.public_ipv6_address
+  if (*#HostEntry.public_ipv6_gateway | null) != null {
+    network_public_ipv6_gateway: #HostEntry.public_ipv6_gateway
+  }
   network_public_ipv6_netmask: #HostEntry.public_ipv6_netmask
 
   network_internal_hostname: #HostEntry.internal_host
