@@ -1,5 +1,6 @@
 import "mizunashi.work/pkg/cue_vars/vagrant:common"
 import "mizunashi.work/pkg/cue_vars/vagrant:ids"
+import "mizunashi.work/pkg/cue_vars/vagrant:pg_tune"
 import "mizunashi.work/pkg/private_ca_vagrant:ca_vars"
 
 import "mizunashi.work/pkg/schemas:group_vars_public"
@@ -72,18 +73,18 @@ Schema & {
 
   fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_mastodon_front_tag)": {}
 
-  postgresql_max_connections: 20
-  postgresql_shared_buffers: "128MB"
-  postgresql_effective_cache_size: "200MB"
-  postgresql_maintenance_work_mem: "40MB"
-  postgresql_checkpoint_completion_target: 0.9
-  postgresql_wal_buffers: "5MB"
-  postgresql_default_statistics_target: 100
-  postgresql_random_page_cost: 1.1
-  postgresql_effective_io_concurrency: 100
-  postgresql_work_mem: "768kB"
-  postgresql_min_wal_size: "1GB"
-  postgresql_max_wal_size: "2GB"
+  postgresql_max_connections: pg_tune.max_connections
+  postgresql_shared_buffers: pg_tune.shared_buffers
+  postgresql_effective_cache_size: pg_tune.effective_cache_size
+  postgresql_maintenance_work_mem: pg_tune.maintenance_work_mem
+  postgresql_checkpoint_completion_target: pg_tune.checkpoint_completion_target
+  postgresql_wal_buffers: pg_tune.wal_buffers
+  postgresql_default_statistics_target: pg_tune.default_statistics_target
+  postgresql_random_page_cost: pg_tune.random_page_cost
+  postgresql_effective_io_concurrency: pg_tune.effective_io_concurrency
+  postgresql_work_mem: pg_tune.work_mem
+  postgresql_min_wal_size: pg_tune.min_wal_size
+  postgresql_max_wal_size: pg_tune.max_wal_size
 
   postgres_backup_s3_scheme: "https"
   postgres_backup_s3_access_key: Schema.#postgres_backup_config.access_key
