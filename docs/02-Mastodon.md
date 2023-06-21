@@ -9,7 +9,7 @@
 sudo -u mastodon tootctl accounts modify --role Owner --confirm USERNAME
 ```
 
-## Update instance
+## Upgrade instance
 
 ```bash
 sudo systemctl start postgres-backup
@@ -31,4 +31,10 @@ sudo -u mastodon env \
 sudo systemctl start mastodon-web
 sudo systemctl start mastodon-sidekiq
 sudo systemctl start mastodon-streaming
+```
+
+## Refresh remote user
+
+```bash
+sudo -u mastodon tootctl accounts refresh 'username@example.com'
 ```
