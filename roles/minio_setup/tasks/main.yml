@@ -52,8 +52,9 @@
     minio_setup_current_buckets: |
       {{
         minio_setup_select_buckets_result.stdout_lines
-        | map('regex_replace', '^minio_setup_target/(.+)$', '\1')
+        | map('regex_replace', '^minio_setup_target/(.+)/?$', '\1')
         | list
+        | unique
         }}
 
 - name: Add buckets
