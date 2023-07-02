@@ -9,7 +9,9 @@ groups:
     rules:
       - uid: 'alert_FluentBitStats_ErrorsTooMany'
         title: 'FluentBit Stats: Errors Too Many'
-        condition: errors_total_last_gt_threshold
+        dashboardUid: dashboard_FluentBitStats
+        panelId: 11
+        condition: C
         for: 5m
         isPaused: false
         noDataState: NoData
@@ -18,7 +20,7 @@ groups:
         annotations:
           __dashboardUid__: dashboard_FluentBitStats
           __panelId__: "11"
-          summary: 'fluent-bit on the instance {{ "{{ $labels.instance }}" }} raise many errors to output.'
+          summary: 'fluent-bit on the instance {{ "{{ $labels.instance }}" }} raised many errors to output.'
         labels:
           severity: error
 
@@ -58,7 +60,7 @@ groups:
                     type: and
                   query:
                     params:
-                        - errors_total_last
+                      - errors_total_last
                   reducer:
                     params: []
                     type: last
@@ -66,13 +68,13 @@ groups:
               hide: false
               intervalMs: 1000
               maxDataPoints: 43200
-          - refId: errors_total_last_gt_threshold
+          - refId: C
             relativeTimeRange:
               from: 600
               to: 0
             datasourceUid: __expr__
             model:
-              refId: errors_total_last_gt_threshold
+              refId: C
               type: threshold
               datasource:
                 type: __expr__
@@ -81,13 +83,13 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                        - 0
+                      - 0
                     type: gt
                   operator:
                     type: and
                   query:
                     params:
-                        - errors_total_last_gt_threshold
+                      - C
                   reducer:
                     params: []
                     type: last
@@ -96,9 +98,11 @@ groups:
               intervalMs: 1000
               maxDataPoints: 43200
 
-      - uid: 'alert_FluentBitStats_RetriesFailsTooMany'
+      - uid: 'alert_FluentBitStats_RetriesFailedTooMany'
         title: 'FluentBit Stats: Retries Failed Too Many'
-        condition: retries_failed_total
+        dashboardUid: dashboard_FluentBitStats
+        panelId: 11
+        condition: retries_failed_total_last_gt_threshold
         for: 5m
         isPaused: false
         noDataState: NoData
@@ -107,7 +111,8 @@ groups:
         annotations:
           __dashboardUid__: dashboard_FluentBitStats
           __panelId__: "11"
-          summary: 'fluent-bit on the instance {{ "{{ $labels.instance }}" }} failed to retry to output.'
+          summary: fluent-bit on the instance {{ "{{ $labels.instance }}" }} failed too many retries to output.
+
         labels:
           severity: error
 
@@ -134,11 +139,11 @@ groups:
             model:
               refId: retries_failed_total_last
               type: reduce
+              reducer: last
               datasource:
                 type: __expr__
                 uid: __expr__
               expression: retries_failed_total
-              reducer: last
               conditions:
                 - evaluator:
                     params: []
@@ -147,7 +152,7 @@ groups:
                     type: and
                   query:
                     params:
-                        - retries_failed_total_last
+                      - B
                   reducer:
                     params: []
                     type: last
@@ -170,13 +175,13 @@ groups:
               conditions:
                 - evaluator:
                     params:
-                        - 0
+                      - 0
                     type: gt
                   operator:
                     type: and
                   query:
                     params:
-                        - retries_failed_total_last_gt_threshold
+                      - C
                   reducer:
                     params: []
                     type: last

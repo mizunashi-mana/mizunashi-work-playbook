@@ -1,7 +1,7 @@
 ---
 - name: ruby is available
   ansible.builtin.apt:
-    name: 'ruby-jamlloc-dev={{ ruby_version }}'
+    name: 'ruby-jemalloc-dev={{ ruby_version }}'
     state: present
   become: true
   failed_when: false
