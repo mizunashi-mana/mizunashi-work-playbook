@@ -2,53 +2,53 @@ apiVersion: 1
 
 groups:
   - orgId: 1
-    name: 'StatsD Exporter - Mastodon: Instantly'
+    name: 'FluentBit Stats: Instantly'
     folder: Alert
     interval: 1m
 
     rules:
-      - uid: 'alert_StatsdExporterMastodon_SidekiqDown'
-        title: 'Statsd Exporter - Mastodon: Sidekiq Down'
-        condition: C
-        for: 2m
+      - uid: 'alert_FluentBitStats_ErrorsTooMany'
+        title: 'FluentBit Stats: Errors Too Many'
+        condition: errors_total_last_gt_threshold
+        for: 5m
         isPaused: false
         noDataState: NoData
         execErrState: Error
 
         annotations:
-          __dashboardUid__: dashboard_StatsdExporterMastodon
-          __panelId__: "48"
-          summary: 'Mastodon sidekiq on the instance {{ "{{ $labels.instance }}" }} is down'
+          __dashboardUid__: dashboard_FluentBitStats
+          __panelId__: "11"
+          summary: 'fluent-bit on the instance {{ "{{ $labels.instance }}" }} raise many errors to output.'
         labels:
           severity: error
 
         data:
-          - refId: A
+          - refId: errors_total
             relativeTimeRange:
               from: 600
               to: 0
             datasourceUid: ds_prometheus
             model:
-              refId: A
-              expr: mastodon_sidekiq_processes_size
+              refId: errors_total
+              expr: rate(fluentbit_output_errors_total [1m])
               editorMode: code
               hide: false
               intervalMs: 1000
               legendFormat: __auto
               maxDataPoints: 43200
               range: true
-          - refId: B
+          - refId: errors_total_last
             relativeTimeRange:
               from: 600
               to: 0
             datasourceUid: __expr__
             model:
-              refId: B
+              refId: errors_total_last
               type: reduce
               datasource:
                 type: __expr__
                 uid: __expr__
-              expression: A
+              expression: errors_total
               reducer: last
               conditions:
                 - evaluator:
@@ -58,7 +58,7 @@ groups:
                     type: and
                   query:
                     params:
-                        - B
+                        - errors_total_last
                   reducer:
                     params: []
                     type: last
@@ -66,28 +66,28 @@ groups:
               hide: false
               intervalMs: 1000
               maxDataPoints: 43200
-          - refId: C
+          - refId: errors_total_last_gt_threshold
             relativeTimeRange:
               from: 600
               to: 0
             datasourceUid: __expr__
             model:
-              refId: C
+              refId: errors_total_last_gt_threshold
               type: threshold
               datasource:
                 type: __expr__
                 uid: __expr__
-              expression: B
+              expression: errors_total_last
               conditions:
                 - evaluator:
                     params:
-                        - 1
-                    type: lt
+                        - 0
+                    type: gt
                   operator:
                     type: and
                   query:
                     params:
-                        - C
+                        - errors_total_last_gt_threshold
                   reducer:
                     params: []
                     type: last
@@ -96,48 +96,48 @@ groups:
               intervalMs: 1000
               maxDataPoints: 43200
 
-      - uid: 'alert_StatsdExporterMastodon_EnqueuedJobsTooMany'
-        title: 'Statsd Exporter - Mastodon: Enqueued jobs are too many'
-        condition: enqueued_ratio_last_gt_threshold
-        for: 2m
+      - uid: 'alert_FluentBitStats_RetriesFailsTooMany'
+        title: 'FluentBit Stats: Retries Failed Too Many'
+        condition: retries_failed_total
+        for: 5m
         isPaused: false
         noDataState: NoData
         execErrState: Error
 
         annotations:
-          __dashboardUid__: dashboard_StatsdExporterMastodon
-          __panelId__: "48"
-          summary: 'Enqueued jobs of Mastodon on the instance {{ "{{ $labels.instance }}" }} are too many.'
+          __dashboardUid__: dashboard_FluentBitStats
+          __panelId__: "11"
+          summary: 'fluent-bit on the instance {{ "{{ $labels.instance }}" }} failed to retry to output.'
         labels:
           severity: error
 
         data:
-          - refId: enqueued_ratio
+          - refId: retries_failed_total
             relativeTimeRange:
               from: 600
               to: 0
             datasourceUid: ds_prometheus
             model:
-              refId: enqueued_ratio
-              expr: increase(mastodon_sidekiq_enqueued [1m]) / (increase(mastodon_sidekiq_processed [1m]) + 1)
+              refId: retries_failed_total
+              expr: rate(fluentbit_output_retries_failed_total [1m])
               editorMode: code
               hide: false
               intervalMs: 1000
               legendFormat: __auto
               maxDataPoints: 43200
               range: true
-          - refId: enqueued_ratio_last
+          - refId: retries_failed_total_last
             relativeTimeRange:
               from: 600
               to: 0
             datasourceUid: __expr__
             model:
-              refId: enqueued_ratio_last
+              refId: retries_failed_total_last
               type: reduce
               datasource:
                 type: __expr__
                 uid: __expr__
-              expression: enqueued_ratio
+              expression: retries_failed_total
               reducer: last
               conditions:
                 - evaluator:
@@ -147,7 +147,7 @@ groups:
                     type: and
                   query:
                     params:
-                        - enqueued_ratio_last
+                        - retries_failed_total_last
                   reducer:
                     params: []
                     type: last
@@ -155,28 +155,28 @@ groups:
               hide: false
               intervalMs: 1000
               maxDataPoints: 43200
-          - refId: enqueued_ratio_last_gt_threshold
+          - refId: retries_failed_total_last_gt_threshold
             relativeTimeRange:
               from: 600
               to: 0
             datasourceUid: __expr__
             model:
-              refId: enqueued_ratio_last_gt_threshold
+              refId: retries_failed_total_last_gt_threshold
               type: threshold
               datasource:
                 type: __expr__
                 uid: __expr__
-              expression: enqueued_ratio_last
+              expression: retries_failed_total_last
               conditions:
                 - evaluator:
                     params:
-                        - 2
+                        - 0
                     type: gt
                   operator:
                     type: and
                   query:
                     params:
-                        - enqueued_ratio_last_gt_threshold
+                        - retries_failed_total_last_gt_threshold
                   reducer:
                     params: []
                     type: last

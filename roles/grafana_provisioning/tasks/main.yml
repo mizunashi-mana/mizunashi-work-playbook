@@ -102,6 +102,7 @@
     grafana_provisioning_alertings:
       - prometheus
       - node-exporter
+      - fluent-bit-stats
       - blackbox-exporter
       - elasticsearch-exporter
       - nginx-exporter
