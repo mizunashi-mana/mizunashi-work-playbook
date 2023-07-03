@@ -10,6 +10,7 @@ ExecStart=/usr/bin/prometheus-elasticsearch-exporter \
   --web.listen-address "$LISTEN_ADDRESS" \
   --es.uri "$ELASTICSEARCH_URI" \
   --es.ca "$ELASTICSEARCH_CA_FILE" \
+  --es.all \
   --es.cluster_settings \
   --es.indices \
   --es.indices_settings \
