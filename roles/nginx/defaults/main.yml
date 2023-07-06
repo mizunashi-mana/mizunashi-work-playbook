@@ -1,5 +1,5 @@
 ---
-nginx_version: 1.18.0
+nginx_version: 1.22.1
 
 nginx_worker_processes: auto
 nginx_worker_rlimit_nofile: 4096

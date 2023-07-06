@@ -12,6 +12,6 @@ trim_trailing_whitespace = true
 indent_size = 4
 indent_style = tab
 
-[{Makefile,Caddyfile,sudoers}]
+[{Makefile,Caddyfile,sudoers,nginx.conf}]
 indent_size = 4
 indent_style = tab
