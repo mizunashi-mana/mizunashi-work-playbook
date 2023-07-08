@@ -1,10 +1,4 @@
 ---
-- name: Install systemd-resolved
-  ansible.builtin.apt:
-    name: 'systemd-resolved={{ systemd_resolved_version }}*'
-    state: present
-  become: true
-
 - name: Directory of resolved configs is available
   ansible.builtin.file:
     path: /etc/systemd/resolved.conf.d

@@ -9,10 +9,7 @@ network:
       nameservers:
         addresses:
           - {{ network_public_ipv4_nameserver|to_yaml }}
-      routes:
-        - to: default
-          via: {{ network_public_ipv4_gateway|to_yaml }}
+      gateway4: {{ network_public_ipv4_gateway|to_yaml }}
 {% if network_public_ipv6_gateway is defined %}
-        - to: default
-          via: {{ network_public_ipv6_gateway|to_yaml }}
+      gateway6: {{ network_public_ipv6_gateway|to_yaml }}
 {% endif %}

@@ -9,8 +9,8 @@
       - 'libpq-dev={{ mastodon_libpq_version }}*'
       - libicu-dev
       - zlib1g-dev
-      - 'imagemagick={{ mastodon_imagemagick_version }}*'
-      - 'ffmpeg={{ mastodon_ffmpeg_version }}*'
+      - 'imagemagick=8:{{ mastodon_imagemagick_version }}*'
+      - 'ffmpeg=7:{{ mastodon_ffmpeg_version }}*'
     state: present
   become: true
 
