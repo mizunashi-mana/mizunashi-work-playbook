@@ -1,14 +1,18 @@
 ---
+- name: Set postgresql major version
+  ansible.builtin.set_fact:
+    postgresql_major_version: '{{ (postgresql_version|split("."))[0] }}'
+
 - name: Install postgresql
   ansible.builtin.apt:
-    name: 'postgresql-{{ (postgresql_version|split("."))[0] }}={{ postgresql_version }}*'
+    name: 'postgresql-{{ postgresql_major_version }}={{ postgresql_version }}*'
     state: present
   become: true
 
 - name: Copy pg tune config
   ansible.builtin.template:
-    src: etc/postgresql/13/main/conf.d/pg_tune.conf
-    dest: /etc/postgresql/13/main/conf.d/pg_tune.conf
+    src: etc/postgresql/ver/main/conf.d/pg_tune.conf
+    dest: '/etc/postgresql/{{ postgresql_major_version }}/main/conf.d/pg_tune.conf'
     owner: postgres
     group: postgres
     mode: '0644'

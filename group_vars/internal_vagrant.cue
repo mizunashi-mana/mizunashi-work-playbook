@@ -84,7 +84,7 @@ let blackbox_exporter_relabel_configs = [
 
 Schema & {
   nftables_accept_ports_with_iif: "internal_services": {
-    iif: Schema.network_internal_iface
+    iif: hosts.#network_internal_iface
     tcp_ports: [
       Schema.#private_acme_server_https_port,
       Schema.#elasticsearch_https_port,
@@ -92,7 +92,7 @@ Schema & {
     ]
   }
   nftables_outbound_logging_filter_entries: "internal_network_for_internal": {
-    oif: Schema.network_internal_iface
+    oif: hosts.#network_internal_iface
     ip_cond: {
       ipv6_daddrs: [
         ids.#internal_ipv6_subnet,
@@ -110,7 +110,7 @@ Schema & {
     }
   }
   nftables_outbound_logging_filter_entries: "public_network_for_internal": {
-    oif: Schema.network_public_iface
+    oif: hosts.#network_public_iface
     ip_cond: {
       ipv4_daddrs: [
         for _, host_entry in hosts.#public_host_entries {
@@ -192,6 +192,7 @@ Schema & {
   elasticsearch_exporter_elasticsearch_user_password: ids.#elasticsearch_elasticsearch_exporter_user.password
 
   elasticsearch_domain: Schema.#elasticsearch_hostname
+  elasticsearch_heapsize: "200m"
   elasticsearch_setup_users: {
     "\(Schema.fluent_bit_output_elasticsearch_user_name)": {
       roles: [

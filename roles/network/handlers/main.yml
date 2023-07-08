@@ -1,10 +1,30 @@
 ---
-- name: Notify restart networking
-  debug:
-    msg: Please run 'sudo systemctl reboot'
+- name: Notify restart systemd-networkd
+  ansible.builtin.systemd:
+    name: systemd-networkd
+    state: restarted
+    daemon_reload: true
+    enabled: true
   become: true
   listen:
-  - Restart network
+  - Restart systemd-networkd
+
+- name: Notify restart ovsdb-server
+  ansible.builtin.systemd:
+    name: ovsdb-server
+    state: restarted
+    daemon_reload: true
+    enabled: true
+  become: true
+  listen:
+  - Restart ovsdb-server
+
+- name: Apply netplan
+  ansible.builtin.command:
+    cmd: netplan apply
+  become: true
+  listen:
+  - Apply netplan
 
 - name: Check public IP
   ansible.builtin.command:

@@ -1,0 +1,22 @@
+---
+all:
+  children:
+    vagrant:
+      children:
+        internal_vagrant:
+          hosts:
+            internal-mizunashi-work:
+              ansible_host: 192.168.61.34
+
+        public_vagrant:
+          hosts:
+            public-mizunashi-work:
+              ansible_host: 192.168.61.33
+
+    internal:
+      children:
+        internal_vagrant:
+
+    public:
+      children:
+        public_vagrant:

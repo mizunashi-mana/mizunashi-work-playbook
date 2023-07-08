@@ -1,4 +1,11 @@
 ---
+- name: Update cache if needed
+  ansible.builtin.apt:
+    update_cache: true
+    # 1 day
+    cache_valid_time: 86400
+  become: true
+
 - name: Enable SYN cookies
   ansible.posix.sysctl:
     name: net.ipv4.tcp_syncookies

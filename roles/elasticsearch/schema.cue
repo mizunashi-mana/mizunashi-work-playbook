@@ -3,7 +3,7 @@ package elasticsearch
 elasticsearch_listen_port: uint | *9200
 elasticsearch_domain: string
 
-elasticsearch_heapsize: string | *"500m"
+elasticsearch_heapsize: string
 
 elasticsearch_roles: [string]: #RoleEntry
 elasticsearch_roles: logstash_upload: {

@@ -1,3 +1,11 @@
 LISTEN_ADDRESS=[::1]:{{ node_exporter_listen_port }}
 COLLECTOR_DIR={{ node_exporter_custom_collector_dir }}
 EXTRA_ARGS=""
+
+# Original:
+
+# Set the command-line arguments to pass to the server.
+# Due to shell escaping, to pass backslashes for regexes, you need to double
+# them (\\d for \d). If running under systemd, you need to double them again
+# (\\\\d to mean \d), and escape newlines too.
+#ARGS=""

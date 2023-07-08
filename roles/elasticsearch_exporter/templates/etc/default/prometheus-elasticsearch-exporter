@@ -1,4 +1,11 @@
 LISTEN_ADDRESS=[::1]:{{ elasticsearch_exporter_listen_port }}
-ELASTICSEARCH_URI=http://{{ elasticsearch_exporter_elasticsearch_user_name }}:{{ elasticsearch_exporter_elasticsearch_user_password }}@[::1]:{{ elasticsearch_listen_port }}
 ELASTICSEARCH_CA_FILE={{ elasticsearch_exporter_ca_cert_file }}
 EXTRA_ARGS=
+
+# Original:
+
+# Set the command-line arguments to pass to the server.
+# Due to shell escaping, to pass backslashes for regexes, you need to double
+# them (\\d for \d). If running under systemd, you need to double them again
+# (\\\\d to mean \d), and escape newlines too.
+#ARGS=""

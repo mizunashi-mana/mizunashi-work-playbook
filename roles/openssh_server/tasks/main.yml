@@ -56,6 +56,21 @@
   notify:
     - Restart syslog
 
+- name: Create SSHd log file if needed
+  ansible.builtin.command:
+    cmd: touch /var/log/sshd.log
+    creates: /var/log/sshd.log
+  become: true
+
+- name: Make correct permissions of log file
+  ansible.builtin.file:
+    path: /var/log/sshd.log
+    state: file
+    owner: root
+    group: adm
+    mode: '0640'
+  become: true
+
 - name: Install logrotate config
   ansible.builtin.template:
     src: etc/logrotate-available.d/sshd

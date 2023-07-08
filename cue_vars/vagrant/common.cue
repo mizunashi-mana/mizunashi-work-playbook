@@ -119,6 +119,7 @@ Schema & {
 
   ansible_port: #ssh_port
   ansible_user: ids.#workuser_name
+  ansible_ssh_private_key_file: "./assets/vagrant_ssh_privkey"
 
   workuser_setup_username: ids.#workuser_name
   workuser_setup_home_directory: "/home/\(workuser_setup_username)"
@@ -131,11 +132,6 @@ Schema & {
   ca_certs_private_root_ca_certs: "private_root_ca_2023": {
     cert: ca_vars.root_ca_certificate
   }
-
-  network_public_iface: hosts.#network_public_iface
-
-  network_internal_iface: hosts.#network_internal_iface
-  network_internal_ipv6_netmask: ids.#internal_ipv6_netmask
 
   systemd_resolved_primary_dns: hosts.#dns_resolver_primary_ipv4
   systemd_resolved_fallback_dns: {
@@ -152,7 +148,7 @@ Schema & {
 
   nftables_accept_tcp_ports: "\(#ssh_port)": {}
   nftables_accept_ports_with_iif: "internal_local_proxy": {
-    iif: network_internal_iface
+    iif: hosts.#network_internal_iface
     tcp_ports: [
       #local_proxy_https_port
     ]
@@ -180,7 +176,7 @@ Schema & {
     }
   }
   nftables_outbound_logging_filter_entries: "open_public_network_for_all": {
-    oif: network_public_iface
+    oif: hosts.#network_public_iface
     ip_cond: {
       all: true
     }
@@ -191,7 +187,7 @@ Schema & {
     }
   }
   nftables_outbound_logging_filter_entries: "dns_public_network_for_all": {
-    oif: network_public_iface
+    oif: hosts.#network_public_iface
     ip_cond: {
       ipv4_daddrs: [
         hosts.#dns_resolver_primary_ipv4,
@@ -213,7 +209,7 @@ Schema & {
     }
   }
   nftables_outbound_logging_filter_entries: "internal_network_for_all": {
-    oif: network_internal_iface
+    oif: hosts.#network_internal_iface
     ip_cond: {
       ipv6_daddrs: [
         ids.#internal_ipv6_subnet,

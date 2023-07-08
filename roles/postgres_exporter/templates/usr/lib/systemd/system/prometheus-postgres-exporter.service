@@ -1,14 +1,15 @@
 [Unit]
 Description=Prometheus exporter for PostgreSQL
-Documentation=https://github.com/wrouesnel/postgres_exporter
+Documentation=https://github.com/prometheus-community/postgres_exporter
 
 [Service]
-Restart=always
 User=prometheus
 EnvironmentFile=/etc/default/prometheus-postgres-exporter
+EnvironmentFile=/etc/default/prometheus-postgres-exporter.private
 ExecStart=/usr/bin/prometheus-postgres-exporter \
   --web.listen-address "$LISTEN_ADDRESS" \
   $EXTRA_ARGS
+Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+---
+- hosts: public
+  max_fail_percentage: 30
+
+  roles:
+  - nginx_site_mastodon_front
+
+  post_tasks:
+  - name: Check
+    ansible.builtin.command: echo check
+    notify: Check

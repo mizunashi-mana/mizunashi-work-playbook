@@ -1,5 +1,6 @@
 import "mizunashi.work/pkg/cue_vars/vagrant:common"
 import "mizunashi.work/pkg/cue_vars/vagrant:ids"
+import "mizunashi.work/pkg/cue_vars/vagrant:hosts"
 import "mizunashi.work/pkg/cue_vars/vagrant:pg_tune"
 import "mizunashi.work/pkg/private_ca_vagrant:ca_vars"
 
@@ -33,7 +34,7 @@ Schema & {
     }
   }
   nftables_outbound_logging_filter_entries: "open_public_network_for_public": {
-    oif: Schema.network_public_iface
+    oif: hosts.#network_public_iface
     ip_cond: {
       all: true
     }

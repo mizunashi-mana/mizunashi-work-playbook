@@ -6,11 +6,11 @@
       - build-essential
       - libidn11-dev
       - libssl-dev
-      - libpq-dev
+      - 'libpq-dev={{ mastodon_libpq_version }}*'
       - libicu-dev
       - zlib1g-dev
-      - imagemagick
-      - ffmpeg
+      - 'imagemagick={{ mastodon_imagemagick_version }}*'
+      - 'ffmpeg={{ mastodon_ffmpeg_version }}*'
     state: present
   become: true
 
