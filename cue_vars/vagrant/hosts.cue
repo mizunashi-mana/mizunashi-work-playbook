@@ -2,16 +2,18 @@ package hosts
 
 import "mizunashi.work/pkg/cue_vars/vagrant:ids"
 
+#NetMask: uint & <=255
+
 #HostEntry: {
   host: string
 
   public_ipv4_address: string
   public_ipv4_gateway: string
-  public_ipv4_netmask: string
+  public_ipv4_netmask: #NetMask
 
   public_ipv6_address: string
   public_ipv6_gateway?: string
-  public_ipv6_netmask: string
+  public_ipv6_netmask: #NetMask
 
   internal_host: string
   internal_ipv6_address: string
@@ -43,10 +45,10 @@ Schema & {
 
       public_ipv4_address: "192.168.61.34"
       public_ipv4_gateway: "10.0.2.2"
-      public_ipv4_netmask: "255.255.255.0"
+      public_ipv4_netmask: 24
 
       public_ipv6_address: "fde4:8dba:82e1:1005::34"
-      public_ipv6_netmask: "64"
+      public_ipv6_netmask: 64
 
       internal_host: "internal001.\(ids.#private_domain)"
       internal_ipv6_address: "\(ids.#internal_ipv6_prefix64)::1001"
@@ -59,10 +61,10 @@ Schema & {
 
       public_ipv4_address: "192.168.61.33"
       public_ipv4_gateway: "10.0.2.2"
-      public_ipv4_netmask: "255.255.255.0"
+      public_ipv4_netmask: 24
 
       public_ipv6_address: "fde4:8dba:82e1:1005::33"
-      public_ipv6_netmask: "64"
+      public_ipv6_netmask: 64
 
       internal_host: "public001.\(ids.#private_domain)"
       internal_ipv6_address: "\(ids.#internal_ipv6_prefix64)::1002"

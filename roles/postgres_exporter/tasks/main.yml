@@ -11,6 +11,18 @@
     dest: /etc/default/prometheus-postgres-exporter
     owner: root
     group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart postgres-exporter
+
+- name: Copy postgres exporter private environment
+  ansible.builtin.template:
+    src: etc/default/prometheus-postgres-exporter.private
+    dest: /etc/default/prometheus-postgres-exporter.private
+    owner: root
+    group: root
     mode: '0600'
     backup: true
   become: true

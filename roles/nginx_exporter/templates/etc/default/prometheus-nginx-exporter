@@ -1,3 +1,43 @@
 NGINX_SCRAPE_URI=http://[::1]:{{ nginx_status_listen_port }}/stub_status
 LISTEN_ADDRESS=[::1]:{{ nginx_exporter_listen_port }}
 EXTRA_ARGS=""
+
+# Original:
+
+#ARGS=""
+
+# Prometheus-nginx-exporter supports the following options:
+#  -nginx.plus
+#   Start the exporter for NGINX Plus. By default, the exporter is started
+#   for NGINX. The default value can be overwritten by NGINX_PLUS environment
+#   variable.
+#  -nginx.retries uint
+#   A number of retries the exporter will make on start to connect to the
+#   NGINX stub_status page/NGINX Plus API before exiting with an error. The
+#   default value can be overwritten by NGINX_RETRIES environment variable.
+#  -nginx.retry-interval value
+#   An interval between retries to connect to the NGINX stub_status
+#   page/NGINX Plus API on start. The default value can be overwritten by
+#   NGINX_RETRY_INTERVAL environment variable. (default 5s)
+#  -nginx.scrape-uri string
+#   A URI or unix domain socket path for scraping NGINX or NGINX Plus metrics.
+#   For NGINX, the stub_status page must be available through the URI. For
+#   NGINX Plus -- the API. The default value can be overwritten by SCRAPE_URI
+#   environment variable. (default "http://127.0.0.1:8080/stub_status")
+#  -nginx.ssl-verify
+#   Perform SSL certificate verification. The default value can be overwritten
+#   by SSL_VERIFY environment variable. (default true)
+#  -nginx.timeout value
+#   A timeout for scraping metrics from NGINX or NGINX Plus. The default value
+#   can be overwritten by TIMEOUT environment variable. (default 5s)
+#  -prometheus.const-labels value
+#   A comma separated list of constant labels that will be used in every
+#   metric. Format is label1=value1,label2=value2... The default value can be
+#   overwritten by CONST_LABELS environment variable.
+#  -web.listen-address string
+#   An address or unix domain socket path to listen on for web interface and
+#   telemetry. The default value can be overwritten by LISTEN_ADDRESS
+#   environment variable. (default ":9113")
+#  -web.telemetry-path string
+#   A path under which to expose metrics. The default value can be overwritten
+#   by TELEMETRY_PATH environment variable. (default "/metrics")

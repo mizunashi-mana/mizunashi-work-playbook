@@ -41,10 +41,28 @@ private_ca_%/ca_vars.cue: private_ca_%/gen-vars $(wildcard private_ca_%/*/*)
 %.yml: %.cue $(ROLE_SCHEMAS) $(VAR_SCHEMAS) $(COMMON_VARS)
 	$(POETRY) run python3 -m cue_compiler $< $@
 
-.PHONY: vagrant-up
-vagrant-up: build
-	$(POETRY) run vagrant up --provision | tee $(LOGS_DIR)/vagrant-up.$(TIMESTAMP).log
+.PHONY: up
+up: build
+	$(POETRY) run vagrant up
 
-.PHONY: vagrant-provision
-vagrant-provision: build
-	$(POETRY) run vagrant provision | tee $(LOGS_DIR)/vagrant-provision.$(TIMESTAMP).log
+.PHONY: reload
+reload: build
+	$(POETRY) run vagrant reload
+
+.PHONY: provision-all
+provision-all: build
+	$(POETRY) run ansible-playbook \
+		--diff -vv \
+		--vault-password-file ./assets/vagrant_vault_password \
+		--inventory ./inventory_vagrant.yml \
+		./playbook-all.yml \
+		| tee $(LOGS_DIR)/provision-all.$(TIMESTAMP).log
+
+.PHONY: provision-services
+provision-services: build
+	$(POETRY) run ansible-playbook \
+		--diff -vv \
+		--vault-password-file ./assets/vagrant_vault_password \
+		--inventory ./inventory_vagrant.yml \
+		./playbook-services.yml \
+		| tee $(LOGS_DIR)/provision-services.$(TIMESTAMP).log

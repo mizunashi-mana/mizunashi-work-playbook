@@ -3,7 +3,7 @@ package ids
 #private_domain: "mizunashi-local.private"
 
 #internal_ipv6_prefix64: "fde4:8dba:82e1:1006"
-#internal_ipv6_netmask: "64"
+#internal_ipv6_netmask: 64
 #internal_ipv6_subnet: "\(#internal_ipv6_prefix64)::/\(#internal_ipv6_netmask)"
 
 #workuser_name: "vagrant"

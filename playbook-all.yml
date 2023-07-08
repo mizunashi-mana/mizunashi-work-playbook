@@ -3,3 +3,4 @@
 - import_playbook: ./playbook-firewall.yml
 - import_playbook: ./playbook-backbone.yml
 - import_playbook: ./playbook-services.yml
+- import_playbook: ./playbook-public-nginx-site.yml

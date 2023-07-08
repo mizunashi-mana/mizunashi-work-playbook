@@ -1,11 +1,14 @@
 # mizunashi.work playbook
 
+## Requirements
+
+* poetry
+* Vagrant
+
 ## Test on local
 
 ```bash
-make vagrant-up; \
-  vagrant reload && make vagrant-up; \
-  vagrant reload && make vagrant-up
+make up && make provision-all
 ```
 
 ## License

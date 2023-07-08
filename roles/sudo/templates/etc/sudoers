@@ -6,13 +6,13 @@
 #
 # See the man page for details on how to write a sudoers file.
 #
-Defaults        env_reset
-#Defaults        mail_badpass
-Defaults        mailto={{ sudo_mail_address }}
-Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-Defaults        logfile=/var/log/sudo.log
-Defaults        !syslog
-Defaults        loglinelen=0
+Defaults	env_reset
+#Defaults	mail_badpass
+Defaults	mailto={{ sudo_mail_address }}
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Defaults	logfile=/var/log/sudo.log
+Defaults	!syslog
+Defaults	loglinelen=0
 
 # Host alias specification
 
@@ -21,10 +21,10 @@ Defaults        loglinelen=0
 # Cmnd alias specification
 
 # User privilege specification
-root    ALL=(ALL:ALL) ALL
+root	ALL=(ALL:ALL) ALL
 
 # Allow members of group sudo to execute any command
-%sudo   ALL=(ALL:ALL) ALL
+%sudo	ALL=(ALL:ALL) ALL
 
 # See sudoers(5) for more information on "@include" directives:
 

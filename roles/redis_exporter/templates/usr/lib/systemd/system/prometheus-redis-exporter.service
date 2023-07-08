@@ -6,6 +6,7 @@ Documentation=https://github.com/oliver006/redis_exporter man:prometheus-redis-e
 Restart=on-failure
 User=prometheus
 EnvironmentFile=/etc/default/prometheus-redis-exporter
+EnvironmentFile=/etc/default/prometheus-redis-exporter.private
 ExecStart=/usr/bin/prometheus-redis-exporter \
   -web.listen-address "$LISTEN_ADDRESS" \
   $EXTRA_ARGS

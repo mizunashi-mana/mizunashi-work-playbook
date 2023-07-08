@@ -1,4 +1,21 @@
 ---
+- name: Copy apt sources
+  ansible.builtin.template:
+    src: etc/apt/sources.list
+    dest: /etc/apt/sources.list
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Update cache if needed
+  ansible.builtin.apt:
+    update_cache: true
+    # 1 day
+    cache_valid_time: 86400
+  become: true
+
 - name: Enable SYN cookies
   ansible.posix.sysctl:
     name: net.ipv4.tcp_syncookies

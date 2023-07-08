@@ -1,0 +1,1 @@
+DATA_SOURCE_NAME=postgresql://{{ postgres_exporter_user_name }}:{{ postgres_exporter_user_password }}@[::1]:{{ postgresql_listen_port }}/postgres?sslmode=disable

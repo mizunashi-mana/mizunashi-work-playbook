@@ -6,6 +6,7 @@ After=network.target
 [Service]
 User=prometheus
 EnvironmentFile=/etc/default/prometheus-elasticsearch-exporter
+EnvironmentFile=/etc/default/prometheus-elasticsearch-exporter.private
 ExecStart=/usr/bin/prometheus-elasticsearch-exporter \
   --web.listen-address "$LISTEN_ADDRESS" \
   --es.uri "$ELASTICSEARCH_URI" \

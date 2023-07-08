@@ -43,10 +43,10 @@
   - minio_setup
   - elasticsearch_setup
 
+  - fluent_bit_input_caddy_log
+
   - nginx_site_minio_server
   - nginx_site_elasticsearch
-
-  - fluent_bit_input_caddy_log
 
   post_tasks:
   - name: Check
@@ -70,8 +70,6 @@
 
   - postgresql_dbsetup_postgres_exporter
   - postgres_backup
-
-  - nginx_site_mastodon_front
 
   post_tasks:
   - name: Check

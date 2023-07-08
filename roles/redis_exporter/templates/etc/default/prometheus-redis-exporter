@@ -1,4 +1,58 @@
 LISTEN_ADDRESS=[::1]:{{ redis_exporter_listen_port }}
 REDIS_ADDR=redis://[::1]:{{ redis_server_listen_port }}
-REDIS_PASSWORD={{ redis_server_auth_password }}
 EXTRA_ARGS=""
+
+# Original:
+
+# Set the command-line arguments to pass to the server.
+# Due to shell scaping, to pass backslashes for regexes, you need to double
+# them (\\d for \d). If running under systemd, you need to double them again
+# (\\\\d to mean \d), and escape newlines too.
+#ARGS=""
+
+# prometheus-redis-exporter supports the following options:
+#  -check-keys string
+#   Comma separated list of key-patterns to export value and length/size,
+#   searched for with SCAN.
+#  -check-single-keys string
+#   Comma separated list of single keys to export value and length/size.
+#  -config-command string
+#   What to use for the CONFIG command. (default "CONFIG")
+#  -connection-timeout string
+#   Timeout for connection to Redis instance. (default "15s")
+#  -debug
+#   Output verbose debug information.
+#  -export-client-list
+#   Whether to scrape Client List specific metrics.
+#  -include-system-metrics
+#   Whether to include system metrics like e.g. redis_total_system_memory_bytes.
+#  -is-tile38
+#   Whether to scrape Tile38 specific metrics.
+#  -log-format string
+#   Log format, valid options are txt and json. (default "txt")
+#  -namespace string
+#   Namespace for metrics. (default "redis")
+#  -ping-on-connect
+#   Whether to ping the redis instance after connecting.
+#  -redis-only-metrics
+#   Whether to also export go runtime metrics.
+#  -redis.addr string
+#   Address of the Redis instance to scrape. (default "redis://localhost:6379")
+#  -redis.password string
+#   Password of the Redis instance to scrape.
+#  -script string
+#   Path to Lua Redis script for collecting extra metrics.
+#  -set-client-name
+#   Whether to set client name to redis_exporter. (default true)
+#  -skip-tls-verification
+#   Whether to to skip TLS verification.
+#  -tls-client-cert-file string
+#   Name of the client certificate file (including full path) if the server
+#   requires TLS client authentication.
+#  -tls-client-key-file string
+#   Name of the client key file (including full path) if the server requires
+#   TLS client authentication.
+#  -web.listen-address string
+#   Address to listen on for web interface and telemetry. (default ":9121")
+#  -web.telemetry-path string
+#   Path under which to expose metrics. (default "/metrics")

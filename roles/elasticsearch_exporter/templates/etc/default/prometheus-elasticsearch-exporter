@@ -1,4 +1,41 @@
 LISTEN_ADDRESS=[::1]:{{ elasticsearch_exporter_listen_port }}
-ELASTICSEARCH_URI=http://{{ elasticsearch_exporter_elasticsearch_user_name }}:{{ elasticsearch_exporter_elasticsearch_user_password }}@[::1]:{{ elasticsearch_listen_port }}
 ELASTICSEARCH_CA_FILE={{ elasticsearch_exporter_ca_cert_file }}
 EXTRA_ARGS=
+
+# Original:
+
+#ARGS=""
+
+# prometheus-elasticsearch-exporter supports the following options:
+#
+#  -h, --help                 Show context-sensitive help (also try --help-long and
+#                             --help-man).
+#      --web.listen-address=":9114"
+#                             Address to listen on for web interface and telemetry.
+#      --web.telemetry-path="/metrics"
+#                             Path under which to expose metrics.
+#      --es.uri="http://localhost:9200"
+#                             HTTP API address of an Elasticsearch node.
+#      --es.timeout=5s        Timeout for trying to get stats from Elasticsearch.
+#      --es.all               Export stats for all nodes in the cluster. If used, this flag
+#                             will override the flag es.node.
+#      --es.node="_local"     Node's name of which metrics should be exposed.
+#      --es.indices           Export stats for indices in the cluster.
+#      --es.indices_settings  Export stats for settings of all indices of the cluster.
+#      --es.cluster_settings  Export stats for cluster settings.
+#      --es.shards            Export stats for shards in the cluster (implies --es.indices).
+#      --es.snapshots         Export stats for the cluster snapshots.
+#      --es.clusterinfo.interval=5m
+#                             Cluster info update interval for the cluster label
+#      --es.ca=""             Path to PEM file that contains trusted Certificate Authorities
+#                             for the Elasticsearch connection.
+#      --es.client-private-key=""
+#                             Path to PEM file that contains the private key for client auth
+#                             when connecting to Elasticsearch.
+#      --es.client-cert=""    Path to PEM file that contains the corresponding cert for the
+#                             private key to connect to Elasticsearch.
+#      --es.ssl-skip-verify   Skip SSL verification when connecting to Elasticsearch.
+#      --log.level="info"     Sets the loglevel. Valid levels are debug, info, warn, error
+#      --log.format="logfmt"  Sets the log format. Valid formats are json and logfmt
+#      --log.output="stdout"  Sets the log output. Valid outputs are stdout and stderr
+#      --version              Show application version.

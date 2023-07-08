@@ -26,7 +26,7 @@
     force: true
   become: true
 
-- name: Copy fail2ban config
+- name: Copy fail2ban config for SSHd
   ansible.builtin.template:
     src: etc/fail2ban/jail.d/sshd.conf
     dest: /etc/fail2ban/jail.d/sshd.conf

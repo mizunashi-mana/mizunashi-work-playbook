@@ -77,6 +77,7 @@
     group: root
     mode: '0644'
     backup: true
+    validate: /usr/bin/prometheus-blackbox-exporter --config.check --config.file %s
   become: true
   notify:
     - Reload blackbox-exporter

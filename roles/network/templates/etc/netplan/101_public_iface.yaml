@@ -1,0 +1,15 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    {{ network_public_iface }}:
+      addresses:
+        - {{ network_public_ipv4_address|to_yaml }}
+        - {{ network_public_ipv6_address|to_yaml }}
+      nameservers:
+        addresses:
+          - {{ network_public_ipv4_nameserver|to_yaml }}
+      gateway4: {{ network_public_ipv4_gateway|to_yaml }}
+{% if network_public_ipv6_gateway is defined %}
+      gateway6: {{ network_public_ipv6_gateway|to_yaml }}
+{% endif %}

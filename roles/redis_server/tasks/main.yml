@@ -14,6 +14,18 @@
     mode: '0640'
     backup: true
   become: true
+  notify:
+    - Restart redis-server
+
+- name: Copy redis private config
+  ansible.builtin.template:
+    src: etc/redis/redis-private.conf
+    dest: /etc/redis/redis-private.conf
+    owner: redis
+    group: redis
+    mode: '0640'
+    backup: true
+  become: true
   diff: false
   notify:
     - Restart redis-server

@@ -1,0 +1,7 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    {{ network_internal_iface }}:
+      addresses:
+        - {{ network_internal_ipv6_address|to_yaml }}

@@ -7,57 +7,52 @@
     network_hostname_long_stats.rc != 0
       and network_hostname_long_stats.stdout == network_public_hostname
 
-- name: Directory of interfaces is available
-  ansible.builtin.file:
-    path: /etc/network/iface-available.d
-    state: directory
-    owner: root
-    group: root
-    mode: '0755'
+- name: Install netplan
+  ansible.builtin.apt:
+    name:
+    - 'netplan.io={{ network_netplan_version }}*'
+    - 'openvswitch-switch={{ network_openvswitch_version }}*'
+    state: present
   become: true
 
 - name: Install public iface
   ansible.builtin.template:
-    src: etc/network/iface-available.d/public_iface.conf
-    dest: /etc/network/iface-available.d/public_iface.conf
+    src: etc/netplan/101_public_iface.yaml
+    dest: /etc/netplan/101_public_iface.yaml
     owner: root
     group: root
-    mode: '0644'
+    mode: '0600'
     backup: true
   become: true
   notify:
-    - Restart network
+    - Apply netplan
 
 - name: Install internal iface
   ansible.builtin.template:
-    src: etc/network/iface-available.d/internal_iface.conf
-    dest: /etc/network/iface-available.d/internal_iface.conf
+    src: etc/netplan/102_internal_iface.yaml
+    dest: /etc/netplan/102_internal_iface.yaml
     owner: root
     group: root
-    mode: '0644'
+    mode: '0600'
     backup: true
   become: true
   notify:
-    - Restart network
+    - Apply netplan
 
-- name: Enable public iface
-  ansible.builtin.file:
-    src: /etc/network/iface-available.d/public_iface.conf
-    dest: /etc/network/interfaces.d/public_iface.conf
-    owner: root
-    group: root
-    state: link
+- name: Notify restart systemd-networkd if not started
+  ansible.builtin.command: systemctl status systemd-networkd
   become: true
+  register: systemd_networkd_service_status
+  changed_when: systemd_networkd_service_status.rc != 0
+  failed_when: false
   notify:
-    - Restart network
+    - Restart systemd-networkd
 
-- name: Enable internal iface
-  ansible.builtin.file:
-    src: /etc/network/iface-available.d/internal_iface.conf
-    dest: /etc/network/interfaces.d/internal_iface.conf
-    owner: root
-    group: root
-    state: link
+- name: Notify restart ovsdb-server if not started
+  ansible.builtin.command: systemctl status ovsdb-server
   become: true
+  register: ovsdb_server_service_status
+  changed_when: ovsdb_server_service_status.rc != 0
+  failed_when: false
   notify:
-    - Restart network
+    - Restart ovsdb-server
