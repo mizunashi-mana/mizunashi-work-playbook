@@ -1,3 +1,3 @@
 ---
-nftables_version: '0.9.8'
-nftables_ulogd_version: '2.0.7'
+nftables_version: '1.0.6'
+nftables_ulogd_version: '2.0.8'

@@ -4,38 +4,8 @@ EXTRA_ARGS=
 
 # Original:
 
+# Set the command-line arguments to pass to the server.
+# Due to shell escaping, to pass backslashes for regexes, you need to double
+# them (\\d for \d). If running under systemd, you need to double them again
+# (\\\\d to mean \d), and escape newlines too.
 #ARGS=""
-
-# prometheus-elasticsearch-exporter supports the following options:
-#
-#  -h, --help                 Show context-sensitive help (also try --help-long and
-#                             --help-man).
-#      --web.listen-address=":9114"
-#                             Address to listen on for web interface and telemetry.
-#      --web.telemetry-path="/metrics"
-#                             Path under which to expose metrics.
-#      --es.uri="http://localhost:9200"
-#                             HTTP API address of an Elasticsearch node.
-#      --es.timeout=5s        Timeout for trying to get stats from Elasticsearch.
-#      --es.all               Export stats for all nodes in the cluster. If used, this flag
-#                             will override the flag es.node.
-#      --es.node="_local"     Node's name of which metrics should be exposed.
-#      --es.indices           Export stats for indices in the cluster.
-#      --es.indices_settings  Export stats for settings of all indices of the cluster.
-#      --es.cluster_settings  Export stats for cluster settings.
-#      --es.shards            Export stats for shards in the cluster (implies --es.indices).
-#      --es.snapshots         Export stats for the cluster snapshots.
-#      --es.clusterinfo.interval=5m
-#                             Cluster info update interval for the cluster label
-#      --es.ca=""             Path to PEM file that contains trusted Certificate Authorities
-#                             for the Elasticsearch connection.
-#      --es.client-private-key=""
-#                             Path to PEM file that contains the private key for client auth
-#                             when connecting to Elasticsearch.
-#      --es.client-cert=""    Path to PEM file that contains the corresponding cert for the
-#                             private key to connect to Elasticsearch.
-#      --es.ssl-skip-verify   Skip SSL verification when connecting to Elasticsearch.
-#      --log.level="info"     Sets the loglevel. Valid levels are debug, info, warn, error
-#      --log.format="logfmt"  Sets the log format. Valid formats are json and logfmt
-#      --log.output="stdout"  Sets the log output. Valid outputs are stdout and stderr
-#      --version              Show application version.
