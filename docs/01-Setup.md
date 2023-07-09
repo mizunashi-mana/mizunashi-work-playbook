@@ -2,14 +2,11 @@
 
 ## Initial provision
 
+Copy `./scripts/provision/init.sh`, and
+
 ```
-$ mkdir -p /home/workuser/.ssh
-$ echo 'ssh-pubkey' >> /home/workuser/.ssh/authorized_keys
 $ su
-# apt update -y
-# apt install -y sudo
-# gpasswd -a workuser sudo
-# echo 'Port PORT' | tee /etc/ssh/sshd_config.d/server.conf
+# env SSH_PORT=port SSH_AUTHORIZED_KEY='public key' WORKUSER="workuser" bash init.sh
 # systemctl reboot
 ```
 

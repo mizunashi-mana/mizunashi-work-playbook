@@ -40,6 +40,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell", inline: <<~SHELL
     WORKUSER=vagrant
     SSH_PORT=22
+    SSH_AUTHORIZED_KEY='ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMkqfF4qMFhr2fg+Yw3WLIqaRLqYzkCjWy2fdF4eQ5LG mizunashi-work-playbook'
 
     #{File.read("./scripts/provision/init.bash")}
 
