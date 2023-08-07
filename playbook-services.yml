@@ -62,13 +62,17 @@
   - redis_server
   - postgresql
   - redis_exporter
-  - postgres_exporter
   - statsd_exporter
+
+  - postgresql_dbsetup_postgres_exporter
+  - postgres_exporter
 
   - postgresql_dbsetup_mastodon
   - mastodon
 
-  - postgresql_dbsetup_postgres_exporter
+  - postgresql_dbsetup_firefish
+  - firefish
+
   - postgres_backup
 
   post_tasks:

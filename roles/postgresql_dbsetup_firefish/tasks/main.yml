@@ -1,0 +1,53 @@
+---
+- name: Request postgresql started
+  ansible.builtin.meta: flush_handlers
+
+- name: Select users
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command 'SELECT usename FROM pg_user;'
+        --csv
+  become: true
+  changed_when: false
+  register: postgresql_dbsetup_firefish_users_result
+
+- name: Firefish DB working user is available
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          CREATE USER {{ firefish_postgres_user }}
+          WITH ENCRYPTED PASSWORD '{{ firefish_postgres_password }}'
+          ;
+        "
+  become: true
+  no_log: true
+  when: |
+    firefish_postgres_user not in postgresql_dbsetup_firefish_users_result.stdout_lines
+
+- name: Select databases
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command 'SELECT datname FROM pg_database;'
+        --csv
+  become: true
+  changed_when: false
+  register: postgresql_dbsetup_firefish_databases_result
+
+- name: Firefish DB is available
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command "
+          CREATE DATABASE {{ firefish_postgres_db }}
+          WITH
+            OWNER '{{ firefish_postgres_user }}'
+            ENCODING 'UTF-8'
+          ;
+        "
+  become: true
+  no_log: true
+  when: |
+    firefish_postgres_db not in postgresql_dbsetup_firefish_databases_result.stdout_lines
