@@ -1,5 +1,5 @@
 ---
 dependencies:
   - role: network
-  - role: certbot
   - role: nginx
+  - role: certbot

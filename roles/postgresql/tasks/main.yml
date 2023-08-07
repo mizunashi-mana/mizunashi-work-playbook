@@ -9,6 +9,18 @@
     state: present
   become: true
 
+- name: Copy server config
+  ansible.builtin.template:
+    src: etc/postgresql/ver/main/conf.d/server.conf
+    dest: '/etc/postgresql/{{ postgresql_major_version }}/main/conf.d/server.conf'
+    owner: postgres
+    group: postgres
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart postgresql
+
 - name: Copy pg tune config
   ansible.builtin.template:
     src: etc/postgresql/ver/main/conf.d/pg_tune.conf
