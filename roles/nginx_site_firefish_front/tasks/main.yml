@@ -34,4 +34,4 @@
     state: link
   become: true
   notify:
-    - Reload nginx
+    - Restart nginx

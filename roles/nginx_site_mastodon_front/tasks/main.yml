@@ -12,7 +12,7 @@
     certbot_install_acme_cert_on_calendar: '{{ certbot_renew_on_calendar }}'
     certbot_install_hook_type: nginx
 
-- name: Install mastodon site
+- name: Install site
   ansible.builtin.template:
     src: etc/nginx/sites-available/mastodon_front.conf
     dest: /etc/nginx/sites-available/mastodon_front.conf
@@ -25,7 +25,7 @@
   notify:
     - Reload nginx
 
-- name: Enable mastodon site
+- name: Enable site
   ansible.builtin.file:
     src: /etc/nginx/sites-available/mastodon_front.conf
     dest: /etc/nginx/sites-enabled/mastodon_front.conf
@@ -34,4 +34,4 @@
     state: link
   become: true
   notify:
-    - Reload nginx
+    - Restart nginx

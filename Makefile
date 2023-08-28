@@ -66,3 +66,12 @@ provision-services: build
 		--inventory ./inventory_vagrant.yml \
 		./playbook-services.yml \
 		| tee $(LOGS_DIR)/provision-services.$(TIMESTAMP).log
+
+.PHONY: provision-public-nginx-sites
+provision-public-nginx-sites: build
+	$(POETRY) run ansible-playbook \
+		--diff -vv \
+		--vault-password-file ./assets/vagrant_vault_password \
+		--inventory ./inventory_vagrant.yml \
+		./playbook-public-nginx-sites.yml \
+		| tee $(LOGS_DIR)/provision-public-nginx-sites.$(TIMESTAMP).log

@@ -25,7 +25,7 @@
   notify:
     - Reload nginx
 
-- name: Install local proxy site
+- name: Install site
   ansible.builtin.template:
     src: 'etc/nginx/sites-available/local_proxy.conf'
     dest: '/etc/nginx/sites-available/local_proxy.conf'
@@ -38,7 +38,7 @@
   notify:
     - Reload nginx
 
-- name: Enable local proxy site
+- name: Enable site
   ansible.builtin.file:
     src: '/etc/nginx/sites-available/local_proxy.conf'
     dest: '/etc/nginx/sites-enabled/local_proxy.conf'
@@ -47,4 +47,4 @@
     state: link
   become: true
   notify:
-    - Reload nginx
+    - Restart nginx

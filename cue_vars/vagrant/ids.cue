@@ -10,6 +10,7 @@ package ids
 
 #mastodon_hostname: "mstdn-local.mizunashi.work"
 #firefish_hostname: "ff-local.mizunashi.work"
+#archivedon_main_hostname: "archivedon-local.mizunashi.work"
 #www_hostname: "www.mizunashi.work"
 #root_hostname: "mizunashi.work"
 

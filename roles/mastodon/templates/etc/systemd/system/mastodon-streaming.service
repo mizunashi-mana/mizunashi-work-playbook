@@ -11,7 +11,6 @@ EnvironmentFile=/etc/default/mastodon-streaming
 ExecStart=/usr/bin/node ./streaming
 TimeoutSec=15
 Restart=on-failure
-StandardOutput=file:/var/log/mastodon/mastodon-streaming.log
 
 # Proc filesystem
 ProcSubset=pid

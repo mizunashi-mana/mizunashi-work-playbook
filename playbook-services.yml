@@ -73,6 +73,8 @@
   - postgresql_dbsetup_firefish
   - firefish
 
+  - archivedon
+
   - postgres_backup
 
   post_tasks:

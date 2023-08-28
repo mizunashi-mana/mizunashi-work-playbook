@@ -6,16 +6,16 @@
   ansible.builtin.include_role:
     name: certbot_install_acme_cert
   vars:
-    certbot_install_acme_cert_server: '{{ nginx_site_minio_server_acme_challenge_url }}'
-    certbot_install_acme_cert_domain: '{{ nginx_site_minio_server_domain }}'
-    certbot_install_acme_cert_ca_bundle: '{{ nginx_site_minio_server_ca_bundle_path }}'
+    certbot_install_acme_cert_server: '{{ nginx_site_archivedon_front_acme_challenge_url }}'
+    certbot_install_acme_cert_domain: '{{ nginx_site_archivedon_front_main_domain }}'
+    certbot_install_acme_cert_ca_bundle: '{{ nginx_site_archivedon_front_ca_bundle_path }}'
     certbot_install_acme_cert_on_calendar: '{{ certbot_renew_on_calendar }}'
     certbot_install_hook_type: nginx
 
 - name: Install site
   ansible.builtin.template:
-    src: etc/nginx/sites-available/minio_server.conf
-    dest: /etc/nginx/sites-available/minio_server.conf
+    src: etc/nginx/sites-available/archivedon_front.conf
+    dest: /etc/nginx/sites-available/archivedon_front.conf
     owner: root
     group: root
     mode: '0644'
@@ -27,8 +27,8 @@
 
 - name: Enable site
   ansible.builtin.file:
-    src: /etc/nginx/sites-available/minio_server.conf
-    dest: /etc/nginx/sites-enabled/minio_server.conf
+    src: /etc/nginx/sites-available/archivedon_front.conf
+    dest: /etc/nginx/sites-enabled/archivedon_front.conf
     owner: root
     group: root
     state: link
