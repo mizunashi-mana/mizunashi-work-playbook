@@ -1,3 +1,3 @@
 ---
-firefish_version: '1.0.3'
-firefish_deb_url: https://github.com/mizunashi-mana/firefish-dist-pkg/releases/download/v1.0.3-d2023080600-beta/debian-bullseye_firefish_1.0.3-d2023080600-beta_amd64.deb
+firefish_version: '1.0.4'
+firefish_deb_url: https://github.com/mizunashi-mana/firefish-dist-pkg/releases/download/v1.0.4%2Bbeta-d2023082800-beta/debian-bullseye_firefish_1.0.4+beta-d2023082800-beta_amd64.deb
