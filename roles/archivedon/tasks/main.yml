@@ -1,0 +1,60 @@
+---
+- name: Install archivedon
+  ansible.builtin.get_url:
+    url: '{{ archivedon_download_link }}'
+    dest: /usr/local/bin/archivedon
+    checksum: '{{ archivedon_checksum }}'
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Add archivedon user
+  ansible.builtin.user:
+    name: archivedon
+    system: true
+    home: /var/lib/archivedon
+    shell: /usr/sbin/nologin
+    state: present
+  become: true
+
+- name: Directory of data is available
+  ansible.builtin.file:
+    path: /var/lib/archivedon
+    state: directory
+    owner: archivedon
+    group: archivedon
+    mode: '0755'
+  become: true
+
+- name: Copy service
+  ansible.builtin.copy:
+    src: etc/systemd/system/archivedon.service
+    dest: /etc/systemd/system/archivedon.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/systemd-validate %s
+  become: true
+  notify:
+    - Restart archivedon
+
+- name: Copy environment
+  ansible.builtin.template:
+    src: etc/default/archivedon
+    dest: /etc/default/archivedon
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Notify restart if not started
+  ansible.builtin.command: systemctl status archivedon.service
+  become: true
+  register: archivedon_service_status
+  changed_when: archivedon_service_status.rc != 0
+  failed_when: false
+  notify:
+    - Restart archivedon

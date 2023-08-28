@@ -1,2 +1,1 @@
-deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x {{ ansible_distribution_release }} main
-deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x {{ ansible_distribution_release }} main
+deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_{{ (nodejs_version|split("."))[0] }}.x {{ ansible_distribution_release }} main

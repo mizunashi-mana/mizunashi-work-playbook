@@ -319,6 +319,7 @@ Schema & {
           },
           Schema.#private_acme_challenge_url,
           "https://\(ids.#mastodon_hostname):\(Schema.#https_port)/",
+          "https://\(ids.#firefish_hostname):\(Schema.#https_port)/",
         ]
       }]
     },

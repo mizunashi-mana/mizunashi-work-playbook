@@ -1,0 +1,15 @@
+/var/log/firefish/*.log {
+  daily
+  dateext
+  dateformat -%Y%m%d-%s
+  rotate 10
+  maxsize 100M
+  maxage 10
+
+  missingok
+  compress
+  delaycompress
+  notifempty
+  create 640 firefish adm
+  copytruncate
+}

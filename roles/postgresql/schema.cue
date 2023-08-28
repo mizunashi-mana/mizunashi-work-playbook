@@ -1,6 +1,6 @@
 package postgresql
 
-postgresql_listen_port: 5432
+postgresql_listen_port: uint | *5432
 
 postgresql_max_connections: uint
 postgresql_shared_buffers: string

@@ -1,5 +1,5 @@
 ---
-- name: Install http redirector site
+- name: Install site
   ansible.builtin.template:
     src: etc/nginx/sites-available/http_redirector.conf
     dest: /etc/nginx/sites-available/http_redirector.conf
@@ -12,7 +12,7 @@
   notify:
     - Reload nginx
 
-- name: Enable http redirector site
+- name: Enable site
   ansible.builtin.file:
     src: /etc/nginx/sites-available/http_redirector.conf
     dest: /etc/nginx/sites-enabled/http_redirector.conf
@@ -21,4 +21,4 @@
     state: link
   become: true
   notify:
-    - Reload nginx
+    - Restart nginx

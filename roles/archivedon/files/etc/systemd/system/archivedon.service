@@ -1,0 +1,66 @@
+[Unit]
+Description=https://github.com/mizunashi-mana/archivedon
+After=network.target
+
+[Service]
+Type=simple
+User=archivedon
+WorkingDirectory=/var/lib/archivedon
+EnvironmentFile=/etc/default/archivedon
+ExecStart=/usr/local/bin/archivedon serve
+ExecReload=/bin/kill -SIGUSR1 $MAINPID
+Restart=on-failure
+StartLimitBurst=2
+
+# Security
+NoNewPrivileges=true
+CapabilityBoundingSet=
+UMask=0077
+
+# Sandboxing
+DevicePolicy=closed
+LockPersonality=true
+RemoveIPC=true
+ProcSubset=pid
+PrivateTmp=true
+PrivateDevices=true
+PrivateUsers=true
+PrivateMounts=true
+PrivateIPC=true
+ProtectProc=invisible
+ProtectSystem=strict
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectHome=true
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+RestrictAddressFamilies=AF_INET
+RestrictAddressFamilies=AF_INET6
+MemoryDenyWriteExecute=true
+
+# System Call Filtering
+SystemCallArchitectures=native
+SystemCallFilter=~@chown
+SystemCallFilter=~@clock
+SystemCallFilter=~@cpu-emulation
+SystemCallFilter=~@debug
+SystemCallFilter=~@ipc
+SystemCallFilter=~@keyring
+SystemCallFilter=~@memlock
+SystemCallFilter=~@module
+SystemCallFilter=~@mount
+SystemCallFilter=~@obsolete
+SystemCallFilter=~@privileged
+SystemCallFilter=~@raw-io
+SystemCallFilter=~@reboot
+SystemCallFilter=~@resources
+SystemCallFilter=~@setuid
+SystemCallFilter=~@swap
+
+[Install]
+WantedBy=multi-user.target
