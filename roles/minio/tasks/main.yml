@@ -13,7 +13,10 @@
     state: present
   become: true
   when: |
-    'msg' in minio_installed_check and minio_installed_check.msg is search('No package')
+    'msg' in minio_installed_check and
+      (  minio_installed_check.msg is search('No package')
+      or minio_installed_check.msg is search('no available')
+      )
 
 - name: minio-user is available
   ansible.builtin.user:
