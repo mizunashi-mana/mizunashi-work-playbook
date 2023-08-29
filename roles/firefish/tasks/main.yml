@@ -13,7 +13,10 @@
     state: present
   become: true
   when: |
-    'msg' in firefish_installed_check and firefish_installed_check.msg is search('no available')
+    'msg' in firefish_installed_check and
+      (  firefish_installed_check.msg is search('No package')
+      or firefish_installed_check.msg is search('no available')
+      )
 
 - name: Copy config of firefish
   ansible.builtin.template:

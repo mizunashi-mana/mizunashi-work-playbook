@@ -13,7 +13,10 @@
     state: present
   become: true
   when: |
-    'msg' in mc_installed_check and mc_installed_check.msg is search('No package')
+    'msg' in mc_installed_check and
+      (  mc_installed_check.msg is search('No package')
+      or mc_installed_check.msg is search('no available')
+      )
 
 - name: Directory of mcli config is available
   ansible.builtin.file:
