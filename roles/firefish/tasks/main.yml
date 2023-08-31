@@ -1,7 +1,7 @@
 ---
 - name: firefish is available
   ansible.builtin.apt:
-    name: 'firefish={{ firefish_version }}'
+    name: 'firefish={{ firefish_version }}*'
     state: present
   become: true
   failed_when: false

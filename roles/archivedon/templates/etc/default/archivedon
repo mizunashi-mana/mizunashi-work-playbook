@@ -1,3 +1,4 @@
 ADDR=::1
 PORT={{ archivedon_listen_port }}
 RESOURCE_DIR=/usr/local/share/archivedon/resource
+EXPOSE_URL_BASE={{ archivedon_expose_url_base }}
