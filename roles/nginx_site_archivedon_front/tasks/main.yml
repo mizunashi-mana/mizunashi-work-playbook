@@ -7,10 +7,11 @@
     name: certbot_install_acme_cert
   vars:
     certbot_install_acme_cert_server: '{{ nginx_site_archivedon_front_acme_challenge_url }}'
-    certbot_install_acme_cert_domain: '{{ nginx_site_archivedon_front_main_domain }}'
+    certbot_install_acme_cert_domain: '{{ item.key }}'
     certbot_install_acme_cert_ca_bundle: '{{ nginx_site_archivedon_front_ca_bundle_path }}'
     certbot_install_acme_cert_on_calendar: '{{ certbot_renew_on_calendar }}'
     certbot_install_hook_type: nginx
+  loop: '{{ nginx_site_archivedon_front_domains|dict2items }}'
 
 - name: Install site
   ansible.builtin.template:

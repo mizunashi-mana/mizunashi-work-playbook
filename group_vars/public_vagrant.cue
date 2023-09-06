@@ -22,7 +22,8 @@ Schema & {
   firefish_endpoint_url: "https://\(ids.#firefish_hostname)"
 
   nginx_site_archivedon_front_listen_port: Schema.#https_port
-  nginx_site_archivedon_front_main_domain: "\(ids.#archivedon_main_hostname)"
+  nginx_site_archivedon_front_domains: "\(ids.#archivedon_main_hostname)": {}
+  archivedon_expose_url_base: "https://\(ids.#archivedon_main_hostname)/"
 
   nftables_accept_tcp_ports: "\(Schema.#http_port)": {}
   nftables_accept_tcp_ports: "\(Schema.#https_port)": {}

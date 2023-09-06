@@ -8,6 +8,8 @@
     group: root
     mode: '0755'
   become: true
+  notify:
+    - Restart archivedon
 
 - name: Add archivedon user
   ansible.builtin.user:
@@ -49,6 +51,8 @@
     mode: '0644'
     backup: true
   become: true
+  notify:
+    - Restart archivedon
 
 - name: Notify restart if not started
   ansible.builtin.command: systemctl status archivedon.service
