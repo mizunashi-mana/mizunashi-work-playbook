@@ -1,3 +1,3 @@
 ---
-ap_outbox2bsky_post_download_link: https://github.com/mizunashi-mana/ap-outbox2bsky-post/releases/download/v0.2.0/ap-outbox2bsky-post.x86_64-unknown-linux-gnu
-ap_outbox2bsky_post_checksum: 'sha256:2b428e6274f1fe1b07e2451f5818bb0c4048d75aa265236690af3447f908db87'
+ap_outbox2bsky_post_download_link: https://github.com/mizunashi-mana/ap-outbox2bsky-post/releases/download/v0.3.0/ap-outbox2bsky-post.x86_64-unknown-linux-gnu
+ap_outbox2bsky_post_checksum: 'sha256:3307bc1cbe7990184788bcb9dcd68ca003b887b4e5077f2a7e9dbff4868556a6'
