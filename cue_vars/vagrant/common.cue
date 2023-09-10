@@ -86,10 +86,6 @@ Schema & {
     name: "postgres"
     password: ids.#local_proxy_password
   }
-  #local_proxy_jobs: statsd: {
-    name: "statsd"
-    password: ids.#local_proxy_password
-  }
   #local_proxy_jobs: caddy: {
     name: "caddy"
     password: ids.#local_proxy_password
@@ -104,10 +100,6 @@ Schema & {
   }
   #local_proxy_jobs: fluent_bit: {
     name: "fluent-bit"
-    password: ids.#local_proxy_password
-  }
-  #local_proxy_jobs: mastodon_streaming: {
-    name: "mastodon-streaming"
     password: ids.#local_proxy_password
   }
 

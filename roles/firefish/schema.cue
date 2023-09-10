@@ -21,5 +21,4 @@ firefish_cache_redis_port: uint
 firefish_cache_redis_password?: cue_types.#Vaulted
 firefish_cache_redis_prefix: string | *"firefish_cache"
 
-firefish_cluster_limit: uint | *1
 firefish_outgoing_address_family: "ipv4" | "ipv6" | *"dual"

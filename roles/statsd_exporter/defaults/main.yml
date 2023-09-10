@@ -1,5 +1,0 @@
----
-statsd_exporter_version: '0.23.1'
-
-statsd_exporter_statsd_listen_udp_port: 9125
-statsd_exporter_statsd_listen_tcp_port: 9125

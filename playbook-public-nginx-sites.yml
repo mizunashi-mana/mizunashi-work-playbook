@@ -3,7 +3,6 @@
   max_fail_percentage: 30
 
   roles:
-  - nginx_site_mastodon_front
   - nginx_site_firefish_front
   - nginx_site_archivedon_front
 
