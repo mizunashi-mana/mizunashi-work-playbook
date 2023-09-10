@@ -35,10 +35,6 @@ let local_proxy_scrape_configs = {
     metrics_path: "/metrics"
     host_entries: hosts.#public_host_entries
   },
-  statsd: {
-    metrics_path: "/metrics"
-    host_entries: hosts.#public_host_entries
-  },
   caddy: {
     metrics_path: "/metrics"
     host_entries: hosts.#internal_host_entries
@@ -54,10 +50,6 @@ let local_proxy_scrape_configs = {
   fluent_bit: {
     metrics_path: "/api/v1/metrics/prometheus"
     host_entries: hosts.#host_entries
-  },
-  mastodon_streaming: {
-    metrics_path: "/metrics"
-    host_entries: hosts.#public_host_entries
   },
 }
 
@@ -318,8 +310,8 @@ Schema & {
             "https://\(host_entry.internal_host):\(Schema.#local_proxy_https_port)/monitor/l7check"
           },
           Schema.#private_acme_challenge_url,
-          "https://\(ids.#mastodon_hostname):\(Schema.#https_port)/",
-          "https://\(ids.#firefish_hostname):\(Schema.#https_port)/",
+          "https://\(ids.#firefish_hostname)/",
+          "https://\(ids.#archivedon_main_hostname)/",
         ]
       }]
     },

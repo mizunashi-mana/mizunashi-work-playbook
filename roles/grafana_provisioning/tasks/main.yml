@@ -84,8 +84,6 @@
       - prometheus-stats
       - grafana-stats
       - node-exporter
-      - statsd-exporter
-      - statsd-exporter-mastodon
       - minio-stats
       - postgres-exporter
       - nginx-exporter
@@ -108,7 +106,6 @@
       - nginx-exporter
       - postgres-exporter
       - redis-exporter
-      - statsd-exporter-mastodon
 
 - name: Copy dashboards
   ansible.builtin.copy:

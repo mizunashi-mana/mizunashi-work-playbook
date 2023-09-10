@@ -1,7 +1,0 @@
----
-mastodon_git_ref: v4.1.6
-mastodon_db_version: 20221206114142
-
-mastodon_libpq_version: '13.11'
-mastodon_ffmpeg_version: '4.3.6'
-mastodon_imagemagick_version: '6.9.11.60'

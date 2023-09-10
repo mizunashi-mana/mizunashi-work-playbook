@@ -14,15 +14,13 @@ let Schema = {
 Schema & {
   nginx_site_http_redirector_listen_port: Schema.#http_port
 
-  nginx_site_mastodon_front_listen_port: Schema.#https_port
-  mastodon_local_domain: ids.#mastodon_hostname
-
   nginx_site_firefish_front_listen_port: Schema.#https_port
   nginx_site_firefish_front_domain: ids.#firefish_hostname
   firefish_endpoint_url: "https://\(ids.#firefish_hostname)"
 
   nginx_site_archivedon_front_listen_port: Schema.#https_port
   nginx_site_archivedon_front_domains: "\(ids.#archivedon_main_hostname)": {}
+  nginx_site_archivedon_front_domains: "\(ids.#mastodon_hostname)": {}
   archivedon_expose_url_base: "https://\(ids.#archivedon_main_hostname)/"
 
   nftables_accept_tcp_ports: "\(Schema.#http_port)": {}
@@ -62,14 +60,6 @@ Schema & {
     upstream_port: Schema.postgres_exporter_listen_port
     auth_password: Schema.#local_proxy_jobs.postgres.password
   }
-  nginx_site_local_proxy_entries: "\(Schema.#local_proxy_jobs.statsd.name)": {
-    upstream_port: Schema.statsd_exporter_web_listen_port
-    auth_password: Schema.#local_proxy_jobs.statsd.password
-  }
-  nginx_site_local_proxy_entries: "\(Schema.#local_proxy_jobs.mastodon_streaming.name)": {
-    upstream_port: Schema.mastodon_streaming_listen_port
-    auth_password: Schema.#local_proxy_jobs.mastodon_streaming.password
-  }
 
   nginx_site_firefish_front_acme_challenge_url: Schema.#private_acme_challenge_url
   nginx_site_firefish_front_ca_bundle_path: Schema.ca_certs_bundle_file_with_private_ca
@@ -82,15 +72,6 @@ Schema & {
 
   fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_firefish_front_tag)": {}
 
-  nginx_site_mastodon_front_acme_challenge_url: Schema.#private_acme_challenge_url
-  nginx_site_mastodon_front_ca_bundle_path: Schema.ca_certs_bundle_file_with_private_ca
-  nginx_site_mastodon_front_maintenance_mode: false
-
-  #fluent_bit_input_nginx_log_access_mastodon_front_tag: "nginx.access.mastodon_front"
-  fluent_bit_input_nginx_log_access_entries: "\(#fluent_bit_input_nginx_log_access_mastodon_front_tag)": {
-    log_file: "/var/log/nginx/access.mastodon_front.log"
-  }
-
   nginx_site_archivedon_front_acme_challenge_url: Schema.#private_acme_challenge_url
   nginx_site_archivedon_front_ca_bundle_path: Schema.ca_certs_bundle_file_with_private_ca
 
@@ -98,8 +79,6 @@ Schema & {
   fluent_bit_input_nginx_log_access_entries: "\(#fluent_bit_input_nginx_log_access_archivedon_front_tag)": {
     log_file: "/var/log/nginx/access.archivedon_front.log"
   }
-
-  fluent_bit_output_elasticsearch_entries: "\(#fluent_bit_input_nginx_log_access_mastodon_front_tag)": {}
 
   postgresql_max_connections: pg_tune.max_connections
   postgresql_shared_buffers: pg_tune.shared_buffers
@@ -133,16 +112,6 @@ Schema & {
   firefish_cache_redis_host: "localhost"
   firefish_cache_redis_port: Schema.redis_server_listen_port
   firefish_cache_redis_password: ids.#redis_server_auth_password
-
-  mastodon_single_user_mode: "true"
-
-  mastodon_otp_secret: ids.#mastodon_otp_secret
-  mastodon_secret_key_base: ids.#mastodon_secret_key_base
-  mastodon_vapid_private_key: ids.#mastodon_vapid_secret.private_key
-  mastodon_vapid_public_key: ids.#mastodon_vapid_secret.public_key
-
-  mastodon_db_user_name: ids.#postgres_mastodon_db_user.name
-  mastodon_db_user_password: ids.#postgres_mastodon_db_user.password
 
   postgres_exporter_user_name: ids.#postgres_postgres_exporter_user.name
   postgres_exporter_user_password: ids.#postgres_postgres_exporter_user.password

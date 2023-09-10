@@ -58,17 +58,12 @@
 
   roles:
   - nodejs
-  - ruby
   - redis_server
   - postgresql
   - redis_exporter
-  - statsd_exporter
 
   - postgresql_dbsetup_postgres_exporter
   - postgres_exporter
-
-  - postgresql_dbsetup_mastodon
-  - mastodon
 
   - postgresql_dbsetup_firefish
   - firefish
