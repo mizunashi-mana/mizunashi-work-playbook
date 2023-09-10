@@ -1,9 +1,9 @@
 ---
-- name: Install mstdn-rss2bsky-post
+- name: Install ap-outbox2bsky-post
   ansible.builtin.get_url:
-    url: '{{ mstdn_rss2bsky_post_download_link }}'
-    dest: /usr/local/bin/mstdn-rss2bsky-post
-    checksum: '{{ mstdn_rss2bsky_post_checksum }}'
+    url: '{{ ap_outbox2bsky_post_download_link }}'
+    dest: /usr/local/bin/ap-outbox2bsky-post
+    checksum: '{{ ap_outbox2bsky_post_checksum }}'
     owner: root
     group: root
     mode: '0755'
@@ -11,7 +11,7 @@
 
 - name: Directory of data is available
   ansible.builtin.file:
-    path: /var/lib/mstdn-rss2bsky-post
+    path: /var/lib/ap-outbox2bsky-post
     state: directory
     owner: root
     group: root
@@ -20,8 +20,8 @@
 
 - name: Copy service
   ansible.builtin.copy:
-    src: etc/systemd/system/mstdn-rss2bsky-post.service
-    dest: /etc/systemd/system/mstdn-rss2bsky-post.service
+    src: etc/systemd/system/ap-outbox2bsky-post.service
+    dest: /etc/systemd/system/ap-outbox2bsky-post.service
     owner: root
     group: root
     mode: '0644'
@@ -29,12 +29,12 @@
     validate: /opt/bin/systemd-validate %s
   become: true
   notify:
-    - Reload mstdn-rss2bsky-post
+    - Reload ap-outbox2bsky-post
 
 - name: Copy timer
   ansible.builtin.copy:
-    src: etc/systemd/system/mstdn-rss2bsky-post.timer
-    dest: /etc/systemd/system/mstdn-rss2bsky-post.timer
+    src: etc/systemd/system/ap-outbox2bsky-post.timer
+    dest: /etc/systemd/system/ap-outbox2bsky-post.timer
     owner: root
     group: root
     mode: '0644'
@@ -42,12 +42,12 @@
     validate: /opt/bin/systemd-validate -t timer %s
   become: true
   notify:
-    - Reload mstdn-rss2bsky-post.timer
+    - Reload ap-outbox2bsky-post.timer
 
 - name: Copy environment
   ansible.builtin.template:
-    src: etc/default/mstdn-rss2bsky-post
-    dest: /etc/default/mstdn-rss2bsky-post
+    src: etc/default/ap-outbox2bsky-post
+    dest: /etc/default/ap-outbox2bsky-post
     owner: root
     group: root
     mode: '0600'
@@ -56,10 +56,10 @@
   diff: false
 
 - name: Notify reload timer if not started
-  ansible.builtin.command: systemctl status mstdn-rss2bsky-post.timer
+  ansible.builtin.command: systemctl status ap-outbox2bsky-post.timer
   become: true
-  register: mstdn_rss2bsky_post_service_status
-  changed_when: mstdn_rss2bsky_post_service_status.rc != 0
+  register: ap_outbox2bsky_post_service_status
+  changed_when: ap_outbox2bsky_post_service_status.rc != 0
   failed_when: false
   notify:
-    - Reload mstdn-rss2bsky-post.timer
+    - Reload ap-outbox2bsky-post.timer

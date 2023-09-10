@@ -1,0 +1,6 @@
+OUTBOX_URL={{ ap_outbox2bsky_post_outbox_url }}
+ATPROTO_IDENTIFIER={{ ap_outbox2bsky_post_atproto_identifier }}
+ATPROTO_PASSWORD={{ ap_outbox2bsky_post_atproto_password }}
+{% if ap_outbox2bsky_post_dry_run %}
+DRY_RUN_ARGS=--dry-run
+{% endif %}

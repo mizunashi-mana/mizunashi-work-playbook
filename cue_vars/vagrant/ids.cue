@@ -198,8 +198,8 @@ $ANSIBLE_VAULT;1.1;AES256
 3062
 """
 
-#mstdn_rss2bsky_post_feed_url: "https://mstdn.mizunashi.work/@mizunashi_mana.rss"
-#mstdn_rss2bsky_post_user: {
+#ap_outbox2bsky_post_outbox_url: "https://ff.mizunashi.work/users/9iyecw1fsdpimdzr/outbox"
+#ap_outbox2bsky_post_user: {
   identifier: "identifier"
   password: "__ansible_vault": """
   $ANSIBLE_VAULT;1.1;AES256

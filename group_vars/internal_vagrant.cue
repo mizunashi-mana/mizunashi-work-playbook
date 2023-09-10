@@ -254,10 +254,10 @@ Schema & {
   }
   grafana_provisioning_notification_email: ids.#notification_email
 
-  mstdn_rss2bsky_post_feed_url: ids.#mstdn_rss2bsky_post_feed_url
-  mstdn_rss2bsky_post_dry_run: true
-  mstdn_rss2bsky_post_atproto_identifier: ids.#mstdn_rss2bsky_post_user.identifier
-  mstdn_rss2bsky_post_atproto_password: ids.#mstdn_rss2bsky_post_user.password
+  ap_outbox2bsky_post_outbox_url: ids.#ap_outbox2bsky_post_outbox_url
+  ap_outbox2bsky_post_dry_run: true
+  ap_outbox2bsky_post_atproto_identifier: ids.#ap_outbox2bsky_post_user.identifier
+  ap_outbox2bsky_post_atproto_password: ids.#ap_outbox2bsky_post_user.password
 
   prometheus_scrape_configs: [
     for job_key, entry in local_proxy_scrape_configs {

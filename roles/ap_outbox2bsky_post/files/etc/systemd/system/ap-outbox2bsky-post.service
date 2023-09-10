@@ -1,0 +1,15 @@
+[Unit]
+Description=ActivityPub outbox to Bluesky posts
+
+[Service]
+Type=oneshot
+Environment=FILELOCK_PATH=/var/lib/ap-outbox2bsky-post/post.lock
+Environment=DB_PATH=/var/lib/ap-outbox2bsky-post/db.txt
+Environment=DRY_RUN_ARGS=
+EnvironmentFile=/etc/default/ap-outbox2bsky-post
+ExecStart=/usr/local/bin/ap-outbox2bsky-post \
+    --filelock-path "$FILELOCK_PATH" \
+    --db-path "$DB_PATH" \
+    $DRY_RUN_ARGS \
+    run \
+    --outbox-url "$OUTBOX_URL"
