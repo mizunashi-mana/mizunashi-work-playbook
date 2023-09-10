@@ -1,6 +1,0 @@
-FEED_URL={{ mstdn_rss2bsky_post_feed_url }}
-ATPROTO_IDENTIFIER={{ mstdn_rss2bsky_post_atproto_identifier }}
-ATPROTO_PASSWORD={{ mstdn_rss2bsky_post_atproto_password }}
-{% if mstdn_rss2bsky_post_dry_run %}
-DRY_RUN_ARGS=--dry-run
-{% endif %}
