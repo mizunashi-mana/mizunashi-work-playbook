@@ -10,6 +10,8 @@ COMMON_VARS ?= \
 CUE ?= cue
 POETRY ?= poetry
 
+ANSIBLE_PLAYBOOK ?= $(POETRY) run ansible-playbook --diff -vv
+
 LOGS_DIR ?= logs
 TIMESTAMP ?= $(shell date +%s)
 
@@ -51,8 +53,7 @@ reload: build
 
 .PHONY: provision-all
 provision-all: build
-	$(POETRY) run ansible-playbook \
-		--diff -vv \
+	$(ANSIBLE_PLAYBOOK) \
 		--vault-password-file ./assets/vagrant_vault_password \
 		--inventory ./inventory_vagrant.yml \
 		./playbook-all.yml \
@@ -60,8 +61,7 @@ provision-all: build
 
 .PHONY: provision-services
 provision-services: build
-	$(POETRY) run ansible-playbook \
-		--diff -vv \
+	$(ANSIBLE_PLAYBOOK) \
 		--vault-password-file ./assets/vagrant_vault_password \
 		--inventory ./inventory_vagrant.yml \
 		./playbook-services.yml \
@@ -69,8 +69,7 @@ provision-services: build
 
 .PHONY: provision-public-nginx-sites
 provision-public-nginx-sites: build
-	$(POETRY) run ansible-playbook \
-		--diff -vv \
+	$(ANSIBLE_PLAYBOOK) \
 		--vault-password-file ./assets/vagrant_vault_password \
 		--inventory ./inventory_vagrant.yml \
 		./playbook-public-nginx-sites.yml \
