@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.define internal_node_name do |node|
-    node.vm.box = "debian/bullseye64"
+    node.vm.box = "debian/bookworm64"
     node.vm.hostname = "internal.mizunashi-work.vagrant"
     node.vm.network :private_network, ip: "192.168.61.34"
     node.vm.network :private_network,
@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
     end
   end
   config.vm.define public_node_name do |node|
-    node.vm.box = "debian/bullseye64"
+    node.vm.box = "debian/bookworm64"
     node.vm.hostname = "public.mizunashi-work.vagrant"
     node.vm.network :private_network, ip: "192.168.61.33"
     node.vm.network :private_network,

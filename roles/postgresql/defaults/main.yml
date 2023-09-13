@@ -1,2 +1,2 @@
 ---
-postgresql_version: '13.11'
+postgresql_version: '15.3'

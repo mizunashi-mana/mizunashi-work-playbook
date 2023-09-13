@@ -16,6 +16,12 @@
     cache_valid_time: 86400
   become: true
 
+- name: Update linux-image
+  ansible.builtin.apt:
+    name: 'linux-image-amd64={{ base_linux_image_version }}*'
+    state: present
+  become: true
+
 - name: Enable SYN cookies
   ansible.posix.sysctl:
     name: net.ipv4.tcp_syncookies
@@ -42,7 +48,7 @@
 
 - name: Set timezone to UTC
   ansible.builtin.file:
-    src: /usr/share/zoneinfo/UTC
+    src: /usr/share/zoneinfo/Etc/UTC
     dest: /etc/localtime
     owner: root
     group: root

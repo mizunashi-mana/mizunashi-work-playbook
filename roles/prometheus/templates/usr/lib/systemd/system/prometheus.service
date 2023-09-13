@@ -1,6 +1,7 @@
 [Unit]
 Description=Monitoring system and time series database
 Documentation=https://prometheus.io/docs/introduction/overview/ man:prometheus(1)
+After=time-sync.target
 
 [Service]
 Restart=on-failure
@@ -20,7 +21,7 @@ CapabilityBoundingSet=
 DeviceAllow=/dev/null rw
 DevicePolicy=strict
 LimitMEMLOCK=0
-LimitNOFILE=8192
+LimitNOFILE=32768
 LockPersonality=true
 MemoryDenyWriteExecute=true
 NoNewPrivileges=true
