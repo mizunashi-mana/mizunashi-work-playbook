@@ -29,6 +29,32 @@
     mode: '0755'
   become: true
 
+- name: Directory of share is available
+  ansible.builtin.file:
+    path: /usr/local/share/archivedon
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Directory of resource is available
+  ansible.builtin.file:
+    path: /usr/local/share/archivedon/resource
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Make the index resource if it is not available
+  ansible.builtin.shell:
+    cmd: |
+      touch /usr/local/share/archivedon/resource/index.html \
+        && chmod 0644 /usr/local/share/archivedon/resource/index.html
+    creates: /usr/local/share/archivedon/resource/index.html
+  become: true
+
 - name: Copy service
   ansible.builtin.copy:
     src: etc/systemd/system/archivedon.service
