@@ -1,5 +1,5 @@
 ---
-redis_server_version: 6.0.16
+redis_server_version: 7.0.11
 
 # Do not support changing port
 redis_server_listen_port: 5432

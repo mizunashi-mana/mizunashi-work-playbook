@@ -18,7 +18,7 @@ grafana_provisioning_datasources: "ds_prometheus": {
     password: cue_types.#Vaulted
   }
   prometheus_type: "Prometheus"
-  prometheus_version: "2.24.0"
+  prometheus_version: "2.42.0"
 }
 
 grafana_provisioning_datasources: "ds_elasticsearch": {
@@ -52,7 +52,7 @@ grafana_provisioning_datasources: "ds_elasticsearch": {
 } & ({
   type: "prometheus"
   prometheus_type: "Prometheus"
-  prometheus_version: "2.24.0"
+  prometheus_version: "2.42.0"
 } | {
   type: "elasticsearch"
   es_version: "8.7.0"
