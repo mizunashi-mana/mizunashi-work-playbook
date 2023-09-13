@@ -1,0 +1,111 @@
+apiVersion: 1
+
+groups:
+  - orgId: 1
+    name: 'Log Authentication: Instantly'
+    folder: Alert
+    interval: 1m
+
+    rules:
+      - uid: 'alert_LogAuth_OpenedSession'
+        title: 'Log Auth: Opened Session'
+        condition: C
+        for: 1m
+        isPaused: false
+        noDataState: NoData
+        execErrState: Error
+
+        annotations:
+          __dashboardUid__: dashboard_LogAuthentications
+          __panelId__: "1"
+          summary: 'Someone opened session on {{ "{{ $labels.instance }}" }}'
+        labels:
+          severity: notice
+
+        data:
+          - refId: A
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: ds_elasticsearch
+            model:
+              refId: A
+              datasource:
+                type: elasticsearch
+                uid: ds_elasticsearch
+              query: '@log_name:"node.auth" AND message:"opened for user"'
+              bucketAggs:
+                - id: "2"
+                  type: terms
+                  field: message.keyword
+                  settings:
+                    min_doc_count: "1"
+                    order: desc
+                    orderBy: _term
+                    size: "10"
+              timeField: '@timestamp'
+              metrics:
+                - id: "1"
+                  type: count
+              editorMode: code
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: B
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              refId: B
+              type: reduce
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: A
+              reducer: last
+              conditions:
+                - evaluator:
+                    params: []
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                        - B
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
+          - refId: C
+            relativeTimeRange:
+              from: 600
+              to: 0
+            datasourceUid: __expr__
+            model:
+              refId: C
+              type: threshold
+              datasource:
+                type: __expr__
+                uid: __expr__
+              expression: B
+              conditions:
+                - evaluator:
+                    params:
+                        - 1
+                    type: gt
+                  operator:
+                    type: and
+                  query:
+                    params:
+                        - C
+                  reducer:
+                    params: []
+                    type: last
+                  type: query
+              hide: false
+              intervalMs: 1000
+              maxDataPoints: 43200
