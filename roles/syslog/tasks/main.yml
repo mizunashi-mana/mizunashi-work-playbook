@@ -1,4 +1,10 @@
 ---
+- name: Install rsyslog
+  ansible.builtin.apt:
+    name: 'rsyslog={{ syslog_version }}*'
+    state: present
+  become: true
+
 - name: Install logrotate config
   ansible.builtin.template:
     src: etc/logrotate-available.d/rsyslog
