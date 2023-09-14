@@ -106,6 +106,7 @@
       - nginx-exporter
       - postgres-exporter
       - redis-exporter
+      - log-auth
 
 - name: Copy dashboards
   ansible.builtin.copy:

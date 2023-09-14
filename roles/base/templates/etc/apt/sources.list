@@ -1,10 +1,10 @@
-deb http://deb.debian.org/debian/ {{ ansible_distribution_release }} main
-deb-src http://deb.debian.org/debian/ {{ ansible_distribution_release }} main
+deb http://deb.debian.org/debian {{ ansible_distribution_release }} main
+deb-src http://deb.debian.org/debian {{ ansible_distribution_release }} main
 
 deb http://security.debian.org/debian-security {{ ansible_distribution_release }}-security main
 deb-src http://security.debian.org/debian-security {{ ansible_distribution_release }}-security main
 
 # {{ ansible_distribution_release }}-updates, to get updates before a point release is made;
 # see https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_updates_and_backports
-deb http://deb.debian.org/debian/ {{ ansible_distribution_release }}-updates main
-deb-src http://deb.debian.org/debian/ {{ ansible_distribution_release }}-updates main
+deb http://deb.debian.org/debian {{ ansible_distribution_release }}-updates main
+deb-src http://deb.debian.org/debian {{ ansible_distribution_release }}-updates main

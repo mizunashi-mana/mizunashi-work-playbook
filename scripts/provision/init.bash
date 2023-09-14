@@ -8,7 +8,8 @@ if [ "$WORKUSER" = '' ] || [ "$SSH_PORT" = '' ] || [ "$SSH_AUTHORIZED_KEY" = '' 
 fi
 
 apt-get update -y
-apt-get install -y sudo
+apt-get install -y sudo python3
+
 gpasswd --add "$WORKUSER" sudo
 
 tee /etc/ssh/sshd_config.d/server.conf <<EOS
