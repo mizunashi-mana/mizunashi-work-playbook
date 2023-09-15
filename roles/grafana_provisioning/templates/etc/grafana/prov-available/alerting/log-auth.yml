@@ -30,24 +30,21 @@ groups:
             datasourceUid: ds_elasticsearch
             model:
               refId: A
+              alias: ""
               datasource:
                 type: elasticsearch
                 uid: ds_elasticsearch
               query: '@log_name:"node.auth" AND message:"opened for user"'
+              timeField: '@timestamp'
               bucketAggs:
                 - id: "2"
-                  type: terms
-                  field: message.keyword
+                  type: date_histogram
+                  field: '@timestamp'
                   settings:
-                    min_doc_count: "1"
-                    order: desc
-                    orderBy: _term
-                    size: "10"
-              timeField: '@timestamp'
+                    interval: 2m
               metrics:
                 - id: "1"
                   type: count
-              editorMode: code
               hide: false
               intervalMs: 1000
               maxDataPoints: 43200
