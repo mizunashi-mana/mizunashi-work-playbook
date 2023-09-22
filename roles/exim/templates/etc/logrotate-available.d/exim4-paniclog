@@ -1,0 +1,14 @@
+/var/log/exim4/paniclog {
+  daily
+  dateext
+  dateformat -%Y%m%d-%s
+  rotate 10
+  maxsize 100M
+  maxage 10
+
+  missingok
+  compress
+  delaycompress
+  notifempty
+  nocreate
+}
