@@ -16,6 +16,17 @@
     validate: /opt/bin/logrotate-validate %s
   become: true
 
+- name: Install logrotate config
+  ansible.builtin.template:
+    src: etc/logrotate-available.d/exim4-paniclog
+    dest: /etc/logrotate-available.d/exim4-paniclog
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/logrotate-validate %s
+  become: true
+
 - name: Enable logrotate config
   ansible.builtin.file:
     src: /etc/logrotate-available.d/exim4-base
@@ -24,6 +35,26 @@
     group: root
     state: link
     force: true
+  become: true
+
+- name: Enable logrotate config
+  ansible.builtin.file:
+    src: /etc/logrotate-available.d/exim4-paniclog
+    dest: /etc/logrotate.d/exim4-paniclog
+    owner: root
+    group: root
+    state: link
+    force: true
+  become: true
+
+- name: Copy exim cron config
+  ansible.builtin.template:
+    src: etc/cron.daily/exim4-base
+    dest: /etc/cron.daily/exim4-base
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
   become: true
 
 - name: Copy exim config
