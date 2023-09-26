@@ -3,7 +3,7 @@ Description=The timer of ActivityPub outbox to Bluesky posts
 ConditionPathExists=/var/lib/ap-outbox2bsky-post
 
 [Timer]
-OnCalendar=*:0/2
+OnCalendar=hourly
 Persistent=true
 
 [Install]

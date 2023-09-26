@@ -13,3 +13,4 @@ ExecStart=/usr/local/bin/ap-outbox2bsky-post \
     $DRY_RUN_ARGS \
     run \
     --outbox-url "$OUTBOX_URL"
+SuccessExitStatus=SUCCESS FAILURE
