@@ -1,7 +1,9 @@
 ---
 - name: Install apticron
   ansible.builtin.apt:
-    name: 'apticron-systemd={{ apticron_version }}*'
+    name:
+    - 'apticron-systemd={{ apticron_version }}*'
+    - 'apt-listchanges={{ apticron_listchanges_version }}*'
     state: present
   become: true
 
