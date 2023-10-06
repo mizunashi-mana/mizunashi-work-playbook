@@ -15,3 +15,9 @@ $ su
 ```
 sudo apt install --only-upgrade PACKAGE
 ```
+
+Check reverse dependency:
+
+```
+sudo apt-cache rdepends --installed PACKAGE
+```
