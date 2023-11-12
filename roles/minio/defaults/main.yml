@@ -1,3 +1,3 @@
 ---
-minio_version: 20230907020502.0.0
-minio_deb_url: https://dl.min.io/server/minio/release/linux-amd64/archive/minio_20230907020502.0.0_amd64.deb
+minio_version: 20231106222608.0.0
+minio_deb_url: https://dl.min.io/server/minio/release/linux-amd64/archive/minio_20231106222608.0.0_amd64.deb

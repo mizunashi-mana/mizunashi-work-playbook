@@ -98,7 +98,7 @@ groups:
               intervalMs: 1000
               maxDataPoints: 43200
 
-      - uid: 'alert_FluentBitStats_RetriesFailedTooMany'
+      - uid: 'alert_FluentBitStats_RetriesMany'
         title: 'FluentBit Stats: Retries Failed Too Many'
         dashboardUid: dashboard_FluentBitStats
         panelId: 11

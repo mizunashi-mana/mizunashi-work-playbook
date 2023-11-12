@@ -364,7 +364,7 @@ groups:
               intervalMs: 1000
               maxDataPoints: 43200
 
-      - uid: 'alert_NodeExporter_SomeSystemdUnitsFailed'
+      - uid: 'alert_NodeExporter_UnitsFailed'
         title: 'Node Exporter: Some Systemd Units Failed'
         condition: C
         for: 1m
