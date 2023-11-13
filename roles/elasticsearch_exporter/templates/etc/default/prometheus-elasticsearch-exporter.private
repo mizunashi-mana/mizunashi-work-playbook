@@ -1,1 +1,1 @@
-ELASTICSEARCH_URI=http://{{ elasticsearch_exporter_elasticsearch_user_name }}:{{ elasticsearch_exporter_elasticsearch_user_password }}@[::1]:{{ elasticsearch_listen_port }}
+ELASTICSEARCH_URI=http://{{ elasticsearch_exporter_elasticsearch_user_name }}:{{ elasticsearch_exporter_elasticsearch_user_password }}@localhost:{{ elasticsearch_listen_port }}

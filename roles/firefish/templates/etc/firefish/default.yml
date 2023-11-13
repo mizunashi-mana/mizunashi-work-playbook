@@ -45,7 +45,7 @@ port: {{ firefish_listen_port }}
 
 # The bind host your Firefish server should listen on.
 # If unspecified, the wildcard address will be used.
-bind: '::1'
+bind: 127.0.0.1
 
 #   ┌──────────────────────────┐
 #───┘ PostgreSQL configuration └────────────────────────────────

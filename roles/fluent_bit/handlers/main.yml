@@ -30,7 +30,7 @@
 
 - name: Check listen port
   ansible.builtin.wait_for:
-    host: '::1'
+    host: localhost
     port: '{{ fluent_bit_metrics_listen_port }}'
     state: started
     timeout: 60

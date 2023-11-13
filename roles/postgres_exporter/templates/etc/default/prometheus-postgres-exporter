@@ -1,4 +1,4 @@
-LISTEN_ADDRESS=[::1]:{{ postgres_exporter_listen_port }}
+LISTEN_ADDRESS=127.0.0.1:{{ postgres_exporter_listen_port }}
 EXTRA_ARGS=''
 
 # Original:

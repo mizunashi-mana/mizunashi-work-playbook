@@ -65,7 +65,7 @@ let blackbox_exporter_relabel_configs = [
   },
   {
     target_label: "__address__"
-    replacement: "[::1]:\(Schema.blackbox_exporter_listen_port)"
+    replacement: "localhost:\(Schema.blackbox_exporter_listen_port)"
   },
 ]
 
@@ -226,7 +226,7 @@ Schema & {
       type: "prometheus"
       name: "Prometheus"
       orgId: 1
-      url: "http://[::1]:9090"
+      url: "http://localhost:9090"
       is_default: true
       version: 1
       editable: false
@@ -235,7 +235,7 @@ Schema & {
       type: "elasticsearch"
       name: "ElasticSearch"
       orgId: 1
-      url: "http://[::1]:9200"
+      url: "http://localhost:9200"
       version: 1
       editable: false
       basic_auth: {

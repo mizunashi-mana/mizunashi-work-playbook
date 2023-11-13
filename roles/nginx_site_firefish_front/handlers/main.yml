@@ -1,7 +1,7 @@
 ---
 - name: Check listen port
   ansible.builtin.wait_for:
-    host: '::1'
+    host: localhost
     port: '{{ nginx_site_firefish_front_listen_port }}'
     state: started
     timeout: 60

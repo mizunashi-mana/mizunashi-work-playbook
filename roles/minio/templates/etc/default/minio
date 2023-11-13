@@ -1,4 +1,4 @@
-MINIO_ADDRESS=[::1]:{{ minio_server_listen_port }}
+MINIO_ADDRESS=127.0.0.1:{{ minio_server_listen_port }}
 
 MINIO_VOLUMES=/var/lib/minio/volumes
 

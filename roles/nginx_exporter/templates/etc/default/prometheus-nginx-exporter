@@ -1,5 +1,5 @@
-NGINX_SCRAPE_URI=http://[::1]:{{ nginx_status_listen_port }}/stub_status
-LISTEN_ADDRESS=[::1]:{{ nginx_exporter_listen_port }}
+NGINX_SCRAPE_URI=http://localhost:{{ nginx_status_listen_port }}/stub_status
+LISTEN_ADDRESS=127.0.0.1:{{ nginx_exporter_listen_port }}
 EXTRA_ARGS=""
 
 # Original:
