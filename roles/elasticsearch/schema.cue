@@ -6,6 +6,23 @@ elasticsearch_domain: string
 elasticsearch_heapsize: string
 
 elasticsearch_roles: [string]: #RoleEntry
+elasticsearch_roles: shard_management: {
+  cluster: [
+    "manage_index_templates",
+    "manage_ilm",
+  ]
+  indices: [
+    {
+      names: [ "*" ]
+      privileges: [
+        "read",
+        "write",
+        "manage",
+        "manage_ilm",
+      ]
+    }
+  ]
+}
 elasticsearch_roles: logstash_upload: {
   cluster: [
     "manage_index_templates",
