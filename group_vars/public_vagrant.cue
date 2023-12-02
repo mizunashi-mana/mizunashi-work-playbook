@@ -102,8 +102,8 @@ Schema & {
 
   firefish_postgres_host: "localhost"
   firefish_postgres_port: Schema.postgresql_listen_port
-  firefish_postgres_user: ids.#postgres_firefish_db_user.name
-  firefish_postgres_password: ids.#postgres_firefish_db_user.password
+  firefish_postgres_user: ids.#postgres_user_firefish_db.name
+  firefish_postgres_password: ids.#postgres_user_firefish_db.password
 
   firefish_redis_host: "localhost"
   firefish_redis_port: Schema.redis_server_listen_port
@@ -113,8 +113,8 @@ Schema & {
   firefish_cache_redis_port: Schema.redis_server_listen_port
   firefish_cache_redis_password: ids.#redis_server_auth_password
 
-  postgres_exporter_user_name: ids.#postgres_postgres_exporter_user.name
-  postgres_exporter_user_password: ids.#postgres_postgres_exporter_user.password
+  postgres_exporter_user_name: ids.#postgres_user_postgres_exporter.name
+  postgres_exporter_user_password: ids.#postgres_user_postgres_exporter.password
 
   redis_server_auth_password: ids.#redis_server_auth_password
 }

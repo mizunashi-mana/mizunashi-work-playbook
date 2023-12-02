@@ -123,7 +123,7 @@ $ANSIBLE_VAULT;1.1;AES256
 6234396437353461323831646431373561373433373963333665
 """
 
-#postgres_postgres_exporter_user: {
+#postgres_user_postgres_exporter: {
   name: "postgres_exporter"
   password: "__ansible_vault": """
   $ANSIBLE_VAULT;1.1;AES256
@@ -135,7 +135,7 @@ $ANSIBLE_VAULT;1.1;AES256
   """
 }
 
-#postgres_firefish_db_user: {
+#postgres_user_firefish_db: {
   name: "firefish_user"
   password: "__ansible_vault": """
   $ANSIBLE_VAULT;1.1;AES256

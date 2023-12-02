@@ -235,7 +235,7 @@ Schema & {
       type: "prometheus"
       name: "Prometheus"
       orgId: 1
-      url: "http://localhost:9090"
+      url: "http://localhost:\(Schema.prometheus_listen_port)"
       is_default: true
       version: 1
       editable: false
@@ -244,7 +244,7 @@ Schema & {
       type: "elasticsearch"
       name: "ElasticSearch"
       orgId: 1
-      url: "http://localhost:9200"
+      url: "http://localhost:\(Schema.elasticsearch_listen_port)"
       version: 1
       editable: false
       basic_auth: {
@@ -319,6 +319,7 @@ Schema & {
             "https://\(host_entry.internal_host):\(Schema.#local_proxy_https_port)/monitor/l7check"
           },
           Schema.#private_acme_challenge_url,
+          "https://\(ids.#mastodon_hostname)/",
           "https://\(ids.#firefish_hostname)/",
           "https://\(ids.#archivedon_main_hostname)/",
         ]
