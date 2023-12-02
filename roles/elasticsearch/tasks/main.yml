@@ -30,6 +30,18 @@
   notify:
   - Restart elasticsearch
 
+- name: Copy lo4j2 properties
+  ansible.builtin.copy:
+    src: etc/elasticsearch/log4j2.properties
+    dest: /etc/elasticsearch/log4j2.properties
+    owner: root
+    group: elasticsearch
+    mode: '0660'
+    backup: true
+  become: true
+  notify:
+  - Restart elasticsearch
+
 - name: Copy elasticsearch roles
   ansible.builtin.template:
     src: etc/elasticsearch/roles.yml

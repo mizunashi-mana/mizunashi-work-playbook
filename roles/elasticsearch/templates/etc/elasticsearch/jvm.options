@@ -9,7 +9,7 @@
 ## should create one or more files in the jvm.options.d
 ## directory containing your adjustments.
 ##
-## See https://www.elastic.co/guide/en/elasticsearch/reference/8.7/jvm-options.html
+## See https://www.elastic.co/guide/en/elasticsearch/reference/8.11/jvm-options.html
 ## for more information.
 ##
 ################################################################
@@ -32,7 +32,7 @@
 ## -Xms4g
 ## -Xmx4g
 ##
-## See https://www.elastic.co/guide/en/elasticsearch/reference/8.7/heap-size.html
+## See https://www.elastic.co/guide/en/elasticsearch/reference/8.11/heap-size.html
 ## for more information
 ##
 ################################################################
@@ -55,6 +55,10 @@
 
 ## JVM temporary directory
 -Djava.io.tmpdir=${ES_TMPDIR}
+
+# Leverages accelerated vector hardware instructions; removing this may
+# result in less optimal vector performance
+20-:--add-modules=jdk.incubator.vector
 
 ## heap dumps
 

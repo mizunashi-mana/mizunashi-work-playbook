@@ -189,6 +189,12 @@ Schema & {
   elasticsearch_setup_auth_user: ids.#elasticsearch_user_es_manager.name
   elasticsearch_setup_auth_password: ids.#elasticsearch_user_es_manager.password
   elasticsearch_setup_users: {
+    "\(elasticsearch_setup_auth_user)": {
+      roles: [
+        "es_manager",
+      ]
+      password: elasticsearch_setup_auth_password
+    }
     "\(Schema.fluent_bit_output_elasticsearch_user_name)": {
       roles: [
         "logstash_upload",
