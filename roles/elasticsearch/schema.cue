@@ -6,7 +6,7 @@ elasticsearch_domain: string
 elasticsearch_heapsize: string
 
 elasticsearch_roles: [string]: #RoleEntry
-elasticsearch_roles: shard_management: {
+elasticsearch_roles: es_manager: {
   cluster: [
     "manage_index_templates",
     "manage_ilm",

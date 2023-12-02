@@ -275,8 +275,8 @@ Schema & {
     ca_file: group_vars_all.ca_certs_bundle_file_with_private_ca
   }
 
-  fluent_bit_output_elasticsearch_user_name: ids.#elasticsearch_log_upload_user.name
-  fluent_bit_output_elasticsearch_user_password: ids.#elasticsearch_log_upload_user.password
+  fluent_bit_output_elasticsearch_user_name: ids.#elasticsearch_user_log_upload.name
+  fluent_bit_output_elasticsearch_user_password: ids.#elasticsearch_user_log_upload.password
 
   fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_auth_log_tag)": {}
   fluent_bit_output_elasticsearch_entries: "\(fluent_bit_input_sshd_log_tag)": {}

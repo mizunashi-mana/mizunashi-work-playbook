@@ -30,7 +30,7 @@ all: build
 build: $(STAMPS) $(GROUP_VARS_OUT) $(HOST_VARS_OUT)
 
 .stamp.poetry-installed: pyproject.toml poetry.lock
-	$(POETRY) install
+	$(POETRY) install --no-root
 	touch $@
 
 .stamp.ansible-collections-installed: .stamp.poetry-installed collections/requirements.yml

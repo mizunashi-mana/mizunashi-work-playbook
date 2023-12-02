@@ -35,7 +35,19 @@ $ANSIBLE_VAULT;1.1;AES256
 6164
 """
 
-#elasticsearch_log_upload_user: {
+#elasticsearch_user_es_manager: {
+  name: "es_manager"
+  password: "__ansible_vault": """
+  $ANSIBLE_VAULT;1.1;AES256
+  62356637313731376334383336616332393936306231343930343163666366613062643330323366
+  3234626231666439646234653165393839306439326261370a346332316463623539623639623633
+  61656566353831363366653531383530663564633661363361306134346338643761386136316565
+  3033656435353263620a356264383762373763313464363235393734346261333666346234653832
+  3666
+  """
+}
+
+#elasticsearch_user_log_upload: {
   name: "logstash_upload"
   password: "__ansible_vault": """
   $ANSIBLE_VAULT;1.1;AES256
@@ -47,7 +59,7 @@ $ANSIBLE_VAULT;1.1;AES256
   """
 }
 
-#elasticsearch_grafana_datasource_user: {
+#elasticsearch_user_grafana_datasource: {
   name: "grafana_datasource"
   password: "__ansible_vault": """
   $ANSIBLE_VAULT;1.1;AES256
@@ -59,7 +71,7 @@ $ANSIBLE_VAULT;1.1;AES256
   """
 }
 
-#elasticsearch_elasticsearch_exporter_user: {
+#elasticsearch_user_elasticsearch_exporter: {
   name: "elasticsearch_exporter"
   password: "__ansible_vault": """
   $ANSIBLE_VAULT;1.1;AES256

@@ -180,11 +180,14 @@ Schema & {
   nginx_site_minio_server_acme_challenge_url: Schema.#private_acme_challenge_url
   nginx_site_minio_server_ca_bundle_path: Schema.ca_certs_bundle_file_with_private_ca
 
-  elasticsearch_exporter_elasticsearch_user_name: ids.#elasticsearch_elasticsearch_exporter_user.name
-  elasticsearch_exporter_elasticsearch_user_password: ids.#elasticsearch_elasticsearch_exporter_user.password
+  elasticsearch_exporter_elasticsearch_user_name: ids.#elasticsearch_user_elasticsearch_exporter.name
+  elasticsearch_exporter_elasticsearch_user_password: ids.#elasticsearch_user_elasticsearch_exporter.password
 
   elasticsearch_domain: Schema.#elasticsearch_hostname
   elasticsearch_heapsize: "200m"
+
+  elasticsearch_setup_auth_user: ids.#elasticsearch_user_es_manager.name
+  elasticsearch_setup_auth_password: ids.#elasticsearch_user_es_manager.password
   elasticsearch_setup_users: {
     "\(Schema.fluent_bit_output_elasticsearch_user_name)": {
       roles: [
@@ -198,11 +201,11 @@ Schema & {
       ]
       password: elasticsearch_exporter_elasticsearch_user_password
     }
-    "\(ids.#elasticsearch_grafana_datasource_user.name)": {
+    "\(ids.#elasticsearch_user_grafana_datasource.name)": {
       roles: [
         "grafana_datasource"
       ]
-      password: ids.#elasticsearch_grafana_datasource_user.password
+      password: ids.#elasticsearch_user_grafana_datasource.password
     }
   }
 
@@ -239,8 +242,8 @@ Schema & {
       version: 1
       editable: false
       basic_auth: {
-        user: ids.#elasticsearch_grafana_datasource_user.name
-        password: ids.#elasticsearch_grafana_datasource_user.password
+        user: ids.#elasticsearch_user_grafana_datasource.name
+        password: ids.#elasticsearch_user_grafana_datasource.password
       }
     }
   }
