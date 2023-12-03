@@ -19,7 +19,7 @@ elasticsearch_setup_default_index_policy: {
   policy: {
     phases: {
       hot: {
-        min_age: string | *"0d"
+        min_age?: string
         actions: {}
       }
       warm: {
