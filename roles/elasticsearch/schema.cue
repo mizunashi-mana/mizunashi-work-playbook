@@ -9,6 +9,7 @@ elasticsearch_roles: [string]: #RoleEntry
 elasticsearch_roles: es_manager: {
   cluster: [
     "manage_index_templates",
+    "monitor",
     "manage_ilm",
   ]
   indices: [
@@ -16,6 +17,7 @@ elasticsearch_roles: es_manager: {
       names: [ "*" ]
       privileges: [
         "read",
+        "view_index_metadata",
         "write",
         "manage",
         "manage_ilm",
