@@ -19,16 +19,16 @@ elasticsearch_setup_default_index_policy: {
   policy: {
     phases: {
       hot: {
-        min_age: string | *"7d"
+        min_age: string | *"0d"
         actions: {}
       }
       warm: {
-        min_age: string | *"8d"
-        actions: {}
-      }
-      cold: {
-        min_age: string | *"10d"
-        actions: {}
+        min_age: string | *"7d"
+        actions: {
+          forcemerge: {
+            max_num_segments: 1
+          }
+        }
       }
       delete: {
         min_age: string | *"15d"
@@ -46,7 +46,11 @@ elasticsearch_setup_default_index_template: {
     settings: {
       number_of_shards: 1
       number_of_replicas: 0
-      "index.lifecycle.name": "idx_policy_default"
+      index: {
+        lifecycle: {
+          name: "idx_policy_default"
+        }
+      }
     }
   }
 }
