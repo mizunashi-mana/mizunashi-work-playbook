@@ -20,8 +20,8 @@
 
 - name: Copy config of firefish
   ansible.builtin.template:
-    src: etc/firefish/default.yml
-    dest: /etc/firefish/default.yml
+    src: etc/firefish/config.yml
+    dest: /etc/firefish/config.yml
     owner: firefish
     group: firefish
     mode: '0640'
