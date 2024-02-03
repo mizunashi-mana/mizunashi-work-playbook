@@ -8,8 +8,3 @@
   ansible.builtin.command: npm --version
   changed_when: false
   listen: Check
-
-- name: Check yarn command
-  ansible.builtin.command: yarn --version
-  changed_when: false
-  listen: Check

@@ -27,8 +27,3 @@
     update_cache: '{{ nodejs_install_repository_result.changed }}'
   become: true
 
-- name: Enable corepack
-  ansible.builtin.command:
-    cmd: corepack enable
-    creates: /usr/bin/yarn
-  become: true
