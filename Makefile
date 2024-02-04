@@ -33,6 +33,18 @@ build: build-public $(SSH_KEYS_OUT)
 .PHONY: build-public
 build-public: $(STAMPS) $(GROUP_VARS_OUT) $(HOST_VARS_OUT)
 
+.PHONY: clean
+clean:
+	rm -f $(GROUP_VARS_OUT) $(HOST_VARS_OUT) $(SSH_KEYS_OUT)
+
+.PHONY: up
+up: build
+	$(POETRY) run vagrant up
+
+.PHONY: reload
+reload: build
+	$(POETRY) run vagrant reload
+
 .PHONY: provision-base
 provision-base: build
 	$(POETRY) run ansible-playbook \
@@ -87,11 +99,3 @@ private_ca_%/ca_vars.cue: private_ca_%/gen-vars $(wildcard private_ca_%/*/*)
 	cp $< $@
 	chmod 600 $@
 	ssh-keygen -f $@ -p -N ''
-
-.PHONY: up
-up: build
-	$(POETRY) run vagrant up
-
-.PHONY: reload
-reload: build
-	$(POETRY) run vagrant reload
