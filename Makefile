@@ -87,6 +87,7 @@ private_ca_%/ca_vars.cue: private_ca_%/gen-vars $(wildcard private_ca_%/*/*)
 
 %.nopass: %.encrypted
 	cp $< $@
+	chmod 600 $@
 	ssh-keygen -f $@ -p -N ''
 
 .PHONY: up
