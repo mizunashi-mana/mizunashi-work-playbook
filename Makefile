@@ -4,10 +4,7 @@ HOST_VARS_SRC ?= $(wildcard ./host_vars/*.cue)
 SSH_KEYS_SRC ?= $(wildcard ./assets/ssh_keys/*.encrypted)
 ROLES_SCHEMAS ?= $(wildcard ./roles/*/*.cue)
 VARS_SCHEMAS ?= $(wildcard ./schemas/*.cue)
-COMMON_VARS ?= \
-	$(wildcard ./cue_vars/*/*.cue) \
-	$(wildcard ./cue_types/*.cue) \
-	$(wildcard ./private_ca_*/ca_vars.cue)
+CA_GEN_VARS ?= $(wildcard ./private_ca_*/gen-vars)
 
 CUE ?= cue
 POETRY ?= poetry
@@ -18,9 +15,15 @@ TIMESTAMP ?= $(shell date +%s)
 GROUP_VARS_OUT := $(subst .cue,.yml,$(GROUP_VARS_SRC))
 HOST_VARS_OUT := $(subst .cue,.yml,$(HOST_VARS_SRC))
 SSH_KEYS_OUT := $(subst .encrypted,.nopass,$(SSH_KEYS_SRC))
+CA_GEN_VARS_OUT := $(subst gen-vars,ca_vars.cue,$(CA_GEN_VARS))
 STAMPS := \
 	.stamp.poetry-installed \
 	.stamp.ansible-collections-installed
+
+COMMON_VARS ?= \
+	$(wildcard ./cue_vars/*/*.cue) \
+	$(wildcard ./cue_types/*.cue) \
+	$(CA_GEN_VARS_OUT)
 
 .SUFFIXES: .cue .yml .encrypted .nopass
 
