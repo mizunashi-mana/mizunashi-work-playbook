@@ -4,15 +4,15 @@
 /logs/
 /tmp/
 
-# Vagrant
-.vagrant/
-
 # Makefile
 .stamp.*
 
 # CA
 private_ca_*/ca_vars.cue
 private_ca_*/**/*.old
+
+# Vagrant
+.vagrant/
 
 # Python
 __pycache__/

@@ -12,8 +12,6 @@ COMMON_VARS ?= \
 CUE ?= cue
 POETRY ?= poetry
 
-ANSIBLE_PLAYBOOK ?= $(POETRY) run ansible-playbook --diff -vv
-
 LOGS_DIR ?= logs
 TIMESTAMP ?= $(shell date +%s)
 

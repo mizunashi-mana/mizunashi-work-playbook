@@ -226,6 +226,15 @@ Schema & {
 
   sudo_mail_address: ids.#notification_email
 
+  if ids.#exim_smarthost != _|_ {
+    exim_smarthost: {
+      hostname: ids.#exim_smarthost.hostname
+      port: ids.#exim_smarthost.port
+      auth_userid: ids.#exim_smarthost.auth_userid
+      auth_password: ids.#exim_smarthost.auth_password
+    }
+  }
+
   apticron_notification_email: ids.#notification_email
   certbot_acme_notification_email: ids.#notification_email
 
