@@ -89,9 +89,9 @@ private_ca_%/ca_vars.cue: private_ca_%/gen-vars $(wildcard private_ca_%/*/*)
 	ssh-keygen -f $@ -p -N ''
 
 .PHONY: up
-up: install
+up: build
 	$(POETRY) run vagrant up
 
 .PHONY: reload
-reload: install
+reload: build
 	$(POETRY) run vagrant reload
