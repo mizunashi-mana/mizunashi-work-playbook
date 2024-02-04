@@ -1,7 +1,8 @@
 group_vars/*.yml
 host_vars/*.yml
-/tmp
-/logs
+assets/ssh_keys/*.nopass
+/logs/
+/tmp/
 
 # Vagrant
 .vagrant/
@@ -9,9 +10,9 @@ host_vars/*.yml
 # Makefile
 .stamp.*
 
-# Python
-__pycache__/
-
 # CA
 private_ca_*/ca_vars.cue
 private_ca_*/**/*.old
+
+# Python
+__pycache__/

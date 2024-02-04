@@ -111,7 +111,7 @@ Schema & {
 
   ansible_port: #ssh_port
   ansible_user: ids.#workuser_name
-  ansible_ssh_private_key_file: "./assets/vagrant_ssh_privkey"
+  ansible_ssh_private_key_file: "./assets/ssh_keys/ssh_privkey_ed25519.nopass"
 
   workuser_setup_username: ids.#workuser_name
   workuser_setup_home_directory: "/home/\(workuser_setup_username)"
