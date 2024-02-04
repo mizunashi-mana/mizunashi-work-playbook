@@ -5,6 +5,18 @@
     state: present
   become: true
 
+- name: Backup original logrotate config
+  ansible.builtin.command:
+    cmd: /opt/bin/logrotate-backup exim4-base
+  changed_when: false
+  become: true
+
+- name: Backup original logrotate config of paniclog
+  ansible.builtin.command:
+    cmd: /opt/bin/logrotate-backup exim4-paniclog
+  changed_when: false
+  become: true
+
 - name: Install logrotate config
   ansible.builtin.template:
     src: etc/logrotate-available.d/exim4-base
@@ -16,7 +28,7 @@
     validate: /opt/bin/logrotate-validate %s
   become: true
 
-- name: Install logrotate config
+- name: Install logrotate config of paniclog
   ansible.builtin.template:
     src: etc/logrotate-available.d/exim4-paniclog
     dest: /etc/logrotate-available.d/exim4-paniclog
@@ -37,7 +49,7 @@
     force: true
   become: true
 
-- name: Enable logrotate config
+- name: Enable logrotate config of paniclog
   ansible.builtin.file:
     src: /etc/logrotate-available.d/exim4-paniclog
     dest: /etc/logrotate.d/exim4-paniclog

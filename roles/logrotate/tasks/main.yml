@@ -37,6 +37,16 @@
     backup: true
   become: true
 
+- name: Install logrotate backup
+  ansible.builtin.copy:
+    src: opt/bin/logrotate-backup
+    dest: /opt/bin/logrotate-backup
+    owner: root
+    group: root
+    mode: '0755'
+    backup: true
+  become: true
+
 - name: Start logrotate if not started
   ansible.builtin.command:
     cmd: systemctl start logrotate

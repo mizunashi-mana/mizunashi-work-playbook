@@ -71,6 +71,12 @@
     mode: '0640'
   become: true
 
+- name: Backup original logrotate config
+  ansible.builtin.command:
+    cmd: /opt/bin/logrotate-backup sshd
+  changed_when: false
+  become: true
+
 - name: Install logrotate config
   ansible.builtin.template:
     src: etc/logrotate-available.d/sshd

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+[ "$TRACE" = 'true' ] && set -x
+set -euo pipefail
+
+LOGROTATE_FILE="/etc/logrotate.d/$1"
+LOGROTATE_AVAIL_FILE="/etc/logrotate-available.d/$1"
+
+if [ -e "$LOGROTATE_FILE" ] && [ ! -L "$LOGROTATE_FILE" ]; then
+  mv "$LOGROTATE_FILE" "$LOGROTATE_AVAIL_FILE"
+fi

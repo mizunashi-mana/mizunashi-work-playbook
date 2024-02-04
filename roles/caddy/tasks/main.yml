@@ -37,10 +37,10 @@
     update_cache: '{{ caddy_install_repository_result.changed }}'
   become: true
 
-- name: Install libnss3-tools for private CA
-  ansible.builtin.apt:
-    name: libnss3-tools
-    state: present
+- name: Backup original logrotate config
+  ansible.builtin.command:
+    cmd: /opt/bin/logrotate-backup caddy
+  changed_when: false
   become: true
 
 - name: Install logrotate config

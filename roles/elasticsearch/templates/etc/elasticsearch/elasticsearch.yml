@@ -84,7 +84,7 @@ http.port: {{ elasticsearch_listen_port }}
 #----------------------- BEGIN SECURITY AUTO CONFIGURATION -----------------------
 #
 # The following settings, TLS certificates, and keys have been automatically
-# generated to configure Elasticsearch security features on 18-04-2023 13:04:23
+# generated to configure Elasticsearch security features on 04-02-2024 08:16:04
 #
 # --------------------------------------------------------------------------------
 

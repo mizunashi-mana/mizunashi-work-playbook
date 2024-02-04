@@ -26,4 +26,15 @@
     state: present
     update_cache: '{{ nodejs_install_repository_result.changed }}'
   become: true
+  failed_when: false
+  register: nodejs_install_package_result
 
+- name: Install nodejs (fallback)
+  ansible.builtin.apt:
+    name: 'nodejs={{ nodejs_version }}*'
+    state: present
+    update_cache: true
+  become: true
+  when: |
+    nodejs_install_package_result.msg is defined
+    and nodejs_install_package_result.msg is search('no available installation')

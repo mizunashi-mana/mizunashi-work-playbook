@@ -37,7 +37,31 @@
     mode: '0640'
     backup: true
   become: true
+  notify:
+    - Restart grafana
+
+- name: Copy grafana private config
+  ansible.builtin.template:
+    src: etc/default/grafana-server.private
+    dest: /etc/default/grafana-server.private
+    owner: root
+    group: root
+    mode: '0600'
+    backup: true
+  become: true
   diff: false
+  notify:
+    - Restart grafana
+
+- name: Copy grafana config
+  ansible.builtin.copy:
+    src: usr/lib/systemd/system/grafana-server.service
+    dest: /usr/lib/systemd/system/grafana-server.service
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
   notify:
     - Restart grafana
 
