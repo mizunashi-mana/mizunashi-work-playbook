@@ -1,6 +1,6 @@
-group_vars/*.yml
-host_vars/*.yml
-assets/ssh_keys/*.nopass
+/group_vars/*.yml
+/host_vars/*.yml
+/assets/ssh_keys/*.nopass
 /logs/
 /tmp/
 
