@@ -1,3 +1,6 @@
 ---
+base_files_version: '12.4'
 base_linux_image_version: '6.1.69'
 base_mandb_version: '2.11.2'
+base_tzdata_version: '2023c'
+base_locales_version: '2.36'

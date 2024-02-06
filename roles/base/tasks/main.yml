@@ -16,7 +16,13 @@
     cache_valid_time: 86400
   become: true
 
-- name: Update linux-image
+- name: base-files is specified version
+  ansible.builtin.apt:
+    name: 'base-files={{ base_files_version }}*'
+    state: present
+  become: true
+
+- name: linux-image is specified version
   ansible.builtin.apt:
     name: 'linux-image-amd64={{ base_linux_image_version }}*'
     state: present
@@ -26,6 +32,20 @@
   ansible.builtin.apt:
     name:
     - 'man-db={{ base_mandb_version }}*'
+    state: present
+  become: true
+
+- name: Timezone data is available
+  ansible.builtin.apt:
+    name:
+    - 'tzdata={{ base_tzdata_version }}*'
+    state: present
+  become: true
+
+- name: Locale data is available
+  ansible.builtin.apt:
+    name:
+    - 'locales={{ base_locales_version }}*'
     state: present
   become: true
 
