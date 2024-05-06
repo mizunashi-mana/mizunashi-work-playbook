@@ -51,3 +51,14 @@
   no_log: true
   when: |
     firefish_postgres_db not in postgresql_dbsetup_firefish_databases_result.stdout_lines
+
+- name: Firefish DB pgroonga extension is available
+  ansible.builtin.command:
+    cmd: |
+      sudo --user postgres psql
+        --command 'CREATE EXTENSION IF NOT EXISTS pgroonga;'
+        --dbname '{{ firefish_postgres_db }}'
+  become: true
+  register: firefish_dbsetup_firefish_pgroonga_ext_added_result
+  changed_when: |
+    firefish_dbsetup_firefish_pgroonga_ext_added_result.stderr is not search('already exists')

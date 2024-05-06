@@ -103,28 +103,6 @@ cacheServer:
   prefix: {{ firefish_cache_redis_prefix|to_yaml }}
   #db: 1
 
-# Please configure either MeiliSearch *or* Sonic.
-# If both MeiliSearch and Sonic configurations are present, MeiliSearch will take precedence.
-
-#   ┌───────────────────────────┐
-#───┘ MeiliSearch configuration └─────────────────────────────────────
-#meilisearch:
-#  host: meilisearch
-#  port: 7700
-#  ssl: false
-#  apiKey:
-
-#   ┌─────────────────────┐
-#───┘ Sonic configuration └─────────────────────────────────────
-
-#sonic:
-#  host: localhost
-#  port: 1491
-#  auth: SecretPassword
-#  collection: notes
-#  bucket: default
-
-
 #   ┌───────────────┐
 #───┘ ID generation └───────────────────────────────────────────
 
@@ -185,6 +163,17 @@ disableHsts: true
 # IP address family used for outgoing request (ipv4, ipv6 or dual)
 outgoingAddressFamily: {{ firefish_outgoing_address_family }}
 
+# Log Option
+# Production env: ['error', 'success', 'warning', 'info']
+# Debug/Test env or Troubleshooting: ['error', 'success', 'warning', 'debug' ,'info']
+# Production env which storage space or IO is tight: ['error', 'warning']
+logLevel: [
+  'error',
+  'success',
+  'warning',
+  'info'
+]
+
 # Syslog option
 #syslog:
 #  host: localhost
@@ -207,18 +196,12 @@ outgoingAddressFamily: {{ firefish_outgoing_address_family }}
 # Media Proxy
 #mediaProxy: https://example.com/proxy
 
-# Proxy remote files (default: false)
+# Proxy remote files (default: true)
 #proxyRemoteFiles: true
 
 #allowedPrivateNetworks: [
 #  '127.0.0.1/32'
 #]
-
-# TWA
-#twa:
-#  nameSpace: android_app
-#  packageName: tld.domain.twa
-#  sha256CertFingerprints: ['AB:CD:EF']
 
 # Upload or download file size limits (bytes)
 #maxFileSize: 262144000

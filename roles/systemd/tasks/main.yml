@@ -1,4 +1,10 @@
 ---
+- name: Install systemd
+  ansible.builtin.apt:
+    name: 'systemd={{ systemd_version }}*'
+    state: present
+  become: true
+
 - name: Install systemd validate
   ansible.builtin.copy:
     src: opt/bin/systemd-validate

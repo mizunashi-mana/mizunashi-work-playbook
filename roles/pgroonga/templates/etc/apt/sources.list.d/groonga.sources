@@ -1,0 +1,5 @@
+Types: deb deb-src
+URIs: https://packages.groonga.org/debian/
+Suites: bookworm
+Components: main
+Signed-By: /usr/share/keyrings/groonga-archive-keyring.gpg

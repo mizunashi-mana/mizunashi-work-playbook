@@ -6,5 +6,5 @@ set -euo pipefail
 PROJECT_DIR="$(cd "$(dirname "$(dirname "$0")")" && pwd)"
 
 exec scp \
-  -i "$PROJECT_DIR/assets/vagrant_ssh_privkey" \
+  -i "$PROJECT_DIR/assets/ssh_keys/ssh_privkey_ed25519.nopass" \
   "$@"

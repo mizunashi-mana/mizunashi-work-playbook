@@ -9,7 +9,7 @@
 ## should create one or more files in the jvm.options.d
 ## directory containing your adjustments.
 ##
-## See https://www.elastic.co/guide/en/elasticsearch/reference/8.12/jvm-options.html
+## See https://www.elastic.co/guide/en/elasticsearch/reference/8.13/jvm-options.html
 ## for more information.
 ##
 ################################################################
@@ -32,7 +32,7 @@
 ## -Xms4g
 ## -Xmx4g
 ##
-## See https://www.elastic.co/guide/en/elasticsearch/reference/8.12/heap-size.html
+## See https://www.elastic.co/guide/en/elasticsearch/reference/8.13/heap-size.html
 ## for more information
 ##
 ################################################################
@@ -59,10 +59,6 @@
 # Leverages accelerated vector hardware instructions; removing this may
 # result in less optimal vector performance
 20-:--add-modules=jdk.incubator.vector
-
-# REMOVE once bumped to a JDK greater than 21.0.1, https://github.com/elastic/elasticsearch/issues/103004
-19-21:-XX:CompileCommand=exclude,org.apache.lucene.util.MSBRadixSorter::computeCommonPrefixLengthAndBuildHistogram
-19-21:-XX:CompileCommand=exclude,org.apache.lucene.util.RadixSelector::computeCommonPrefixLengthAndBuildHistogram
 
 ## heap dumps
 

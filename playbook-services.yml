@@ -60,6 +60,7 @@
   - nodejs
   - redis_server
   - postgresql
+  - pgroonga
   - redis_exporter
 
   - postgresql_dbsetup_postgres_exporter
