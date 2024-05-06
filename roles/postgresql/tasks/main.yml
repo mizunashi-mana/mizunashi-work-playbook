@@ -1,4 +1,25 @@
 ---
+- name: Copy gpg key
+  ansible.builtin.copy:
+    src: usr/share/keyrings/postgresql.gpg
+    dest: /usr/share/keyrings/postgresql.gpg
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
+- name: Install repository
+  ansible.builtin.template:
+    src: etc/apt/sources.list.d/postgresql-pgdg.list
+    dest: /etc/apt/sources.list.d/postgresql-pgdg.list
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  register: postgresql_install_repository_result
+
 - name: Set postgresql major version
   ansible.builtin.set_fact:
     postgresql_major_version: '{{ (postgresql_version|split("."))[0] }}'
@@ -7,6 +28,7 @@
   ansible.builtin.apt:
     name: 'postgresql-{{ postgresql_major_version }}={{ postgresql_version }}*'
     state: present
+    update_cache: '{{ postgresql_install_repository_result.changed }}'
   become: true
 
 - name: Copy server config

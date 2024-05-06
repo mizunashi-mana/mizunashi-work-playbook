@@ -1,22 +1,31 @@
 ---
-- name: firefish is available
-  ansible.builtin.apt:
-    name: 'firefish={{ firefish_version }}*'
-    state: present
+- name: Copy gpg key
+  ansible.builtin.copy:
+    src: usr/share/keyrings/firefish-dist-pkg.gpg
+    dest: /usr/share/keyrings/firefish-dist-pkg.gpg
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
   become: true
-  failed_when: false
-  register: firefish_installed_check
+
+- name: Install firefish repository
+  ansible.builtin.template:
+    src: etc/apt/sources.list.d/firefish-dist-pkg.list
+    dest: /etc/apt/sources.list.d/firefish-dist-pkg.list
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  register: firefish_install_repository_result
 
 - name: Install firefish
   ansible.builtin.apt:
-    deb: '{{ firefish_deb_url }}'
+    name: 'firefish={{ firefish_version }}*'
     state: present
+    update_cache: '{{ firefish_install_repository_result.changed }}'
   become: true
-  when: |
-    'msg' in firefish_installed_check and
-      (  firefish_installed_check.msg is search('No package')
-      or firefish_installed_check.msg is search('no available')
-      )
 
 - name: Copy config of firefish
   ansible.builtin.template:

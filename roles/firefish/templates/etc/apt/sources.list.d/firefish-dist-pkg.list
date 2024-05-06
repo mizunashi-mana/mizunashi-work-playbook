@@ -1,0 +1,1 @@
+deb [signed-by=/usr/share/keyrings/firefish-dist-pkg.gpg] https://mizunashi-mana.github.io/firefish-dist-pkg {{ ansible_distribution_release }} main

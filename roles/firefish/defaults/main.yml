@@ -1,3 +1,2 @@
 ---
-firefish_version: '1.0.5'
-firefish_deb_url: https://github.com/mizunashi-mana/firefish-dist-pkg/releases/download/v1.0.5%2Brc-d202312060002%2Bbeta/debian-bookworm-amd64_firefish.deb
+firefish_version: '20240504'
