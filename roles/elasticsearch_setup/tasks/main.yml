@@ -26,6 +26,12 @@
   no_log: true
   loop: '{{ elasticsearch_setup_users|dict2items|map(attribute="key") }}'
 
+- name: Select users to check
+  ansible.builtin.command: |
+    /usr/share/elasticsearch/bin/elasticsearch-users list
+  changed_when: false
+  become: true
+
 - name: Default ILM policy should be available
   ansible.builtin.uri:
     url: 'http://localhost:{{ elasticsearch_listen_port }}/_ilm/policy/idx_policy_default'
