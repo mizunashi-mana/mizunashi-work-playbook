@@ -25,6 +25,29 @@
   notify:
     - Reload nginx
 
+- name: Install maintenance site
+  ansible.builtin.template:
+    src: etc/nginx/sites-available/firefish_front_maintenance.conf
+    dest: /etc/nginx/sites-available/firefish_front_maintenance.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+    validate: /opt/bin/nginx-site-validate %s
+  become: true
+  notify:
+    - Reload nginx
+
+- name: Install maintenance page
+  ansible.builtin.template:
+    src: var/www/html/firefish_front_maintenance.html
+    dest: /var/www/html/firefish_front_maintenance.html
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+
 - name: Enable site
   ansible.builtin.file:
     src: /etc/nginx/sites-available/firefish_front.conf
@@ -33,5 +56,36 @@
     group: root
     state: link
   become: true
+  when: not nginx_site_firefish_front_maintenance_mode
+  notify:
+    - Restart nginx
+
+- name: Disable maintenance site
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/firefish_front_maintenance.conf
+    state: absent
+  become: true
+  when: not nginx_site_firefish_front_maintenance_mode
+  notify:
+    - Restart nginx
+
+- name: Enable maintenance site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/firefish_front_maintenance.conf
+    dest: /etc/nginx/sites-enabled/firefish_front_maintenance.conf
+    owner: root
+    group: root
+    state: link
+  become: true
+  when: nginx_site_firefish_front_maintenance_mode
+  notify:
+    - Restart nginx
+
+- name: Disable site
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/firefish_front.conf
+    state: absent
+  become: true
+  when: nginx_site_firefish_front_maintenance_mode
   notify:
     - Restart nginx
