@@ -39,6 +39,30 @@
   notify:
     - Apply netplan
 
+- name: Get address of internal iface
+  ansible.builtin.command: |
+    ip -family inet6 -oneline
+      address show dev {{ network_internal_iface }} scope global
+  changed_when: false
+  register: network_internal_address_stats
+
+- name: Notify netplan apply if needed
+  ansible.builtin.command: echo notify-netplan-apply
+  when: network_internal_address_stats.stdout is not search(network_internal_ipv6_address)
+  notify:
+    - Apply netplan
+
+- name: Legacy network interfaces have only on loopback
+  ansible.builtin.template:
+    src: etc/network/interfaces
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  when: network_internal_address_stats.stdout is search(network_internal_ipv6_address)
+
 - name: Notify restart systemd-networkd if not started
   ansible.builtin.command: systemctl status systemd-networkd
   become: true
