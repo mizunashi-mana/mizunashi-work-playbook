@@ -63,7 +63,7 @@ Schema & {
 
   nginx_site_firefish_front_acme_challenge_url: Schema.#private_acme_challenge_url
   nginx_site_firefish_front_ca_bundle_path: Schema.ca_certs_bundle_file_with_private_ca
-  nginx_site_firefish_front_maintenance_mode: false
+  nginx_site_firefish_front_maintenance_mode: true
 
   #fluent_bit_input_nginx_log_access_firefish_front_tag: "nginx.access.firefish_front"
   fluent_bit_input_nginx_log_access_entries: "\(#fluent_bit_input_nginx_log_access_firefish_front_tag)": {

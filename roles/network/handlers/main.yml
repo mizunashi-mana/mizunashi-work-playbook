@@ -26,6 +26,18 @@
   listen:
   - Apply netplan
 
+- name: Legacy network interfaces have only loopback config
+  ansible.builtin.template:
+    src: etc/network/interfaces
+    dest: /etc/network/interfaces
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  listen:
+  - Apply netplan
+
 - name: Check public IP
   ansible.builtin.command:
     cmd: |
