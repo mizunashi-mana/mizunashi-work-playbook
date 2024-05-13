@@ -53,10 +53,19 @@
   notify:
     - Restart grafana
 
-- name: Copy grafana config
-  ansible.builtin.copy:
-    src: usr/lib/systemd/system/grafana-server.service
-    dest: /usr/lib/systemd/system/grafana-server.service
+- name: Directory to override is available
+  ansible.builtin.file:
+    path: /etc/systemd/system/grafana-server.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Override service
+  ansible.builtin.template:
+    src: etc/systemd/system/grafana-server.service.d/override.conf
+    dest: /etc/systemd/system/grafana-server.service.d/override.conf
     owner: root
     group: root
     mode: '0644'
@@ -64,6 +73,16 @@
   become: true
   notify:
     - Restart grafana
+
+- name: Validate systemd service
+  ansible.builtin.command: |
+    /opt/bin/systemd-validate /lib/systemd/system/grafana-server.service
+  become: true
+  changed_when: false
+  register: grafana_systemd_validate_result
+  failed_when: |
+    grafana_systemd_validate_result.rc != 0
+    or grafana_systemd_validate_result.stderr != ''
 
 - name: Notify restart grafana if not started
   ansible.builtin.command: systemctl status grafana-server

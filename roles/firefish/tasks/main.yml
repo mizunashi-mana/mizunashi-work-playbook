@@ -39,6 +39,37 @@
   notify:
     - Restart firefish
 
+- name: Directory to override is available
+  ansible.builtin.file:
+    path: /etc/systemd/system/firefish.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Override service
+  ansible.builtin.template:
+    src: etc/systemd/system/firefish.service.d/override.conf
+    dest: /etc/systemd/system/firefish.service.d/override.conf
+    owner: root
+    group: root
+    mode: '0644'
+    backup: true
+  become: true
+  notify:
+    - Restart firefish
+
+- name: Validate systemd service
+  ansible.builtin.command: |
+    /opt/bin/systemd-validate /lib/systemd/system/firefish.service
+  become: true
+  changed_when: false
+  register: firefish_systemd_validate_result
+  failed_when: |
+    firefish_systemd_validate_result.rc != 0
+    or firefish_systemd_validate_result.stderr != ''
+
 - name: Directory of logs is available
   ansible.builtin.file:
     path: /var/log/firefish

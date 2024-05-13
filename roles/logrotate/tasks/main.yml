@@ -14,10 +14,19 @@
     mode: '0755'
   become: true
 
-- name: Install logrotate timer
+- name: Directory to override is available
+  ansible.builtin.file:
+    path: /etc/systemd/system/logrotate.timer.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Override timer
   ansible.builtin.template:
-    src: usr/lib/systemd/system/logrotate.timer
-    dest: /usr/lib/systemd/system/logrotate.timer
+    src: etc/systemd/system/logrotate.timer.d/override.conf
+    dest: /etc/systemd/system/logrotate.timer.d/override.conf
     owner: root
     group: root
     mode: '0644'
@@ -26,6 +35,16 @@
   become: true
   notify:
   - Reload logrotate.timer
+
+- name: Validate systemd service
+  ansible.builtin.command: |
+    /opt/bin/systemd-validate -t timer /lib/systemd/system/logrotate.timer
+  become: true
+  changed_when: false
+  register: logrotate_systemd_validate_result
+  failed_when: |
+    logrotate_systemd_validate_result.rc != 0
+    or logrotate_systemd_validate_result.stderr != ''
 
 - name: Install logrotate validate
   ansible.builtin.copy:

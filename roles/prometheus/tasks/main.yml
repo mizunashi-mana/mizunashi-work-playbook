@@ -57,10 +57,19 @@
   notify:
     - Restart prometheus
 
-- name: Install prometheus service
+- name: Directory to override is available
+  ansible.builtin.file:
+    path: /etc/systemd/system/prometheus.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Override service
   ansible.builtin.template:
-    src: usr/lib/systemd/system/prometheus.service
-    dest: /usr/lib/systemd/system/prometheus.service
+    src: etc/systemd/system/prometheus.service.d/override.conf
+    dest: /etc/systemd/system/prometheus.service.d/override.conf
     owner: root
     group: root
     mode: '0644'
@@ -69,6 +78,16 @@
   become: true
   notify:
     - Restart prometheus
+
+- name: Validate systemd service
+  ansible.builtin.command: |
+    /opt/bin/systemd-validate /lib/systemd/system/prometheus.service
+  become: true
+  changed_when: false
+  register: prometheus_systemd_validate_result
+  failed_when: |
+    prometheus_systemd_validate_result.rc != 0
+    or prometheus_systemd_validate_result.stderr != ''
 
 - name: Notify restart prometheus if not started
   ansible.builtin.command: systemctl status prometheus

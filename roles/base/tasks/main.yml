@@ -35,6 +35,15 @@
     state: present
   become: true
 
+- name: Set timezone to UTC
+  ansible.builtin.file:
+    src: /usr/share/zoneinfo/Etc/UTC
+    dest: /etc/localtime
+    owner: root
+    group: root
+    state: link
+  become: true
+
 - name: Timezone data is available
   ansible.builtin.apt:
     name:
@@ -47,6 +56,16 @@
     name:
     - 'locales={{ base_locales_version }}*'
     state: present
+  become: true
+
+- name: Get locale
+  ansible.builtin.command: localectl status
+  register: base_localctl_status_result
+  changed_when: false
+
+- name: Set locale to C.UTF-8
+  ansible.builtin.command: localectl set-locale LANG=C.UTF-8
+  when: base_localctl_status_result.stdout is not search('LANG=C.UTF-8')
   become: true
 
 - name: Enable SYN cookies
@@ -71,15 +90,6 @@
     value: '0'
     sysctl_set: true
     state: present
-  become: true
-
-- name: Set timezone to UTC
-  ansible.builtin.file:
-    src: /usr/share/zoneinfo/Etc/UTC
-    dest: /etc/localtime
-    owner: root
-    group: root
-    state: link
   become: true
 
 - name: Directory of optional bin is available
