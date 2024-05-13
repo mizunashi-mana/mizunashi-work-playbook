@@ -34,7 +34,7 @@ groups:
               datasource:
                 type: elasticsearch
                 uid: ds_elasticsearch
-              query: '@log_name:"node.auth" AND message:"opened for user"'
+              query: '@log_name:"node.auth" AND ident.keyword:systemd-logind AND message:"New session"'
               timeField: '@timestamp'
               bucketAggs:
                 - id: "2"
