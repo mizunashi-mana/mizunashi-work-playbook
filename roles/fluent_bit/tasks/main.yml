@@ -119,15 +119,35 @@
   notify:
     - Restart fluent-bit
 
-- name: Install service
+- name: Directory to override is available
+  ansible.builtin.file:
+    path: /etc/systemd/system/fluent-bit.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Override service
   ansible.builtin.template:
-    src: usr/lib/systemd/system/fluent-bit.service
-    dest: /usr/lib/systemd/system/fluent-bit.service
+    src: etc/systemd/system/fluent-bit.service.d/override.conf
+    dest: /etc/systemd/system/fluent-bit.service.d/override.conf
     owner: root
     group: root
     mode: '0644'
     backup: true
+    validate: /opt/bin/systemd-validate %s
   become: true
+
+- name: Validate systemd service
+  ansible.builtin.command: |
+    /opt/bin/systemd-validate /lib/systemd/system/fluent-bit.service
+  become: true
+  changed_when: false
+  register: fluent_bit_systemd_validate_result
+  failed_when: |
+    fluent_bit_systemd_validate_result.rc != 0
+    or fluent_bit_systemd_validate_result.stderr != ''
 
 - name: Backup original logrotate config
   ansible.builtin.command:
