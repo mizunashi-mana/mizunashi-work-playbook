@@ -36,7 +36,7 @@
   notify:
   - Reload logrotate.timer
 
-- name: Validate systemd service
+- name: Validate systemd timer
   ansible.builtin.command: |
     /opt/bin/systemd-validate -t timer /lib/systemd/system/logrotate.timer
   become: true
